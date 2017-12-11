@@ -119,6 +119,13 @@ public class CategoryLocalServiceUtil {
 		return getService().fetchCategory(categoryId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Category getById(
+		java.lang.Long categoryId)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getById(categoryId);
+	}
+
 	/**
 	* Returns the category with the primary key.
 	*
@@ -210,6 +217,18 @@ public class CategoryLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getAllCategories(
+		int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllCategories(begin, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByName(
+		java.lang.String name)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByName(name);
+	}
+
 	/**
 	* Returns a range of all the categories.
 	*
@@ -224,6 +243,14 @@ public class CategoryLocalServiceUtil {
 	public static java.util.List<de.uhh.l2g.plugins.model.Category> getCategories(
 		int start, int end) {
 		return getService().getCategories(start, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getCategoriesFromLectureseriesIdsAndVideoIds(
+		java.util.ArrayList<java.lang.Long> lectureseriesIds,
+		java.util.ArrayList<java.lang.Long> videoIds) {
+		return getService()
+				   .getCategoriesFromLectureseriesIdsAndVideoIds(lectureseriesIds,
+			videoIds);
 	}
 
 	/**
@@ -248,6 +275,12 @@ public class CategoryLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static void deleteById(java.lang.Long id)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().deleteById(id);
 	}
 
 	public static CategoryLocalService getService() {

@@ -90,6 +90,16 @@ public interface SegmentLocalService extends BaseLocalService,
 	public Segment addSegment(Segment segment);
 
 	/**
+	* Adds the segment to the database and generates thumb nail. Also notifies the appropriate model listeners.
+	*
+	* @param segment the segment
+	* @return the segment that was added
+	* @throws SystemException if a system exception occurred
+	*/
+	public Segment createSegment(Segment segment)
+		throws PortalException, SystemException;
+
+	/**
 	* Creates a new segment with the primary key. Does not add the segment to the database.
 	*
 	* @param segmentId the primary key for the new segment
@@ -119,6 +129,13 @@ public interface SegmentLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Segment fetchSegment(long segmentId);
 
+	public Segment fillWithProperties(Segment objectSegment)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Segment getPreviusSegment(Segment segment)
+		throws PortalException, SystemException;
+
 	/**
 	* Returns the segment with the primary key.
 	*
@@ -128,6 +145,13 @@ public interface SegmentLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Segment getSegment(long segmentId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Segment getSegmentById(java.lang.Long segmentId)
+		throws PortalException, SystemException;
+
+	public Segment removeSegment(java.lang.Long segmentId)
+		throws PortalException, SystemException;
 
 	/**
 	* Updates the segment in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -145,6 +169,10 @@ public interface SegmentLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getSegmentsCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.Long getPreviusSegmentId(java.lang.Long segmentId)
+		throws PortalException, SystemException;
 
 	/**
 	* Returns the OSGi service identifier.
@@ -206,6 +234,10 @@ public interface SegmentLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Segment> getSegments(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Segment> getSegmentsByVideoId(java.lang.Long videoId)
+		throws PortalException, SystemException;
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -223,4 +255,13 @@ public interface SegmentLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void deleteByVideoId(java.lang.Long videoId)
+		throws SystemException;
+
+	public void deleteThumbhailsFromSegment(Segment segment)
+		throws PortalException, SystemException;
+
+	public void deleteThumbhailsFromSegments(List<Segment> segmentList)
+		throws PortalException, SystemException;
 }

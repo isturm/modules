@@ -14,6 +14,11 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.SystemException;
+
+import de.uhh.l2g.plugins.model.Video_Creator;
 import de.uhh.l2g.plugins.service.base.Video_CreatorLocalServiceBaseImpl;
 
 /**
@@ -27,7 +32,7 @@ import de.uhh.l2g.plugins.service.base.Video_CreatorLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see Video_CreatorLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.Video_CreatorLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.Video_CreatorLocalServiceUtil
  */
 public class Video_CreatorLocalServiceImpl
@@ -35,6 +40,27 @@ public class Video_CreatorLocalServiceImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.Video_CreatorLocalServiceUtil} to access the video_ creator local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.Video_CreatorLocalServiceUtil} to access the video_ creator local service.
 	 */
+	
+	public void deleteByVideoId(Long videoId) throws SystemException{
+		video_CreatorPersistence.removeByVideo(videoId);
+	}
+	
+	public void deleteByCreatorId(Long creatorId) throws SystemException{
+		video_CreatorPersistence.removeByCreator(creatorId);
+	}
+	
+	public List<Video_Creator> getByVideoCreator(Long videoId, Long creatorId) throws SystemException{
+		return video_CreatorPersistence.findByVideoCreator(videoId, creatorId);
+	}
+	
+	public List<Video_Creator> getByVideo(Long videoId) throws SystemException{
+		return video_CreatorPersistence.findByVideo(videoId);
+	}
+	
+	public List<Video_Creator> getByCreator(Long creatorId) throws SystemException{
+		return video_CreatorPersistence.findByCreator(creatorId);
+	}
+	
 }

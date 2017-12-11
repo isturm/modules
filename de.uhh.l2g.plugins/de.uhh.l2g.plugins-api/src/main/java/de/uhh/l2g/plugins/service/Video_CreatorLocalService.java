@@ -194,6 +194,18 @@ public interface Video_CreatorLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Creator> getByCreator(java.lang.Long creatorId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Creator> getByVideo(java.lang.Long videoId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Creator> getByVideoCreator(java.lang.Long videoId,
+		java.lang.Long creatorId) throws SystemException;
+
 	/**
 	* Returns a range of all the video_ creators.
 	*
@@ -225,4 +237,10 @@ public interface Video_CreatorLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void deleteByCreatorId(java.lang.Long creatorId)
+		throws SystemException;
+
+	public void deleteByVideoId(java.lang.Long videoId)
+		throws SystemException;
 }

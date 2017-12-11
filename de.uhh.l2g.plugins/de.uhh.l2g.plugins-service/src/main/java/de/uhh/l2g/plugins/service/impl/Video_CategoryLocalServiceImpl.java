@@ -14,6 +14,13 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+import com.liferay.portal.kernel.exception.SystemException;
+
+import de.uhh.l2g.plugins.model.Video_Category;
 import de.uhh.l2g.plugins.service.base.Video_CategoryLocalServiceBaseImpl;
 
 /**
@@ -27,14 +34,40 @@ import de.uhh.l2g.plugins.service.base.Video_CategoryLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see Video_CategoryLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.Video_CategoryLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.Video_CategoryLocalServiceUtil
  */
-public class Video_CategoryLocalServiceImpl
-	extends Video_CategoryLocalServiceBaseImpl {
+public class Video_CategoryLocalServiceImpl extends Video_CategoryLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.Video_CategoryLocalServiceUtil} to access the video_ category local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.Video_CategoryLocalServiceUtil} to access the video_ category local service.
 	 */
+	
+	public List<Video_Category> getByVideo(Long videoId) throws SystemException{
+		return video_CategoryPersistence.findByVideo(videoId);
+	}
+	
+	public List<Video_Category> getByCategory(Long categoryId) throws SystemException{
+		return video_CategoryPersistence.findByCategory(categoryId);
+	}
+	
+	public void removeByVideo(Long videoId) throws SystemException{
+		video_CategoryPersistence.removeByVideo(videoId);
+	}
+	
+	public void updateCategoryByVideoAndCategory(Long videoId, Long categoryId, Long newCategoryId){
+		List<Video_Category> vca = new ArrayList<Video_Category>();
+		try {
+			vca = video_CategoryPersistence.findByVideoCategory(videoId, categoryId);
+			ListIterator<Video_Category> vci = vca.listIterator();
+			while(vci.hasNext()){
+				//new object
+				Video_Category nvc = vci.next();
+				nvc.setCategoryId(newCategoryId);
+				video_CategoryPersistence.update(nvc);
+			}
+		} catch (SystemException e) {}
+	}	
+	
 }

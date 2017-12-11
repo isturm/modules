@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -27,13 +27,13 @@ import de.uhh.l2g.plugins.service.base.MetadataLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see MetadataLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.MetadataLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.MetadataLocalServiceUtil
  */
 public class MetadataLocalServiceImpl extends MetadataLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.MetadataLocalServiceUtil} to access the metadata local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.MetadataLocalServiceUtil} to access the metadata local service.
 	 */
 }

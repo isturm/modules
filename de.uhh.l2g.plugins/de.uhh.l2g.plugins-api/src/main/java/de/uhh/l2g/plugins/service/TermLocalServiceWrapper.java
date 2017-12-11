@@ -117,6 +117,13 @@ public class TermLocalServiceWrapper implements TermLocalService,
 		return _termLocalService.fetchTerm(termId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Term getById(java.lang.Long termId)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _termLocalService.getById(termId);
+	}
+
 	/**
 	* Returns the term with the primary key.
 	*
@@ -215,6 +222,12 @@ public class TermLocalServiceWrapper implements TermLocalService,
 			orderByComparator);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Term> getAllSemesters()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _termLocalService.getAllSemesters();
+	}
+
 	/**
 	* Returns a range of all the terms.
 	*
@@ -230,6 +243,14 @@ public class TermLocalServiceWrapper implements TermLocalService,
 	public java.util.List<de.uhh.l2g.plugins.model.Term> getTerms(int start,
 		int end) {
 		return _termLocalService.getTerms(start, end);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Term> getTermsFromLectureseriesIdsAndVideoIds(
+		java.util.ArrayList<java.lang.Long> lectureseriesIds,
+		java.util.ArrayList<java.lang.Long> videoIds) {
+		return _termLocalService.getTermsFromLectureseriesIdsAndVideoIds(lectureseriesIds,
+			videoIds);
 	}
 
 	/**
@@ -256,6 +277,13 @@ public class TermLocalServiceWrapper implements TermLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _termLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	@Override
+	public void deleteById(java.lang.Long id)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_termLocalService.deleteById(id);
 	}
 
 	@Override

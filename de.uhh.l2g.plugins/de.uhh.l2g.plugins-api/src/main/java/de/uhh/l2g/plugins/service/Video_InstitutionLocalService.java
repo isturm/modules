@@ -60,6 +60,10 @@ public interface Video_InstitutionLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link Video_InstitutionLocalServiceUtil} to access the video_ institution local service. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.Video_InstitutionLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean removeByInstitutionId(java.lang.Long institutionId);
+
+	public boolean removeByVideoId(java.lang.Long videoId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -196,6 +200,17 @@ public interface Video_InstitutionLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Institution> getByInstitution(
+		java.lang.Long institutionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Institution> getByVideo(java.lang.Long videoId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Institution> getByVideoAndInstitution(
+		java.lang.Long videoId, java.lang.Long institutionId);
 
 	/**
 	* Returns a range of all the video_ institutions.

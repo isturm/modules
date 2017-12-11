@@ -60,6 +60,10 @@ public interface Producer_LectureseriesLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link Producer_LectureseriesLocalServiceUtil} to access the producer_ lectureseries local service. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.Producer_LectureseriesLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean producerAssignedToLectureseries(Producer_Lectureseries pl);
+
+	public boolean removeByLectureseriesId(java.lang.Long lectureseriesId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

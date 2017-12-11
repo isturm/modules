@@ -65,6 +65,13 @@ public class ProducerLocalServiceWrapper implements ProducerLocalService,
 		return _producerLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Institution getInstitutionByProducer(
+		long producerId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getInstitutionByProducer(producerId);
+	}
+
 	/**
 	* Adds the producer to the database. Also notifies the appropriate model listeners.
 	*
@@ -118,6 +125,20 @@ public class ProducerLocalServiceWrapper implements ProducerLocalService,
 		return _producerLocalService.fetchProducer(producerId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Producer getById(long producerId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getById(producerId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Producer getProdUcer(
+		java.lang.Long producerId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getProdUcer(producerId);
+	}
+
 	/**
 	* Returns the producer with the primary key.
 	*
@@ -141,6 +162,12 @@ public class ProducerLocalServiceWrapper implements ProducerLocalService,
 	public de.uhh.l2g.plugins.model.Producer updateProducer(
 		de.uhh.l2g.plugins.model.Producer producer) {
 		return _producerLocalService.updateProducer(producer);
+	}
+
+	@Override
+	public int getProducersByHostIdCount(long hostId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getProducersByHostIdCount(hostId);
 	}
 
 	/**
@@ -216,6 +243,27 @@ public class ProducerLocalServiceWrapper implements ProducerLocalService,
 			orderByComparator);
 	}
 
+	@Override
+	public java.util.List<java.lang.Long> getAllProducerIds(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getAllProducerIds(lectureseriesId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Producer> getAllProducers(
+		int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getAllProducers(begin, end);
+	}
+
+	@Override
+	public java.util.List<java.lang.Long> getProducerIds(
+		java.lang.Long lectureseriesId, int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getProducerIds(lectureseriesId, begin, end);
+	}
+
 	/**
 	* Returns a range of all the producers.
 	*
@@ -231,6 +279,19 @@ public class ProducerLocalServiceWrapper implements ProducerLocalService,
 	public java.util.List<de.uhh.l2g.plugins.model.Producer> getProducers(
 		int start, int end) {
 		return _producerLocalService.getProducers(start, end);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Producer> getProducersByHostId(
+		long hostId) throws com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getProducersByHostId(hostId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Producer> getProducersByInstitutionId(
+		long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _producerLocalService.getProducersByInstitutionId(institutionId);
 	}
 
 	/**

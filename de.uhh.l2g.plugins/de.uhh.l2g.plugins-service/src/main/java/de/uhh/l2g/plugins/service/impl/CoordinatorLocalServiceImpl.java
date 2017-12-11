@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,6 +14,19 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import java.util.Iterator;
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+
+import de.uhh.l2g.plugins.exception.NoSuchCoordinatorException;
+import de.uhh.l2g.plugins.model.Coordinator;
+import de.uhh.l2g.plugins.model.Institution;
+import de.uhh.l2g.plugins.model.impl.CoordinatorImpl;
+import de.uhh.l2g.plugins.service.CoordinatorLocalServiceUtil;
 import de.uhh.l2g.plugins.service.base.CoordinatorLocalServiceBaseImpl;
 
 /**
@@ -27,13 +40,75 @@ import de.uhh.l2g.plugins.service.base.CoordinatorLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see CoordinatorLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.CoordinatorLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.CoordinatorLocalServiceUtil
  */
 public class CoordinatorLocalServiceImpl extends CoordinatorLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.CoordinatorLocalServiceUtil} to access the coordinator local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.CoordinatorLocalServiceUtil} to access the coordinator local service.
 	 */
+
+	private List<Coordinator> fillProps(List<Coordinator> cl) throws SystemException{
+		Iterator<Coordinator> it = cl.iterator();
+		while (it.hasNext()){
+			Coordinator c = it.next();
+			User u;
+			try {
+				u = UserLocalServiceUtil.getUser(c.getCoordinatorId());
+				c.setLastName(u.getLastName());
+				c.setFirstName(u.getFirstName());
+				c.setEmailAddress(u.getEmailAddress());
+				c.setLastLoginDate(u.getLastLoginDate());
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+		}
+		return cl;
+	}
+	
+	public List<Coordinator> getAllCoordinators(int begin, int end) throws SystemException{
+		List<Coordinator> coords = CoordinatorLocalServiceUtil.getCoordinators(begin, end);
+		return fillProps(coords);
+	}
+	
+	public Coordinator getById(long coordinatorId) throws SystemException {
+		Coordinator c = new CoordinatorImpl();
+		try {
+			c = coordinatorPersistence.fetchByPrimaryKey(coordinatorId);
+			User u = UserLocalServiceUtil.getUser(c.getCoordinatorId());
+			c.setEmailAddress(u.getEmailAddress());
+			c.setFirstName(u.getFirstName());
+			c.setLastName(u.getLastName());
+			c.setLastLoginDate(u.getLastLoginDate());
+		} catch (NoSuchCoordinatorException e) {
+			e.printStackTrace();
+		} catch (PortalException e) {
+			e.printStackTrace();
+		} 
+		return c;
+	}
+	
+	public Institution getInstitutionByCoordinator(long coordinatorId) throws SystemException {
+		return institutionPersistence.fetchByPrimaryKey(getById(coordinatorId).getInstitutionId());
+	}
+	
+	public Coordinator getByInstitution(long institutionId) throws SystemException {
+		Coordinator c = new CoordinatorImpl();
+		try {
+			c = coordinatorPersistence.findByInstitution(institutionId);
+			User u = UserLocalServiceUtil.getUser(c.getCoordinatorId());
+			c.setEmailAddress(u.getEmailAddress());
+			c.setFirstName(u.getFirstName());
+			c.setLastName(u.getLastName());
+			c.setLastLoginDate(u.getLastLoginDate());
+		} catch (NoSuchCoordinatorException e) {
+			e.printStackTrace();
+		} catch (PortalException e) {
+			e.printStackTrace();
+		} 
+		return c;
+	}
+	
 }

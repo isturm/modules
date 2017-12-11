@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,7 +14,14 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.SystemException;
+
+import de.uhh.l2g.plugins.model.Producer_Lectureseries;
 import de.uhh.l2g.plugins.service.base.Producer_LectureseriesLocalServiceBaseImpl;
+import de.uhh.l2g.plugins.service.persistence.Producer_LectureseriesUtil;
 
 /**
  * The implementation of the producer_ lectureseries local service.
@@ -27,7 +34,7 @@ import de.uhh.l2g.plugins.service.base.Producer_LectureseriesLocalServiceBaseImp
  * </p>
  *
  * @author Iavor Sturm
- * @see Producer_LectureseriesLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.Producer_LectureseriesLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.Producer_LectureseriesLocalServiceUtil
  */
 public class Producer_LectureseriesLocalServiceImpl
@@ -35,6 +42,29 @@ public class Producer_LectureseriesLocalServiceImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.Producer_LectureseriesLocalServiceUtil} to access the producer_ lectureseries local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.Producer_LectureseriesLocalServiceUtil} to access the producer_ lectureseries local service.
 	 */
+	
+	public boolean removeByLectureseriesId(Long lectureseriesId) {
+		boolean ret = false;
+		try {
+			Producer_LectureseriesUtil.removeByLectureseriesId(lectureseriesId);
+		} catch (SystemException e) {
+			ret = true;
+			e.printStackTrace();
+		}
+		return ret;
+	}	
+	
+	public boolean producerAssignedToLectureseries(Producer_Lectureseries pl){
+		boolean ret = false;
+				List<Producer_Lectureseries> pId = new ArrayList();
+				try {
+					pId = producer_LectureseriesPersistence.findByLectureseriesIdAndProducerId(pl.getLectureseriesId(), pl.getProducerId());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		if (pId.size()>0) ret=true;
+		return ret;
+	}
 }

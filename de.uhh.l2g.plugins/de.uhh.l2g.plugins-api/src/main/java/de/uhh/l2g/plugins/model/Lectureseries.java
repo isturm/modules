@@ -53,4 +53,20 @@ public interface Lectureseries extends LectureseriesModel, PersistedModel {
 				return Lectureseries.class;
 			}
 		};
+
+	public int getNumberOfVideos();
+
+	public int getNumberOfOpenAccessVideos();
+
+	public void setNumberOfVideos(int numberOfVideos);
+
+	public void setNumberOfOpenAccessVideos(int numberOfOpenAccessVideos);
+
+	public java.lang.String getType();
+
+	public void setType(java.lang.String type);
+
+	public java.lang.String getClosedAccessURI();
+
+	public java.lang.String getOpenAccessURI();
 }

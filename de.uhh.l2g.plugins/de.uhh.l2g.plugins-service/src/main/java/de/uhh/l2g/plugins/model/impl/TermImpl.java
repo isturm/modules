@@ -14,8 +14,6 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * The extended model implementation for the Term service. Represents a row in the &quot;LG_Term&quot; database table, with each column mapped to a property of this class.
  *
@@ -25,13 +23,31 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Iavor Sturm
  */
-@ProviderType
 public class TermImpl extends TermBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a term model instance should use the {@link de.uhh.l2g.plugins.model.Term} interface instead.
 	 */
-	public TermImpl() {
+	private String fullName;
+	
+	public String getFullName() {
+		return fullName;
 	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+
+	/**
+	 * @return the full termName (prefix + year)
+	 */
+	public String getTermName() {
+		String termName = this.getPrefix() + " " + this.getYear();
+		// the termName is trimmed, so an empty term is returned as an empty string (no spaces)
+		termName = termName.trim();
+		return termName;
+	}
+	
 }

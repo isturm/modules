@@ -119,6 +119,18 @@ public class CoordinatorLocalServiceUtil {
 		return getService().fetchCoordinator(coordinatorId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Coordinator getById(
+		long coordinatorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getById(coordinatorId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Coordinator getByInstitution(
+		long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByInstitution(institutionId);
+	}
+
 	/**
 	* Returns the coordinator with the primary key.
 	*
@@ -141,6 +153,12 @@ public class CoordinatorLocalServiceUtil {
 	public static de.uhh.l2g.plugins.model.Coordinator updateCoordinator(
 		de.uhh.l2g.plugins.model.Coordinator coordinator) {
 		return getService().updateCoordinator(coordinator);
+	}
+
+	public static de.uhh.l2g.plugins.model.Institution getInstitutionByCoordinator(
+		long coordinatorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getInstitutionByCoordinator(coordinatorId);
 	}
 
 	/**
@@ -209,6 +227,12 @@ public class CoordinatorLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Coordinator> getAllCoordinators(
+		int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllCoordinators(begin, end);
 	}
 
 	/**

@@ -268,6 +268,14 @@ public class Lectureseries_CategoryLocalServiceWrapper
 	}
 
 	@Override
+	public void updateCategoryByLectureseriesAndCategory(
+		java.lang.Long lectureseriesId, java.lang.Long categoryId,
+		java.lang.Long newCategoryId) {
+		_lectureseries_CategoryLocalService.updateCategoryByLectureseriesAndCategory(lectureseriesId,
+			categoryId, newCategoryId);
+	}
+
+	@Override
 	public Lectureseries_CategoryLocalService getWrappedService() {
 		return _lectureseries_CategoryLocalService;
 	}

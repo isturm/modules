@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -27,13 +27,13 @@ import de.uhh.l2g.plugins.service.base.SysLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see SysLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.SysLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.SysLocalServiceUtil
  */
 public class SysLocalServiceImpl extends SysLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.SysLocalServiceUtil} to access the sys local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.SysLocalServiceUtil} to access the sys local service.
 	 */
 }

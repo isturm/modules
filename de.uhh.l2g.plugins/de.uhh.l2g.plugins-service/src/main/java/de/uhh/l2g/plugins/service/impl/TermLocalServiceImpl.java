@@ -14,6 +14,13 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.NoSuchModelException;
+import com.liferay.portal.kernel.exception.SystemException;
+
+import de.uhh.l2g.plugins.model.Term;
 import de.uhh.l2g.plugins.service.base.TermLocalServiceBaseImpl;
 
 /**
@@ -27,13 +34,32 @@ import de.uhh.l2g.plugins.service.base.TermLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see TermLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.TermLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.TermLocalServiceUtil
  */
 public class TermLocalServiceImpl extends TermLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.TermLocalServiceUtil} to access the term local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.TermLocalServiceUtil} to access the term local service.
 	 */
+	
+	public List<Term> getAllSemesters() throws SystemException {
+		List<Term> sl = new ArrayList<Term>();
+		sl = termPersistence.findAll();
+		return sl;
+	}
+	
+	public Term getById(Long termId) throws NoSuchModelException, SystemException{
+		return termPersistence.findByPrimaryKey(termId);
+	}
+	
+	
+	public List<Term> getTermsFromLectureseriesIdsAndVideoIds(ArrayList<Long> lectureseriesIds, ArrayList<Long> videoIds) {
+		return termFinder.findTermsByLectureseriesIdsAndVideoIds(lectureseriesIds, videoIds);
+	}
+	
+	public void deleteById(Long id) throws NoSuchModelException, SystemException{
+		termPersistence.remove(id);
+	}
 }

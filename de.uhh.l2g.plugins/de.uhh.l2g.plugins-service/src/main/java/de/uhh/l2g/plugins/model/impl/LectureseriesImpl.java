@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,7 +14,7 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 /**
  * The extended model implementation for the Lectureseries service. Represents a row in the &quot;LG_Lectureseries&quot; database table, with each column mapped to a property of this class.
@@ -25,13 +25,77 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Iavor Sturm
  */
-@ProviderType
 public class LectureseriesImpl extends LectureseriesBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a lectureseries model instance should use the {@link de.uhh.l2g.plugins.model.Lectureseries} interface instead.
 	 */
+	
+	private String type;
+	
+	private int numberOfVideos = 0;
+	private int numberOfOpenAccessVideos = 0;
+	private int videoSort = 0;
+	
+	public int getNumberOfVideos() {
+		return numberOfVideos;
+	}
+
+	public int getNumberOfOpenAccessVideos() {
+		return numberOfOpenAccessVideos;
+	}
+
+
+	public void setNumberOfVideos(int numberOfVideos) {
+		this.numberOfVideos = numberOfVideos;
+	}
+	
+	public void setNumberOfOpenAccessVideos(int numberOfOpenAccessVideos) {
+		this.numberOfOpenAccessVideos = numberOfOpenAccessVideos;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
 	public LectureseriesImpl() {
 	}
+	
+	@Override
+	public String getLongDesc() {
+		return super.getLongDesc().replaceAll("(style|class)=\"[^\"]*\"", "");
+	}
+
+	public int getVideoSort() {
+		return videoSort;
+	}
+
+	public void setVideoSort(int videoSort) {
+		this.videoSort = videoSort;
+	}
+	
+	public String getClosedAccessURI(){
+		String webhome = PropsUtil.get("lecture2go.web.home");
+		String USID = "";
+		if (webhome.contains("localhost")) webhome += "/web/vod";
+		USID= webhome + "/l2go/-/get/l/" + this.getUSID();
+		return USID;
+	}
+	
+	public String getOpenAccessURI(){
+		String webhome = PropsUtil.get("lecture2go.web.home");
+		String lid = "";
+		if (webhome.contains("localhost")) webhome += "/web/vod";
+		lid= webhome + "/l2go/-/get/l/" + this.getLectureseriesId();
+		return lid;
+	}
+	
 }

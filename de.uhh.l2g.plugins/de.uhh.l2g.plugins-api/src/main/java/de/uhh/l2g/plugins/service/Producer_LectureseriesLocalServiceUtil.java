@@ -41,6 +41,16 @@ public class Producer_LectureseriesLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.Producer_LectureseriesLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean producerAssignedToLectureseries(
+		de.uhh.l2g.plugins.model.Producer_Lectureseries pl) {
+		return getService().producerAssignedToLectureseries(pl);
+	}
+
+	public static boolean removeByLectureseriesId(
+		java.lang.Long lectureseriesId) {
+		return getService().removeByLectureseriesId(lectureseriesId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}

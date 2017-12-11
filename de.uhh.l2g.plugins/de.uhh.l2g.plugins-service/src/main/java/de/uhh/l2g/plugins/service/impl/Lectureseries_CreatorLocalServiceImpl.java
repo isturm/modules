@@ -14,6 +14,11 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.SystemException;
+
+import de.uhh.l2g.plugins.model.Lectureseries_Creator;
 import de.uhh.l2g.plugins.service.base.Lectureseries_CreatorLocalServiceBaseImpl;
 
 /**
@@ -27,7 +32,7 @@ import de.uhh.l2g.plugins.service.base.Lectureseries_CreatorLocalServiceBaseImpl
  * </p>
  *
  * @author Iavor Sturm
- * @see Lectureseries_CreatorLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.Lectureseries_CreatorLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.Lectureseries_CreatorLocalServiceUtil
  */
 public class Lectureseries_CreatorLocalServiceImpl
@@ -35,6 +40,26 @@ public class Lectureseries_CreatorLocalServiceImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.Lectureseries_CreatorLocalServiceUtil} to access the lectureseries_ creator local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.Lectureseries_CreatorLocalServiceUtil} to access the lectureseries_ creator local service.
 	 */
+	
+	public void removeByLectureseriesId(Long lectureseriesId) throws SystemException{
+		lectureseries_CreatorPersistence.removeByLectureseries(lectureseriesId);
+	}
+	
+	public List<Lectureseries_Creator> getByCreatorId(Long creatorId) throws SystemException{
+		return lectureseries_CreatorPersistence.findByCreator(creatorId);
+	}
+	
+	public List<Lectureseries_Creator> getByLectureseriesId(Long lectureseriesId) throws SystemException{
+		return lectureseries_CreatorPersistence.findByLectureseries(lectureseriesId);
+	}
+	
+	public List<Lectureseries_Creator> getByLectureseriesIdAndCreatorId(Long lectureseriesId, Long creatorId) throws SystemException{
+		return lectureseries_CreatorPersistence.findByLectureseriesCreator(lectureseriesId, creatorId);
+	}
+	
+	public List<Lectureseries_Creator> getByCreator(Long creatorId) throws SystemException{
+		return lectureseries_CreatorPersistence.findByCreator(creatorId);
+	}
 }

@@ -116,6 +116,12 @@ public class TermLocalServiceUtil {
 		return getService().fetchTerm(termId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Term getById(java.lang.Long termId)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getById(termId);
+	}
+
 	/**
 	* Returns the term with the primary key.
 	*
@@ -207,6 +213,11 @@ public class TermLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Term> getAllSemesters()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllSemesters();
+	}
+
 	/**
 	* Returns a range of all the terms.
 	*
@@ -221,6 +232,14 @@ public class TermLocalServiceUtil {
 	public static java.util.List<de.uhh.l2g.plugins.model.Term> getTerms(
 		int start, int end) {
 		return getService().getTerms(start, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Term> getTermsFromLectureseriesIdsAndVideoIds(
+		java.util.ArrayList<java.lang.Long> lectureseriesIds,
+		java.util.ArrayList<java.lang.Long> videoIds) {
+		return getService()
+				   .getTermsFromLectureseriesIdsAndVideoIds(lectureseriesIds,
+			videoIds);
 	}
 
 	/**
@@ -245,6 +264,12 @@ public class TermLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static void deleteById(java.lang.Long id)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().deleteById(id);
 	}
 
 	public static TermLocalService getService() {

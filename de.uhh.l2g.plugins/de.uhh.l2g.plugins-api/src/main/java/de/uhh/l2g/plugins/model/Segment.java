@@ -53,4 +53,20 @@ public interface Segment extends SegmentModel, PersistedModel {
 				return Segment.class;
 			}
 		};
+
+	public long getPreviusSegmentId();
+
+	public void setPreviusSegmentId(long previusSegmentId);
+
+	public int getSeconds();
+
+	public void setSeconds(int seconds);
+
+	public int getNumber();
+
+	public void setNumber(int number);
+
+	public java.lang.String getImage();
+
+	public void setImage(java.lang.String image);
 }

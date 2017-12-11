@@ -53,4 +53,13 @@ public interface Term extends TermModel, PersistedModel {
 				return Term.class;
 			}
 		};
+
+	public java.lang.String getFullName();
+
+	public void setFullName(java.lang.String fullName);
+
+	/**
+	* @return the full termName (prefix + year)
+	*/
+	public java.lang.String getTermName();
 }

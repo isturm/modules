@@ -27,16 +27,20 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import de.uhh.l2g.plugins.exception.NoSuchInstitutionException;
 import de.uhh.l2g.plugins.model.Institution;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Institution. Methods of this
@@ -81,6 +85,15 @@ public interface InstitutionLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Special handling for default entry
+	* Default has to be Top Level Institution, must be replaced while migrating
+	*
+	* TODO: remove Default when migrating data
+	*/
+	public Institution addDefaultInstitution(ServiceContext serviceContext)
+		throws PortalException, SystemException;
+
+	/**
 	* Adds the institution to the database. Also notifies the appropriate model listeners.
 	*
 	* @param institution the institution
@@ -88,6 +101,10 @@ public interface InstitutionLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Institution addInstitution(Institution institution);
+
+	public Institution addInstitution(java.lang.String name, long hostId,
+		long parentId, int sort, ServiceContext serviceContext)
+		throws PortalException, SystemException;
 
 	/**
 	* Creates a new institution with the primary key. Does not add the institution to the database.
@@ -117,8 +134,18 @@ public interface InstitutionLocalService extends BaseLocalService,
 	public Institution deleteInstitution(long institutionId)
 		throws PortalException;
 
+	public Institution deleteInstitution(long institutionId,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Institution fetchInstitution(long institutionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Institution getByGroupIdAndId(long groupId, long institutionId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Institution getById(long institutionId) throws SystemException;
 
 	/**
 	* Returns the institution with the primary key.
@@ -131,6 +158,14 @@ public interface InstitutionLocalService extends BaseLocalService,
 	public Institution getInstitution(long institutionId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Institution getRoot(long companyId, long groupId)
+		throws SystemException, NoSuchInstitutionException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Institution getRootByGroupId(long companyId, long groupId)
+		throws SystemException;
+
 	/**
 	* Updates the institution in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -140,6 +175,14 @@ public interface InstitutionLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Institution updateInstitution(Institution institution);
 
+	public Institution updateInstitution(long institutionId,
+		java.lang.String name, int sort, ServiceContext serviceContext)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getByGroupIdAndParentCount(long groupId, long parentId)
+		throws SystemException;
+
 	/**
 	* Returns the number of institutions.
 	*
@@ -147,6 +190,12 @@ public interface InstitutionLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getInstitutionsCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getLockingElements(long institutionId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getMaxSortByParentId(long parentId) throws SystemException;
 
 	/**
 	* Returns the OSGi service identifier.
@@ -194,6 +243,33 @@ public interface InstitutionLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getByGroupId(long groupId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getByGroupIdAndParent(long groupId, long parentId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getByGroupIdAndParent(long groupId, long parentId,
+		int start, int end) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getByLectureseriesId(long lectureseriesId,
+		int begin, int end) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getByLevel(int level) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getByParentId(long parentId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getByParentId(long parentId, java.lang.String type)
+		throws SystemException;
+
 	/**
 	* Returns a range of all the institutions.
 	*
@@ -207,6 +283,28 @@ public interface InstitutionLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Institution> getInstitutions(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getInstitutionsFromLectureseriesIdsAndVideoIds(
+		ArrayList<java.lang.Long> lectureseriesIds,
+		ArrayList<java.lang.Long> videoIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getInstitutionsFromLectureseriesIdsAndVideoIds(
+		ArrayList<java.lang.Long> lectureseriesIds,
+		ArrayList<java.lang.Long> videoIds, java.lang.Long parentId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getRootInstitutionsByOpenAccessVideos()
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<java.lang.String, java.lang.String> getAllSortedAsTree(
+		int begin, int end) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<java.lang.String, java.lang.String> getByParent(long parentId)
+		throws SystemException;
 
 	/**
 	* Returns the number of rows matching the dynamic query.
@@ -225,4 +323,8 @@ public interface InstitutionLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getDefaultInstitutionId(long companyId, long groupId)
+		throws SystemException;
 }

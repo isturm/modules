@@ -118,6 +118,13 @@ public class CategoryLocalServiceWrapper implements CategoryLocalService,
 		return _categoryLocalService.fetchCategory(categoryId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Category getById(java.lang.Long categoryId)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _categoryLocalService.getById(categoryId);
+	}
+
 	/**
 	* Returns the category with the primary key.
 	*
@@ -216,6 +223,20 @@ public class CategoryLocalServiceWrapper implements CategoryLocalService,
 			orderByComparator);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Category> getAllCategories(
+		int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _categoryLocalService.getAllCategories(begin, end);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Category> getByName(
+		java.lang.String name)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _categoryLocalService.getByName(name);
+	}
+
 	/**
 	* Returns a range of all the categories.
 	*
@@ -231,6 +252,14 @@ public class CategoryLocalServiceWrapper implements CategoryLocalService,
 	public java.util.List<de.uhh.l2g.plugins.model.Category> getCategories(
 		int start, int end) {
 		return _categoryLocalService.getCategories(start, end);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Category> getCategoriesFromLectureseriesIdsAndVideoIds(
+		java.util.ArrayList<java.lang.Long> lectureseriesIds,
+		java.util.ArrayList<java.lang.Long> videoIds) {
+		return _categoryLocalService.getCategoriesFromLectureseriesIdsAndVideoIds(lectureseriesIds,
+			videoIds);
 	}
 
 	/**
@@ -257,6 +286,13 @@ public class CategoryLocalServiceWrapper implements CategoryLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _categoryLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	@Override
+	public void deleteById(java.lang.Long id)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_categoryLocalService.deleteById(id);
 	}
 
 	@Override

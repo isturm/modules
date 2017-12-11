@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
 import de.uhh.l2g.plugins.model.License;
 
 import java.io.Serializable;
@@ -60,6 +61,8 @@ public interface LicenseLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link LicenseLocalServiceUtil} to access the license local service. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.LicenseLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean deleteByVideoId(java.lang.Long videoId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -118,6 +121,10 @@ public interface LicenseLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public License fetchLicense(long licenseId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public License getByVideoId(java.lang.Long videoId)
+		throws SystemException, NoSuchLicenseException;
 
 	/**
 	* Returns the license with the primary key.

@@ -221,6 +221,27 @@ public class Video_CreatorLocalServiceWrapper
 			end, orderByComparator);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Creator> getByCreator(
+		java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_CreatorLocalService.getByCreator(creatorId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Creator> getByVideo(
+		java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_CreatorLocalService.getByVideo(videoId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Creator> getByVideoCreator(
+		java.lang.Long videoId, java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_CreatorLocalService.getByVideoCreator(videoId, creatorId);
+	}
+
 	/**
 	* Returns a range of all the video_ creators.
 	*
@@ -263,6 +284,18 @@ public class Video_CreatorLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _video_CreatorLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	@Override
+	public void deleteByCreatorId(java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_video_CreatorLocalService.deleteByCreatorId(creatorId);
+	}
+
+	@Override
+	public void deleteByVideoId(java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_video_CreatorLocalService.deleteByVideoId(videoId);
 	}
 
 	@Override

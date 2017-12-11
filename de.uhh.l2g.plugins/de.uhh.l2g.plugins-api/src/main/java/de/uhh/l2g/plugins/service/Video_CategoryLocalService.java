@@ -194,6 +194,14 @@ public interface Video_CategoryLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Category> getByCategory(java.lang.Long categoryId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Category> getByVideo(java.lang.Long videoId)
+		throws SystemException;
+
 	/**
 	* Returns a range of all the video_ categories.
 	*
@@ -225,4 +233,9 @@ public interface Video_CategoryLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void removeByVideo(java.lang.Long videoId) throws SystemException;
+
+	public void updateCategoryByVideoAndCategory(java.lang.Long videoId,
+		java.lang.Long categoryId, java.lang.Long newCategoryId);
 }

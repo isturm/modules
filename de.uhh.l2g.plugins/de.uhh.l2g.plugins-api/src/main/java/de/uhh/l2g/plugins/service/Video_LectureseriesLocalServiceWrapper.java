@@ -35,6 +35,16 @@ public class Video_LectureseriesLocalServiceWrapper
 	}
 
 	@Override
+	public boolean removeByLectureseriesId(java.lang.Long lectureseriesId) {
+		return _video_LectureseriesLocalService.removeByLectureseriesId(lectureseriesId);
+	}
+
+	@Override
+	public boolean removeByVideoId(java.lang.Long videoId) {
+		return _video_LectureseriesLocalService.removeByVideoId(videoId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _video_LectureseriesLocalService.getActionableDynamicQuery();
 	}
@@ -158,6 +168,21 @@ public class Video_LectureseriesLocalServiceWrapper
 		return _video_LectureseriesLocalService.getVideo_LectureseriesesCount();
 	}
 
+	@Override
+	public java.lang.Integer getNumberOfVideosByLectureseries(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_LectureseriesLocalService.getNumberOfVideosByLectureseries(lectureseriesId);
+	}
+
+	@Override
+	public java.lang.Integer getNumberOfVideosByLectureseriesAndOpenAccess(
+		java.lang.Long lectureseriesId, int isOpenAccess)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_LectureseriesLocalService.getNumberOfVideosByLectureseriesAndOpenAccess(lectureseriesId,
+			isOpenAccess);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -222,6 +247,28 @@ public class Video_LectureseriesLocalServiceWrapper
 			start, end, orderByComparator);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> getByLectureseries(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_LectureseriesLocalService.getByLectureseries(lectureseriesId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> getByLectureseriesAndOpenAccess(
+		java.lang.Long lectureseriesId, int isOpenAccess)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_LectureseriesLocalService.getByLectureseriesAndOpenAccess(lectureseriesId,
+			isOpenAccess);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> getByVideo(
+		java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_LectureseriesLocalService.getByVideo(videoId);
+	}
+
 	/**
 	* Returns a range of all the video_ lectureserieses.
 	*
@@ -238,6 +285,13 @@ public class Video_LectureseriesLocalServiceWrapper
 		int start, int end) {
 		return _video_LectureseriesLocalService.getVideo_Lectureserieses(start,
 			end);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> updateOpenAccessByVideo(
+		de.uhh.l2g.plugins.model.Video video)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _video_LectureseriesLocalService.updateOpenAccessByVideo(video);
 	}
 
 	/**

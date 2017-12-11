@@ -225,4 +225,9 @@ public interface VideohitlistLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void deleteAll() throws SystemException;
+
+	public void deleteByVideoId(java.lang.Long videoId)
+		throws SystemException;
 }

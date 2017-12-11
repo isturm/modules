@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.model.Producer;
 
 import java.io.Serializable;
@@ -80,6 +81,10 @@ public interface ProducerLocalService extends BaseLocalService,
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Institution getInstitutionByProducer(long producerId)
+		throws SystemException;
+
 	/**
 	* Adds the producer to the database. Also notifies the appropriate model listeners.
 	*
@@ -119,6 +124,13 @@ public interface ProducerLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Producer fetchProducer(long producerId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Producer getById(long producerId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Producer getProdUcer(java.lang.Long producerId)
+		throws PortalException, SystemException;
+
 	/**
 	* Returns the producer with the primary key.
 	*
@@ -137,6 +149,9 @@ public interface ProducerLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Producer updateProducer(Producer producer);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getProducersByHostIdCount(long hostId) throws SystemException;
 
 	/**
 	* Returns the number of producers.
@@ -192,6 +207,18 @@ public interface ProducerLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<java.lang.Long> getAllProducerIds(
+		java.lang.Long lectureseriesId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Producer> getAllProducers(int begin, int end)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<java.lang.Long> getProducerIds(java.lang.Long lectureseriesId,
+		int begin, int end) throws SystemException;
+
 	/**
 	* Returns a range of all the producers.
 	*
@@ -205,6 +232,14 @@ public interface ProducerLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Producer> getProducers(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Producer> getProducersByHostId(long hostId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Producer> getProducersByInstitutionId(long institutionId)
+		throws SystemException;
 
 	/**
 	* Returns the number of rows matching the dynamic query.

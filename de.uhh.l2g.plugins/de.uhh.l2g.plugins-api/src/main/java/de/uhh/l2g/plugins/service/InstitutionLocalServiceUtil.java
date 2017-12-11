@@ -69,6 +69,19 @@ public class InstitutionLocalServiceUtil {
 	}
 
 	/**
+	* Special handling for default entry
+	* Default has to be Top Level Institution, must be replaced while migrating
+	*
+	* TODO: remove Default when migrating data
+	*/
+	public static de.uhh.l2g.plugins.model.Institution addDefaultInstitution(
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().addDefaultInstitution(serviceContext);
+	}
+
+	/**
 	* Adds the institution to the database. Also notifies the appropriate model listeners.
 	*
 	* @param institution the institution
@@ -77,6 +90,15 @@ public class InstitutionLocalServiceUtil {
 	public static de.uhh.l2g.plugins.model.Institution addInstitution(
 		de.uhh.l2g.plugins.model.Institution institution) {
 		return getService().addInstitution(institution);
+	}
+
+	public static de.uhh.l2g.plugins.model.Institution addInstitution(
+		java.lang.String name, long hostId, long parentId, int sort,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addInstitution(name, hostId, parentId, sort, serviceContext);
 	}
 
 	/**
@@ -114,9 +136,29 @@ public class InstitutionLocalServiceUtil {
 		return getService().deleteInstitution(institutionId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Institution deleteInstitution(
+		long institutionId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteInstitution(institutionId, serviceContext);
+	}
+
 	public static de.uhh.l2g.plugins.model.Institution fetchInstitution(
 		long institutionId) {
 		return getService().fetchInstitution(institutionId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Institution getByGroupIdAndId(
+		long groupId, long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupIdAndId(groupId, institutionId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Institution getById(
+		long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getById(institutionId);
 	}
 
 	/**
@@ -132,6 +174,19 @@ public class InstitutionLocalServiceUtil {
 		return getService().getInstitution(institutionId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Institution getRoot(long companyId,
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			de.uhh.l2g.plugins.exception.NoSuchInstitutionException {
+		return getService().getRoot(companyId, groupId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Institution getRootByGroupId(
+		long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getRootByGroupId(companyId, groupId);
+	}
+
 	/**
 	* Updates the institution in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -143,6 +198,20 @@ public class InstitutionLocalServiceUtil {
 		return getService().updateInstitution(institution);
 	}
 
+	public static de.uhh.l2g.plugins.model.Institution updateInstitution(
+		long institutionId, java.lang.String name, int sort,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateInstitution(institutionId, name, sort, serviceContext);
+	}
+
+	public static int getByGroupIdAndParentCount(long groupId, long parentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupIdAndParentCount(groupId, parentId);
+	}
+
 	/**
 	* Returns the number of institutions.
 	*
@@ -150,6 +219,16 @@ public class InstitutionLocalServiceUtil {
 	*/
 	public static int getInstitutionsCount() {
 		return getService().getInstitutionsCount();
+	}
+
+	public static int getLockingElements(long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getLockingElements(institutionId);
+	}
+
+	public static int getMaxSortByParentId(long parentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getMaxSortByParentId(parentId);
 	}
 
 	/**
@@ -211,6 +290,47 @@ public class InstitutionLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupId(groupId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getByGroupIdAndParent(
+		long groupId, long parentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupIdAndParent(groupId, parentId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getByGroupIdAndParent(
+		long groupId, long parentId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupIdAndParent(groupId, parentId, start, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getByLectureseriesId(
+		long lectureseriesId, int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByLectureseriesId(lectureseriesId, begin, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getByLevel(
+		int level) throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByLevel(level);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getByParentId(
+		long parentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByParentId(parentId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getByParentId(
+		long parentId, java.lang.String type)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByParentId(parentId, type);
+	}
+
 	/**
 	* Returns a range of all the institutions.
 	*
@@ -225,6 +345,39 @@ public class InstitutionLocalServiceUtil {
 	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getInstitutions(
 		int start, int end) {
 		return getService().getInstitutions(start, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getInstitutionsFromLectureseriesIdsAndVideoIds(
+		java.util.ArrayList<java.lang.Long> lectureseriesIds,
+		java.util.ArrayList<java.lang.Long> videoIds) {
+		return getService()
+				   .getInstitutionsFromLectureseriesIdsAndVideoIds(lectureseriesIds,
+			videoIds);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getInstitutionsFromLectureseriesIdsAndVideoIds(
+		java.util.ArrayList<java.lang.Long> lectureseriesIds,
+		java.util.ArrayList<java.lang.Long> videoIds, java.lang.Long parentId) {
+		return getService()
+				   .getInstitutionsFromLectureseriesIdsAndVideoIds(lectureseriesIds,
+			videoIds, parentId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Institution> getRootInstitutionsByOpenAccessVideos()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getRootInstitutionsByOpenAccessVideos();
+	}
+
+	public static java.util.Map<java.lang.String, java.lang.String> getAllSortedAsTree(
+		int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllSortedAsTree(begin, end);
+	}
+
+	public static java.util.Map<java.lang.String, java.lang.String> getByParent(
+		long parentId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByParent(parentId);
 	}
 
 	/**
@@ -249,6 +402,11 @@ public class InstitutionLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static long getDefaultInstitutionId(long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getDefaultInstitutionId(companyId, groupId);
 	}
 
 	public static InstitutionLocalService getService() {

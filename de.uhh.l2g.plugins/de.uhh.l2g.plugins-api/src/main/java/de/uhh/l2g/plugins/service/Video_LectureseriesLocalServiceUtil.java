@@ -41,6 +41,15 @@ public class Video_LectureseriesLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.Video_LectureseriesLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean removeByLectureseriesId(
+		java.lang.Long lectureseriesId) {
+		return getService().removeByLectureseriesId(lectureseriesId);
+	}
+
+	public static boolean removeByVideoId(java.lang.Long videoId) {
+		return getService().removeByVideoId(videoId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -152,6 +161,20 @@ public class Video_LectureseriesLocalServiceUtil {
 		return getService().getVideo_LectureseriesesCount();
 	}
 
+	public static java.lang.Integer getNumberOfVideosByLectureseries(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getNumberOfVideosByLectureseries(lectureseriesId);
+	}
+
+	public static java.lang.Integer getNumberOfVideosByLectureseriesAndOpenAccess(
+		java.lang.Long lectureseriesId, int isOpenAccess)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getNumberOfVideosByLectureseriesAndOpenAccess(lectureseriesId,
+			isOpenAccess);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -211,6 +234,26 @@ public class Video_LectureseriesLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> getByLectureseries(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByLectureseries(lectureseriesId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> getByLectureseriesAndOpenAccess(
+		java.lang.Long lectureseriesId, int isOpenAccess)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getByLectureseriesAndOpenAccess(lectureseriesId,
+			isOpenAccess);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> getByVideo(
+		java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByVideo(videoId);
+	}
+
 	/**
 	* Returns a range of all the video_ lectureserieses.
 	*
@@ -225,6 +268,12 @@ public class Video_LectureseriesLocalServiceUtil {
 	public static java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> getVideo_Lectureserieses(
 		int start, int end) {
 		return getService().getVideo_Lectureserieses(start, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Lectureseries> updateOpenAccessByVideo(
+		de.uhh.l2g.plugins.model.Video video)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().updateOpenAccessByVideo(video);
 	}
 
 	/**

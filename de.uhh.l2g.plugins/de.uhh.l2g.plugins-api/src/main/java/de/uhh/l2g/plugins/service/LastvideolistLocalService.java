@@ -225,4 +225,6 @@ public interface LastvideolistLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void deleteByVideoId(java.lang.Long videoId);
 }

@@ -212,6 +212,11 @@ public class InstitutionWrapper implements Institution,
 		return _institution.getName();
 	}
 
+	@Override
+	public java.lang.String getPath() {
+		return _institution.getPath();
+	}
+
 	/**
 	* Returns the typ of this institution.
 	*
@@ -381,6 +386,11 @@ public class InstitutionWrapper implements Institution,
 	@Override
 	public void setParentId(long parentId) {
 		_institution.setParentId(parentId);
+	}
+
+	@Override
+	public void setPath(java.lang.String path) {
+		_institution.setPath(path);
 	}
 
 	/**

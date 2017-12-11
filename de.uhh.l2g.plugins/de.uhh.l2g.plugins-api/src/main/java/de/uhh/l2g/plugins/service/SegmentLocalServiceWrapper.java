@@ -77,6 +77,21 @@ public class SegmentLocalServiceWrapper implements SegmentLocalService,
 	}
 
 	/**
+	* Adds the segment to the database and generates thumb nail. Also notifies the appropriate model listeners.
+	*
+	* @param segment the segment
+	* @return the segment that was added
+	* @throws SystemException if a system exception occurred
+	*/
+	@Override
+	public de.uhh.l2g.plugins.model.Segment createSegment(
+		de.uhh.l2g.plugins.model.Segment segment)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _segmentLocalService.createSegment(segment);
+	}
+
+	/**
 	* Creates a new segment with the primary key. Does not add the segment to the database.
 	*
 	* @param segmentId the primary key for the new segment
@@ -117,6 +132,22 @@ public class SegmentLocalServiceWrapper implements SegmentLocalService,
 		return _segmentLocalService.fetchSegment(segmentId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Segment fillWithProperties(
+		de.uhh.l2g.plugins.model.Segment objectSegment)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _segmentLocalService.fillWithProperties(objectSegment);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Segment getPreviusSegment(
+		de.uhh.l2g.plugins.model.Segment segment)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _segmentLocalService.getPreviusSegment(segment);
+	}
+
 	/**
 	* Returns the segment with the primary key.
 	*
@@ -128,6 +159,22 @@ public class SegmentLocalServiceWrapper implements SegmentLocalService,
 	public de.uhh.l2g.plugins.model.Segment getSegment(long segmentId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _segmentLocalService.getSegment(segmentId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Segment getSegmentById(
+		java.lang.Long segmentId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _segmentLocalService.getSegmentById(segmentId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Segment removeSegment(
+		java.lang.Long segmentId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _segmentLocalService.removeSegment(segmentId);
 	}
 
 	/**
@@ -150,6 +197,13 @@ public class SegmentLocalServiceWrapper implements SegmentLocalService,
 	@Override
 	public int getSegmentsCount() {
 		return _segmentLocalService.getSegmentsCount();
+	}
+
+	@Override
+	public java.lang.Long getPreviusSegmentId(java.lang.Long segmentId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _segmentLocalService.getPreviusSegmentId(segmentId);
 	}
 
 	/**
@@ -232,6 +286,14 @@ public class SegmentLocalServiceWrapper implements SegmentLocalService,
 		return _segmentLocalService.getSegments(start, end);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Segment> getSegmentsByVideoId(
+		java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _segmentLocalService.getSegmentsByVideoId(videoId);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -256,6 +318,28 @@ public class SegmentLocalServiceWrapper implements SegmentLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _segmentLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	@Override
+	public void deleteByVideoId(java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_segmentLocalService.deleteByVideoId(videoId);
+	}
+
+	@Override
+	public void deleteThumbhailsFromSegment(
+		de.uhh.l2g.plugins.model.Segment segment)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_segmentLocalService.deleteThumbhailsFromSegment(segment);
+	}
+
+	@Override
+	public void deleteThumbhailsFromSegments(
+		java.util.List<de.uhh.l2g.plugins.model.Segment> segmentList)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_segmentLocalService.deleteThumbhailsFromSegments(segmentList);
 	}
 
 	@Override

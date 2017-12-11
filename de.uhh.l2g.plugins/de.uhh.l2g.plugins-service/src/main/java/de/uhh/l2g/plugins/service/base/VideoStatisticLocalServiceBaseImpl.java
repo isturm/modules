@@ -14,7 +14,10 @@
 
 package de.uhh.l2g.plugins.service.base;
 
-import aQute.bnd.annotation.ProviderType;
+import java.io.Serializable;
+import java.util.List;
+
+import javax.sql.DataSource;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -41,15 +44,20 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
+import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.model.VideoStatistic;
 import de.uhh.l2g.plugins.service.VideoStatisticLocalService;
+import de.uhh.l2g.plugins.service.persistence.CategoryFinder;
 import de.uhh.l2g.plugins.service.persistence.CategoryPersistence;
 import de.uhh.l2g.plugins.service.persistence.CoordinatorPersistence;
+import de.uhh.l2g.plugins.service.persistence.CreatorFinder;
 import de.uhh.l2g.plugins.service.persistence.CreatorPersistence;
 import de.uhh.l2g.plugins.service.persistence.HostPersistence;
+import de.uhh.l2g.plugins.service.persistence.InstitutionFinder;
 import de.uhh.l2g.plugins.service.persistence.InstitutionPersistence;
 import de.uhh.l2g.plugins.service.persistence.Institution_HostPersistence;
 import de.uhh.l2g.plugins.service.persistence.LastvideolistPersistence;
+import de.uhh.l2g.plugins.service.persistence.LectureseriesFinder;
 import de.uhh.l2g.plugins.service.persistence.LectureseriesPersistence;
 import de.uhh.l2g.plugins.service.persistence.Lectureseries_CategoryPersistence;
 import de.uhh.l2g.plugins.service.persistence.Lectureseries_CreatorPersistence;
@@ -57,27 +65,26 @@ import de.uhh.l2g.plugins.service.persistence.Lectureseries_InstitutionPersisten
 import de.uhh.l2g.plugins.service.persistence.LicensePersistence;
 import de.uhh.l2g.plugins.service.persistence.MetadataPersistence;
 import de.uhh.l2g.plugins.service.persistence.OfficePersistence;
+import de.uhh.l2g.plugins.service.persistence.ProducerFinder;
 import de.uhh.l2g.plugins.service.persistence.ProducerPersistence;
 import de.uhh.l2g.plugins.service.persistence.Producer_LectureseriesPersistence;
 import de.uhh.l2g.plugins.service.persistence.ScheduledThreadPersistence;
 import de.uhh.l2g.plugins.service.persistence.SegmentPersistence;
+import de.uhh.l2g.plugins.service.persistence.StatisticFinder;
 import de.uhh.l2g.plugins.service.persistence.StatisticPersistence;
 import de.uhh.l2g.plugins.service.persistence.SysPersistence;
 import de.uhh.l2g.plugins.service.persistence.TagcloudPersistence;
+import de.uhh.l2g.plugins.service.persistence.TermFinder;
 import de.uhh.l2g.plugins.service.persistence.TermPersistence;
+import de.uhh.l2g.plugins.service.persistence.VideoFinder;
 import de.uhh.l2g.plugins.service.persistence.VideoPersistence;
+import de.uhh.l2g.plugins.service.persistence.VideoStatisticFinder;
 import de.uhh.l2g.plugins.service.persistence.VideoStatisticPersistence;
 import de.uhh.l2g.plugins.service.persistence.Video_CategoryPersistence;
 import de.uhh.l2g.plugins.service.persistence.Video_CreatorPersistence;
 import de.uhh.l2g.plugins.service.persistence.Video_InstitutionPersistence;
 import de.uhh.l2g.plugins.service.persistence.Video_LectureseriesPersistence;
 import de.uhh.l2g.plugins.service.persistence.VideohitlistPersistence;
-
-import java.io.Serializable;
-
-import java.util.List;
-
-import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the video statistic local service.
@@ -380,6 +387,24 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the category finder.
+	 *
+	 * @return the category finder
+	 */
+	public CategoryFinder getCategoryFinder() {
+		return categoryFinder;
+	}
+
+	/**
+	 * Sets the category finder.
+	 *
+	 * @param categoryFinder the category finder
+	 */
+	public void setCategoryFinder(CategoryFinder categoryFinder) {
+		this.categoryFinder = categoryFinder;
+	}
+
+	/**
 	 * Returns the coordinator local service.
 	 *
 	 * @return the coordinator local service
@@ -455,6 +480,24 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the creator finder.
+	 *
+	 * @return the creator finder
+	 */
+	public CreatorFinder getCreatorFinder() {
+		return creatorFinder;
+	}
+
+	/**
+	 * Sets the creator finder.
+	 *
+	 * @param creatorFinder the creator finder
+	 */
+	public void setCreatorFinder(CreatorFinder creatorFinder) {
+		this.creatorFinder = creatorFinder;
+	}
+
+	/**
 	 * Returns the host local service.
 	 *
 	 * @return the host local service
@@ -527,6 +570,24 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	public void setInstitutionPersistence(
 		InstitutionPersistence institutionPersistence) {
 		this.institutionPersistence = institutionPersistence;
+	}
+
+	/**
+	 * Returns the institution finder.
+	 *
+	 * @return the institution finder
+	 */
+	public InstitutionFinder getInstitutionFinder() {
+		return institutionFinder;
+	}
+
+	/**
+	 * Sets the institution finder.
+	 *
+	 * @param institutionFinder the institution finder
+	 */
+	public void setInstitutionFinder(InstitutionFinder institutionFinder) {
+		this.institutionFinder = institutionFinder;
 	}
 
 	/**
@@ -641,6 +702,24 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	public void setLectureseriesPersistence(
 		LectureseriesPersistence lectureseriesPersistence) {
 		this.lectureseriesPersistence = lectureseriesPersistence;
+	}
+
+	/**
+	 * Returns the lectureseries finder.
+	 *
+	 * @return the lectureseries finder
+	 */
+	public LectureseriesFinder getLectureseriesFinder() {
+		return lectureseriesFinder;
+	}
+
+	/**
+	 * Sets the lectureseries finder.
+	 *
+	 * @param lectureseriesFinder the lectureseries finder
+	 */
+	public void setLectureseriesFinder(LectureseriesFinder lectureseriesFinder) {
+		this.lectureseriesFinder = lectureseriesFinder;
 	}
 
 	/**
@@ -906,6 +985,24 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the producer finder.
+	 *
+	 * @return the producer finder
+	 */
+	public ProducerFinder getProducerFinder() {
+		return producerFinder;
+	}
+
+	/**
+	 * Sets the producer finder.
+	 *
+	 * @param producerFinder the producer finder
+	 */
+	public void setProducerFinder(ProducerFinder producerFinder) {
+		this.producerFinder = producerFinder;
+	}
+
+	/**
 	 * Returns the producer_ lectureseries local service.
 	 *
 	 * @return the producer_ lectureseries local service
@@ -1057,6 +1154,24 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the statistic finder.
+	 *
+	 * @return the statistic finder
+	 */
+	public StatisticFinder getStatisticFinder() {
+		return statisticFinder;
+	}
+
+	/**
+	 * Sets the statistic finder.
+	 *
+	 * @param statisticFinder the statistic finder
+	 */
+	public void setStatisticFinder(StatisticFinder statisticFinder) {
+		this.statisticFinder = statisticFinder;
+	}
+
+	/**
 	 * Returns the sys local service.
 	 *
 	 * @return the sys local service
@@ -1168,6 +1283,24 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the term finder.
+	 *
+	 * @return the term finder
+	 */
+	public TermFinder getTermFinder() {
+		return termFinder;
+	}
+
+	/**
+	 * Sets the term finder.
+	 *
+	 * @param termFinder the term finder
+	 */
+	public void setTermFinder(TermFinder termFinder) {
+		this.termFinder = termFinder;
+	}
+
+	/**
 	 * Returns the video local service.
 	 *
 	 * @return the video local service
@@ -1202,6 +1335,24 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	 */
 	public void setVideoPersistence(VideoPersistence videoPersistence) {
 		this.videoPersistence = videoPersistence;
+	}
+
+	/**
+	 * Returns the video finder.
+	 *
+	 * @return the video finder
+	 */
+	public VideoFinder getVideoFinder() {
+		return videoFinder;
+	}
+
+	/**
+	 * Sets the video finder.
+	 *
+	 * @param videoFinder the video finder
+	 */
+	public void setVideoFinder(VideoFinder videoFinder) {
+		this.videoFinder = videoFinder;
 	}
 
 	/**
@@ -1433,6 +1584,25 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the video statistic finder.
+	 *
+	 * @return the video statistic finder
+	 */
+	public VideoStatisticFinder getVideoStatisticFinder() {
+		return videoStatisticFinder;
+	}
+
+	/**
+	 * Sets the video statistic finder.
+	 *
+	 * @param videoStatisticFinder the video statistic finder
+	 */
+	public void setVideoStatisticFinder(
+		VideoStatisticFinder videoStatisticFinder) {
+		this.videoStatisticFinder = videoStatisticFinder;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -1601,6 +1771,8 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	protected de.uhh.l2g.plugins.service.CategoryLocalService categoryLocalService;
 	@BeanReference(type = CategoryPersistence.class)
 	protected CategoryPersistence categoryPersistence;
+	@BeanReference(type = CategoryFinder.class)
+	protected CategoryFinder categoryFinder;
 	@BeanReference(type = de.uhh.l2g.plugins.service.CoordinatorLocalService.class)
 	protected de.uhh.l2g.plugins.service.CoordinatorLocalService coordinatorLocalService;
 	@BeanReference(type = CoordinatorPersistence.class)
@@ -1609,6 +1781,8 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	protected de.uhh.l2g.plugins.service.CreatorLocalService creatorLocalService;
 	@BeanReference(type = CreatorPersistence.class)
 	protected CreatorPersistence creatorPersistence;
+	@BeanReference(type = CreatorFinder.class)
+	protected CreatorFinder creatorFinder;
 	@BeanReference(type = de.uhh.l2g.plugins.service.HostLocalService.class)
 	protected de.uhh.l2g.plugins.service.HostLocalService hostLocalService;
 	@BeanReference(type = HostPersistence.class)
@@ -1617,6 +1791,8 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	protected de.uhh.l2g.plugins.service.InstitutionLocalService institutionLocalService;
 	@BeanReference(type = InstitutionPersistence.class)
 	protected InstitutionPersistence institutionPersistence;
+	@BeanReference(type = InstitutionFinder.class)
+	protected InstitutionFinder institutionFinder;
 	@BeanReference(type = de.uhh.l2g.plugins.service.Institution_HostLocalService.class)
 	protected de.uhh.l2g.plugins.service.Institution_HostLocalService institution_HostLocalService;
 	@BeanReference(type = Institution_HostPersistence.class)
@@ -1629,6 +1805,8 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	protected de.uhh.l2g.plugins.service.LectureseriesLocalService lectureseriesLocalService;
 	@BeanReference(type = LectureseriesPersistence.class)
 	protected LectureseriesPersistence lectureseriesPersistence;
+	@BeanReference(type = LectureseriesFinder.class)
+	protected LectureseriesFinder lectureseriesFinder;
 	@BeanReference(type = de.uhh.l2g.plugins.service.Lectureseries_CategoryLocalService.class)
 	protected de.uhh.l2g.plugins.service.Lectureseries_CategoryLocalService lectureseries_CategoryLocalService;
 	@BeanReference(type = Lectureseries_CategoryPersistence.class)
@@ -1657,6 +1835,8 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	protected de.uhh.l2g.plugins.service.ProducerLocalService producerLocalService;
 	@BeanReference(type = ProducerPersistence.class)
 	protected ProducerPersistence producerPersistence;
+	@BeanReference(type = ProducerFinder.class)
+	protected ProducerFinder producerFinder;
 	@BeanReference(type = de.uhh.l2g.plugins.service.Producer_LectureseriesLocalService.class)
 	protected de.uhh.l2g.plugins.service.Producer_LectureseriesLocalService producer_LectureseriesLocalService;
 	@BeanReference(type = Producer_LectureseriesPersistence.class)
@@ -1673,6 +1853,8 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	protected de.uhh.l2g.plugins.service.StatisticLocalService statisticLocalService;
 	@BeanReference(type = StatisticPersistence.class)
 	protected StatisticPersistence statisticPersistence;
+	@BeanReference(type = StatisticFinder.class)
+	protected StatisticFinder statisticFinder;
 	@BeanReference(type = de.uhh.l2g.plugins.service.SysLocalService.class)
 	protected de.uhh.l2g.plugins.service.SysLocalService sysLocalService;
 	@BeanReference(type = SysPersistence.class)
@@ -1685,10 +1867,14 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	protected de.uhh.l2g.plugins.service.TermLocalService termLocalService;
 	@BeanReference(type = TermPersistence.class)
 	protected TermPersistence termPersistence;
+	@BeanReference(type = TermFinder.class)
+	protected TermFinder termFinder;
 	@BeanReference(type = de.uhh.l2g.plugins.service.VideoLocalService.class)
 	protected de.uhh.l2g.plugins.service.VideoLocalService videoLocalService;
 	@BeanReference(type = VideoPersistence.class)
 	protected VideoPersistence videoPersistence;
+	@BeanReference(type = VideoFinder.class)
+	protected VideoFinder videoFinder;
 	@BeanReference(type = de.uhh.l2g.plugins.service.Video_CategoryLocalService.class)
 	protected de.uhh.l2g.plugins.service.Video_CategoryLocalService video_CategoryLocalService;
 	@BeanReference(type = Video_CategoryPersistence.class)
@@ -1713,6 +1899,8 @@ public abstract class VideoStatisticLocalServiceBaseImpl
 	protected VideoStatisticLocalService videoStatisticLocalService;
 	@BeanReference(type = VideoStatisticPersistence.class)
 	protected VideoStatisticPersistence videoStatisticPersistence;
+	@BeanReference(type = VideoStatisticFinder.class)
+	protected VideoStatisticFinder videoStatisticFinder;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

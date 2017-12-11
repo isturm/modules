@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import de.uhh.l2g.plugins.model.Coordinator;
+import de.uhh.l2g.plugins.model.Institution;
 
 import java.io.Serializable;
 
@@ -120,6 +121,13 @@ public interface CoordinatorLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Coordinator fetchCoordinator(long coordinatorId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Coordinator getById(long coordinatorId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Coordinator getByInstitution(long institutionId)
+		throws SystemException;
+
 	/**
 	* Returns the coordinator with the primary key.
 	*
@@ -139,6 +147,10 @@ public interface CoordinatorLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Coordinator updateCoordinator(Coordinator coordinator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Institution getInstitutionByCoordinator(long coordinatorId)
+		throws SystemException;
 
 	/**
 	* Returns the number of coordinators.
@@ -193,6 +205,10 @@ public interface CoordinatorLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Coordinator> getAllCoordinators(int begin, int end)
+		throws SystemException;
 
 	/**
 	* Returns a range of all the coordinators.

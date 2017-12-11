@@ -27,11 +27,14 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import de.uhh.l2g.plugins.model.Host;
+import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.model.Institution_Host;
 
 import java.io.Serializable;
@@ -80,6 +83,21 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Host getByGroupIdAndInstitutionId(long companyId, long groupId,
+		long institutionId) throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Host getByInstitution(long institutionId)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Host getByInstitutionId(long institutionId)
+		throws PortalException, SystemException;
+
+	public Institution_Host addEntry(long institutionId, long hostId,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
 	/**
 	* Adds the institution_ host to the database. Also notifies the appropriate model listeners.
 	*
@@ -119,6 +137,12 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	public Institution_Host deleteInstitution_Host(long institutionHostId)
 		throws PortalException;
 
+	public Institution_Host deleteLinkById(long institutionHostId,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
+	public Institution_Host deleteLinkByInstitution(Institution institution,
+		long groupId, long companyId) throws PortalException, SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Institution_Host fetchInstitution_Host(long institutionHostId);
 
@@ -133,6 +157,13 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	public Institution_Host getInstitution_Host(long institutionHostId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Institution_Host getLinkByGroupIdAndInstitutionId(long groupId,
+		long institutionId) throws PortalException, SystemException;
+
+	public Institution_Host updateEntry(long institutionId, long hostId,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
 	/**
 	* Updates the institution_ host in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -142,6 +173,10 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Institution_Host updateInstitution_Host(
 		Institution_Host institution_Host);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getByGroupIdAndHostIdCount(long groupId, long hostId)
+		throws PortalException, SystemException;
 
 	/**
 	* Returns the number of institution_ hosts.
@@ -197,6 +232,14 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution_Host> getByGroupId(long groupId)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution> getByGroupIdAndHostId(long groupId, long hostId)
+		throws PortalException, SystemException;
+
 	/**
 	* Returns a range of all the institution_ hosts.
 	*
@@ -210,6 +253,28 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Institution_Host> getInstitution_Hosts(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution_Host> getListByGroupIdAndHostId(long groupId,
+		long hostId) throws PortalException, SystemException;
+
+	/**
+	* Actually this should never give a list because, there can be only one host per isntitution
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution_Host> getListByGroupIdAndInstitutionId(
+		long companyId, long groupId, long institutionId)
+		throws PortalException, SystemException;
+
+	/**
+	* if not added with Institution
+	*
+	* @throws SystemException
+	* @throws PortalException
+	*/
+	public long addDefaultInstitutionHost(long defaultInstitutionId,
+		long defaultHostId, ServiceContext serviceContext)
+		throws PortalException, SystemException;
 
 	/**
 	* Returns the number of rows matching the dynamic query.
@@ -228,4 +293,10 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Assume one Institution has at most one Host that remains constant
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getDefaultInstitutionHostId(long companyId, long groupId);
 }

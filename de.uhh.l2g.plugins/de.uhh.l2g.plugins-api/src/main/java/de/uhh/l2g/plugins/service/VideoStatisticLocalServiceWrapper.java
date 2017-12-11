@@ -221,6 +221,20 @@ public class VideoStatisticLocalServiceWrapper
 			end, orderByComparator);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.VideoStatistic> getAllStatistics()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoStatisticLocalService.getAllStatistics();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.VideoStatistic> getByCompanyIdAndGroupId(
+		long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoStatisticLocalService.getByCompanyIdAndGroupId(companyId,
+			groupId);
+	}
+
 	/**
 	* Returns a range of all the video statistics.
 	*

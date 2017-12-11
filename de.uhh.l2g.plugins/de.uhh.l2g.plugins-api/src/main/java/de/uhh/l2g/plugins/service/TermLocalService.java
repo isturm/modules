@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
@@ -36,6 +37,7 @@ import de.uhh.l2g.plugins.model.Term;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,6 +121,10 @@ public interface TermLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Term fetchTerm(long termId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Term getById(java.lang.Long termId)
+		throws NoSuchModelException, SystemException;
+
 	/**
 	* Returns the term with the primary key.
 	*
@@ -192,6 +198,9 @@ public interface TermLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Term> getAllSemesters() throws SystemException;
+
 	/**
 	* Returns a range of all the terms.
 	*
@@ -205,6 +214,11 @@ public interface TermLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Term> getTerms(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Term> getTermsFromLectureseriesIdsAndVideoIds(
+		ArrayList<java.lang.Long> lectureseriesIds,
+		ArrayList<java.lang.Long> videoIds);
 
 	/**
 	* Returns the number of rows matching the dynamic query.
@@ -223,4 +237,7 @@ public interface TermLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void deleteById(java.lang.Long id)
+		throws NoSuchModelException, SystemException;
 }

@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -89,6 +90,10 @@ public interface ScheduledThreadLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public ScheduledThread addScheduledThread(ScheduledThread scheduledThread);
 
+	public ScheduledThread addScheduledThread(
+		java.lang.String schedulerClassName, java.lang.String cronText,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
 	/**
 	* Creates a new scheduled thread with the primary key. Does not add the scheduled thread to the database.
 	*
@@ -142,6 +147,10 @@ public interface ScheduledThreadLocalService extends BaseLocalService,
 	public ScheduledThread updateScheduledThread(
 		ScheduledThread scheduledThread);
 
+	public ScheduledThread updateScheduledThread(
+		java.lang.String schedulerClassName, java.lang.String cronText,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
 	/**
 	* Returns the number of scheduled threads.
 	*
@@ -149,6 +158,10 @@ public interface ScheduledThreadLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getScheduledThreadsCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getCronBySchedulerName(
+		java.lang.String schedulerClassName) throws SystemException;
 
 	/**
 	* Returns the OSGi service identifier.

@@ -118,6 +118,15 @@ public class TagcloudLocalServiceWrapper implements TagcloudLocalService,
 		return _tagcloudLocalService.fetchTagcloud(tagcloudId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Tagcloud getByObjectIdAndObjectClassType(
+		long objectId, java.lang.String objectClassType)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			de.uhh.l2g.plugins.exception.NoSuchTagcloudException {
+		return _tagcloudLocalService.getByObjectIdAndObjectClassType(objectId,
+			objectClassType);
+	}
+
 	/**
 	* Returns the tagcloud with the primary key.
 	*
@@ -257,6 +266,38 @@ public class TagcloudLocalServiceWrapper implements TagcloudLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _tagcloudLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	@Override
+	public void add(java.util.ArrayList<java.lang.String> tagCloudArrayString,
+		java.lang.String className, java.lang.Long objectId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_tagcloudLocalService.add(tagCloudArrayString, className, objectId);
+	}
+
+	@Override
+	public void deleteByObjectId(long objectId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_tagcloudLocalService.deleteByObjectId(objectId);
+	}
+
+	@Override
+	public void generateForAllLectureseries() {
+		_tagcloudLocalService.generateForAllLectureseries();
+	}
+
+	@Override
+	public void generateForAllVideos() {
+		_tagcloudLocalService.generateForAllVideos();
+	}
+
+	@Override
+	public void updateByObjectIdAndObjectClassType(
+		java.util.ArrayList<java.lang.String> tagCloudArrayString,
+		java.lang.String className, long objectId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_tagcloudLocalService.updateByObjectIdAndObjectClassType(tagCloudArrayString,
+			className, objectId);
 	}
 
 	@Override

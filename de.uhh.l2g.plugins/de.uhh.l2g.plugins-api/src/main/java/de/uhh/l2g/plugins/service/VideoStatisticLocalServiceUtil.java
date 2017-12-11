@@ -211,6 +211,17 @@ public class VideoStatisticLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.VideoStatistic> getAllStatistics()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllStatistics();
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.VideoStatistic> getByCompanyIdAndGroupId(
+		long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCompanyIdAndGroupId(companyId, groupId);
+	}
+
 	/**
 	* Returns a range of all the video statistics.
 	*

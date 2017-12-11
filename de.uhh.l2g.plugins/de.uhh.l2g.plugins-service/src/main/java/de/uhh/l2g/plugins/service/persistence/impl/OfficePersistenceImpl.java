@@ -14,7 +14,14 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -32,21 +39,12 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
+import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.exception.NoSuchOfficeException;
 import de.uhh.l2g.plugins.model.Office;
 import de.uhh.l2g.plugins.model.impl.OfficeImpl;
 import de.uhh.l2g.plugins.model.impl.OfficeModelImpl;
 import de.uhh.l2g.plugins.service.persistence.OfficePersistence;
-
-import java.io.Serializable;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The persistence implementation for the office service.

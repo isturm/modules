@@ -41,6 +41,10 @@ public class LicenseLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.LicenseLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean deleteByVideoId(java.lang.Long videoId) {
+		return getService().deleteByVideoId(videoId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -114,6 +118,13 @@ public class LicenseLocalServiceUtil {
 
 	public static de.uhh.l2g.plugins.model.License fetchLicense(long licenseId) {
 		return getService().fetchLicense(licenseId);
+	}
+
+	public static de.uhh.l2g.plugins.model.License getByVideoId(
+		java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			de.uhh.l2g.plugins.exception.NoSuchLicenseException {
+		return getService().getByVideoId(videoId);
 	}
 
 	/**

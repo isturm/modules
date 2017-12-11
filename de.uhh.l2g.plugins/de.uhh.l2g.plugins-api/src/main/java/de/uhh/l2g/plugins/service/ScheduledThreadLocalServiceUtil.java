@@ -79,6 +79,16 @@ public class ScheduledThreadLocalServiceUtil {
 		return getService().addScheduledThread(scheduledThread);
 	}
 
+	public static de.uhh.l2g.plugins.model.ScheduledThread addScheduledThread(
+		java.lang.String schedulerClassName, java.lang.String cronText,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addScheduledThread(schedulerClassName, cronText,
+			serviceContext);
+	}
+
 	/**
 	* Creates a new scheduled thread with the primary key. Does not add the scheduled thread to the database.
 	*
@@ -143,6 +153,16 @@ public class ScheduledThreadLocalServiceUtil {
 		return getService().updateScheduledThread(scheduledThread);
 	}
 
+	public static de.uhh.l2g.plugins.model.ScheduledThread updateScheduledThread(
+		java.lang.String schedulerClassName, java.lang.String cronText,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateScheduledThread(schedulerClassName, cronText,
+			serviceContext);
+	}
+
 	/**
 	* Returns the number of scheduled threads.
 	*
@@ -150,6 +170,12 @@ public class ScheduledThreadLocalServiceUtil {
 	*/
 	public static int getScheduledThreadsCount() {
 		return getService().getScheduledThreadsCount();
+	}
+
+	public static java.lang.String getCronBySchedulerName(
+		java.lang.String schedulerClassName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getCronBySchedulerName(schedulerClassName);
 	}
 
 	/**

@@ -35,6 +35,17 @@ public class Producer_LectureseriesLocalServiceWrapper
 	}
 
 	@Override
+	public boolean producerAssignedToLectureseries(
+		de.uhh.l2g.plugins.model.Producer_Lectureseries pl) {
+		return _producer_LectureseriesLocalService.producerAssignedToLectureseries(pl);
+	}
+
+	@Override
+	public boolean removeByLectureseriesId(java.lang.Long lectureseriesId) {
+		return _producer_LectureseriesLocalService.removeByLectureseriesId(lectureseriesId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _producer_LectureseriesLocalService.getActionableDynamicQuery();
 	}

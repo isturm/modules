@@ -170,6 +170,16 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	}
 
 	@Override
+	public int getNumber() {
+		return _segment.getNumber();
+	}
+
+	@Override
+	public int getSeconds() {
+		return _segment.getSeconds();
+	}
+
+	@Override
 	public int hashCode() {
 		return _segment.hashCode();
 	}
@@ -202,6 +212,11 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	@Override
 	public java.lang.String getEnd() {
 		return _segment.getEnd();
+	}
+
+	@Override
+	public java.lang.String getImage() {
+		return _segment.getImage();
 	}
 
 	/**
@@ -242,6 +257,11 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _segment.toXmlString();
+	}
+
+	@Override
+	public long getPreviusSegmentId() {
+		return _segment.getPreviusSegmentId();
 	}
 
 	/**
@@ -341,8 +361,23 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	}
 
 	@Override
+	public void setImage(java.lang.String image) {
+		_segment.setImage(image);
+	}
+
+	@Override
 	public void setNew(boolean n) {
 		_segment.setNew(n);
+	}
+
+	@Override
+	public void setNumber(int number) {
+		_segment.setNumber(number);
+	}
+
+	@Override
+	public void setPreviusSegmentId(long previusSegmentId) {
+		_segment.setPreviusSegmentId(previusSegmentId);
 	}
 
 	/**
@@ -358,6 +393,11 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_segment.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	@Override
+	public void setSeconds(int seconds) {
+		_segment.setSeconds(seconds);
 	}
 
 	/**

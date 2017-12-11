@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,6 +14,8 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+
 import de.uhh.l2g.plugins.service.base.VideohitlistLocalServiceBaseImpl;
 
 /**
@@ -27,7 +29,7 @@ import de.uhh.l2g.plugins.service.base.VideohitlistLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see VideohitlistLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.VideohitlistLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.VideohitlistLocalServiceUtil
  */
 public class VideohitlistLocalServiceImpl
@@ -35,6 +37,15 @@ public class VideohitlistLocalServiceImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.VideohitlistLocalServiceUtil} to access the videohitlist local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.VideohitlistLocalServiceUtil} to access the videohitlist local service.
 	 */
+	
+	public void deleteByVideoId(Long videoId) throws SystemException{
+		videohitlistPersistence.removeByVideo(videoId);
+	}
+	
+	public void deleteAll() throws SystemException{
+		videohitlistPersistence.removeAll();
+	}
+	
 }

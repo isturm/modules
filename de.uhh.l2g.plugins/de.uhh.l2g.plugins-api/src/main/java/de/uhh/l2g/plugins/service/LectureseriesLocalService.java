@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
@@ -33,10 +34,13 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import de.uhh.l2g.plugins.model.Lectureseries;
+import de.uhh.l2g.plugins.model.Term;
+import de.uhh.l2g.plugins.model.Video;
 
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Lectureseries. Methods of this
@@ -120,6 +124,9 @@ public interface LectureseriesLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Lectureseries fetchLectureseries(long lectureseriesId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Lectureseries getByUSID(java.lang.String usid);
+
 	/**
 	* Returns the lectureseries with the primary key.
 	*
@@ -194,6 +201,40 @@ public interface LectureseriesLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getAll() throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getAllForVideo(Video video);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getAllLectureseriesWhithOpenaccessVideos();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getAllLectureseriesWhithPassword();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getByLatestVideoId(java.lang.Long latestVideoId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getByTerm(java.lang.Long termId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getFilteredByApprovedSemesterFacultyProducer(
+		java.lang.Integer approved, java.lang.Long semester,
+		java.lang.Long facultyId, java.lang.Long producerId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(
+		java.lang.Long institutionId, java.lang.Long parentInstitutionId,
+		java.lang.Long termId, java.lang.Long categoryId,
+		java.lang.Long creatorId, java.lang.String searchQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getLatest(int limit);
+
 	/**
 	* Returns a range of all the lectureserieses.
 	*
@@ -207,6 +248,11 @@ public interface LectureseriesLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Lectureseries> getLectureserieses(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<Term, List<Lectureseries>> getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(
+		java.lang.Integer approved, java.lang.Long semester,
+		java.lang.Long facultyId, java.lang.Long producerId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.
@@ -225,4 +271,16 @@ public interface LectureseriesLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void updateCategoryForLectureseries(java.lang.Long lectureseriesId,
+		java.lang.Long newCategoryId)
+		throws NoSuchModelException, SystemException;
+
+	public void updateOpenAccess(Video video, Lectureseries lectureseries)
+		throws SystemException;
+
+	public void updatePreviewVideoOpenAccess(Lectureseries lectureseries)
+		throws SystemException;
+
+	public void updateUploadAndGenerationDate() throws SystemException;
 }

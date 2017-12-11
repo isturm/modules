@@ -41,6 +41,14 @@ public class Video_InstitutionLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.Video_InstitutionLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean removeByInstitutionId(java.lang.Long institutionId) {
+		return getService().removeByInstitutionId(institutionId);
+	}
+
+	public static boolean removeByVideoId(java.lang.Long videoId) {
+		return getService().removeByVideoId(videoId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -209,6 +217,21 @@ public class Video_InstitutionLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Institution> getByInstitution(
+		java.lang.Long institutionId) {
+		return getService().getByInstitution(institutionId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Institution> getByVideo(
+		java.lang.Long videoId) {
+		return getService().getByVideo(videoId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Institution> getByVideoAndInstitution(
+		java.lang.Long videoId, java.lang.Long institutionId) {
+		return getService().getByVideoAndInstitution(videoId, institutionId);
 	}
 
 	/**

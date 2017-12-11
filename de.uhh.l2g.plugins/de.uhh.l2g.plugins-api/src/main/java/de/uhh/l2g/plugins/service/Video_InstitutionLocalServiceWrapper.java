@@ -35,6 +35,16 @@ public class Video_InstitutionLocalServiceWrapper
 	}
 
 	@Override
+	public boolean removeByInstitutionId(java.lang.Long institutionId) {
+		return _video_InstitutionLocalService.removeByInstitutionId(institutionId);
+	}
+
+	@Override
+	public boolean removeByVideoId(java.lang.Long videoId) {
+		return _video_InstitutionLocalService.removeByVideoId(videoId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _video_InstitutionLocalService.getActionableDynamicQuery();
 	}
@@ -220,6 +230,25 @@ public class Video_InstitutionLocalServiceWrapper
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _video_InstitutionLocalService.dynamicQuery(dynamicQuery, start,
 			end, orderByComparator);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Institution> getByInstitution(
+		java.lang.Long institutionId) {
+		return _video_InstitutionLocalService.getByInstitution(institutionId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Institution> getByVideo(
+		java.lang.Long videoId) {
+		return _video_InstitutionLocalService.getByVideo(videoId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video_Institution> getByVideoAndInstitution(
+		java.lang.Long videoId, java.lang.Long institutionId) {
+		return _video_InstitutionLocalService.getByVideoAndInstitution(videoId,
+			institutionId);
 	}
 
 	/**

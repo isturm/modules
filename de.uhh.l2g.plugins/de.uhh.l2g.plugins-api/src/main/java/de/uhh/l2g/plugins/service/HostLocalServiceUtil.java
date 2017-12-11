@@ -69,6 +69,16 @@ public class HostLocalServiceUtil {
 	}
 
 	/**
+	* Special handling for default entries (no update)
+	*/
+	public static de.uhh.l2g.plugins.model.Host addDefaultHost(
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().addDefaultHost(serviceContext);
+	}
+
+	/**
 	* Adds the host to the database. Also notifies the appropriate model listeners.
 	*
 	* @param host the host
@@ -77,6 +87,15 @@ public class HostLocalServiceUtil {
 	public static de.uhh.l2g.plugins.model.Host addHost(
 		de.uhh.l2g.plugins.model.Host host) {
 		return getService().addHost(host);
+	}
+
+	public static de.uhh.l2g.plugins.model.Host addHost(java.lang.String name,
+		java.lang.String streamLocation, java.lang.String protocol, int port,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addHost(name, streamLocation, protocol, port, serviceContext);
 	}
 
 	/**
@@ -112,8 +131,43 @@ public class HostLocalServiceUtil {
 		return getService().deleteHost(hostId);
 	}
 
+	/**
+	* Removes database record of Host
+	*
+	* This will not remove Folder on Filesystem, Folder will not be reused
+	*/
+	public static de.uhh.l2g.plugins.model.Host deleteHost(long hostId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteHost(hostId, serviceContext);
+	}
+
 	public static de.uhh.l2g.plugins.model.Host fetchHost(long hostId) {
 		return getService().fetchHost(hostId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Host getByDefault(long companyId,
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByDefault(companyId, groupId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Host getByGroupIdAndHostId(
+		long groupId, long hostId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupIdAndHostId(groupId, hostId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Host getByHostId(long hostId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByHostId(hostId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Host getByInstitution(
+		long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByInstitution(institutionId);
 	}
 
 	/**
@@ -139,6 +193,22 @@ public class HostLocalServiceUtil {
 		return getService().updateHost(host);
 	}
 
+	public static de.uhh.l2g.plugins.model.Host updateHost(long hostId,
+		java.lang.String name, java.lang.String streamLocation,
+		java.lang.String protocol, int port,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateHost(hostId, name, streamLocation, protocol, port,
+			serviceContext);
+	}
+
+	public static int getByGroupIdCount(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupIdCount(groupId);
+	}
+
 	/**
 	* Returns the number of hosts.
 	*
@@ -146,6 +216,14 @@ public class HostLocalServiceUtil {
 	*/
 	public static int getHostsCount() {
 		return getService().getHostsCount();
+	}
+
+	/**
+	* Host is locked if it is linked to an institution
+	*/
+	public static int getLockingElements(long groupId, long hostId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getLockingElements(groupId, hostId);
 	}
 
 	/**
@@ -207,6 +285,24 @@ public class HostLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Host> getByCompanyIdAndGroupId(
+		long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCompanyIdAndGroupId(companyId, groupId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Host> getByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupId(groupId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Host> getByGroupId(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByGroupId(groupId, start, end);
+	}
+
 	/**
 	* Returns a range of all the hosts.
 	*
@@ -245,6 +341,11 @@ public class HostLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static long getDefaultHostId(long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getDefaultHostId(companyId, groupId);
 	}
 
 	public static HostLocalService getService() {

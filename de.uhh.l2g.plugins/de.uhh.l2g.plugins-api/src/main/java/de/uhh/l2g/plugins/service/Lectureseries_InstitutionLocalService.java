@@ -60,6 +60,13 @@ public interface Lectureseries_InstitutionLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link Lectureseries_InstitutionLocalServiceUtil} to access the lectureseries_ institution local service. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.Lectureseries_InstitutionLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean institutionAssignedToLectureseries(
+		Lectureseries_Institution lf);
+
+	public boolean removeByLectureseriesId(java.lang.Long lectureseriesId);
+
+	public boolean removeByacilityId(java.lang.Long institutionId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -123,6 +130,9 @@ public interface Lectureseries_InstitutionLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Lectureseries_Institution fetchLectureseries_Institution(
 		long lectureseriesInstitutionId);
+
+	public Lectureseries_Institution findFirstByLectureseriesIdAndInstitutionId(
+		long lectureseriesId, long institutionId) throws SystemException;
 
 	/**
 	* Returns the lectureseries_ institution with the primary key.
@@ -198,6 +208,10 @@ public interface Lectureseries_InstitutionLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries_Institution> getByLectureseries(
+		long lectureseriesId) throws SystemException;
 
 	/**
 	* Returns a range of all the lectureseries_ institutions.

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,8 +14,6 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * The extended model implementation for the Metadata service. Represents a row in the &quot;LG_Metadata&quot; database table, with each column mapped to a property of this class.
  *
@@ -25,7 +23,6 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Iavor Sturm
  */
-@ProviderType
 public class MetadataImpl extends MetadataBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -33,5 +30,12 @@ public class MetadataImpl extends MetadataBaseImpl {
 	 * Never reference this class directly. All methods that expect a metadata model instance should use the {@link de.uhh.l2g.plugins.model.Metadata} interface instead.
 	 */
 	public MetadataImpl() {
+	}
+	
+	
+	
+	@Override
+	public String getDescription() {
+		return super.getDescription().replaceAll("(style|class)=\"[^\"]*\"", "");
 	}
 }

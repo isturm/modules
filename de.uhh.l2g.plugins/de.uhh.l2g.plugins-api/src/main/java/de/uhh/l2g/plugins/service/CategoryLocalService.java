@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
@@ -36,6 +37,7 @@ import de.uhh.l2g.plugins.model.Category;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,6 +121,10 @@ public interface CategoryLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Category fetchCategory(long categoryId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Category getById(java.lang.Long categoryId)
+		throws NoSuchModelException, SystemException;
+
 	/**
 	* Returns the category with the primary key.
 	*
@@ -192,6 +198,14 @@ public interface CategoryLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Category> getAllCategories(int begin, int end)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Category> getByName(java.lang.String name)
+		throws SystemException;
+
 	/**
 	* Returns a range of all the categories.
 	*
@@ -205,6 +219,11 @@ public interface CategoryLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Category> getCategories(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Category> getCategoriesFromLectureseriesIdsAndVideoIds(
+		ArrayList<java.lang.Long> lectureseriesIds,
+		ArrayList<java.lang.Long> videoIds);
 
 	/**
 	* Returns the number of rows matching the dynamic query.
@@ -223,4 +242,7 @@ public interface CategoryLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void deleteById(java.lang.Long id)
+		throws NoSuchModelException, SystemException;
 }

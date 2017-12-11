@@ -15,7 +15,6 @@
 package de.uhh.l2g.plugins.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
-
 import de.uhh.l2g.plugins.model.Tagcloud;
 import de.uhh.l2g.plugins.service.TagcloudLocalServiceUtil;
 

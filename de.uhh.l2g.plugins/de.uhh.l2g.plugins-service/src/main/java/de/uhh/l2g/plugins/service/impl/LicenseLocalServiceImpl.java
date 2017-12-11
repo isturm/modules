@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,7 +14,12 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+
+import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
+import de.uhh.l2g.plugins.model.License;
 import de.uhh.l2g.plugins.service.base.LicenseLocalServiceBaseImpl;
+import de.uhh.l2g.plugins.service.persistence.LicenseUtil;
 
 /**
  * The implementation of the license local service.
@@ -27,13 +32,31 @@ import de.uhh.l2g.plugins.service.base.LicenseLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see LicenseLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.LicenseLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.LicenseLocalServiceUtil
  */
 public class LicenseLocalServiceImpl extends LicenseLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.LicenseLocalServiceUtil} to access the license local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.LicenseLocalServiceUtil} to access the license local service.
 	 */
+	
+	public de.uhh.l2g.plugins.model.License getByVideoId(Long videoId) throws NoSuchLicenseException, SystemException{
+		License l = licensePersistence.findByVideo(videoId);
+		return l;
+	}
+	
+	public boolean deleteByVideoId(Long videoId) {
+		boolean ret = false;
+		try {
+			LicenseUtil.removeByVideo(videoId);
+		} catch (SystemException e) {
+			ret = true;
+			e.printStackTrace();
+		} catch (NoSuchLicenseException e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
 }

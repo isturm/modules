@@ -32,7 +32,12 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import de.uhh.l2g.plugins.exception.NoSuchVideoException;
+import de.uhh.l2g.plugins.model.Host;
+import de.uhh.l2g.plugins.model.Producer;
 import de.uhh.l2g.plugins.model.Video;
+
+import org.json.JSONArray;
 
 import java.io.Serializable;
 
@@ -119,6 +124,17 @@ public interface VideoLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Video fetchVideo(long videoId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Video getBySecureUrl(java.lang.String surl)
+		throws SystemException, NoSuchVideoException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Video getFullVideo(java.lang.Long videoId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Video getLatestOpenAccessVideoForLectureseries(
+		java.lang.Long lectureseriesId);
+
 	/**
 	* Returns the video with the primary key.
 	*
@@ -145,6 +161,12 @@ public interface VideoLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getVideosCount();
+
+	public int unlinkLectureseriesFromVideos(java.lang.Long lectureseriesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.Long getLatestClosedAccessVideoId(
+		java.lang.Long lectureseriesId);
 
 	/**
 	* Returns the OSGi service identifier.
@@ -192,6 +214,73 @@ public interface VideoLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getAll() throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByAllSearchWords() throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByFilename(java.lang.String filename)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByHits();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByHits(java.lang.Long hits);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByHitsAndOpenAccess(java.lang.Long hits);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByLectureseries(java.lang.Long lectureseriesId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByLectureseriesAndOpenaccess(
+		java.lang.Long lectureseriesId, int openAccess)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByOpenAccess(int bool) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByProducer(java.lang.Long producerId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByProducerAndDownloadLink(java.lang.Long producerId,
+		int downloadLink) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByProducerAndLectureseries(
+		java.lang.Long producerId, java.lang.Long lectureseriesId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByRootInstitution(java.lang.Long rootInstitutionId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getBySearchWord(java.lang.String word, int limit)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getBySearchWordAndLectureseriesId(
+		java.lang.String word, java.lang.Long lectureseriesId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByTerm(java.lang.Long termId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getLatestVideos();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getPopular(int limit);
+
 	/**
 	* Returns a range of all the videos.
 	*
@@ -223,4 +312,29 @@ public interface VideoLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getJSONVideo(java.lang.Long videoId);
+
+	/**
+	* required properties for jwplayer in portal-ext.properties file
+	*
+	* [host]=configured host in database (automatically e.g. streaming.server.com)
+	* [ext]=file extension (automatically e.g mp3)
+	* [l2go_path]=generated lecture2go file path (automatically e.g. 3l2gproducer1)
+	* [filename]=video file name (automatically e.g 00.000_video_2015-06-08_08-06.mp4)
+	* [protocol]=host protocol (automatically e.g rtmpt)
+	* [port]=host port (automatically e.g 80)
+	* [smilfile]=adaptive streaming file
+	*
+	* example for lecture2go configuration
+	* lecture2go.uri1.player.template=https://[host]/vod/_definst/smil:[l2go_path]/[smilfile]/playlist.m3u8
+	* lecture2go.uri2.player.template=https://[host]/vod/_definst/[ext]:[l2go_path]/[filename]/playlist.m3u8
+	* lecture2go.uri3.player.template=rtmpt://[host]/vod/_definst/[ext]:[l2go_path]/[filename]
+	* lecture2go.uri4.player.template=${lecture2go.downloadserver.web.root}/abo/[filename]
+	* lecture2go.uri5.player.template=rtsp://[host]:[port]/vod/_definst/[ext]:[l2go_path]/[filename]
+	*/
+	public void addPlayerUris2Video(Host host, Video video, Producer producer);
+
+	public void createLastVideoList() throws SystemException;
 }

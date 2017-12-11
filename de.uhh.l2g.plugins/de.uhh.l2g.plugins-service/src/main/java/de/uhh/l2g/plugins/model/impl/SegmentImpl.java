@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -14,8 +14,6 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * The extended model implementation for the Segment service. Represents a row in the &quot;LG_Segment&quot; database table, with each column mapped to a property of this class.
  *
@@ -25,13 +23,55 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Iavor Sturm
  */
-@ProviderType
+@SuppressWarnings("serial")
 public class SegmentImpl extends SegmentBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a segment model instance should use the {@link de.uhh.l2g.plugins.model.Segment} interface instead.
 	 */
+
+	private long previusSegmentId;
+	
+	public long getPreviusSegmentId() {
+		return previusSegmentId;
+	}
+
+	public void setPreviusSegmentId(long previusSegmentId) {
+		this.previusSegmentId = previusSegmentId;
+	}
+
+	private int seconds;
+	
+	private int number;
+	
+	public int getSeconds() {
+		return seconds;
+	}
+
+	public void setSeconds(int seconds) {
+		this.seconds = seconds;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	private String image;
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public SegmentImpl() {
 	}
+
 }

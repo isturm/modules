@@ -14,7 +14,15 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -35,22 +43,12 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
+import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.exception.NoSuchVideoStatisticException;
 import de.uhh.l2g.plugins.model.VideoStatistic;
 import de.uhh.l2g.plugins.model.impl.VideoStatisticImpl;
 import de.uhh.l2g.plugins.model.impl.VideoStatisticModelImpl;
 import de.uhh.l2g.plugins.service.persistence.VideoStatisticPersistence;
-
-import java.io.Serializable;
-
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The persistence implementation for the video statistic service.

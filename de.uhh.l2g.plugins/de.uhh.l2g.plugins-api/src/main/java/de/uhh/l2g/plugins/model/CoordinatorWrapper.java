@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -141,6 +142,21 @@ public class CoordinatorWrapper implements Coordinator,
 	}
 
 	@Override
+	public java.lang.String getEmailAddress() {
+		return _coordinator.getEmailAddress();
+	}
+
+	@Override
+	public java.lang.String getFirstName() {
+		return _coordinator.getFirstName();
+	}
+
+	@Override
+	public java.lang.String getLastName() {
+		return _coordinator.getLastName();
+	}
+
+	@Override
 	public java.lang.String toString() {
 		return _coordinator.toString();
 	}
@@ -148,6 +164,11 @@ public class CoordinatorWrapper implements Coordinator,
 	@Override
 	public java.lang.String toXmlString() {
 		return _coordinator.toXmlString();
+	}
+
+	@Override
+	public Date getLastLoginDate() {
+		return _coordinator.getLastLoginDate();
 	}
 
 	/**
@@ -211,6 +232,11 @@ public class CoordinatorWrapper implements Coordinator,
 	}
 
 	@Override
+	public void setEmailAddress(java.lang.String emailAddress) {
+		_coordinator.setEmailAddress(emailAddress);
+	}
+
+	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_coordinator.setExpandoBridgeAttributes(expandoBridge);
 	}
@@ -226,6 +252,11 @@ public class CoordinatorWrapper implements Coordinator,
 		_coordinator.setExpandoBridgeAttributes(serviceContext);
 	}
 
+	@Override
+	public void setFirstName(java.lang.String firstName) {
+		_coordinator.setFirstName(firstName);
+	}
+
 	/**
 	* Sets the institution ID of this coordinator.
 	*
@@ -234,6 +265,16 @@ public class CoordinatorWrapper implements Coordinator,
 	@Override
 	public void setInstitutionId(long institutionId) {
 		_coordinator.setInstitutionId(institutionId);
+	}
+
+	@Override
+	public void setLastLoginDate(Date lastLoginDate) {
+		_coordinator.setLastLoginDate(lastLoginDate);
+	}
+
+	@Override
+	public void setLastName(java.lang.String lastName) {
+		_coordinator.setLastName(lastName);
 	}
 
 	@Override

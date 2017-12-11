@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.model.Video_Lectureseries;
 
 import java.io.Serializable;
@@ -60,6 +61,10 @@ public interface Video_LectureseriesLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link Video_LectureseriesLocalServiceUtil} to access the video_ lectureseries local service. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.Video_LectureseriesLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean removeByLectureseriesId(java.lang.Long lectureseriesId);
+
+	public boolean removeByVideoId(java.lang.Long videoId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -153,6 +158,15 @@ public interface Video_LectureseriesLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getVideo_LectureseriesesCount();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.Integer getNumberOfVideosByLectureseries(
+		java.lang.Long lectureseriesId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.Integer getNumberOfVideosByLectureseriesAndOpenAccess(
+		java.lang.Long lectureseriesId, int isOpenAccess)
+		throws SystemException;
+
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -199,6 +213,19 @@ public interface Video_LectureseriesLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Lectureseries> getByLectureseries(
+		java.lang.Long lectureseriesId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Lectureseries> getByLectureseriesAndOpenAccess(
+		java.lang.Long lectureseriesId, int isOpenAccess)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video_Lectureseries> getByVideo(java.lang.Long videoId)
+		throws SystemException;
+
 	/**
 	* Returns a range of all the video_ lectureserieses.
 	*
@@ -212,6 +239,9 @@ public interface Video_LectureseriesLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Video_Lectureseries> getVideo_Lectureserieses(int start, int end);
+
+	public List<Video_Lectureseries> updateOpenAccessByVideo(Video video)
+		throws SystemException;
 
 	/**
 	* Returns the number of rows matching the dynamic query.

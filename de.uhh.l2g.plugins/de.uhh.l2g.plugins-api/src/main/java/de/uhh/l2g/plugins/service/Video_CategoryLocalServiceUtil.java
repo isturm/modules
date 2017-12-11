@@ -211,6 +211,18 @@ public class Video_CategoryLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Category> getByCategory(
+		java.lang.Long categoryId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCategory(categoryId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Video_Category> getByVideo(
+		java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByVideo(videoId);
+	}
+
 	/**
 	* Returns a range of all the video_ categories.
 	*
@@ -249,6 +261,18 @@ public class Video_CategoryLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static void removeByVideo(java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().removeByVideo(videoId);
+	}
+
+	public static void updateCategoryByVideoAndCategory(
+		java.lang.Long videoId, java.lang.Long categoryId,
+		java.lang.Long newCategoryId) {
+		getService()
+			.updateCategoryByVideoAndCategory(videoId, categoryId, newCategoryId);
 	}
 
 	public static Video_CategoryLocalService getService() {

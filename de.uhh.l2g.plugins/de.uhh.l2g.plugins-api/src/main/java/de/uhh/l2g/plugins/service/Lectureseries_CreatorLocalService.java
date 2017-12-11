@@ -199,6 +199,23 @@ public interface Lectureseries_CreatorLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries_Creator> getByCreator(java.lang.Long creatorId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries_Creator> getByCreatorId(java.lang.Long creatorId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries_Creator> getByLectureseriesId(
+		java.lang.Long lectureseriesId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries_Creator> getByLectureseriesIdAndCreatorId(
+		java.lang.Long lectureseriesId, java.lang.Long creatorId)
+		throws SystemException;
+
 	/**
 	* Returns a range of all the lectureseries_ creators.
 	*
@@ -231,4 +248,7 @@ public interface Lectureseries_CreatorLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void removeByLectureseriesId(java.lang.Long lectureseriesId)
+		throws SystemException;
 }

@@ -194,6 +194,13 @@ public interface VideoStatisticLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<VideoStatistic> getAllStatistics() throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<VideoStatistic> getByCompanyIdAndGroupId(long companyId,
+		long groupId) throws SystemException;
+
 	/**
 	* Returns a range of all the video statistics.
 	*

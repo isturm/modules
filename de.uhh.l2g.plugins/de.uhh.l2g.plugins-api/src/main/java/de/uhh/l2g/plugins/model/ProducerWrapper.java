@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -177,6 +178,16 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 		return new ProducerWrapper((Producer)_producer.clone());
 	}
 
+	@Override
+	public java.lang.String getEmailAddress() {
+		return _producer.getEmailAddress();
+	}
+
+	@Override
+	public java.lang.String getFirstName() {
+		return _producer.getFirstName();
+	}
+
 	/**
 	* Returns the home dir of this producer.
 	*
@@ -198,6 +209,11 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	}
 
 	@Override
+	public java.lang.String getLastName() {
+		return _producer.getLastName();
+	}
+
+	@Override
 	public java.lang.String toString() {
 		return _producer.toString();
 	}
@@ -205,6 +221,11 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _producer.toXmlString();
+	}
+
+	@Override
+	public Date getLastLoginDate() {
+		return _producer.getLastLoginDate();
 	}
 
 	/**
@@ -278,6 +299,11 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	}
 
 	@Override
+	public void setEmailAddress(java.lang.String emailAddress) {
+		_producer.setEmailAddress(emailAddress);
+	}
+
+	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_producer.setExpandoBridgeAttributes(expandoBridge);
 	}
@@ -291,6 +317,11 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_producer.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	@Override
+	public void setFirstName(java.lang.String firstName) {
+		_producer.setFirstName(firstName);
 	}
 
 	/**
@@ -331,6 +362,16 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	@Override
 	public void setInstitutionId(long institutionId) {
 		_producer.setInstitutionId(institutionId);
+	}
+
+	@Override
+	public void setLastLoginDate(Date lastLoginDate) {
+		_producer.setLastLoginDate(lastLoginDate);
+	}
+
+	@Override
+	public void setLastName(java.lang.String lastName) {
+		_producer.setLastName(lastName);
 	}
 
 	@Override

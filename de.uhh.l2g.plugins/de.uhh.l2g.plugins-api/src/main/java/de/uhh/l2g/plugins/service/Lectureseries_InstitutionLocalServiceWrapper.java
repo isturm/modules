@@ -35,6 +35,22 @@ public class Lectureseries_InstitutionLocalServiceWrapper
 	}
 
 	@Override
+	public boolean institutionAssignedToLectureseries(
+		de.uhh.l2g.plugins.model.Lectureseries_Institution lf) {
+		return _lectureseries_InstitutionLocalService.institutionAssignedToLectureseries(lf);
+	}
+
+	@Override
+	public boolean removeByLectureseriesId(java.lang.Long lectureseriesId) {
+		return _lectureseries_InstitutionLocalService.removeByLectureseriesId(lectureseriesId);
+	}
+
+	@Override
+	public boolean removeByacilityId(java.lang.Long institutionId) {
+		return _lectureseries_InstitutionLocalService.removeByacilityId(institutionId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _lectureseries_InstitutionLocalService.getActionableDynamicQuery();
 	}
@@ -120,6 +136,14 @@ public class Lectureseries_InstitutionLocalServiceWrapper
 	public de.uhh.l2g.plugins.model.Lectureseries_Institution fetchLectureseries_Institution(
 		long lectureseriesInstitutionId) {
 		return _lectureseries_InstitutionLocalService.fetchLectureseries_Institution(lectureseriesInstitutionId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Lectureseries_Institution findFirstByLectureseriesIdAndInstitutionId(
+		long lectureseriesId, long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _lectureseries_InstitutionLocalService.findFirstByLectureseriesIdAndInstitutionId(lectureseriesId,
+			institutionId);
 	}
 
 	/**
@@ -220,6 +244,13 @@ public class Lectureseries_InstitutionLocalServiceWrapper
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _lectureseries_InstitutionLocalService.dynamicQuery(dynamicQuery,
 			start, end, orderByComparator);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries_Institution> getByLectureseries(
+		long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _lectureseries_InstitutionLocalService.getByLectureseries(lectureseriesId);
 	}
 
 	/**

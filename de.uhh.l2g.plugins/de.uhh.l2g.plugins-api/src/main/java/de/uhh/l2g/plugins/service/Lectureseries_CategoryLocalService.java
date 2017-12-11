@@ -231,4 +231,8 @@ public interface Lectureseries_CategoryLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void updateCategoryByLectureseriesAndCategory(
+		java.lang.Long lectureseriesId, java.lang.Long categoryId,
+		java.lang.Long newCategoryId);
 }

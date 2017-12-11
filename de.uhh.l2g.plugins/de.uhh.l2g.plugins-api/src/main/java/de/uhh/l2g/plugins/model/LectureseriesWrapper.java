@@ -245,6 +245,16 @@ public class LectureseriesWrapper implements Lectureseries,
 		return _lectureseries.getApproved();
 	}
 
+	@Override
+	public int getNumberOfOpenAccessVideos() {
+		return _lectureseries.getNumberOfOpenAccessVideos();
+	}
+
+	@Override
+	public int getNumberOfVideos() {
+		return _lectureseries.getNumberOfVideos();
+	}
+
 	/**
 	* Returns the video sort of this lectureseries.
 	*
@@ -268,6 +278,11 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public java.lang.Object clone() {
 		return new LectureseriesWrapper((Lectureseries)_lectureseries.clone());
+	}
+
+	@Override
+	public java.lang.String getClosedAccessURI() {
+		return _lectureseries.getClosedAccessURI();
 	}
 
 	/**
@@ -340,6 +355,11 @@ public class LectureseriesWrapper implements Lectureseries,
 		return _lectureseries.getNumber();
 	}
 
+	@Override
+	public java.lang.String getOpenAccessURI() {
+		return _lectureseries.getOpenAccessURI();
+	}
+
 	/**
 	* Returns the password of this lectureseries.
 	*
@@ -358,6 +378,11 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public java.lang.String getShortDesc() {
 		return _lectureseries.getShortDesc();
+	}
+
+	@Override
+	public java.lang.String getType() {
+		return _lectureseries.getType();
 	}
 
 	/**
@@ -602,6 +627,16 @@ public class LectureseriesWrapper implements Lectureseries,
 		_lectureseries.setNumber(number);
 	}
 
+	@Override
+	public void setNumberOfOpenAccessVideos(int numberOfOpenAccessVideos) {
+		_lectureseries.setNumberOfOpenAccessVideos(numberOfOpenAccessVideos);
+	}
+
+	@Override
+	public void setNumberOfVideos(int numberOfVideos) {
+		_lectureseries.setNumberOfVideos(numberOfVideos);
+	}
+
 	/**
 	* Sets the password of this lectureseries.
 	*
@@ -655,6 +690,11 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public void setTermId(long termId) {
 		_lectureseries.setTermId(termId);
+	}
+
+	@Override
+	public void setType(java.lang.String type) {
+		_lectureseries.setType(type);
 	}
 
 	/**

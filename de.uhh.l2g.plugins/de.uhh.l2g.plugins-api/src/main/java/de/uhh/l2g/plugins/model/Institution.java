@@ -53,4 +53,8 @@ public interface Institution extends InstitutionModel, PersistedModel {
 				return Institution.class;
 			}
 		};
+
+	public java.lang.String getPath();
+
+	public void setPath(java.lang.String path);
 }

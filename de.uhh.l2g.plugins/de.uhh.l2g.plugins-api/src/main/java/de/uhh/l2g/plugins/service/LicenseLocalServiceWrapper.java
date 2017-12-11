@@ -33,6 +33,11 @@ public class LicenseLocalServiceWrapper implements LicenseLocalService,
 	}
 
 	@Override
+	public boolean deleteByVideoId(java.lang.Long videoId) {
+		return _licenseLocalService.deleteByVideoId(videoId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _licenseLocalService.getActionableDynamicQuery();
 	}
@@ -115,6 +120,13 @@ public class LicenseLocalServiceWrapper implements LicenseLocalService,
 	@Override
 	public de.uhh.l2g.plugins.model.License fetchLicense(long licenseId) {
 		return _licenseLocalService.fetchLicense(licenseId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.License getByVideoId(java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			de.uhh.l2g.plugins.exception.NoSuchLicenseException {
+		return _licenseLocalService.getByVideoId(videoId);
 	}
 
 	/**

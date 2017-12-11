@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
@@ -34,8 +35,11 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import de.uhh.l2g.plugins.model.Creator;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -146,6 +150,22 @@ public interface CreatorLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCreatorsCount();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getCommaSeparatedCreatorsByLectureseriesIdAndMaxCreators(
+		java.lang.Long lectureseriesId, int maxCreators);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getCommaSeparatedCreatorsByVideoIdAndMaxCreators(
+		java.lang.Long videoId, int maxCreators);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getCommaSeparatedLinkedCreatorsByLectureseriesIdAndMaxCreators(
+		java.lang.Long lectureseriesId, int maxCreators);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.lang.String getCommaSeparatedLinkedCreatorsByVideoIdAndMaxCreators(
+		java.lang.Long videoId, int maxCreators);
+
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -192,6 +212,13 @@ public interface CreatorLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getAllCreators() throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getByFullName(java.lang.String fullName)
+		throws SystemException;
+
 	/**
 	* Returns a range of all the creators.
 	*
@@ -205,6 +232,29 @@ public interface CreatorLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Creator> getCreators(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getCreatorsByLectureseriesId(
+		java.lang.Long lectureseriesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getCreatorsByLectureseriesIdForOpenAccessVideosOnly(
+		java.lang.Long lectureseriesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getCreatorsByVideoId(java.lang.Long videoId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getCreatorsForLectureseriesOverTheAssigenedVideos(
+		java.lang.Long lectureseriesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getCreatorsFromLectureseriesIdsAndVideoIds(
+		ArrayList<java.lang.Long> lectureseriesIds,
+		ArrayList<java.lang.Long> videoIds);
+
+	public List<Creator> updateCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId(
+		java.lang.Long lectureseriesId) throws SystemException;
 
 	/**
 	* Returns the number of rows matching the dynamic query.
@@ -223,4 +273,18 @@ public interface CreatorLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getJSONCreator(java.lang.Long creatorId)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getJSONCreatorsByLectureseriesId(
+		java.lang.Long lectureseriesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getJSONCreatorsByVideoId(java.lang.Long videoId);
+
+	public void deleteById(java.lang.Long id)
+		throws NoSuchModelException, SystemException;
 }

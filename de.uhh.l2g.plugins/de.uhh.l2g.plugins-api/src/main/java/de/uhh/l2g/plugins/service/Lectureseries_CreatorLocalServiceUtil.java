@@ -211,6 +211,31 @@ public class Lectureseries_CreatorLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries_Creator> getByCreator(
+		java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCreator(creatorId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries_Creator> getByCreatorId(
+		java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCreatorId(creatorId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries_Creator> getByLectureseriesId(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByLectureseriesId(lectureseriesId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries_Creator> getByLectureseriesIdAndCreatorId(
+		java.lang.Long lectureseriesId, java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getByLectureseriesIdAndCreatorId(lectureseriesId, creatorId);
+	}
+
 	/**
 	* Returns a range of all the lectureseries_ creators.
 	*
@@ -249,6 +274,11 @@ public class Lectureseries_CreatorLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static void removeByLectureseriesId(java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().removeByLectureseriesId(lectureseriesId);
 	}
 
 	public static Lectureseries_CreatorLocalService getService() {

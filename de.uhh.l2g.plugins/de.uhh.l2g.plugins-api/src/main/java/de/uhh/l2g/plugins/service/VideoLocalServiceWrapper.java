@@ -117,6 +117,24 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 		return _videoLocalService.fetchVideo(videoId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Video getBySecureUrl(java.lang.String surl)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			de.uhh.l2g.plugins.exception.NoSuchVideoException {
+		return _videoLocalService.getBySecureUrl(surl);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Video getFullVideo(java.lang.Long videoId) {
+		return _videoLocalService.getFullVideo(videoId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Video getLatestOpenAccessVideoForLectureseries(
+		java.lang.Long lectureseriesId) {
+		return _videoLocalService.getLatestOpenAccessVideoForLectureseries(lectureseriesId);
+	}
+
 	/**
 	* Returns the video with the primary key.
 	*
@@ -150,6 +168,17 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 	@Override
 	public int getVideosCount() {
 		return _videoLocalService.getVideosCount();
+	}
+
+	@Override
+	public int unlinkLectureseriesFromVideos(java.lang.Long lectureseriesId) {
+		return _videoLocalService.unlinkLectureseriesFromVideos(lectureseriesId);
+	}
+
+	@Override
+	public java.lang.Long getLatestClosedAccessVideoId(
+		java.lang.Long lectureseriesId) {
+		return _videoLocalService.getLatestClosedAccessVideoId(lectureseriesId);
 	}
 
 	/**
@@ -215,6 +244,125 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 			orderByComparator);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getAll()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getAll();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByAllSearchWords()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByAllSearchWords();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByFilename(
+		java.lang.String filename)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByFilename(filename);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByHits() {
+		return _videoLocalService.getByHits();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByHits(
+		java.lang.Long hits) {
+		return _videoLocalService.getByHits(hits);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByHitsAndOpenAccess(
+		java.lang.Long hits) {
+		return _videoLocalService.getByHitsAndOpenAccess(hits);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByLectureseries(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByLectureseries(lectureseriesId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByLectureseriesAndOpenaccess(
+		java.lang.Long lectureseriesId, int openAccess)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByLectureseriesAndOpenaccess(lectureseriesId,
+			openAccess);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByOpenAccess(
+		int bool) throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByOpenAccess(bool);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByProducer(
+		java.lang.Long producerId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByProducer(producerId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByProducerAndDownloadLink(
+		java.lang.Long producerId, int downloadLink)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByProducerAndDownloadLink(producerId,
+			downloadLink);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByProducerAndLectureseries(
+		java.lang.Long producerId, java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByProducerAndLectureseries(producerId,
+			lectureseriesId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByRootInstitution(
+		java.lang.Long rootInstitutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByRootInstitution(rootInstitutionId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getBySearchWord(
+		java.lang.String word, int limit)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getBySearchWord(word, limit);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getBySearchWordAndLectureseriesId(
+		java.lang.String word, java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getBySearchWordAndLectureseriesId(word,
+			lectureseriesId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByTerm(
+		java.lang.Long termId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByTerm(termId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getLatestVideos() {
+		return _videoLocalService.getLatestVideos();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getPopular(int limit) {
+		return _videoLocalService.getPopular(limit);
+	}
+
 	/**
 	* Returns a range of all the videos.
 	*
@@ -256,6 +404,42 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _videoLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	@Override
+	public org.json.JSONArray getJSONVideo(java.lang.Long videoId) {
+		return _videoLocalService.getJSONVideo(videoId);
+	}
+
+	/**
+	* required properties for jwplayer in portal-ext.properties file
+	*
+	* [host]=configured host in database (automatically e.g. streaming.server.com)
+	* [ext]=file extension (automatically e.g mp3)
+	* [l2go_path]=generated lecture2go file path (automatically e.g. 3l2gproducer1)
+	* [filename]=video file name (automatically e.g 00.000_video_2015-06-08_08-06.mp4)
+	* [protocol]=host protocol (automatically e.g rtmpt)
+	* [port]=host port (automatically e.g 80)
+	* [smilfile]=adaptive streaming file
+	*
+	* example for lecture2go configuration
+	* lecture2go.uri1.player.template=https://[host]/vod/_definst/smil:[l2go_path]/[smilfile]/playlist.m3u8
+	* lecture2go.uri2.player.template=https://[host]/vod/_definst/[ext]:[l2go_path]/[filename]/playlist.m3u8
+	* lecture2go.uri3.player.template=rtmpt://[host]/vod/_definst/[ext]:[l2go_path]/[filename]
+	* lecture2go.uri4.player.template=${lecture2go.downloadserver.web.root}/abo/[filename]
+	* lecture2go.uri5.player.template=rtsp://[host]:[port]/vod/_definst/[ext]:[l2go_path]/[filename]
+	*/
+	@Override
+	public void addPlayerUris2Video(de.uhh.l2g.plugins.model.Host host,
+		de.uhh.l2g.plugins.model.Video video,
+		de.uhh.l2g.plugins.model.Producer producer) {
+		_videoLocalService.addPlayerUris2Video(host, video, producer);
+	}
+
+	@Override
+	public void createLastVideoList()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_videoLocalService.createLastVideoList();
 	}
 
 	@Override

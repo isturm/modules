@@ -251,6 +251,16 @@ public class VideohitlistLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static void deleteAll()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().deleteAll();
+	}
+
+	public static void deleteByVideoId(java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().deleteByVideoId(videoId);
+	}
+
 	public static VideohitlistLocalService getService() {
 		return _serviceTracker.getService();
 	}

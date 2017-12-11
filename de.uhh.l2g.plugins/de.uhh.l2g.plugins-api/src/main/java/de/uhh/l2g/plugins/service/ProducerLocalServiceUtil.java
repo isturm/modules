@@ -68,6 +68,12 @@ public class ProducerLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static de.uhh.l2g.plugins.model.Institution getInstitutionByProducer(
+		long producerId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getInstitutionByProducer(producerId);
+	}
+
 	/**
 	* Adds the producer to the database. Also notifies the appropriate model listeners.
 	*
@@ -119,6 +125,18 @@ public class ProducerLocalServiceUtil {
 		return getService().fetchProducer(producerId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Producer getById(long producerId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getById(producerId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Producer getProdUcer(
+		java.lang.Long producerId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getProdUcer(producerId);
+	}
+
 	/**
 	* Returns the producer with the primary key.
 	*
@@ -140,6 +158,11 @@ public class ProducerLocalServiceUtil {
 	public static de.uhh.l2g.plugins.model.Producer updateProducer(
 		de.uhh.l2g.plugins.model.Producer producer) {
 		return getService().updateProducer(producer);
+	}
+
+	public static int getProducersByHostIdCount(long hostId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getProducersByHostIdCount(hostId);
 	}
 
 	/**
@@ -210,6 +233,24 @@ public class ProducerLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<java.lang.Long> getAllProducerIds(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllProducerIds(lectureseriesId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Producer> getAllProducers(
+		int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllProducers(begin, end);
+	}
+
+	public static java.util.List<java.lang.Long> getProducerIds(
+		java.lang.Long lectureseriesId, int begin, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getProducerIds(lectureseriesId, begin, end);
+	}
+
 	/**
 	* Returns a range of all the producers.
 	*
@@ -224,6 +265,17 @@ public class ProducerLocalServiceUtil {
 	public static java.util.List<de.uhh.l2g.plugins.model.Producer> getProducers(
 		int start, int end) {
 		return getService().getProducers(start, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Producer> getProducersByHostId(
+		long hostId) throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getProducersByHostId(hostId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Producer> getProducersByInstitutionId(
+		long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getProducersByInstitutionId(institutionId);
 	}
 
 	/**

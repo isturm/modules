@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -81,6 +82,12 @@ public interface HostLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Special handling for default entries (no update)
+	*/
+	public Host addDefaultHost(ServiceContext serviceContext)
+		throws PortalException, SystemException;
+
+	/**
 	* Adds the host to the database. Also notifies the appropriate model listeners.
 	*
 	* @param host the host
@@ -88,6 +95,10 @@ public interface HostLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Host addHost(Host host);
+
+	public Host addHost(java.lang.String name, java.lang.String streamLocation,
+		java.lang.String protocol, int port, ServiceContext serviceContext)
+		throws PortalException, SystemException;
 
 	/**
 	* Creates a new host with the primary key. Does not add the host to the database.
@@ -116,8 +127,30 @@ public interface HostLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.DELETE)
 	public Host deleteHost(long hostId) throws PortalException;
 
+	/**
+	* Removes database record of Host
+	*
+	* This will not remove Folder on Filesystem, Folder will not be reused
+	*/
+	public Host deleteHost(long hostId, ServiceContext serviceContext)
+		throws PortalException, SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Host fetchHost(long hostId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Host getByDefault(long companyId, long groupId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Host getByGroupIdAndHostId(long groupId, long hostId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Host getByHostId(long hostId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Host getByInstitution(long institutionId) throws SystemException;
 
 	/**
 	* Returns the host with the primary key.
@@ -138,6 +171,13 @@ public interface HostLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Host updateHost(Host host);
 
+	public Host updateHost(long hostId, java.lang.String name,
+		java.lang.String streamLocation, java.lang.String protocol, int port,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getByGroupIdCount(long groupId) throws SystemException;
+
 	/**
 	* Returns the number of hosts.
 	*
@@ -145,6 +185,13 @@ public interface HostLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getHostsCount();
+
+	/**
+	* Host is locked if it is linked to an institution
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getLockingElements(long groupId, long hostId)
+		throws SystemException;
 
 	/**
 	* Returns the OSGi service identifier.
@@ -192,6 +239,17 @@ public interface HostLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Host> getByCompanyIdAndGroupId(long companyId, long groupId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Host> getByGroupId(long groupId) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Host> getByGroupId(long groupId, int start, int end)
+		throws SystemException;
+
 	/**
 	* Returns a range of all the hosts.
 	*
@@ -223,4 +281,8 @@ public interface HostLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getDefaultHostId(long companyId, long groupId)
+		throws SystemException;
 }

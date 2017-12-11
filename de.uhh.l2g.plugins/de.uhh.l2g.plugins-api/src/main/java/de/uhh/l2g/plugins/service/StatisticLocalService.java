@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -60,6 +61,18 @@ public interface StatisticLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link StatisticLocalServiceUtil} to access the statistic local service. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.StatisticLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	* Add Database View with same Name
+	*/
+	public boolean addVideoStatisticView();
+
+	/**
+	* Drop table via custom query
+	* https://web.liferay.com/de/community/wiki/-/wiki/Main/Working+with+Database+Views+in+Liferay
+	*/
+	public boolean removeVideoStatisticDefaultTable();
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -80,6 +93,15 @@ public interface StatisticLocalService extends BaseLocalService,
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	public Statistic add(int privateVideos, int publicVideos)
+		throws PortalException, SystemException;
+
+	public Statistic addDefaultEntry(ServiceContext serviceContext)
+		throws PortalException, SystemException;
+
+	public Statistic addEntry(int privateVideos, int publicVideos,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
 	/**
 	* Adds the statistic to the database. Also notifies the appropriate model listeners.
 	*
@@ -96,6 +118,9 @@ public interface StatisticLocalService extends BaseLocalService,
 	* @return the new statistic
 	*/
 	public Statistic createStatistic(long statisticId);
+
+	public Statistic deleteLinkById(long statisticId,
+		ServiceContext serviceContext) throws PortalException, SystemException;
 
 	/**
 	* Deletes the statistic from the database. Also notifies the appropriate model listeners.
@@ -120,6 +145,14 @@ public interface StatisticLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Statistic fetchStatistic(long statisticId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Statistic getByStatisticId(long companyId, long groupId,
+		long statisticId) throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Statistic getByStatisticId(long statisticId)
+		throws PortalException, SystemException;
+
 	/**
 	* Returns the statistic with the primary key.
 	*
@@ -129,6 +162,10 @@ public interface StatisticLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Statistic getStatistic(long statisticId) throws PortalException;
+
+	public Statistic updateEntry(long statisticId, int privateVideos,
+		int publicVideos, ServiceContext serviceContext)
+		throws PortalException, SystemException;
 
 	/**
 	* Updates the statistic in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -192,6 +229,10 @@ public interface StatisticLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Statistic> getByCompanyIdandGroupId(long companyId, long groupId)
+		throws PortalException, SystemException;
 
 	/**
 	* Returns a range of all the statistics.

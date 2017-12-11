@@ -33,6 +33,23 @@ public class StatisticLocalServiceWrapper implements StatisticLocalService,
 		_statisticLocalService = statisticLocalService;
 	}
 
+	/**
+	* Add Database View with same Name
+	*/
+	@Override
+	public boolean addVideoStatisticView() {
+		return _statisticLocalService.addVideoStatisticView();
+	}
+
+	/**
+	* Drop table via custom query
+	* https://web.liferay.com/de/community/wiki/-/wiki/Main/Working+with+Database+Views+in+Liferay
+	*/
+	@Override
+	public boolean removeVideoStatisticDefaultTable() {
+		return _statisticLocalService.removeVideoStatisticDefaultTable();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _statisticLocalService.getActionableDynamicQuery();
@@ -65,6 +82,32 @@ public class StatisticLocalServiceWrapper implements StatisticLocalService,
 		return _statisticLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Statistic add(int privateVideos,
+		int publicVideos)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.add(privateVideos, publicVideos);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Statistic addDefaultEntry(
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.addDefaultEntry(serviceContext);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Statistic addEntry(int privateVideos,
+		int publicVideos,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.addEntry(privateVideos, publicVideos,
+			serviceContext);
+	}
+
 	/**
 	* Adds the statistic to the database. Also notifies the appropriate model listeners.
 	*
@@ -86,6 +129,14 @@ public class StatisticLocalServiceWrapper implements StatisticLocalService,
 	@Override
 	public de.uhh.l2g.plugins.model.Statistic createStatistic(long statisticId) {
 		return _statisticLocalService.createStatistic(statisticId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Statistic deleteLinkById(long statisticId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.deleteLinkById(statisticId, serviceContext);
 	}
 
 	/**
@@ -118,6 +169,22 @@ public class StatisticLocalServiceWrapper implements StatisticLocalService,
 		return _statisticLocalService.fetchStatistic(statisticId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Statistic getByStatisticId(long companyId,
+		long groupId, long statisticId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.getByStatisticId(companyId, groupId,
+			statisticId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Statistic getByStatisticId(long statisticId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.getByStatisticId(statisticId);
+	}
+
 	/**
 	* Returns the statistic with the primary key.
 	*
@@ -129,6 +196,16 @@ public class StatisticLocalServiceWrapper implements StatisticLocalService,
 	public de.uhh.l2g.plugins.model.Statistic getStatistic(long statisticId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _statisticLocalService.getStatistic(statisticId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Statistic updateEntry(long statisticId,
+		int privateVideos, int publicVideos,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.updateEntry(statisticId, privateVideos,
+			publicVideos, serviceContext);
 	}
 
 	/**
@@ -214,6 +291,15 @@ public class StatisticLocalServiceWrapper implements StatisticLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _statisticLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Statistic> getByCompanyIdandGroupId(
+		long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.getByCompanyIdandGroupId(companyId,
+			groupId);
 	}
 
 	/**

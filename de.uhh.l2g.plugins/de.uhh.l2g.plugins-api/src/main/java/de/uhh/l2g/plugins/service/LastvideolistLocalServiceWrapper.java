@@ -266,6 +266,11 @@ public class LastvideolistLocalServiceWrapper
 	}
 
 	@Override
+	public void deleteByVideoId(java.lang.Long videoId) {
+		_lastvideolistLocalService.deleteByVideoId(videoId);
+	}
+
+	@Override
 	public LastvideolistLocalService getWrappedService() {
 		return _lastvideolistLocalService;
 	}

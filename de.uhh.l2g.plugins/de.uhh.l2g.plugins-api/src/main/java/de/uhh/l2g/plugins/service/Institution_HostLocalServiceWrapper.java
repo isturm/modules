@@ -66,6 +66,39 @@ public class Institution_HostLocalServiceWrapper
 		return _institution_HostLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Host getByGroupIdAndInstitutionId(
+		long companyId, long groupId, long institutionId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getByGroupIdAndInstitutionId(companyId,
+			groupId, institutionId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Host getByInstitution(long institutionId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getByInstitution(institutionId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Host getByInstitutionId(long institutionId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getByInstitutionId(institutionId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Institution_Host addEntry(
+		long institutionId, long hostId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.addEntry(institutionId, hostId,
+			serviceContext);
+	}
+
 	/**
 	* Adds the institution_ host to the database. Also notifies the appropriate model listeners.
 	*
@@ -117,6 +150,26 @@ public class Institution_HostLocalServiceWrapper
 	}
 
 	@Override
+	public de.uhh.l2g.plugins.model.Institution_Host deleteLinkById(
+		long institutionHostId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.deleteLinkById(institutionHostId,
+			serviceContext);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Institution_Host deleteLinkByInstitution(
+		de.uhh.l2g.plugins.model.Institution institution, long groupId,
+		long companyId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.deleteLinkByInstitution(institution,
+			groupId, companyId);
+	}
+
+	@Override
 	public de.uhh.l2g.plugins.model.Institution_Host fetchInstitution_Host(
 		long institutionHostId) {
 		return _institution_HostLocalService.fetchInstitution_Host(institutionHostId);
@@ -136,6 +189,25 @@ public class Institution_HostLocalServiceWrapper
 		return _institution_HostLocalService.getInstitution_Host(institutionHostId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Institution_Host getLinkByGroupIdAndInstitutionId(
+		long groupId, long institutionId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getLinkByGroupIdAndInstitutionId(groupId,
+			institutionId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Institution_Host updateEntry(
+		long institutionId, long hostId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.updateEntry(institutionId, hostId,
+			serviceContext);
+	}
+
 	/**
 	* Updates the institution_ host in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -146,6 +218,14 @@ public class Institution_HostLocalServiceWrapper
 	public de.uhh.l2g.plugins.model.Institution_Host updateInstitution_Host(
 		de.uhh.l2g.plugins.model.Institution_Host institution_Host) {
 		return _institution_HostLocalService.updateInstitution_Host(institution_Host);
+	}
+
+	@Override
+	public int getByGroupIdAndHostIdCount(long groupId, long hostId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getByGroupIdAndHostIdCount(groupId,
+			hostId);
 	}
 
 	/**
@@ -222,6 +302,23 @@ public class Institution_HostLocalServiceWrapper
 			end, orderByComparator);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Institution_Host> getByGroupId(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getByGroupId(groupId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Institution> getByGroupIdAndHostId(
+		long groupId, long hostId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getByGroupIdAndHostId(groupId,
+			hostId);
+	}
+
 	/**
 	* Returns a range of all the institution_ hosts.
 	*
@@ -237,6 +334,43 @@ public class Institution_HostLocalServiceWrapper
 	public java.util.List<de.uhh.l2g.plugins.model.Institution_Host> getInstitution_Hosts(
 		int start, int end) {
 		return _institution_HostLocalService.getInstitution_Hosts(start, end);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Institution_Host> getListByGroupIdAndHostId(
+		long groupId, long hostId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getListByGroupIdAndHostId(groupId,
+			hostId);
+	}
+
+	/**
+	* Actually this should never give a list because, there can be only one host per isntitution
+	*/
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Institution_Host> getListByGroupIdAndInstitutionId(
+		long companyId, long groupId, long institutionId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getListByGroupIdAndInstitutionId(companyId,
+			groupId, institutionId);
+	}
+
+	/**
+	* if not added with Institution
+	*
+	* @throws SystemException
+	* @throws PortalException
+	*/
+	@Override
+	public long addDefaultInstitutionHost(long defaultInstitutionId,
+		long defaultHostId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.addDefaultInstitutionHost(defaultInstitutionId,
+			defaultHostId, serviceContext);
 	}
 
 	/**
@@ -264,6 +398,15 @@ public class Institution_HostLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _institution_HostLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Assume one Institution has at most one Host that remains constant
+	*/
+	@Override
+	public long getDefaultInstitutionHostId(long companyId, long groupId) {
+		return _institution_HostLocalService.getDefaultInstitutionHostId(companyId,
+			groupId);
 	}
 
 	@Override

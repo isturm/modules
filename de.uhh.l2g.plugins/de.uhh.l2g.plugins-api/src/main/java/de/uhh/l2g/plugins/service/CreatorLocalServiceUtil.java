@@ -148,6 +148,34 @@ public class CreatorLocalServiceUtil {
 		return getService().getCreatorsCount();
 	}
 
+	public static java.lang.String getCommaSeparatedCreatorsByLectureseriesIdAndMaxCreators(
+		java.lang.Long lectureseriesId, int maxCreators) {
+		return getService()
+				   .getCommaSeparatedCreatorsByLectureseriesIdAndMaxCreators(lectureseriesId,
+			maxCreators);
+	}
+
+	public static java.lang.String getCommaSeparatedCreatorsByVideoIdAndMaxCreators(
+		java.lang.Long videoId, int maxCreators) {
+		return getService()
+				   .getCommaSeparatedCreatorsByVideoIdAndMaxCreators(videoId,
+			maxCreators);
+	}
+
+	public static java.lang.String getCommaSeparatedLinkedCreatorsByLectureseriesIdAndMaxCreators(
+		java.lang.Long lectureseriesId, int maxCreators) {
+		return getService()
+				   .getCommaSeparatedLinkedCreatorsByLectureseriesIdAndMaxCreators(lectureseriesId,
+			maxCreators);
+	}
+
+	public static java.lang.String getCommaSeparatedLinkedCreatorsByVideoIdAndMaxCreators(
+		java.lang.Long videoId, int maxCreators) {
+		return getService()
+				   .getCommaSeparatedLinkedCreatorsByVideoIdAndMaxCreators(videoId,
+			maxCreators);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -207,6 +235,17 @@ public class CreatorLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getAllCreators()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllCreators();
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getByFullName(
+		java.lang.String fullName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByFullName(fullName);
+	}
+
 	/**
 	* Returns a range of all the creators.
 	*
@@ -221,6 +260,43 @@ public class CreatorLocalServiceUtil {
 	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getCreators(
 		int start, int end) {
 		return getService().getCreators(start, end);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getCreatorsByLectureseriesId(
+		java.lang.Long lectureseriesId) {
+		return getService().getCreatorsByLectureseriesId(lectureseriesId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getCreatorsByLectureseriesIdForOpenAccessVideosOnly(
+		java.lang.Long lectureseriesId) {
+		return getService()
+				   .getCreatorsByLectureseriesIdForOpenAccessVideosOnly(lectureseriesId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getCreatorsByVideoId(
+		java.lang.Long videoId) {
+		return getService().getCreatorsByVideoId(videoId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getCreatorsForLectureseriesOverTheAssigenedVideos(
+		java.lang.Long lectureseriesId) {
+		return getService()
+				   .getCreatorsForLectureseriesOverTheAssigenedVideos(lectureseriesId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getCreatorsFromLectureseriesIdsAndVideoIds(
+		java.util.ArrayList<java.lang.Long> lectureseriesIds,
+		java.util.ArrayList<java.lang.Long> videoIds) {
+		return getService()
+				   .getCreatorsFromLectureseriesIdsAndVideoIds(lectureseriesIds,
+			videoIds);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> updateCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId(
+		java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId(lectureseriesId);
 	}
 
 	/**
@@ -245,6 +321,28 @@ public class CreatorLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static org.json.JSONArray getJSONCreator(java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getJSONCreator(creatorId);
+	}
+
+	public static org.json.JSONArray getJSONCreatorsByLectureseriesId(
+		java.lang.Long lectureseriesId) {
+		return getService().getJSONCreatorsByLectureseriesId(lectureseriesId);
+	}
+
+	public static org.json.JSONArray getJSONCreatorsByVideoId(
+		java.lang.Long videoId) {
+		return getService().getJSONCreatorsByVideoId(videoId);
+	}
+
+	public static void deleteById(java.lang.Long id)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().deleteById(id);
 	}
 
 	public static CreatorLocalService getService() {

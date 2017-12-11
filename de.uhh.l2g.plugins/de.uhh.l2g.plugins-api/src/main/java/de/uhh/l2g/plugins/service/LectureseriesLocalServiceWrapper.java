@@ -122,6 +122,12 @@ public class LectureseriesLocalServiceWrapper
 		return _lectureseriesLocalService.fetchLectureseries(lectureseriesId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Lectureseries getByUSID(
+		java.lang.String usid) {
+		return _lectureseriesLocalService.getByUSID(usid);
+	}
+
 	/**
 	* Returns the lectureseries with the primary key.
 	*
@@ -221,6 +227,65 @@ public class LectureseriesLocalServiceWrapper
 			end, orderByComparator);
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getAll()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _lectureseriesLocalService.getAll();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getAllForVideo(
+		de.uhh.l2g.plugins.model.Video video) {
+		return _lectureseriesLocalService.getAllForVideo(video);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getAllLectureseriesWhithOpenaccessVideos() {
+		return _lectureseriesLocalService.getAllLectureseriesWhithOpenaccessVideos();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getAllLectureseriesWhithPassword() {
+		return _lectureseriesLocalService.getAllLectureseriesWhithPassword();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getByLatestVideoId(
+		java.lang.Long latestVideoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _lectureseriesLocalService.getByLatestVideoId(latestVideoId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getByTerm(
+		java.lang.Long termId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _lectureseriesLocalService.getByTerm(termId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getFilteredByApprovedSemesterFacultyProducer(
+		java.lang.Integer approved, java.lang.Long semester,
+		java.lang.Long facultyId, java.lang.Long producerId) {
+		return _lectureseriesLocalService.getFilteredByApprovedSemesterFacultyProducer(approved,
+			semester, facultyId, producerId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(
+		java.lang.Long institutionId, java.lang.Long parentInstitutionId,
+		java.lang.Long termId, java.lang.Long categoryId,
+		java.lang.Long creatorId, java.lang.String searchQuery) {
+		return _lectureseriesLocalService.getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(institutionId,
+			parentInstitutionId, termId, categoryId, creatorId, searchQuery);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getLatest(
+		int limit) {
+		return _lectureseriesLocalService.getLatest(limit);
+	}
+
 	/**
 	* Returns a range of all the lectureserieses.
 	*
@@ -236,6 +301,14 @@ public class LectureseriesLocalServiceWrapper
 	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getLectureserieses(
 		int start, int end) {
 		return _lectureseriesLocalService.getLectureserieses(start, end);
+	}
+
+	@Override
+	public java.util.Map<de.uhh.l2g.plugins.model.Term, java.util.List<de.uhh.l2g.plugins.model.Lectureseries>> getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(
+		java.lang.Integer approved, java.lang.Long semester,
+		java.lang.Long facultyId, java.lang.Long producerId) {
+		return _lectureseriesLocalService.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(approved,
+			semester, facultyId, producerId);
 	}
 
 	/**
@@ -263,6 +336,35 @@ public class LectureseriesLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _lectureseriesLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	@Override
+	public void updateCategoryForLectureseries(java.lang.Long lectureseriesId,
+		java.lang.Long newCategoryId)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_lectureseriesLocalService.updateCategoryForLectureseries(lectureseriesId,
+			newCategoryId);
+	}
+
+	@Override
+	public void updateOpenAccess(de.uhh.l2g.plugins.model.Video video,
+		de.uhh.l2g.plugins.model.Lectureseries lectureseries)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_lectureseriesLocalService.updateOpenAccess(video, lectureseries);
+	}
+
+	@Override
+	public void updatePreviewVideoOpenAccess(
+		de.uhh.l2g.plugins.model.Lectureseries lectureseries)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_lectureseriesLocalService.updatePreviewVideoOpenAccess(lectureseries);
+	}
+
+	@Override
+	public void updateUploadAndGenerationDate()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_lectureseriesLocalService.updateUploadAndGenerationDate();
 	}
 
 	@Override

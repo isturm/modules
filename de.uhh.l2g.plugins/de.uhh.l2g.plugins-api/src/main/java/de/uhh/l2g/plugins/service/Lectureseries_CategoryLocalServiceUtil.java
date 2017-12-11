@@ -251,6 +251,14 @@ public class Lectureseries_CategoryLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static void updateCategoryByLectureseriesAndCategory(
+		java.lang.Long lectureseriesId, java.lang.Long categoryId,
+		java.lang.Long newCategoryId) {
+		getService()
+			.updateCategoryByLectureseriesAndCategory(lectureseriesId,
+			categoryId, newCategoryId);
+	}
+
 	public static Lectureseries_CategoryLocalService getService() {
 		return _serviceTracker.getService();
 	}

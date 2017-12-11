@@ -41,6 +41,20 @@ public class Lectureseries_InstitutionLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.Lectureseries_InstitutionLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean institutionAssignedToLectureseries(
+		de.uhh.l2g.plugins.model.Lectureseries_Institution lf) {
+		return getService().institutionAssignedToLectureseries(lf);
+	}
+
+	public static boolean removeByLectureseriesId(
+		java.lang.Long lectureseriesId) {
+		return getService().removeByLectureseriesId(lectureseriesId);
+	}
+
+	public static boolean removeByacilityId(java.lang.Long institutionId) {
+		return getService().removeByacilityId(institutionId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -122,6 +136,14 @@ public class Lectureseries_InstitutionLocalServiceUtil {
 		long lectureseriesInstitutionId) {
 		return getService()
 				   .fetchLectureseries_Institution(lectureseriesInstitutionId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Lectureseries_Institution findFirstByLectureseriesIdAndInstitutionId(
+		long lectureseriesId, long institutionId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .findFirstByLectureseriesIdAndInstitutionId(lectureseriesId,
+			institutionId);
 	}
 
 	/**
@@ -216,6 +238,12 @@ public class Lectureseries_InstitutionLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries_Institution> getByLectureseries(
+		long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByLectureseries(lectureseriesId);
 	}
 
 	/**

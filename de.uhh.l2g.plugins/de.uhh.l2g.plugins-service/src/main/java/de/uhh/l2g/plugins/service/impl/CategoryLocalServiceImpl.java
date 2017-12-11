@@ -14,6 +14,13 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.NoSuchModelException;
+import com.liferay.portal.kernel.exception.SystemException;
+
+import de.uhh.l2g.plugins.model.Category;
 import de.uhh.l2g.plugins.service.base.CategoryLocalServiceBaseImpl;
 
 /**
@@ -27,13 +34,37 @@ import de.uhh.l2g.plugins.service.base.CategoryLocalServiceBaseImpl;
  * </p>
  *
  * @author Iavor Sturm
- * @see CategoryLocalServiceBaseImpl
+ * @see de.uhh.l2g.plugins.service.base.CategoryLocalServiceBaseImpl
  * @see de.uhh.l2g.plugins.service.CategoryLocalServiceUtil
  */
 public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Always use {@link de.uhh.l2g.plugins.service.CategoryLocalServiceUtil} to access the category local service.
+	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.CategoryLocalServiceUtil} to access the category local service.
 	 */
+	public List<Category> getAllCategories(int begin, int end) throws SystemException {
+		List<Category> cl = new ArrayList<Category>();
+		cl = categoryPersistence.findAll(begin, end);
+		return cl;
+	}
+	
+	public List<Category> getByName(String name) throws SystemException {
+		List<Category> cl = new ArrayList<Category>();
+		cl = categoryPersistence.findByName(name);
+		return cl;
+	}
+	
+	public Category getById(Long categoryId) throws NoSuchModelException, SystemException {
+		return categoryPersistence.findByPrimaryKey(categoryId);
+	}
+	
+	public List<Category> getCategoriesFromLectureseriesIdsAndVideoIds(ArrayList<Long> lectureseriesIds, ArrayList<Long> videoIds) {
+		return categoryFinder.findCategoriesByLectureseriesIdsAndVideoIds(lectureseriesIds, videoIds);
+	}
+	
+	public void deleteById(Long id) throws NoSuchModelException, SystemException{
+		categoryPersistence.remove(id);
+	}
+	
 }

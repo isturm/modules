@@ -41,6 +41,22 @@ public class StatisticLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.StatisticLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* Add Database View with same Name
+	*/
+	public static boolean addVideoStatisticView() {
+		return getService().addVideoStatisticView();
+	}
+
+	/**
+	* Drop table via custom query
+	* https://web.liferay.com/de/community/wiki/-/wiki/Main/Working+with+Database+Views+in+Liferay
+	*/
+	public static boolean removeVideoStatisticDefaultTable() {
+		return getService().removeVideoStatisticDefaultTable();
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -68,6 +84,28 @@ public class StatisticLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static de.uhh.l2g.plugins.model.Statistic add(int privateVideos,
+		int publicVideos)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().add(privateVideos, publicVideos);
+	}
+
+	public static de.uhh.l2g.plugins.model.Statistic addDefaultEntry(
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().addDefaultEntry(serviceContext);
+	}
+
+	public static de.uhh.l2g.plugins.model.Statistic addEntry(
+		int privateVideos, int publicVideos,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().addEntry(privateVideos, publicVideos, serviceContext);
+	}
+
 	/**
 	* Adds the statistic to the database. Also notifies the appropriate model listeners.
 	*
@@ -88,6 +126,14 @@ public class StatisticLocalServiceUtil {
 	public static de.uhh.l2g.plugins.model.Statistic createStatistic(
 		long statisticId) {
 		return getService().createStatistic(statisticId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Statistic deleteLinkById(
+		long statisticId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteLinkById(statisticId, serviceContext);
 	}
 
 	/**
@@ -119,6 +165,20 @@ public class StatisticLocalServiceUtil {
 		return getService().fetchStatistic(statisticId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Statistic getByStatisticId(
+		long companyId, long groupId, long statisticId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByStatisticId(companyId, groupId, statisticId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Statistic getByStatisticId(
+		long statisticId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByStatisticId(statisticId);
+	}
+
 	/**
 	* Returns the statistic with the primary key.
 	*
@@ -130,6 +190,16 @@ public class StatisticLocalServiceUtil {
 		long statisticId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getStatistic(statisticId);
+	}
+
+	public static de.uhh.l2g.plugins.model.Statistic updateEntry(
+		long statisticId, int privateVideos, int publicVideos,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateEntry(statisticId, privateVideos, publicVideos,
+			serviceContext);
 	}
 
 	/**
@@ -209,6 +279,13 @@ public class StatisticLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Statistic> getByCompanyIdandGroupId(
+		long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCompanyIdandGroupId(companyId, groupId);
 	}
 
 	/**

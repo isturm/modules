@@ -265,6 +265,18 @@ public class VideohitlistLocalServiceWrapper implements VideohitlistLocalService
 	}
 
 	@Override
+	public void deleteAll()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_videohitlistLocalService.deleteAll();
+	}
+
+	@Override
+	public void deleteByVideoId(java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_videohitlistLocalService.deleteByVideoId(videoId);
+	}
+
+	@Override
 	public VideohitlistLocalService getWrappedService() {
 		return _videohitlistLocalService;
 	}

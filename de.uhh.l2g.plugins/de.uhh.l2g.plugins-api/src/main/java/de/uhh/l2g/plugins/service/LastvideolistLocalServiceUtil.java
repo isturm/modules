@@ -251,6 +251,10 @@ public class LastvideolistLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static void deleteByVideoId(java.lang.Long videoId) {
+		getService().deleteByVideoId(videoId);
+	}
+
 	public static LastvideolistLocalService getService() {
 		return _serviceTracker.getService();
 	}

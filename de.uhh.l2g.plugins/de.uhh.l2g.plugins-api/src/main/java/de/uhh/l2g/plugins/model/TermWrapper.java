@@ -160,6 +160,11 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 		return new TermWrapper((Term)_term.clone());
 	}
 
+	@Override
+	public java.lang.String getFullName() {
+		return _term.getFullName();
+	}
+
 	/**
 	* Returns the language ID of this term.
 	*
@@ -178,6 +183,14 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	@Override
 	public java.lang.String getPrefix() {
 		return _term.getPrefix();
+	}
+
+	/**
+	* @return the full termName (prefix + year)
+	*/
+	@Override
+	public java.lang.String getTermName() {
+		return _term.getTermName();
 	}
 
 	/**
@@ -264,6 +277,11 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_term.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	@Override
+	public void setFullName(java.lang.String fullName) {
+		_term.setFullName(fullName);
 	}
 
 	/**

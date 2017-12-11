@@ -32,10 +32,12 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import de.uhh.l2g.plugins.exception.NoSuchTagcloudException;
 import de.uhh.l2g.plugins.model.Tagcloud;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -118,6 +120,11 @@ public interface TagcloudLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Tagcloud fetchTagcloud(long tagcloudId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Tagcloud getByObjectIdAndObjectClassType(long objectId,
+		java.lang.String objectClassType)
+		throws SystemException, NoSuchTagcloudException;
 
 	/**
 	* Returns the tagcloud with the primary key.
@@ -223,4 +230,18 @@ public interface TagcloudLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	public void add(ArrayList<java.lang.String> tagCloudArrayString,
+		java.lang.String className, java.lang.Long objectId)
+		throws SystemException;
+
+	public void deleteByObjectId(long objectId) throws SystemException;
+
+	public void generateForAllLectureseries();
+
+	public void generateForAllVideos();
+
+	public void updateByObjectIdAndObjectClassType(
+		ArrayList<java.lang.String> tagCloudArrayString,
+		java.lang.String className, long objectId) throws SystemException;
 }
