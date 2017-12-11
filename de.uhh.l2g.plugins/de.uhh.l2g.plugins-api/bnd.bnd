@@ -1,0 +1,9 @@
+Bundle-Name: de.uhh.l2g.plugins-api
+Bundle-SymbolicName: de.uhh.l2g.plugins.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	de.uhh.l2g.plugins.exception,\
+	de.uhh.l2g.plugins.model,\
+	de.uhh.l2g.plugins.service,\
+	de.uhh.l2g.plugins.service.persistence
+-includeresource: META-INF/service.xml=../de.uhh.l2g.plugins-service/service.xml
