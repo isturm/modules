@@ -1,0 +1,573 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package de.uhh.l2g.plugins.service.persistence;
+
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.osgi.util.ServiceTrackerFactory;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import de.uhh.l2g.plugins.model.Term;
+
+import org.osgi.util.tracker.ServiceTracker;
+
+import java.util.List;
+
+/**
+ * The persistence utility for the term service. This utility wraps {@link de.uhh.l2g.plugins.service.persistence.impl.TermPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
+ *
+ * <p>
+ * Caching information and settings can be found in <code>portal.properties</code>
+ * </p>
+ *
+ * @author Iavor Sturm
+ * @see TermPersistence
+ * @see de.uhh.l2g.plugins.service.persistence.impl.TermPersistenceImpl
+ * @generated
+ */
+@ProviderType
+public class TermUtil {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify this class directly. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 */
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache()
+	 */
+	public static void clearCache() {
+		getPersistence().clearCache();
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache(com.liferay.portal.kernel.model.BaseModel)
+	 */
+	public static void clearCache(Term term) {
+		getPersistence().clearCache(term);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
+	 */
+	public static long countWithDynamicQuery(DynamicQuery dynamicQuery) {
+		return getPersistence().countWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
+	 */
+	public static List<Term> findWithDynamicQuery(DynamicQuery dynamicQuery) {
+		return getPersistence().findWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int)
+	 */
+	public static List<Term> findWithDynamicQuery(DynamicQuery dynamicQuery,
+		int start, int end) {
+		return getPersistence().findWithDynamicQuery(dynamicQuery, start, end);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int, OrderByComparator)
+	 */
+	public static List<Term> findWithDynamicQuery(DynamicQuery dynamicQuery,
+		int start, int end, OrderByComparator<Term> orderByComparator) {
+		return getPersistence()
+				   .findWithDynamicQuery(dynamicQuery, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel)
+	 */
+	public static Term update(Term term) {
+		return getPersistence().update(term);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel, ServiceContext)
+	 */
+	public static Term update(Term term, ServiceContext serviceContext) {
+		return getPersistence().update(term, serviceContext);
+	}
+
+	/**
+	* Returns all the terms where prefix = &#63;.
+	*
+	* @param prefix the prefix
+	* @return the matching terms
+	*/
+	public static List<Term> findByPrefix(java.lang.String prefix) {
+		return getPersistence().findByPrefix(prefix);
+	}
+
+	/**
+	* Returns a range of all the terms where prefix = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param prefix the prefix
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @return the range of matching terms
+	*/
+	public static List<Term> findByPrefix(java.lang.String prefix, int start,
+		int end) {
+		return getPersistence().findByPrefix(prefix, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the terms where prefix = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param prefix the prefix
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching terms
+	*/
+	public static List<Term> findByPrefix(java.lang.String prefix, int start,
+		int end, OrderByComparator<Term> orderByComparator) {
+		return getPersistence()
+				   .findByPrefix(prefix, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the terms where prefix = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param prefix the prefix
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching terms
+	*/
+	public static List<Term> findByPrefix(java.lang.String prefix, int start,
+		int end, OrderByComparator<Term> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByPrefix(prefix, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first term in the ordered set where prefix = &#63;.
+	*
+	* @param prefix the prefix
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public static Term findByPrefix_First(java.lang.String prefix,
+		OrderByComparator<Term> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchTermException {
+		return getPersistence().findByPrefix_First(prefix, orderByComparator);
+	}
+
+	/**
+	* Returns the first term in the ordered set where prefix = &#63;.
+	*
+	* @param prefix the prefix
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public static Term fetchByPrefix_First(java.lang.String prefix,
+		OrderByComparator<Term> orderByComparator) {
+		return getPersistence().fetchByPrefix_First(prefix, orderByComparator);
+	}
+
+	/**
+	* Returns the last term in the ordered set where prefix = &#63;.
+	*
+	* @param prefix the prefix
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public static Term findByPrefix_Last(java.lang.String prefix,
+		OrderByComparator<Term> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchTermException {
+		return getPersistence().findByPrefix_Last(prefix, orderByComparator);
+	}
+
+	/**
+	* Returns the last term in the ordered set where prefix = &#63;.
+	*
+	* @param prefix the prefix
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public static Term fetchByPrefix_Last(java.lang.String prefix,
+		OrderByComparator<Term> orderByComparator) {
+		return getPersistence().fetchByPrefix_Last(prefix, orderByComparator);
+	}
+
+	/**
+	* Returns the terms before and after the current term in the ordered set where prefix = &#63;.
+	*
+	* @param termId the primary key of the current term
+	* @param prefix the prefix
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next term
+	* @throws NoSuchTermException if a term with the primary key could not be found
+	*/
+	public static Term[] findByPrefix_PrevAndNext(long termId,
+		java.lang.String prefix, OrderByComparator<Term> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchTermException {
+		return getPersistence()
+				   .findByPrefix_PrevAndNext(termId, prefix, orderByComparator);
+	}
+
+	/**
+	* Removes all the terms where prefix = &#63; from the database.
+	*
+	* @param prefix the prefix
+	*/
+	public static void removeByPrefix(java.lang.String prefix) {
+		getPersistence().removeByPrefix(prefix);
+	}
+
+	/**
+	* Returns the number of terms where prefix = &#63;.
+	*
+	* @param prefix the prefix
+	* @return the number of matching terms
+	*/
+	public static int countByPrefix(java.lang.String prefix) {
+		return getPersistence().countByPrefix(prefix);
+	}
+
+	/**
+	* Returns all the terms where year = &#63;.
+	*
+	* @param year the year
+	* @return the matching terms
+	*/
+	public static List<Term> findByYear(java.lang.String year) {
+		return getPersistence().findByYear(year);
+	}
+
+	/**
+	* Returns a range of all the terms where year = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param year the year
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @return the range of matching terms
+	*/
+	public static List<Term> findByYear(java.lang.String year, int start,
+		int end) {
+		return getPersistence().findByYear(year, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the terms where year = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param year the year
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching terms
+	*/
+	public static List<Term> findByYear(java.lang.String year, int start,
+		int end, OrderByComparator<Term> orderByComparator) {
+		return getPersistence().findByYear(year, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the terms where year = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param year the year
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching terms
+	*/
+	public static List<Term> findByYear(java.lang.String year, int start,
+		int end, OrderByComparator<Term> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByYear(year, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first term in the ordered set where year = &#63;.
+	*
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public static Term findByYear_First(java.lang.String year,
+		OrderByComparator<Term> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchTermException {
+		return getPersistence().findByYear_First(year, orderByComparator);
+	}
+
+	/**
+	* Returns the first term in the ordered set where year = &#63;.
+	*
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public static Term fetchByYear_First(java.lang.String year,
+		OrderByComparator<Term> orderByComparator) {
+		return getPersistence().fetchByYear_First(year, orderByComparator);
+	}
+
+	/**
+	* Returns the last term in the ordered set where year = &#63;.
+	*
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public static Term findByYear_Last(java.lang.String year,
+		OrderByComparator<Term> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchTermException {
+		return getPersistence().findByYear_Last(year, orderByComparator);
+	}
+
+	/**
+	* Returns the last term in the ordered set where year = &#63;.
+	*
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public static Term fetchByYear_Last(java.lang.String year,
+		OrderByComparator<Term> orderByComparator) {
+		return getPersistence().fetchByYear_Last(year, orderByComparator);
+	}
+
+	/**
+	* Returns the terms before and after the current term in the ordered set where year = &#63;.
+	*
+	* @param termId the primary key of the current term
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next term
+	* @throws NoSuchTermException if a term with the primary key could not be found
+	*/
+	public static Term[] findByYear_PrevAndNext(long termId,
+		java.lang.String year, OrderByComparator<Term> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchTermException {
+		return getPersistence()
+				   .findByYear_PrevAndNext(termId, year, orderByComparator);
+	}
+
+	/**
+	* Removes all the terms where year = &#63; from the database.
+	*
+	* @param year the year
+	*/
+	public static void removeByYear(java.lang.String year) {
+		getPersistence().removeByYear(year);
+	}
+
+	/**
+	* Returns the number of terms where year = &#63;.
+	*
+	* @param year the year
+	* @return the number of matching terms
+	*/
+	public static int countByYear(java.lang.String year) {
+		return getPersistence().countByYear(year);
+	}
+
+	/**
+	* Caches the term in the entity cache if it is enabled.
+	*
+	* @param term the term
+	*/
+	public static void cacheResult(Term term) {
+		getPersistence().cacheResult(term);
+	}
+
+	/**
+	* Caches the terms in the entity cache if it is enabled.
+	*
+	* @param terms the terms
+	*/
+	public static void cacheResult(List<Term> terms) {
+		getPersistence().cacheResult(terms);
+	}
+
+	/**
+	* Creates a new term with the primary key. Does not add the term to the database.
+	*
+	* @param termId the primary key for the new term
+	* @return the new term
+	*/
+	public static Term create(long termId) {
+		return getPersistence().create(termId);
+	}
+
+	/**
+	* Removes the term with the primary key from the database. Also notifies the appropriate model listeners.
+	*
+	* @param termId the primary key of the term
+	* @return the term that was removed
+	* @throws NoSuchTermException if a term with the primary key could not be found
+	*/
+	public static Term remove(long termId)
+		throws de.uhh.l2g.plugins.exception.NoSuchTermException {
+		return getPersistence().remove(termId);
+	}
+
+	public static Term updateImpl(Term term) {
+		return getPersistence().updateImpl(term);
+	}
+
+	/**
+	* Returns the term with the primary key or throws a {@link NoSuchTermException} if it could not be found.
+	*
+	* @param termId the primary key of the term
+	* @return the term
+	* @throws NoSuchTermException if a term with the primary key could not be found
+	*/
+	public static Term findByPrimaryKey(long termId)
+		throws de.uhh.l2g.plugins.exception.NoSuchTermException {
+		return getPersistence().findByPrimaryKey(termId);
+	}
+
+	/**
+	* Returns the term with the primary key or returns <code>null</code> if it could not be found.
+	*
+	* @param termId the primary key of the term
+	* @return the term, or <code>null</code> if a term with the primary key could not be found
+	*/
+	public static Term fetchByPrimaryKey(long termId) {
+		return getPersistence().fetchByPrimaryKey(termId);
+	}
+
+	public static java.util.Map<java.io.Serializable, Term> fetchByPrimaryKeys(
+		java.util.Set<java.io.Serializable> primaryKeys) {
+		return getPersistence().fetchByPrimaryKeys(primaryKeys);
+	}
+
+	/**
+	* Returns all the terms.
+	*
+	* @return the terms
+	*/
+	public static List<Term> findAll() {
+		return getPersistence().findAll();
+	}
+
+	/**
+	* Returns a range of all the terms.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @return the range of terms
+	*/
+	public static List<Term> findAll(int start, int end) {
+		return getPersistence().findAll(start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the terms.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of terms
+	*/
+	public static List<Term> findAll(int start, int end,
+		OrderByComparator<Term> orderByComparator) {
+		return getPersistence().findAll(start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the terms.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of terms
+	*/
+	public static List<Term> findAll(int start, int end,
+		OrderByComparator<Term> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findAll(start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Removes all the terms from the database.
+	*/
+	public static void removeAll() {
+		getPersistence().removeAll();
+	}
+
+	/**
+	* Returns the number of terms.
+	*
+	* @return the number of terms
+	*/
+	public static int countAll() {
+		return getPersistence().countAll();
+	}
+
+	public static TermPersistence getPersistence() {
+		return _serviceTracker.getService();
+	}
+
+	private static ServiceTracker<TermPersistence, TermPersistence> _serviceTracker =
+		ServiceTrackerFactory.open(TermPersistence.class);
+}

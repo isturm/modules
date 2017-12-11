@@ -1,0 +1,480 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package de.uhh.l2g.plugins.service.persistence;
+
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.osgi.util.ServiceTrackerFactory;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import de.uhh.l2g.plugins.model.Coordinator;
+
+import org.osgi.util.tracker.ServiceTracker;
+
+import java.util.List;
+
+/**
+ * The persistence utility for the coordinator service. This utility wraps {@link de.uhh.l2g.plugins.service.persistence.impl.CoordinatorPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
+ *
+ * <p>
+ * Caching information and settings can be found in <code>portal.properties</code>
+ * </p>
+ *
+ * @author Iavor Sturm
+ * @see CoordinatorPersistence
+ * @see de.uhh.l2g.plugins.service.persistence.impl.CoordinatorPersistenceImpl
+ * @generated
+ */
+@ProviderType
+public class CoordinatorUtil {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify this class directly. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 */
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache()
+	 */
+	public static void clearCache() {
+		getPersistence().clearCache();
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache(com.liferay.portal.kernel.model.BaseModel)
+	 */
+	public static void clearCache(Coordinator coordinator) {
+		getPersistence().clearCache(coordinator);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
+	 */
+	public static long countWithDynamicQuery(DynamicQuery dynamicQuery) {
+		return getPersistence().countWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
+	 */
+	public static List<Coordinator> findWithDynamicQuery(
+		DynamicQuery dynamicQuery) {
+		return getPersistence().findWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int)
+	 */
+	public static List<Coordinator> findWithDynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+		return getPersistence().findWithDynamicQuery(dynamicQuery, start, end);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int, OrderByComparator)
+	 */
+	public static List<Coordinator> findWithDynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence()
+				   .findWithDynamicQuery(dynamicQuery, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel)
+	 */
+	public static Coordinator update(Coordinator coordinator) {
+		return getPersistence().update(coordinator);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel, ServiceContext)
+	 */
+	public static Coordinator update(Coordinator coordinator,
+		ServiceContext serviceContext) {
+		return getPersistence().update(coordinator, serviceContext);
+	}
+
+	/**
+	* Returns the coordinator where institutionId = &#63; or throws a {@link NoSuchCoordinatorException} if it could not be found.
+	*
+	* @param institutionId the institution ID
+	* @return the matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByInstitution(long institutionId)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().findByInstitution(institutionId);
+	}
+
+	/**
+	* Returns the coordinator where institutionId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param institutionId the institution ID
+	* @return the matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByInstitution(long institutionId) {
+		return getPersistence().fetchByInstitution(institutionId);
+	}
+
+	/**
+	* Returns the coordinator where institutionId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param institutionId the institution ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByInstitution(long institutionId,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .fetchByInstitution(institutionId, retrieveFromCache);
+	}
+
+	/**
+	* Removes the coordinator where institutionId = &#63; from the database.
+	*
+	* @param institutionId the institution ID
+	* @return the coordinator that was removed
+	*/
+	public static Coordinator removeByInstitution(long institutionId)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().removeByInstitution(institutionId);
+	}
+
+	/**
+	* Returns the number of coordinators where institutionId = &#63;.
+	*
+	* @param institutionId the institution ID
+	* @return the number of matching coordinators
+	*/
+	public static int countByInstitution(long institutionId) {
+		return getPersistence().countByInstitution(institutionId);
+	}
+
+	/**
+	* Returns all the coordinators where officeId = &#63;.
+	*
+	* @param officeId the office ID
+	* @return the matching coordinators
+	*/
+	public static List<Coordinator> findByOffice(long officeId) {
+		return getPersistence().findByOffice(officeId);
+	}
+
+	/**
+	* Returns a range of all the coordinators where officeId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param officeId the office ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @return the range of matching coordinators
+	*/
+	public static List<Coordinator> findByOffice(long officeId, int start,
+		int end) {
+		return getPersistence().findByOffice(officeId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators where officeId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param officeId the office ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching coordinators
+	*/
+	public static List<Coordinator> findByOffice(long officeId, int start,
+		int end, OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence()
+				   .findByOffice(officeId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators where officeId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param officeId the office ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching coordinators
+	*/
+	public static List<Coordinator> findByOffice(long officeId, int start,
+		int end, OrderByComparator<Coordinator> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByOffice(officeId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first coordinator in the ordered set where officeId = &#63;.
+	*
+	* @param officeId the office ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByOffice_First(long officeId,
+		OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().findByOffice_First(officeId, orderByComparator);
+	}
+
+	/**
+	* Returns the first coordinator in the ordered set where officeId = &#63;.
+	*
+	* @param officeId the office ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByOffice_First(long officeId,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence().fetchByOffice_First(officeId, orderByComparator);
+	}
+
+	/**
+	* Returns the last coordinator in the ordered set where officeId = &#63;.
+	*
+	* @param officeId the office ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByOffice_Last(long officeId,
+		OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().findByOffice_Last(officeId, orderByComparator);
+	}
+
+	/**
+	* Returns the last coordinator in the ordered set where officeId = &#63;.
+	*
+	* @param officeId the office ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByOffice_Last(long officeId,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence().fetchByOffice_Last(officeId, orderByComparator);
+	}
+
+	/**
+	* Returns the coordinators before and after the current coordinator in the ordered set where officeId = &#63;.
+	*
+	* @param coordinatorId the primary key of the current coordinator
+	* @param officeId the office ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next coordinator
+	* @throws NoSuchCoordinatorException if a coordinator with the primary key could not be found
+	*/
+	public static Coordinator[] findByOffice_PrevAndNext(long coordinatorId,
+		long officeId, OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence()
+				   .findByOffice_PrevAndNext(coordinatorId, officeId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the coordinators where officeId = &#63; from the database.
+	*
+	* @param officeId the office ID
+	*/
+	public static void removeByOffice(long officeId) {
+		getPersistence().removeByOffice(officeId);
+	}
+
+	/**
+	* Returns the number of coordinators where officeId = &#63;.
+	*
+	* @param officeId the office ID
+	* @return the number of matching coordinators
+	*/
+	public static int countByOffice(long officeId) {
+		return getPersistence().countByOffice(officeId);
+	}
+
+	/**
+	* Caches the coordinator in the entity cache if it is enabled.
+	*
+	* @param coordinator the coordinator
+	*/
+	public static void cacheResult(Coordinator coordinator) {
+		getPersistence().cacheResult(coordinator);
+	}
+
+	/**
+	* Caches the coordinators in the entity cache if it is enabled.
+	*
+	* @param coordinators the coordinators
+	*/
+	public static void cacheResult(List<Coordinator> coordinators) {
+		getPersistence().cacheResult(coordinators);
+	}
+
+	/**
+	* Creates a new coordinator with the primary key. Does not add the coordinator to the database.
+	*
+	* @param coordinatorId the primary key for the new coordinator
+	* @return the new coordinator
+	*/
+	public static Coordinator create(long coordinatorId) {
+		return getPersistence().create(coordinatorId);
+	}
+
+	/**
+	* Removes the coordinator with the primary key from the database. Also notifies the appropriate model listeners.
+	*
+	* @param coordinatorId the primary key of the coordinator
+	* @return the coordinator that was removed
+	* @throws NoSuchCoordinatorException if a coordinator with the primary key could not be found
+	*/
+	public static Coordinator remove(long coordinatorId)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().remove(coordinatorId);
+	}
+
+	public static Coordinator updateImpl(Coordinator coordinator) {
+		return getPersistence().updateImpl(coordinator);
+	}
+
+	/**
+	* Returns the coordinator with the primary key or throws a {@link NoSuchCoordinatorException} if it could not be found.
+	*
+	* @param coordinatorId the primary key of the coordinator
+	* @return the coordinator
+	* @throws NoSuchCoordinatorException if a coordinator with the primary key could not be found
+	*/
+	public static Coordinator findByPrimaryKey(long coordinatorId)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().findByPrimaryKey(coordinatorId);
+	}
+
+	/**
+	* Returns the coordinator with the primary key or returns <code>null</code> if it could not be found.
+	*
+	* @param coordinatorId the primary key of the coordinator
+	* @return the coordinator, or <code>null</code> if a coordinator with the primary key could not be found
+	*/
+	public static Coordinator fetchByPrimaryKey(long coordinatorId) {
+		return getPersistence().fetchByPrimaryKey(coordinatorId);
+	}
+
+	public static java.util.Map<java.io.Serializable, Coordinator> fetchByPrimaryKeys(
+		java.util.Set<java.io.Serializable> primaryKeys) {
+		return getPersistence().fetchByPrimaryKeys(primaryKeys);
+	}
+
+	/**
+	* Returns all the coordinators.
+	*
+	* @return the coordinators
+	*/
+	public static List<Coordinator> findAll() {
+		return getPersistence().findAll();
+	}
+
+	/**
+	* Returns a range of all the coordinators.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @return the range of coordinators
+	*/
+	public static List<Coordinator> findAll(int start, int end) {
+		return getPersistence().findAll(start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of coordinators
+	*/
+	public static List<Coordinator> findAll(int start, int end,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence().findAll(start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of coordinators
+	*/
+	public static List<Coordinator> findAll(int start, int end,
+		OrderByComparator<Coordinator> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findAll(start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Removes all the coordinators from the database.
+	*/
+	public static void removeAll() {
+		getPersistence().removeAll();
+	}
+
+	/**
+	* Returns the number of coordinators.
+	*
+	* @return the number of coordinators
+	*/
+	public static int countAll() {
+		return getPersistence().countAll();
+	}
+
+	public static CoordinatorPersistence getPersistence() {
+		return _serviceTracker.getService();
+	}
+
+	private static ServiceTracker<CoordinatorPersistence, CoordinatorPersistence> _serviceTracker =
+		ServiceTrackerFactory.open(CoordinatorPersistence.class);
+}

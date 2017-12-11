@@ -1,0 +1,843 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package de.uhh.l2g.plugins.service.persistence;
+
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.osgi.util.ServiceTrackerFactory;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import de.uhh.l2g.plugins.model.Producer;
+
+import org.osgi.util.tracker.ServiceTracker;
+
+import java.util.List;
+
+/**
+ * The persistence utility for the producer service. This utility wraps {@link de.uhh.l2g.plugins.service.persistence.impl.ProducerPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
+ *
+ * <p>
+ * Caching information and settings can be found in <code>portal.properties</code>
+ * </p>
+ *
+ * @author Iavor Sturm
+ * @see ProducerPersistence
+ * @see de.uhh.l2g.plugins.service.persistence.impl.ProducerPersistenceImpl
+ * @generated
+ */
+@ProviderType
+public class ProducerUtil {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never modify this class directly. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 */
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache()
+	 */
+	public static void clearCache() {
+		getPersistence().clearCache();
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache(com.liferay.portal.kernel.model.BaseModel)
+	 */
+	public static void clearCache(Producer producer) {
+		getPersistence().clearCache(producer);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
+	 */
+	public static long countWithDynamicQuery(DynamicQuery dynamicQuery) {
+		return getPersistence().countWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
+	 */
+	public static List<Producer> findWithDynamicQuery(DynamicQuery dynamicQuery) {
+		return getPersistence().findWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int)
+	 */
+	public static List<Producer> findWithDynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+		return getPersistence().findWithDynamicQuery(dynamicQuery, start, end);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int, OrderByComparator)
+	 */
+	public static List<Producer> findWithDynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence()
+				   .findWithDynamicQuery(dynamicQuery, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel)
+	 */
+	public static Producer update(Producer producer) {
+		return getPersistence().update(producer);
+	}
+
+	/**
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel, ServiceContext)
+	 */
+	public static Producer update(Producer producer,
+		ServiceContext serviceContext) {
+		return getPersistence().update(producer, serviceContext);
+	}
+
+	/**
+	* Returns all the producers where hostId = &#63;.
+	*
+	* @param hostId the host ID
+	* @return the matching producers
+	*/
+	public static List<Producer> findByHost(long hostId) {
+		return getPersistence().findByHost(hostId);
+	}
+
+	/**
+	* Returns a range of all the producers where hostId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param hostId the host ID
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @return the range of matching producers
+	*/
+	public static List<Producer> findByHost(long hostId, int start, int end) {
+		return getPersistence().findByHost(hostId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the producers where hostId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param hostId the host ID
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching producers
+	*/
+	public static List<Producer> findByHost(long hostId, int start, int end,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence().findByHost(hostId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the producers where hostId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param hostId the host ID
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching producers
+	*/
+	public static List<Producer> findByHost(long hostId, int start, int end,
+		OrderByComparator<Producer> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByHost(hostId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first producer in the ordered set where hostId = &#63;.
+	*
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching producer
+	* @throws NoSuchProducerException if a matching producer could not be found
+	*/
+	public static Producer findByHost_First(long hostId,
+		OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().findByHost_First(hostId, orderByComparator);
+	}
+
+	/**
+	* Returns the first producer in the ordered set where hostId = &#63;.
+	*
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByHost_First(long hostId,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence().fetchByHost_First(hostId, orderByComparator);
+	}
+
+	/**
+	* Returns the last producer in the ordered set where hostId = &#63;.
+	*
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching producer
+	* @throws NoSuchProducerException if a matching producer could not be found
+	*/
+	public static Producer findByHost_Last(long hostId,
+		OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().findByHost_Last(hostId, orderByComparator);
+	}
+
+	/**
+	* Returns the last producer in the ordered set where hostId = &#63;.
+	*
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByHost_Last(long hostId,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence().fetchByHost_Last(hostId, orderByComparator);
+	}
+
+	/**
+	* Returns the producers before and after the current producer in the ordered set where hostId = &#63;.
+	*
+	* @param producerId the primary key of the current producer
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next producer
+	* @throws NoSuchProducerException if a producer with the primary key could not be found
+	*/
+	public static Producer[] findByHost_PrevAndNext(long producerId,
+		long hostId, OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence()
+				   .findByHost_PrevAndNext(producerId, hostId, orderByComparator);
+	}
+
+	/**
+	* Removes all the producers where hostId = &#63; from the database.
+	*
+	* @param hostId the host ID
+	*/
+	public static void removeByHost(long hostId) {
+		getPersistence().removeByHost(hostId);
+	}
+
+	/**
+	* Returns the number of producers where hostId = &#63;.
+	*
+	* @param hostId the host ID
+	* @return the number of matching producers
+	*/
+	public static int countByHost(long hostId) {
+		return getPersistence().countByHost(hostId);
+	}
+
+	/**
+	* Returns all the producers where institutionId = &#63;.
+	*
+	* @param institutionId the institution ID
+	* @return the matching producers
+	*/
+	public static List<Producer> findByInstitution(long institutionId) {
+		return getPersistence().findByInstitution(institutionId);
+	}
+
+	/**
+	* Returns a range of all the producers where institutionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param institutionId the institution ID
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @return the range of matching producers
+	*/
+	public static List<Producer> findByInstitution(long institutionId,
+		int start, int end) {
+		return getPersistence().findByInstitution(institutionId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the producers where institutionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param institutionId the institution ID
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching producers
+	*/
+	public static List<Producer> findByInstitution(long institutionId,
+		int start, int end, OrderByComparator<Producer> orderByComparator) {
+		return getPersistence()
+				   .findByInstitution(institutionId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the producers where institutionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param institutionId the institution ID
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching producers
+	*/
+	public static List<Producer> findByInstitution(long institutionId,
+		int start, int end, OrderByComparator<Producer> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByInstitution(institutionId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first producer in the ordered set where institutionId = &#63;.
+	*
+	* @param institutionId the institution ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching producer
+	* @throws NoSuchProducerException if a matching producer could not be found
+	*/
+	public static Producer findByInstitution_First(long institutionId,
+		OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence()
+				   .findByInstitution_First(institutionId, orderByComparator);
+	}
+
+	/**
+	* Returns the first producer in the ordered set where institutionId = &#63;.
+	*
+	* @param institutionId the institution ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByInstitution_First(long institutionId,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence()
+				   .fetchByInstitution_First(institutionId, orderByComparator);
+	}
+
+	/**
+	* Returns the last producer in the ordered set where institutionId = &#63;.
+	*
+	* @param institutionId the institution ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching producer
+	* @throws NoSuchProducerException if a matching producer could not be found
+	*/
+	public static Producer findByInstitution_Last(long institutionId,
+		OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence()
+				   .findByInstitution_Last(institutionId, orderByComparator);
+	}
+
+	/**
+	* Returns the last producer in the ordered set where institutionId = &#63;.
+	*
+	* @param institutionId the institution ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByInstitution_Last(long institutionId,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence()
+				   .fetchByInstitution_Last(institutionId, orderByComparator);
+	}
+
+	/**
+	* Returns the producers before and after the current producer in the ordered set where institutionId = &#63;.
+	*
+	* @param producerId the primary key of the current producer
+	* @param institutionId the institution ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next producer
+	* @throws NoSuchProducerException if a producer with the primary key could not be found
+	*/
+	public static Producer[] findByInstitution_PrevAndNext(long producerId,
+		long institutionId, OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence()
+				   .findByInstitution_PrevAndNext(producerId, institutionId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the producers where institutionId = &#63; from the database.
+	*
+	* @param institutionId the institution ID
+	*/
+	public static void removeByInstitution(long institutionId) {
+		getPersistence().removeByInstitution(institutionId);
+	}
+
+	/**
+	* Returns the number of producers where institutionId = &#63;.
+	*
+	* @param institutionId the institution ID
+	* @return the number of matching producers
+	*/
+	public static int countByInstitution(long institutionId) {
+		return getPersistence().countByInstitution(institutionId);
+	}
+
+	/**
+	* Returns all the producers where approved = &#63;.
+	*
+	* @param approved the approved
+	* @return the matching producers
+	*/
+	public static List<Producer> findByStatus(int approved) {
+		return getPersistence().findByStatus(approved);
+	}
+
+	/**
+	* Returns a range of all the producers where approved = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param approved the approved
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @return the range of matching producers
+	*/
+	public static List<Producer> findByStatus(int approved, int start, int end) {
+		return getPersistence().findByStatus(approved, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the producers where approved = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param approved the approved
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching producers
+	*/
+	public static List<Producer> findByStatus(int approved, int start, int end,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence()
+				   .findByStatus(approved, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the producers where approved = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param approved the approved
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching producers
+	*/
+	public static List<Producer> findByStatus(int approved, int start, int end,
+		OrderByComparator<Producer> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByStatus(approved, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first producer in the ordered set where approved = &#63;.
+	*
+	* @param approved the approved
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching producer
+	* @throws NoSuchProducerException if a matching producer could not be found
+	*/
+	public static Producer findByStatus_First(int approved,
+		OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().findByStatus_First(approved, orderByComparator);
+	}
+
+	/**
+	* Returns the first producer in the ordered set where approved = &#63;.
+	*
+	* @param approved the approved
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByStatus_First(int approved,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence().fetchByStatus_First(approved, orderByComparator);
+	}
+
+	/**
+	* Returns the last producer in the ordered set where approved = &#63;.
+	*
+	* @param approved the approved
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching producer
+	* @throws NoSuchProducerException if a matching producer could not be found
+	*/
+	public static Producer findByStatus_Last(int approved,
+		OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().findByStatus_Last(approved, orderByComparator);
+	}
+
+	/**
+	* Returns the last producer in the ordered set where approved = &#63;.
+	*
+	* @param approved the approved
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByStatus_Last(int approved,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence().fetchByStatus_Last(approved, orderByComparator);
+	}
+
+	/**
+	* Returns the producers before and after the current producer in the ordered set where approved = &#63;.
+	*
+	* @param producerId the primary key of the current producer
+	* @param approved the approved
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next producer
+	* @throws NoSuchProducerException if a producer with the primary key could not be found
+	*/
+	public static Producer[] findByStatus_PrevAndNext(long producerId,
+		int approved, OrderByComparator<Producer> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence()
+				   .findByStatus_PrevAndNext(producerId, approved,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the producers where approved = &#63; from the database.
+	*
+	* @param approved the approved
+	*/
+	public static void removeByStatus(int approved) {
+		getPersistence().removeByStatus(approved);
+	}
+
+	/**
+	* Returns the number of producers where approved = &#63;.
+	*
+	* @param approved the approved
+	* @return the number of matching producers
+	*/
+	public static int countByStatus(int approved) {
+		return getPersistence().countByStatus(approved);
+	}
+
+	/**
+	* Returns the producer where homeDir = &#63; or throws a {@link NoSuchProducerException} if it could not be found.
+	*
+	* @param homeDir the home dir
+	* @return the matching producer
+	* @throws NoSuchProducerException if a matching producer could not be found
+	*/
+	public static Producer findByDirectory(java.lang.String homeDir)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().findByDirectory(homeDir);
+	}
+
+	/**
+	* Returns the producer where homeDir = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param homeDir the home dir
+	* @return the matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByDirectory(java.lang.String homeDir) {
+		return getPersistence().fetchByDirectory(homeDir);
+	}
+
+	/**
+	* Returns the producer where homeDir = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param homeDir the home dir
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByDirectory(java.lang.String homeDir,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByDirectory(homeDir, retrieveFromCache);
+	}
+
+	/**
+	* Removes the producer where homeDir = &#63; from the database.
+	*
+	* @param homeDir the home dir
+	* @return the producer that was removed
+	*/
+	public static Producer removeByDirectory(java.lang.String homeDir)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().removeByDirectory(homeDir);
+	}
+
+	/**
+	* Returns the number of producers where homeDir = &#63;.
+	*
+	* @param homeDir the home dir
+	* @return the number of matching producers
+	*/
+	public static int countByDirectory(java.lang.String homeDir) {
+		return getPersistence().countByDirectory(homeDir);
+	}
+
+	/**
+	* Returns the producer where idNum = &#63; or throws a {@link NoSuchProducerException} if it could not be found.
+	*
+	* @param idNum the id num
+	* @return the matching producer
+	* @throws NoSuchProducerException if a matching producer could not be found
+	*/
+	public static Producer findByUID(java.lang.String idNum)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().findByUID(idNum);
+	}
+
+	/**
+	* Returns the producer where idNum = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param idNum the id num
+	* @return the matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByUID(java.lang.String idNum) {
+		return getPersistence().fetchByUID(idNum);
+	}
+
+	/**
+	* Returns the producer where idNum = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param idNum the id num
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching producer, or <code>null</code> if a matching producer could not be found
+	*/
+	public static Producer fetchByUID(java.lang.String idNum,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByUID(idNum, retrieveFromCache);
+	}
+
+	/**
+	* Removes the producer where idNum = &#63; from the database.
+	*
+	* @param idNum the id num
+	* @return the producer that was removed
+	*/
+	public static Producer removeByUID(java.lang.String idNum)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().removeByUID(idNum);
+	}
+
+	/**
+	* Returns the number of producers where idNum = &#63;.
+	*
+	* @param idNum the id num
+	* @return the number of matching producers
+	*/
+	public static int countByUID(java.lang.String idNum) {
+		return getPersistence().countByUID(idNum);
+	}
+
+	/**
+	* Caches the producer in the entity cache if it is enabled.
+	*
+	* @param producer the producer
+	*/
+	public static void cacheResult(Producer producer) {
+		getPersistence().cacheResult(producer);
+	}
+
+	/**
+	* Caches the producers in the entity cache if it is enabled.
+	*
+	* @param producers the producers
+	*/
+	public static void cacheResult(List<Producer> producers) {
+		getPersistence().cacheResult(producers);
+	}
+
+	/**
+	* Creates a new producer with the primary key. Does not add the producer to the database.
+	*
+	* @param producerId the primary key for the new producer
+	* @return the new producer
+	*/
+	public static Producer create(long producerId) {
+		return getPersistence().create(producerId);
+	}
+
+	/**
+	* Removes the producer with the primary key from the database. Also notifies the appropriate model listeners.
+	*
+	* @param producerId the primary key of the producer
+	* @return the producer that was removed
+	* @throws NoSuchProducerException if a producer with the primary key could not be found
+	*/
+	public static Producer remove(long producerId)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().remove(producerId);
+	}
+
+	public static Producer updateImpl(Producer producer) {
+		return getPersistence().updateImpl(producer);
+	}
+
+	/**
+	* Returns the producer with the primary key or throws a {@link NoSuchProducerException} if it could not be found.
+	*
+	* @param producerId the primary key of the producer
+	* @return the producer
+	* @throws NoSuchProducerException if a producer with the primary key could not be found
+	*/
+	public static Producer findByPrimaryKey(long producerId)
+		throws de.uhh.l2g.plugins.exception.NoSuchProducerException {
+		return getPersistence().findByPrimaryKey(producerId);
+	}
+
+	/**
+	* Returns the producer with the primary key or returns <code>null</code> if it could not be found.
+	*
+	* @param producerId the primary key of the producer
+	* @return the producer, or <code>null</code> if a producer with the primary key could not be found
+	*/
+	public static Producer fetchByPrimaryKey(long producerId) {
+		return getPersistence().fetchByPrimaryKey(producerId);
+	}
+
+	public static java.util.Map<java.io.Serializable, Producer> fetchByPrimaryKeys(
+		java.util.Set<java.io.Serializable> primaryKeys) {
+		return getPersistence().fetchByPrimaryKeys(primaryKeys);
+	}
+
+	/**
+	* Returns all the producers.
+	*
+	* @return the producers
+	*/
+	public static List<Producer> findAll() {
+		return getPersistence().findAll();
+	}
+
+	/**
+	* Returns a range of all the producers.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @return the range of producers
+	*/
+	public static List<Producer> findAll(int start, int end) {
+		return getPersistence().findAll(start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the producers.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of producers
+	*/
+	public static List<Producer> findAll(int start, int end,
+		OrderByComparator<Producer> orderByComparator) {
+		return getPersistence().findAll(start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the producers.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProducerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of producers
+	* @param end the upper bound of the range of producers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of producers
+	*/
+	public static List<Producer> findAll(int start, int end,
+		OrderByComparator<Producer> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findAll(start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Removes all the producers from the database.
+	*/
+	public static void removeAll() {
+		getPersistence().removeAll();
+	}
+
+	/**
+	* Returns the number of producers.
+	*
+	* @return the number of producers
+	*/
+	public static int countAll() {
+		return getPersistence().countAll();
+	}
+
+	public static ProducerPersistence getPersistence() {
+		return _serviceTracker.getService();
+	}
+
+	private static ServiceTracker<ProducerPersistence, ProducerPersistence> _serviceTracker =
+		ServiceTrackerFactory.open(ProducerPersistence.class);
+}
