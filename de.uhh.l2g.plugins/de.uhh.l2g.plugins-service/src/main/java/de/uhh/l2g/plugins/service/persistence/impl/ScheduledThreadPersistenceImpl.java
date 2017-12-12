@@ -14,16 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -45,12 +36,23 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.exception.NoSuchScheduledThreadException;
 import de.uhh.l2g.plugins.model.ScheduledThread;
 import de.uhh.l2g.plugins.model.impl.ScheduledThreadImpl;
 import de.uhh.l2g.plugins.model.impl.ScheduledThreadModelImpl;
 import de.uhh.l2g.plugins.service.persistence.ScheduledThreadPersistence;
+
+import java.io.Serializable;
+
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * The persistence implementation for the scheduled thread service.

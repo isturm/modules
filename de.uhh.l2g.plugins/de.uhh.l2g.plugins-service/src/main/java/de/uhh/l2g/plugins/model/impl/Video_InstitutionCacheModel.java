@@ -14,17 +14,18 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
-import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.model.Video_Institution;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
  * The cache model class for representing Video_Institution in entity cache.

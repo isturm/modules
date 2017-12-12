@@ -14,14 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -39,12 +32,21 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.exception.NoSuchCoordinatorException;
 import de.uhh.l2g.plugins.model.Coordinator;
 import de.uhh.l2g.plugins.model.impl.CoordinatorImpl;
 import de.uhh.l2g.plugins.model.impl.CoordinatorModelImpl;
 import de.uhh.l2g.plugins.service.persistence.CoordinatorPersistence;
+
+import java.io.Serializable;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * The persistence implementation for the coordinator service.

@@ -14,10 +14,7 @@
 
 package de.uhh.l2g.plugins.service.base;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.sql.DataSource;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -44,7 +41,6 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.model.Producer_Lectureseries;
 import de.uhh.l2g.plugins.service.Producer_LectureseriesLocalService;
 import de.uhh.l2g.plugins.service.persistence.CategoryFinder;
@@ -85,6 +81,12 @@ import de.uhh.l2g.plugins.service.persistence.Video_CreatorPersistence;
 import de.uhh.l2g.plugins.service.persistence.Video_InstitutionPersistence;
 import de.uhh.l2g.plugins.service.persistence.Video_LectureseriesPersistence;
 import de.uhh.l2g.plugins.service.persistence.VideohitlistPersistence;
+
+import java.io.Serializable;
+
+import java.util.List;
+
+import javax.sql.DataSource;
 
 /**
  * Provides the base implementation for the producer_ lectureseries local service.

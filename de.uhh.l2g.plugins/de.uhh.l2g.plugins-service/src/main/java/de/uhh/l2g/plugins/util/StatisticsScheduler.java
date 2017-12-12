@@ -50,43 +50,43 @@ import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
  * The Class StatisticsSheduler.
  */
 @SuppressWarnings("serial")
-public class StatisticsScheduler extends PortletScheduler implements MessageListener {  
-	private static Log LOG;	
-	  
-    public StatisticsScheduler(){
-    	super();
-    	LOG = LogFactoryUtil.getLog(StatisticsScheduler.class.getName());
-    }
-    
-	@Override
-    public void receive(Message message) throws MessageListenerException {
-	   //uncoment for further debug messages
-	   //super.receive(message);
-	   LOG.info("Statistics Scheduler running "+message.getValues().get(SchedulerEngine.JOB_NAME).toString()+"...");
-	   //Do Job....
-	   int privateVideos = 0;
-	   int publicVideos = 0;
-	   try {
-		   publicVideos=VideoLocalServiceUtil.getByOpenAccess(1).size();
-		   privateVideos=VideoLocalServiceUtil.getByOpenAccess(0).size();
-		   //TODO can not get the service context for using the addEntry method, because of the scheduler! And can't find workaround.
-		   StatisticLocalServiceUtil.add(privateVideos, publicVideos);
-	   } catch (PortalException e) {
-		   LOG.info("Statistics Scheduler failed.");
-	   } catch (SystemException e) {
-		   LOG.info("Statistics Scheduler failed.");
-	   }
-	   //Job end
-	   LOG.info("Statistics Scheduler finished.");
-    }
-	
-	public void start() {
-        super.schedule();
-	}
-	
-	public void stop() {
-		super.unschedule();
-	}
+public class StatisticsScheduler  {  
+//	private static Log LOG;	
+//	  
+//    public StatisticsScheduler(){
+//    	super();
+//    	LOG = LogFactoryUtil.getLog(StatisticsScheduler.class.getName());
+//    }
+//    
+//	@Override
+//    public void receive(Message message) throws MessageListenerException {
+//	   //uncoment for further debug messages
+//	   //super.receive(message);
+//	   LOG.info("Statistics Scheduler running "+message.getValues().get(SchedulerEngine.JOB_NAME).toString()+"...");
+//	   //Do Job....
+//	   int privateVideos = 0;
+//	   int publicVideos = 0;
+//	   try {
+//		   publicVideos=VideoLocalServiceUtil.getByOpenAccess(1).size();
+//		   privateVideos=VideoLocalServiceUtil.getByOpenAccess(0).size();
+//		   //TODO can not get the service context for using the addEntry method, because of the scheduler! And can't find workaround.
+//		   StatisticLocalServiceUtil.add(privateVideos, publicVideos);
+//	   } catch (PortalException e) {
+//		   LOG.info("Statistics Scheduler failed.");
+//	   } catch (SystemException e) {
+//		   LOG.info("Statistics Scheduler failed.");
+//	   }
+//	   //Job end
+//	   LOG.info("Statistics Scheduler finished.");
+//    }
+//	
+//	public void start() {
+//        super.schedule();
+//	}
+//	
+//	public void stop() {
+//		super.unschedule();
+//	}
     
 }
  

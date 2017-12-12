@@ -15,6 +15,7 @@
 package de.uhh.l2g.plugins.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+
 import de.uhh.l2g.plugins.model.Category;
 import de.uhh.l2g.plugins.service.CategoryLocalServiceUtil;
 

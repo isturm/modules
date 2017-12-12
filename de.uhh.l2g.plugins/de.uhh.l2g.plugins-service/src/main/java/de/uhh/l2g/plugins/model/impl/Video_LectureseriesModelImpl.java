@@ -14,13 +14,11 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import java.io.Serializable;
-import java.sql.Types;
-import java.util.HashMap;
-import java.util.Map;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
@@ -29,9 +27,15 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
-import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.model.Video_Lectureseries;
 import de.uhh.l2g.plugins.model.Video_LectureseriesModel;
+
+import java.io.Serializable;
+
+import java.sql.Types;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The base model implementation for the Video_Lectureseries service. Represents a row in the &quot;LG_Video_Lectureseries&quot; database table, with each column mapped to a property of this class.

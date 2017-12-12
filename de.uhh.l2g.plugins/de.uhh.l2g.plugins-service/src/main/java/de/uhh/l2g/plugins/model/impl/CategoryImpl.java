@@ -14,8 +14,6 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * The extended model implementation for the Category service. Represents a row in the &quot;LG_Category&quot; database table, with each column mapped to a property of this class.
  *
@@ -25,8 +23,8 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Iavor Sturm
  */
-@ProviderType
 public class CategoryImpl extends CategoryBaseImpl {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

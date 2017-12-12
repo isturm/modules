@@ -14,11 +14,6 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -27,6 +22,12 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 
 import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.service.persistence.VideoPersistence;
+
+import java.lang.reflect.Field;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Iavor Sturm

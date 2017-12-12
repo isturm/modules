@@ -14,15 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -41,12 +33,23 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.exception.NoSuchSegmentException;
 import de.uhh.l2g.plugins.model.Segment;
 import de.uhh.l2g.plugins.model.impl.SegmentImpl;
 import de.uhh.l2g.plugins.model.impl.SegmentModelImpl;
 import de.uhh.l2g.plugins.service.persistence.SegmentPersistence;
+
+import java.io.Serializable;
+
+import java.lang.reflect.Field;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * The persistence implementation for the segment service.

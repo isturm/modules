@@ -6,17 +6,17 @@ import com.liferay.portal.kernel.messaging.MessageListener;
 /**
  * The Class DatabaseThread.
  */
-public final class AutocompleteScheduler extends PortletScheduler implements MessageListener {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-    public AutocompleteScheduler(){
-    	super();
-    	LOG = LogFactoryUtil.getLog(VideohitlistScheduler.class.getName());
-    }
+public final class AutocompleteScheduler {
+//
+//	/**
+//	 * 
+//	 */
+//	private static final long serialVersionUID = 1L;
+//	
+//    public AutocompleteScheduler(){
+//    	super();
+//    	LOG = LogFactoryUtil.getLog(VideohitlistScheduler.class.getName());
+//    }
 //    
 //	public AutocompleteScheduler(String schedulerClassName, ServiceContext serviceContext) {
 //		super(AutocompleteScheduler.class.getName(), serviceContext);

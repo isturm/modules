@@ -5,10 +5,10 @@
 <%@page import="java.util.List"%>
 
 <%
-//get popular videos
-//example -> top 10
-List<Video> popular = VideoLocalServiceUtil.getPopular(12);
-ListIterator<Video> pli = popular.listIterator();
+	//get popular videos
+	//example -> top 10
+	List<Video> popular = VideoLocalServiceUtil.getPopular(12);
+	ListIterator<Video> pli = popular.listIterator();
 %>
 
 <%@ include file="/init.jsp" %>

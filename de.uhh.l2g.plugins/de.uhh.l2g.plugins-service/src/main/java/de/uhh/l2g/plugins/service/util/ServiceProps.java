@@ -14,13 +14,13 @@
 
 package de.uhh.l2g.plugins.service.util;
 
-import java.util.Properties;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.configuration.Filter;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.Properties;
 
 /**
  * @author Iavor Sturm

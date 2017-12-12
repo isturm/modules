@@ -14,10 +14,7 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import java.io.Serializable;
-import java.sql.Types;
-import java.util.HashMap;
-import java.util.Map;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -27,9 +24,15 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
-import aQute.bnd.annotation.ProviderType;
 import de.uhh.l2g.plugins.model.Sys;
 import de.uhh.l2g.plugins.model.SysModel;
+
+import java.io.Serializable;
+
+import java.sql.Types;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The base model implementation for the Sys service. Represents a row in the &quot;LG_Sys&quot; database table, with each column mapped to a property of this class.
