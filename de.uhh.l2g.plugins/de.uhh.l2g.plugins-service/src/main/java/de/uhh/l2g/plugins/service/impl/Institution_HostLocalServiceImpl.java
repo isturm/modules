@@ -14,6 +14,7 @@
 
 package de.uhh.l2g.plugins.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -97,7 +98,7 @@ public class Institution_HostLocalServiceImpl
 
 	public List<Institution> getByGroupIdAndHostId(long groupId, long hostId) throws SystemException, PortalException {
 		List<Institution_Host> linkList = institution_HostPersistence.findByG_H(groupId, hostId);
-		List<Institution> institutions = null;
+		List<Institution> institutions = new ArrayList<Institution>();
 
 		for (Institution_Host link : linkList) {
 			long iId = link.getInstitutionId();
@@ -229,9 +230,6 @@ public class Institution_HostLocalServiceImpl
 	   public Institution_Host deleteLinkById(long institutionHostId, ServiceContext serviceContext)
 		        throws PortalException, SystemException {
 		   		Institution_Host institution_Host = null;
-
-		   		long groupId = serviceContext.getScopeGroupId();
-		   		long userId = serviceContext.getUserId();
 
 
 

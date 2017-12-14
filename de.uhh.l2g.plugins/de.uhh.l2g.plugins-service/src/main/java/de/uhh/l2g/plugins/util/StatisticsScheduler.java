@@ -32,24 +32,10 @@ package de.uhh.l2g.plugins.util;
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.messaging.MessageListener;
-import com.liferay.portal.kernel.messaging.MessageListenerException;
-import com.liferay.portal.kernel.scheduler.SchedulerEngine;
-
-import de.uhh.l2g.plugins.service.StatisticLocalServiceUtil;
-import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
-
-
 /** Statistics is less flawed when running job at concrete time (ideally around midnight)  
  *  
  * The Class StatisticsSheduler.
  */
-@SuppressWarnings("serial")
 public class StatisticsScheduler  {  
 //	private static Log LOG;	
 //	  

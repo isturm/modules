@@ -69,7 +69,7 @@ public class Lectureseries_InstitutionLocalServiceImpl
 	
 	public boolean institutionAssignedToLectureseries(Lectureseries_Institution lf){
 		boolean ret = false;
-				List<Lectureseries_Institution> lfL = new ArrayList();
+				List<Lectureseries_Institution> lfL = new ArrayList<Lectureseries_Institution>();
 				try {
 					lfL = lectureseries_InstitutionPersistence.findByLectureseriesIdAndInstitutionId(lf.getLectureseriesId(), lf.getInstitutionId());
 				} catch (Exception e) {

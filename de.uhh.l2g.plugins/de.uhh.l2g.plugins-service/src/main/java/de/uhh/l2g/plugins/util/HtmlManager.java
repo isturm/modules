@@ -61,7 +61,7 @@ public class HtmlManager {
 		// retrieve input from user
 		String clean = "";
 		try {
-			clean = new HTMLInputFilter().filter( html );
+			//clean = new HTMLInputFilter().filter( html );
 		}catch (Exception e){
 			clean = "Error!";
 		}

@@ -25,6 +25,11 @@ package de.uhh.l2g.plugins.model.impl;
  */
 public class CategoryImpl extends CategoryBaseImpl {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4170073875094391642L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

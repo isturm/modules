@@ -24,6 +24,10 @@ package de.uhh.l2g.plugins.model.impl;
  * @author Iavor Sturm
  */
 public class MetadataImpl extends MetadataBaseImpl {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

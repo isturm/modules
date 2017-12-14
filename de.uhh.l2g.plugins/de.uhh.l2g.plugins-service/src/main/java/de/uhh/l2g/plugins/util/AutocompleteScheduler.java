@@ -1,8 +1,5 @@
 package de.uhh.l2g.plugins.util;
 
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.MessageListener;
-
 /**
  * The Class DatabaseThread.
  */

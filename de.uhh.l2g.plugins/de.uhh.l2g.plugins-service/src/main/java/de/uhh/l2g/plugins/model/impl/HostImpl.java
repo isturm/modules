@@ -27,6 +27,10 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class HostImpl extends HostBaseImpl {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

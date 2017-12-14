@@ -1,26 +1,5 @@
 package de.uhh.l2g.plugins.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
-
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.MessageListener;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import de.uhh.l2g.plugins.model.Video;
-import de.uhh.l2g.plugins.model.Videohitlist;
-import de.uhh.l2g.plugins.model.impl.VideohitlistImpl;
-import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
-import de.uhh.l2g.plugins.service.VideohitlistLocalServiceUtil;
-
 /**
  * The Class DatabaseThread.
  */

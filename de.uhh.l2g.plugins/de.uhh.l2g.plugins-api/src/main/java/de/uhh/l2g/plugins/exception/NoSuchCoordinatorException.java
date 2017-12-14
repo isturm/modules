@@ -23,6 +23,11 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
 @ProviderType
 public class NoSuchCoordinatorException extends NoSuchModelException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2427705959260766482L;
+
 	public NoSuchCoordinatorException() {
 	}
 

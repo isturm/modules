@@ -23,6 +23,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 @ProviderType
 public class NoPropertyException extends PortalException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -945113809649308083L;
+
 	public NoPropertyException() {
 	}
 

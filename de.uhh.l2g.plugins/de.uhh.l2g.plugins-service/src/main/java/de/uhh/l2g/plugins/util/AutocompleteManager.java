@@ -3,8 +3,6 @@ package de.uhh.l2g.plugins.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -16,15 +14,6 @@ import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 
 public class AutocompleteManager {
 	/** The dao bean factory. */
-	private XmlBeanFactory daoBeanFactory; 
-	
-	public void setDaoBeanFactory(XmlBeanFactory daoBeanFactory) {
-		this.daoBeanFactory = daoBeanFactory;
-	}
-	
-	public XmlBeanFactory getDaoBeanFactory() {
-		return daoBeanFactory;
-	}
 	
 	public List<String> getAllVideos() {
 		

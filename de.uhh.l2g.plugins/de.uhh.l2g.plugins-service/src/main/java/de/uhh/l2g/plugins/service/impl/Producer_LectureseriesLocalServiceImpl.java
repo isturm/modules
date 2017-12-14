@@ -58,7 +58,7 @@ public class Producer_LectureseriesLocalServiceImpl
 	
 	public boolean producerAssignedToLectureseries(Producer_Lectureseries pl){
 		boolean ret = false;
-				List<Producer_Lectureseries> pId = new ArrayList();
+				List<Producer_Lectureseries> pId = new ArrayList<Producer_Lectureseries>();
 				try {
 					pId = producer_LectureseriesPersistence.findByLectureseriesIdAndProducerId(pl.getLectureseriesId(), pl.getProducerId());
 				} catch (Exception e) {

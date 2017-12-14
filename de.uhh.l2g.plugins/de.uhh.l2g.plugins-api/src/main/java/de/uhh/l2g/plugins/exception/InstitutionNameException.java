@@ -22,7 +22,10 @@ import com.liferay.portal.kernel.exception.PortalException;
  */
 @ProviderType
 public class InstitutionNameException extends PortalException {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public InstitutionNameException() {
 	}
 

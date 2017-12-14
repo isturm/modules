@@ -28,6 +28,12 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public class Lectureseries_InstitutionImpl
 	extends Lectureseries_InstitutionBaseImpl {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
