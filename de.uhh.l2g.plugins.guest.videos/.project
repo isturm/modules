@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>de.uhh.l2g.plugins.guest.openaccessvideos</name>
-	<comment>Project de.uhh.l2g.plugins.guest.openaccessvideos created by Buildship.</comment>
+	<name>de.uhh.l2g.plugins.guest.videos</name>
+	<comment>Project de.uhh.l2g.plugins.guest.videos created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>

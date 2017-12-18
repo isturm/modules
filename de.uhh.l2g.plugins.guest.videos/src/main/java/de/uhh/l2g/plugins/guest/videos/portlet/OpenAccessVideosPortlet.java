@@ -1,6 +1,6 @@
-package de.uhh.l2g.plugins.guest.openaccessvideos.portlet;
+package de.uhh.l2g.plugins.guest.videos.portlet;
 
-import de.uhh.l2g.plugins.guest.openaccessvideos.constants.OpenAccessVideosPortletKeys;
+import de.uhh.l2g.plugins.guest.videos.constants.OpenAccessVideosPortletKeys;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
@@ -14,11 +14,11 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=lecture2go.openaccessvideos",
+		"com.liferay.portlet.display-category=category.sample",
 		"com.liferay.portlet.instanceable=true",
-		"javax.portlet.display-name=de.uhh.l2g.plugins.guest.openaccessvideos Portlet",
+		"javax.portlet.display-name=de.uhh.l2g.plugins.guest.videos Portlet",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/viewList.jsp",
+		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.name=" + OpenAccessVideosPortletKeys.OpenAccessVideos,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"

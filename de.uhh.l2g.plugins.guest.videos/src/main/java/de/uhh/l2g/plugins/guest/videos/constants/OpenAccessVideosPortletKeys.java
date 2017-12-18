@@ -1,4 +1,4 @@
-package de.uhh.l2g.plugins.guest.openaccessvideos.constants;
+package de.uhh.l2g.plugins.guest.videos.constants;
 
 /**
  * @author isturm
