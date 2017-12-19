@@ -4,7 +4,6 @@
 <%@page import="de.uhh.l2g.plugins.model.Lectureseries" %>
 <%@page import="de.uhh.l2g.plugins.model.Institution" %>
 <%@page import="de.uhh.l2g.plugins.model.Video_Institution" %>
-
 <%@page import="de.uhh.l2g.plugins.service.VideoLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.service.LectureseriesLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil" %>
