@@ -33,7 +33,7 @@
 <jsp:useBean id="timeEnd" type="java.lang.Long" scope="request" />
 
 <portlet:actionURL var="backURL0" name="addFilter">
-	<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+	<portlet:param name="jspPage" value="/viewList.jsp" />
 	<portlet:param name="parentInstitutionId" value="0"/>
 	<portlet:param name="institutionId" value="0"/>
 	<portlet:param name="termId" value="0"/>
@@ -74,7 +74,7 @@ String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 				    			Institution rInst = InstitutionLocalServiceUtil.getById(pInst.getParentId());
 					    		%>
 								<portlet:actionURL var="backURL1" name="addFilter">
-									<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+									<portlet:param name="jspPage" value="/viewList.jsp" />
 									<portlet:param name="parentInstitutionId" value="<%=pInst.getInstitutionId()+\"\"%>"/>
 									<portlet:param name="institutionId" value="0"/>
 									<portlet:param name="termId" value="0"/>
@@ -82,7 +82,7 @@ String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 									<portlet:param name="creatorId" value="0"/>
 								</portlet:actionURL>					
 								<portlet:actionURL var="backURL2" name="addFilter">
-									<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+									<portlet:param name="jspPage" value="/viewList.jsp" />
 									<portlet:param name="parentInstitutionId" value="<%=pInst.getInstitutionId()+\"\"%>"/>
 									<portlet:param name="institutionId" value="<%=insti.getInstitutionId()+\"\"%>"/>
 									<portlet:param name="termId" value="0"/>
@@ -109,7 +109,7 @@ String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 					    		Institution rInst = InstitutionLocalServiceUtil.getById(pInst.getParentId());
 						    	%>
 									<portlet:actionURL var="backURL3" name="addFilter">
-										<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+										<portlet:param name="jspPage" value="/viewList.jsp" />
 										<portlet:param name="parentInstitutionId" value="<%=pInst.getInstitutionId()+\"\"%>"/>
 										<portlet:param name="institutionId" value="0"/>
 										<portlet:param name="termId" value="0"/>
@@ -117,7 +117,7 @@ String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 										<portlet:param name="creatorId" value="0"/>
 									</portlet:actionURL>					
 									<portlet:actionURL var="backURL4" name="addFilter">
-										<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+										<portlet:param name="jspPage" value="/viewList.jsp" />
 										<portlet:param name="parentInstitutionId" value="<%=pInst.getInstitutionId()+\"\"%>"/>
 										<portlet:param name="institutionId" value="<%=insti.getInstitutionId()+\"\"%>"/>
 										<portlet:param name="termId" value="0"/>

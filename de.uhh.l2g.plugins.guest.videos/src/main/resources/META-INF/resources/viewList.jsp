@@ -139,7 +139,7 @@
 	String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 	%>
 	<portlet:actionURL var="backURL0" name="addFilter">
-		<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+		<portlet:param name="jspPage" value="/viewList.jsp" />
 		<portlet:param name="parentInstitutionId" value="0"/>
 		<portlet:param name="institutionId" value="0"/>
 		<portlet:param name="termId" value="0"/>
@@ -163,7 +163,7 @@
 		pInst=InstitutionLocalServiceUtil.getById(parentInstitutionId);
 		if(pInst.getName().length()>0){%>
 		<portlet:actionURL var="backURL1" name="addFilter">
-			<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+			<portlet:param name="jspPage" value="/viewList.jsp" />
 			<portlet:param name="parentInstitutionId" value="<%=pInst.getInstitutionId()+\"\"%>"/>
 			<portlet:param name="institutionId" value="0"/>
 			<portlet:param name="termId" value="0"/>
@@ -179,7 +179,7 @@
 		insti=InstitutionLocalServiceUtil.getById(institutionId);
 		if(insti.getName().length()>0){%>
 			<portlet:actionURL var="backURL2" name="addFilter">
-				<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+				<portlet:param name="jspPage" value="/viewList.jsp" />
 				<portlet:param name="parentInstitutionId" value="<%=pInst.getInstitutionId()+\"\"%>"/>
 				<portlet:param name="institutionId" value="<%=insti.getInstitutionId()+\"\"%>"/>
 				<portlet:param name="termId" value="0"/>
@@ -204,7 +204,7 @@
 					<ul>
 					<c:forEach items="<%=presentParentInstitutions %>" var="parentInstitution">
 						<portlet:actionURL var="filterByParentInstitution" name="addFilter">
-							<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+							<portlet:param name="jspPage" value="/viewList.jsp" />
 							<portlet:param name="parentInstitutionId" value='${hasParentInstitutionFiltered ? "0" : parentInstitution.institutionId}'/>
 							<portlet:param name="institutionId" value="<%=institutionId.toString() %>"/>				
 							<portlet:param name="termId" value="<%=termId.toString() %>"/>
@@ -225,7 +225,7 @@
 					<ul>
 					<c:forEach items="<%=presentInstitutions %>" var="institution">
 						<portlet:actionURL var="filterByInstitution" name="addFilter">
-							<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+							<portlet:param name="jspPage" value="/viewList.jsp" />
 							<portlet:param name="parentInstitutionId" value="<%=parentInstitutionId.toString() %>"/>
 							<portlet:param name="institutionId" value='${hasInstitutionFiltered ? "0" : institution.institutionId}'/>
 							<portlet:param name="termId" value="<%=termId.toString() %>"/>
@@ -246,7 +246,7 @@
 					<ul class="terms">
 					<c:forEach items="<%=presentTerms %>" var="term">
 						<portlet:actionURL var="filterByTerm" name="addFilter">
-							<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+							<portlet:param name="jspPage" value="/viewList.jsp" />
 							<portlet:param name="institutionId" value="<%=institutionId.toString() %>"/>
 							<portlet:param name="parentInstitutionId" value="<%=parentInstitutionId.toString() %>"/>	
 							<portlet:param name="termId" value='${hasTermFiltered ? "0" : term.termId}'/>
@@ -270,7 +270,7 @@
 					<ul>
 					<c:forEach items="<%=presentCategories %>" var="category">
 			    		<portlet:actionURL var="filterByCategory" name="addFilter">
-							<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+							<portlet:param name="jspPage" value="/viewList.jsp" />
 							<portlet:param name="institutionId" value="<%=institutionId.toString() %>"/>
 							<portlet:param name="parentInstitutionId" value="<%=parentInstitutionId.toString() %>"/>
 							<portlet:param name="termId" value="<%=termId.toString() %>"/>
@@ -292,13 +292,13 @@
 <%if(resultSetEmpty){%><div class="none"><%}%>
 		
 <portlet:actionURL var="filterBySearchQuery" name="addFilter">
-	<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+	<portlet:param name="jspPage" value="/viewList.jsp" />
 	<portlet:param name="institutionId" value="0"/>
 	<portlet:param name="parentInstitutionId" value="0"/>
 	<portlet:param name="termId" value="0"/>
 	<portlet:param name="categoryId" value="0"/>
 	<portlet:param name="creatorId" value="0"/>
-	<portlet:param name="jspPage" value="/guest/videosList.jsp" />
+	<portlet:param name="jspPage" value="/viewList.jsp" />
 </portlet:actionURL>		
 
 		

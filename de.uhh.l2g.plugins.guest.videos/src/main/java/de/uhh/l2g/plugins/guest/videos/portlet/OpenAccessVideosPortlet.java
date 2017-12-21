@@ -46,11 +46,25 @@ import org.osgi.service.component.annotations.Component;
 /**
  * @author isturm
  */
+
 @Component(
 	immediate = true,
 	property = {
 		"com.liferay.portlet.display-category=lecture2go.openaccesvideos",
 		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery.tmpl.min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery-ui-1.11.1.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/bootstrap.min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery.socialshareprivacy.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/qrc.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery.cookie.js",
+		"com.liferay.portlet.header-portlet-javascript=https://content.jwplatform.com/libraries/meCDJ4WV.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/mediaCheck-min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/readmore.min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery.mark.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/catalog.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
 		"javax.portlet.display-name=de.uhh.l2g.plugins.guest.videos Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",
@@ -192,7 +206,7 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 	    		}
 	    	}catch(Exception e){
 	    		objectExists = false;
-	    		response.setRenderParameter("jspPage","/guest/noVideosFound.jsp");	
+	    		response.setRenderParameter("jspPage","/noVideosFound.jsp");	
 	    	}
 	    }else if(objectType.equals("v")){
 	    	video = VideoLocalServiceUtil.getFullVideo(objectId);
