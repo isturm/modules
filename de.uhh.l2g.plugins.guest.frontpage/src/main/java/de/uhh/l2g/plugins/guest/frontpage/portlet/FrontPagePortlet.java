@@ -16,6 +16,8 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"com.liferay.portlet.display-category=lecture2go.frontpage",
 		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.header-portlet-javascript=/js/bootstrap.min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
 		"javax.portlet.display-name=de.uhh.l2g.plugins.guest.frontpage Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
@@ -25,5 +27,6 @@ import org.osgi.service.component.annotations.Component;
 	},
 	service = Portlet.class
 )
+
 public class FrontPagePortlet extends MVCPortlet {
 }
