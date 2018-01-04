@@ -1,6 +1,6 @@
 package de.uhh.l2g.plugins.admin.lectureseries.portlet;
 
-import de.uhh.l2g.plugins.admin.lectureseries.constants.AdminVideoManagementPortletKeys;
+import de.uhh.l2g.plugins.admin.lectureseries.constants.AdminLectureseriesManagementPortletKeys;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
@@ -14,16 +14,16 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.display-category=lecture2go.plugins",
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.display-name=de.uhh.l2g.plugins.admin.lectureseries Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.name=" + AdminVideoManagementPortletKeys.AdminVideoManagement,
+		"javax.portlet.name=" + AdminLectureseriesManagementPortletKeys.AdminLectureseriesManagement,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
 	service = Portlet.class
 )
-public class AdminVideoManagementPortlet extends MVCPortlet {
+public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 }

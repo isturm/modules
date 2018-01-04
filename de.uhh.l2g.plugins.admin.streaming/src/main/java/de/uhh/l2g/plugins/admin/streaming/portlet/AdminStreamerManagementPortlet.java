@@ -14,7 +14,7 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=lecture2go.streaming",
+		"com.liferay.portlet.display-category=lecture2go.plugins",
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.display-name=de.uhh.l2g.plugins.admin.streaming Portlet",
 		"javax.portlet.init-param.template-path=/",
