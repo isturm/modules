@@ -14,7 +14,7 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=lecture2go.frontpage",
+		"com.liferay.portlet.display-category=lecture2go.guest",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.header-portlet-javascript=/js/bootstrap.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
