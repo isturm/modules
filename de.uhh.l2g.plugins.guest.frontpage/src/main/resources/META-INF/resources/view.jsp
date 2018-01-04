@@ -1,5 +1,3 @@
-<%@page import="java.util.ListIterator"%>
-<%@page import="java.util.List" %>
 <%@page import="de.uhh.l2g.plugins.model.Video" %>
 <%@page import="de.uhh.l2g.plugins.model.Lectureseries" %>
 <%@page import="de.uhh.l2g.plugins.model.Institution" %>

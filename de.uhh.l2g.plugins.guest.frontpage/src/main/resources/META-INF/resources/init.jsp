@@ -6,6 +6,9 @@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
+<%@page import="java.util.ListIterator"%>
+<%@page import="java.util.List" %>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
