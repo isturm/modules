@@ -18,13 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 
 import de.uhh.l2g.plugins.model.Creator;
 import de.uhh.l2g.plugins.model.Lectureseries_Creator;
@@ -171,57 +170,13 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 		return creators;
 	}
 	
-	public JSONArray getJSONCreatorsByVideoId(Long videoId){
+	public  com.liferay.portal.kernel.json.JSONArray getJSONCreatorsByVideoId(Long videoId){
 		List<Creator> cl = getCreatorsByVideoId(videoId);
 		ListIterator<Creator> i = cl.listIterator();
-		JSONArray json = new JSONArray();
+		JSONArray json = JSONFactoryUtil.createJSONArray();
 		while(i.hasNext()){
 			Creator cr = i.next();
-			JSONObject c = new JSONObject();
-			try {
-				c.put("creatorId", cr.getCreatorId());
-				c.put("firstName", cr.getFirstName());
-				c.put("lastName", cr.getLastName());
-				c.put("middleName", cr.getMiddleName());
-				c.put("jobTitle", cr.getJobTitle());
-				c.put("gender", cr.getGender());
-				c.put("fullName", cr.getFullName());
-				json.put(c);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return json;
-	}
-	
-	public JSONArray getJSONCreatorsByLectureseriesId(Long lectureseriesId){
-		List<Creator> cl = getCreatorsByLectureseriesId(lectureseriesId);
-		ListIterator<Creator> i = cl.listIterator();
-		JSONArray json = new JSONArray();
-		while(i.hasNext()){
-			Creator cr = i.next();
-			JSONObject c = new JSONObject();
-			try {
-				c.put("creatorId", cr.getCreatorId());
-				c.put("firstName", cr.getFirstName());
-				c.put("lastName", cr.getLastName());
-				c.put("middleName", cr.getMiddleName());
-				c.put("jobTitle", cr.getJobTitle());
-				c.put("gender", cr.getGender());
-				c.put("fullName", cr.getFullName());
-				json.put(c);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		return json;
-	}
-	
-	public JSONArray getJSONCreator(Long creatorId) throws PortalException, SystemException{
-		Creator cr = getCreator(creatorId);
-		JSONArray json = new JSONArray();
-		JSONObject c = new JSONObject();
-		try {
+			JSONObject c = JSONFactoryUtil.createJSONObject();
 			c.put("creatorId", cr.getCreatorId());
 			c.put("firstName", cr.getFirstName());
 			c.put("lastName", cr.getLastName());
@@ -230,9 +185,41 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 			c.put("gender", cr.getGender());
 			c.put("fullName", cr.getFullName());
 			json.put(c);
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
+		return json;
+	}
+	
+	public com.liferay.portal.kernel.json.JSONArray getJSONCreatorsByLectureseriesId(Long lectureseriesId){
+		List<Creator> cl = getCreatorsByLectureseriesId(lectureseriesId);
+		ListIterator<Creator> i = cl.listIterator();
+		JSONArray json = JSONFactoryUtil.createJSONArray();
+		while(i.hasNext()){
+			Creator cr = i.next();
+			JSONObject c = JSONFactoryUtil.createJSONObject();
+			c.put("creatorId", cr.getCreatorId());
+			c.put("firstName", cr.getFirstName());
+			c.put("lastName", cr.getLastName());
+			c.put("middleName", cr.getMiddleName());
+			c.put("jobTitle", cr.getJobTitle());
+			c.put("gender", cr.getGender());
+			c.put("fullName", cr.getFullName());
+			json.put(c);
+		}
+		return json;
+	}
+	
+	public com.liferay.portal.kernel.json.JSONArray getJSONCreator(Long creatorId) throws PortalException, SystemException{
+		Creator cr = getCreator(creatorId);
+		JSONArray json = JSONFactoryUtil.createJSONArray();
+		JSONObject c = JSONFactoryUtil.createJSONObject();
+		c.put("creatorId", cr.getCreatorId());
+		c.put("firstName", cr.getFirstName());
+		c.put("lastName", cr.getLastName());
+		c.put("middleName", cr.getMiddleName());
+		c.put("jobTitle", cr.getJobTitle());
+		c.put("gender", cr.getGender());
+		c.put("fullName", cr.getFullName());
+		json.put(c);
 		return json;
 	}
 	

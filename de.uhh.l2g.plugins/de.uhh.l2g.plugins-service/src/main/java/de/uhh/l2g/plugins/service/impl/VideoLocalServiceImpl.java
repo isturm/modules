@@ -23,13 +23,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 import de.uhh.l2g.plugins.exception.NoSuchInstitutionException;
@@ -414,116 +413,84 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	
 	public JSONArray getJSONVideo(Long videoId){
 		Video video = getFullVideo(videoId);
-		JSONArray json = new JSONArray();
+		JSONArray json = JSONFactoryUtil.createJSONArray();
 		
 		if(video.getMp4File().isFile()){
-			JSONObject jsonoMp4 = new JSONObject();
-			try {
-				String name="";
-				if(video.getOpenAccess()==1){
-					name=video.getPreffix()+".mp4";
-				}else{
-					name=video.getSPreffix()+".mp4";
-				}
-				jsonoMp4.put("name", name);
-				jsonoMp4.put("id", name.replace(".", ""));
-				jsonoMp4.put("size", video.getFileSize());
-				jsonoMp4.put("type", "mp4");
-				json.put(jsonoMp4);
-			} catch (JSONException e) {
-//				e.printStackTrace();
+			JSONObject jsonoMp4 = JSONFactoryUtil.createJSONObject();
+			String name="";
+			if(video.getOpenAccess()==1){
+				name=video.getPreffix()+".mp4";
+			}else{
+				name=video.getSPreffix()+".mp4";
 			}
+			jsonoMp4.put("name", name);
+			jsonoMp4.put("id", name.replace(".", ""));
+			jsonoMp4.put("size", video.getFileSize());
+			jsonoMp4.put("type", "mp4");
+			json.put(jsonoMp4);
 		}
 
 		if(video.getMp3File().isFile()){
-			JSONObject jsonoMp3 = new JSONObject();
-			try {
-				jsonoMp3.put("name", video.getMp3File().getName());
-				jsonoMp3.put("id", video.getMp3File().getName().replace(".", ""));
-				jsonoMp3.put("size", video.getMp3File().getTotalSpace());
-				jsonoMp3.put("type", "mp3");
-				json.put(jsonoMp3);
-			} catch (JSONException e) {
-//				e.printStackTrace();
-			}
+			JSONObject jsonoMp3 = JSONFactoryUtil.createJSONObject();
+			jsonoMp3.put("name", video.getMp3File().getName());
+			jsonoMp3.put("id", video.getMp3File().getName().replace(".", ""));
+			jsonoMp3.put("size", video.getMp3File().getTotalSpace());
+			jsonoMp3.put("type", "mp3");
+			json.put(jsonoMp3);
 		}
 		
 		if(video.getM4aFile().isFile()){
-			JSONObject jsonoM4a = new JSONObject();
-			try {
-				jsonoM4a.put("name", video.getM4aFile().getName());
-				jsonoM4a.put("id", video.getM4aFile().getName().replace(".", ""));
-				jsonoM4a.put("size",  video.getM4aFile().getTotalSpace());
-				jsonoM4a.put("type", "m4a");
-				json.put(jsonoM4a);
-			} catch (JSONException e) {
-//				e.printStackTrace();
-			} 
+			JSONObject jsonoM4a = JSONFactoryUtil.createJSONObject();
+			jsonoM4a.put("name", video.getM4aFile().getName());
+			jsonoM4a.put("id", video.getM4aFile().getName().replace(".", ""));
+			jsonoM4a.put("size",  video.getM4aFile().getTotalSpace());
+			jsonoM4a.put("type", "m4a");
+			json.put(jsonoM4a); 
 		}
 
 		if(video.getM4vFile().isFile()){
-			JSONObject jsonoM4v = new JSONObject();
-			try {
-				jsonoM4v.put("name", video.getM4vFile().getName());
-				jsonoM4v.put("id", video.getM4vFile().getName().replace(".", ""));
-				jsonoM4v.put("size", video.getM4vFile().getTotalSpace());
-				jsonoM4v.put("type", "m4v");
-				json.put(jsonoM4v);
-			} catch (JSONException e) {
-//				e.printStackTrace();
-			}
+			JSONObject jsonoM4v = JSONFactoryUtil.createJSONObject();
+			jsonoM4v.put("name", video.getM4vFile().getName());
+			jsonoM4v.put("id", video.getM4vFile().getName().replace(".", ""));
+			jsonoM4v.put("size", video.getM4vFile().getTotalSpace());
+			jsonoM4v.put("type", "m4v");
+			json.put(jsonoM4v);
 		}
 		
 		if(video.getPdfFile().isFile()){
-			JSONObject pdf = new JSONObject();
-			try {
-				pdf.put("name", video.getPdfFile().getName());
-				pdf.put("id", video.getPdfFile().getName().replace(".", ""));
-				pdf.put("size", video.getPdfFile().getTotalSpace());
-				pdf.put("type", "pdf");
-				json.put(pdf);
-			} catch (JSONException e) {
-//				e.printStackTrace();
-			}
+			JSONObject pdf = JSONFactoryUtil.createJSONObject();
+			pdf.put("name", video.getPdfFile().getName());
+			pdf.put("id", video.getPdfFile().getName().replace(".", ""));
+			pdf.put("size", video.getPdfFile().getTotalSpace());
+			pdf.put("type", "pdf");
+			json.put(pdf);
 		}
 		
 		if(video.getFlvFile().isFile()){
-			JSONObject flv = new JSONObject();
-			try {
-				flv.put("name", video.getFlvFile().getName());
-				flv.put("id", video.getFlvFile().getName().replace(".", ""));
-				flv.put("size", video.getFlvFile().getTotalSpace());
-				flv.put("type", "flv");
-				json.put(flv);
-			} catch (JSONException e) {
-//				e.printStackTrace();
-			}
+			JSONObject flv = JSONFactoryUtil.createJSONObject();
+			flv.put("name", video.getFlvFile().getName());
+			flv.put("id", video.getFlvFile().getName().replace(".", ""));
+			flv.put("size", video.getFlvFile().getTotalSpace());
+			flv.put("type", "flv");
+			json.put(flv);
 		}
 		
 		if(video.getOggFile().isFile()){
-			JSONObject ogg = new JSONObject();
-			try {
-				ogg.put("name", video.getOggFile().getName());
-				ogg.put("id", video.getOggFile().getName().replace(".", ""));
-				ogg.put("size", video.getOggFile().getTotalSpace());
-				ogg.put("type", "ogg");
-				json.put(ogg);
-			} catch (JSONException e) {
-//				e.printStackTrace();
-			}
+			JSONObject ogg = JSONFactoryUtil.createJSONObject();
+			ogg.put("name", video.getOggFile().getName());
+			ogg.put("id", video.getOggFile().getName().replace(".", ""));
+			ogg.put("size", video.getOggFile().getTotalSpace());
+			ogg.put("type", "ogg");
+			json.put(ogg);
 		}
 		
 		if(video.getWebmFile().isFile()){
-			JSONObject webm = new JSONObject();
-			try {
-				webm.put("name", video.getWebmFile().getName());
-				webm.put("id", video.getWebmFile().getName().replace(".", ""));
-				webm.put("size", video.getWebmFile().getTotalSpace());
-				webm.put("type", "webm");
-				json.put(webm);
-			} catch (JSONException e) {
-//				e.printStackTrace();
-			}
+			JSONObject webm = JSONFactoryUtil.createJSONObject();
+			webm.put("name", video.getWebmFile().getName());
+			webm.put("id", video.getWebmFile().getName().replace(".", ""));
+			webm.put("size", video.getWebmFile().getTotalSpace());
+			webm.put("type", "webm");
+			json.put(webm);
 		}
 		return json;
 	}
@@ -678,7 +645,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			Lectureseries lectureseriesObject = lectureseriesPersistence.findByPrimaryKey(lectureseriesId);
 			sortVideo = lectureseriesObject.getVideoSort();
 		} catch (NoSuchModelException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		// Sort by generation date

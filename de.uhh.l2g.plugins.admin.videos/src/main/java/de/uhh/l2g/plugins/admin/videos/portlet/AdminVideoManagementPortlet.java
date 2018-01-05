@@ -24,11 +24,10 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -194,7 +193,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 
 		request.setAttribute("reqVideo", reqVideo);
 		request.setAttribute("video", reqVideo);
-		response.setRenderParameter("jspPage", "/admin/editVideo.jsp");
+		response.setRenderParameter("jspPage", "/viewEdit.jsp");
 	}
 	
 	public void addVideo(ActionRequest request, ActionResponse response) throws SystemException, PortalException {
@@ -313,20 +312,16 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		//creators
 		JSONArray creatorsArray = CreatorLocalServiceUtil.getJSONCreatorsByLectureseriesId(lectureseriesId);
 		for (int i = 0; i< creatorsArray.length(); i++){
-			org.json.JSONObject creator;
-			try {
-				creator = creatorsArray.getJSONObject(i);
-				Long creatorId= creator.getLong("creatorId");
-				Video_Creator vc = Video_CreatorLocalServiceUtil.createVideo_Creator(0);
-				vc.setCreatorId(creatorId);
-				vc.setVideoId(newVideo.getVideoId());
-				Video_CreatorLocalServiceUtil.addVideo_Creator(vc);
-				tagCloudArrayString.add(creator.getString("firstName"));
-				tagCloudArrayString.add(creator.getString("lastName"));
-				tagCloudArrayString.add(creator.getString("fullName"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			JSONObject creator;
+			creator = creatorsArray.getJSONObject(i);
+			Long creatorId= creator.getLong("creatorId");
+			Video_Creator vc = Video_CreatorLocalServiceUtil.createVideo_Creator(0);
+			vc.setCreatorId(creatorId);
+			vc.setVideoId(newVideo.getVideoId());
+			Video_CreatorLocalServiceUtil.addVideo_Creator(vc);
+			tagCloudArrayString.add(creator.getString("firstName"));
+			tagCloudArrayString.add(creator.getString("lastName"));
+			tagCloudArrayString.add(creator.getString("fullName"));
 		}
 		
 		//add tags to tag cloud
@@ -334,7 +329,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		//
 		String backURL = request.getParameter("backURL");
 		request.setAttribute("backURL", backURL);
-		response.setRenderParameter("jspPage", "/admin/editVideo.jsp");
+		response.setRenderParameter("jspPage", "/viewEdit.jsp");
 	}
 	
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws PortletException, IOException {
@@ -349,9 +344,9 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 			Long metadataId = video.getMetadataId();
 			metadata = MetadataLocalServiceUtil.getMetadata(metadataId);
 		} catch (PortalException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (SystemException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		License license = LicenseLocalServiceUtil.createLicense(0);
 		try {
@@ -396,20 +391,20 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 					List<Segment> segmentList = SegmentLocalServiceUtil.getSegmentsByVideoId(video.getVideoId());
 					SegmentLocalServiceUtil.deleteThumbhailsFromSegments(segmentList);
 				}catch (PortalException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				} catch (SystemException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				} catch (NullPointerException e){
-					e.printStackTrace();
+					//e.printStackTrace();
 				}	
 				//
 				FFmpegManager.createThumbnail(fileLocation, thumbnailLocation);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (PortalException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			
 			JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -430,14 +425,14 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 					try {
 						fileLocation = ProducerLocalServiceUtil.getProdUcer(video.getProducerId()).getHomeDir() + "/" + video.getFilename();
 					} catch (Exception e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 				}else{
 					image = video.getSPreffix()+".jpg";
 					try {
 						fileLocation = ProducerLocalServiceUtil.getProdUcer(video.getProducerId()).getHomeDir() + "/" + video.getSecureFilename();
 					} catch (Exception e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 				}
 				//
@@ -445,7 +440,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 					thumbnailLocation = PropsUtil.get("lecture2go.images.system.path") + "/" + image;
 					FFmpegManager.createThumbnail(fileLocation, thumbnailLocation, time);
 				} catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 		}
@@ -559,13 +554,9 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				//add creators to tag cloud
 				JSONArray creatorsArray = CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId);
 				for (int i = 0; i< creatorsArray.length(); i++){
-					org.json.JSONObject creator;
-					try {
-						creator = creatorsArray.getJSONObject(i);
-						tagCloudArrayString.add(creator.getString("fullName"));
-					} catch (JSONException e) {
-						//e.printStackTrace();
-					}
+					JSONObject creator;
+					creator = creatorsArray.getJSONObject(i);
+					tagCloudArrayString.add(creator.getString("fullName"));
 				}
 				//update tag cloud for this video
 				TagcloudLocalServiceUtil.updateByObjectIdAndObjectClassType(tagCloudArrayString, video.getClass().getName(), video.getVideoId());
@@ -598,7 +589,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 			} catch (SystemException e) {
 				//System.out.println(e);
 			} catch (PortalException e) {
-				//e.printStackTrace();
+				////e.printStackTrace();
 			}
 			//metadata
 			try {
@@ -619,7 +610,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 					pm.generateRSS(video, f);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
 				} 
 			}			
 			JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -636,7 +627,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				jo.put("generationDate", generationDate);
 				writeJSON(resourceRequest, resourceResponse, jo);
 			} catch (SystemException e) {
-				//e.printStackTrace();
+				////e.printStackTrace();
 			}
 		}
 		
@@ -678,7 +669,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				jo.put("firsttitle", firsttitle);
 				writeJSON(resourceRequest, resourceResponse, jo);
 			} catch (SystemException e) {
-				//e.printStackTrace();
+				////e.printStackTrace();
 			}
 		}
 		
@@ -724,7 +715,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				if(vl.size()>0)jo.put("exist", "1");
 				else jo.put("exist", "0");
 			} catch (SystemException e) {
-//				e.printStackTrace();
+//				//e.printStackTrace();
 				jo.put("exist", "0");
 			}
 			writeJSON(resourceRequest, resourceResponse, jo);
@@ -747,7 +738,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				LicenseLocalServiceUtil.updateLicense(license);
 				logger.info("LICENSE_UPDATE_SUCCESS");
 			} catch (SystemException e) {
-//				e.printStackTrace();
+//				//e.printStackTrace();
 				logger.info("LICENSE_UPDATE_FAILED");
 			}
 			JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -761,7 +752,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				MetadataLocalServiceUtil.updateMetadata(metadata);
 				logger.info("DESCRIPTION_UPDATE_SUCCESS");
 			} catch (SystemException e) {
-//				e.printStackTrace();
+//				//e.printStackTrace();
 				logger.info("DESCRIPTION_UPDATE_FAILED");
 			}
 			JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -777,7 +768,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 			try {
 				VideoLocalServiceUtil.updateVideo(video);
 			} catch (SystemException e) {
-//				e.printStackTrace();
+//				//e.printStackTrace();
 			}
 			
 			JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -826,9 +817,9 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 					// and return response
 					writeJSON(resourceRequest, resourceResponse, jo);
 				} catch (SystemException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				} catch (PortalException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 			//update chapter file (vtt)
@@ -862,9 +853,9 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				}
 				
 			} catch (PortalException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			
 			writeJSON(resourceRequest, resourceResponse, ja);
@@ -890,9 +881,9 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				jo.put("videoId", s.getVideoId());
 				writeJSON(resourceRequest, resourceResponse, jo);
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (PortalException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			//update chapter file (vtt)
 			updateVttChapterFile(video);
@@ -921,11 +912,11 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				fPath = PropsUtil.get("lecture2go.media.repository")+"/"+HostLocalServiceUtil.getByHostId(video.getHostId()).getServerRoot()+"/"+ProducerLocalServiceUtil.getProducer(video.getProducerId()).getHomeDir()+"/";
 				mainContainerFormat = VideoLocalServiceUtil.getVideo(videoId).getContainerFormat();
 			} catch (PortalException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
-			JSONArray jarr = new JSONArray();
+			JSONArray jarr = JSONFactoryUtil.createJSONArray();
 			//delete all
 			
 			if(fileName.endsWith(mainContainerFormat)){
@@ -933,39 +924,31 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				//but not from DB
 				JSONArray jVids = VideoLocalServiceUtil.getJSONVideo(video.getVideoId());
 				for (int i = 0; i < jVids.length(); i++) {
-					try {
-						org.json.JSONObject o = jVids.getJSONObject(i);
-						String fs = (String) o.get("name");
-						File f = new File(fPath+fs);
-						if(f.delete()){
-							o.put("fileId", fs.replace(".", ""));
-						}else{
-							o.put("fileId", "");
-						}
-						jarr.put(o);
-					} catch (JSONException e) {
-						e.printStackTrace();
+					JSONObject o = jVids.getJSONObject(i);
+					String fs = (String) o.get("name");
+					File f = new File(fPath+fs);
+					if(f.delete()){
+						o.put("fileId", fs.replace(".", ""));
+					}else{
+						o.put("fileId", "");
 					}
+					jarr.put(o);
 				}
 				ProzessManager pm = new ProzessManager();
 				try {
 					pm.deleteFilesImagesFromVideo(video);
 				} catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				} 
 			}else{
-				org.json.JSONObject o = new org.json.JSONObject();
-					try {
-						File f = new File(fPath+fileName);
-						if(f.delete()){
-							o.put("fileId", fileName.replace(".", ""));
-						}else{
-							o.put("fileId", "");
-						}
-						jarr.put(o);
-					} catch (JSONException e) {
-						e.printStackTrace();
+				JSONObject o = JSONFactoryUtil.createJSONObject();
+					File f = new File(fPath+fileName);
+					if(f.delete()){
+						o.put("fileId", fileName.replace(".", ""));
+					}else{
+						o.put("fileId", "");
 					}
+					jarr.put(o);
 			}
 			writeJSON(resourceRequest, resourceResponse, jarr);
 		}
@@ -976,15 +959,15 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 			try{
 				cId = new Long(creatorId);
 			}catch(Exception e){
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
-			JSONArray json = new JSONArray();
+			JSONArray json = JSONFactoryUtil.createJSONArray();
 			try {
 				json = CreatorLocalServiceUtil.getJSONCreator(cId);
 			} catch (PortalException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			writeJSON(resourceRequest, resourceResponse, json);			
 		}
@@ -992,13 +975,13 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		if(resourceID.equals("updateCreators")){
 			String creators = ParamUtil.getString(resourceRequest, "creator");
 			try {
-				JSONArray creatorsArray = new JSONArray(creators);
+				JSONArray creatorsArray = JSONFactoryUtil.createJSONArray(creators);
 				//remove creators for video
 				try {
 					Video_CreatorLocalServiceUtil.deleteByVideoId(videoId);			
 					//and update with new creators from list
 					for (int i = 0; i< creatorsArray.length(); i++){
-						org.json.JSONObject creator =  creatorsArray.getJSONObject(i);
+						JSONObject creator =  creatorsArray.getJSONObject(i);
 						Long creatorId= creator.getLong("creatorId");
 						String firstName = creator.getString("firstName");
 						String lastName = creator.getString("lastName");
@@ -1036,7 +1019,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 						if(vcl.size()==0)Video_CreatorLocalServiceUtil.addVideo_Creator(vc);
 					}
 				} catch (SystemException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 				//now update creators for the whole lecture series
 				Long lId = video.getLectureseriesId();
@@ -1044,7 +1027,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 					if(lId>0)CreatorLocalServiceUtil.updateCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId(lId);
 				}catch(SystemException e){}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			writeJSON(resourceRequest, resourceResponse, CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId));			
 		}
@@ -1052,21 +1035,21 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		if(resourceID.equals("updateSubInstitutions")){
 			String subInstitutions = ParamUtil.getString(resourceRequest, "subInstitution");
 			try {
-				JSONArray institutionsArray = new JSONArray(subInstitutions);
+				JSONArray institutionsArray = JSONFactoryUtil.createJSONArray(subInstitutions);
 				//remove sub-institutions for video
 				try {
 					Video_InstitutionLocalServiceUtil.removeByVideoId(videoId);
 					//and update with new institutions from list
 					if(institutionsArray.length()>0){
 						for (int i = 0; i< institutionsArray.length(); i++){
-							org.json.JSONObject institution =  institutionsArray.getJSONObject(i);
+							JSONObject institution =  institutionsArray.getJSONObject(i);
 							Long institutionId= institution.getLong("institutionId");
 							Institution in = InstitutionLocalServiceUtil.createInstitution(0);
 							try {
 								in = InstitutionLocalServiceUtil.getInstitution(institutionId);
 								System.out.print("LEVEEEEELLL---->"+in.getLevel());
 							} catch (PortalException e) {
-								e.printStackTrace();
+								//e.printStackTrace();
 							}
 							List<Video_Institution> vil = new ArrayList<Video_Institution>();
 							vil = Video_InstitutionLocalServiceUtil.getByVideoAndInstitution(videoId, institutionId);
@@ -1080,10 +1063,10 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 						}						
 					}
 				} catch (SystemException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			writeJSON(resourceRequest, resourceResponse, CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId));			
 		}
@@ -1093,14 +1076,14 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 			try {
 				lect = LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId());
 			} catch (PortalException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			try {
 				LectureseriesLocalServiceUtil.updateOpenAccess(video, lect);
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			writeJSON(resourceRequest, resourceResponse, CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId));			
 		}
@@ -1118,7 +1101,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		try {
 			response.sendRedirect(backURL);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -1139,7 +1122,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		try {
 			response.sendRedirect(backURL);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -1160,7 +1143,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		try {
 			response.sendRedirect(backURL);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -1175,7 +1158,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		try {
 			response.sendRedirect(backURL);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -1190,7 +1173,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		try {
 			response.sendRedirect(backURL);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -1239,7 +1222,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 				if(v.isHasChapters())updateVttChapterFile(v);
 			}
 		} catch (SystemException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 }
