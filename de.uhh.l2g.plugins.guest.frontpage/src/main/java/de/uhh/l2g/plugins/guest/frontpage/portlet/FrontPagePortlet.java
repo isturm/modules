@@ -18,6 +18,7 @@ import org.osgi.service.component.annotations.Component;
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.header-portlet-javascript=/js/bootstrap.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/mediaCheck-min.js",
 		"javax.portlet.display-name=de.uhh.l2g.plugins.guest.frontpage Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",

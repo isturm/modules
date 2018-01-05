@@ -37,9 +37,9 @@ List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutions
 
 <div class="front-page-teaser">
  	<div class="bg-video-container">
-		<video id="bg-vid" autoplay loop poster="/lecture2go-portlet/img/background_still.jpg" preload="none">
+		<video id="bg-vid" autoplay loop poster="<%=renderRequest.getContextPath()%>/img/background_still.jpg" preload="none">
 		    <!-- the video source is added dynamically to avoid unnecessary traffic -->
-		    <img src="/lecture2go-portlet/img/background_still.jpg">
+		    <img src="<%=renderRequest.getContextPath()%>/img/background_still.jpg">
 		</video>
 		<div class="dark-overlay"></div>
 		<div id="vid-control">
@@ -249,11 +249,9 @@ List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutions
 
 </div>
 
-
 <script>
 $(document).ready(function(){
-
-    // process different things depending on the screen size
+	// process different things depending on the screen size
 	mediaCheck({
 	  	media: '(min-width: 768px)',
 	  	entry: function() {
@@ -339,7 +337,7 @@ function transformSearchToSmallView() {
 
 // add the video source to the video
 function addBGVideo() {
-	$('#bg-vid').prepend('<source src="/lecture2go-portlet/img/background.mp4" type="video/mp4">');
+	$('#bg-vid').prepend('<source src="/o/de.uhh.l2g.plugins.guest.frontpage/img/background.mp4" type="video/mp4">');
 }
     
 </script>
