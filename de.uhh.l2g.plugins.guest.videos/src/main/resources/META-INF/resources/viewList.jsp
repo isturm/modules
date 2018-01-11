@@ -218,7 +218,7 @@
 				</liferay-ui:panel>
 				<%}%>
 				
-			 	<!-- 	institution filter  -->
+			 	<!-- institution filter  -->
 				<c:if test="${hasParentInstitutionFiltered}">
 				<%if(presentInstitutions.size()>0){ %>
 				<liferay-ui:panel extended="false" defaultState="collapsed" title="sub-institution" cssClass='${hasInstitutionFiltered ? "filtered" : "notFiltered"}'>
@@ -409,13 +409,13 @@
 							}else{
 								// multiple videos in lecture series
 								%>
-										<div class="videotile wide">
+								       <div class="videotile wide">
 									        <div class="video-image-wrapper">
 									          <img class="video-image-big layered-paper darker" src="<%=vidDummy.getImageMedium()%>"/>
 											  <span class="badge"><%=videoCount%></span>
 									          <span class="tri"></span>
 									          <span class="overlay"></span>
-									        </div>
+									    </div>
 									     
 									<div class="video-content-wrapper">
 										<div class="video-content">

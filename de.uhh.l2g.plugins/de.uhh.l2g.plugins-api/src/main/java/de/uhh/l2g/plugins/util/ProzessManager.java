@@ -46,10 +46,6 @@ import de.uhh.l2g.plugins.model.Metadata;
 import de.uhh.l2g.plugins.model.Producer;
 import de.uhh.l2g.plugins.model.Segment;
 import de.uhh.l2g.plugins.model.Video;
-import de.uhh.l2g.plugins.model.impl.HostImpl;
-import de.uhh.l2g.plugins.model.impl.LectureseriesImpl;
-import de.uhh.l2g.plugins.model.impl.MetadataImpl;
-import de.uhh.l2g.plugins.model.impl.ProducerImpl;
 import de.uhh.l2g.plugins.service.CreatorLocalServiceUtil;
 import de.uhh.l2g.plugins.service.HostLocalServiceUtil;
 import de.uhh.l2g.plugins.service.LastvideolistLocalServiceUtil;
@@ -109,7 +105,7 @@ public class ProzessManager {
 	public void activateOpenaccess(Video video) throws SystemException, PortalException {
 		Host host = HostLocalServiceUtil.getHost(video.getHostId());
 		Producer producer = ProducerLocalServiceUtil.getProducer(video.getProducerId());
-		Lectureseries lectureseries = new LectureseriesImpl();
+		Lectureseries lectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
 		try{
 			lectureseries= LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId());
 		}catch(Exception e){}
@@ -162,7 +158,7 @@ public class ProzessManager {
 	public void deactivateOpenaccess(Video video) throws PortalException, SystemException {
 		Host host = HostLocalServiceUtil.getHost(video.getHostId());
 		Producer producer = ProducerLocalServiceUtil.getProducer(video.getProducerId());
-		Lectureseries lectureseries = new LectureseriesImpl();
+		Lectureseries lectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
 		try{
 			lectureseries= LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId());
 		}catch(Exception e){}
@@ -232,8 +228,8 @@ public class ProzessManager {
 
 	@SuppressWarnings("static-access")
 	public boolean deleteVideo(Video video) throws PortalException, SystemException{
-		Host host = new HostImpl();
-		Lectureseries lectureseries = new LectureseriesImpl();
+		Host host = HostLocalServiceUtil.createHost(0);
+		Lectureseries lectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
 		
 		try {
 			lectureseries = LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId());
@@ -249,7 +245,7 @@ public class ProzessManager {
 			e1.printStackTrace();
 		}
 		
-		Producer producer = new ProducerImpl();
+		Producer producer = ProducerLocalServiceUtil.createProducer(0);
 		try {
 			producer = ProducerLocalServiceUtil.getProducer(video.getProducerId());
 		} catch (PortalException e1) {
@@ -258,7 +254,7 @@ public class ProzessManager {
 			e1.printStackTrace();
 		}
 		
-		Metadata metadata = new MetadataImpl();
+		Metadata metadata = MetadataLocalServiceUtil.createMetadata(0);
 		try {
 			metadata = MetadataLocalServiceUtil.getMetadata(video.getMetadataId());
 		} catch (PortalException e1) {
@@ -377,7 +373,7 @@ public class ProzessManager {
 	
 	@SuppressWarnings("static-access")
 	public boolean deleteFilesImagesFromVideo(Video video) throws PortalException, SystemException{
-		Host host = new HostImpl();
+		Host host = HostLocalServiceUtil.createHost(0);
 		try {
 			host = HostLocalServiceUtil.getHost(video.getHostId());
 		} catch (PortalException e1) {
@@ -386,7 +382,7 @@ public class ProzessManager {
 			e1.printStackTrace();
 		}
 		
-		Producer producer = new ProducerImpl();
+		Producer producer = ProducerLocalServiceUtil.createProducer(0);
 		try {
 			producer = ProducerLocalServiceUtil.getProducer(video.getProducerId());
 		} catch (PortalException e1) {
@@ -512,8 +508,8 @@ public class ProzessManager {
 
 	public boolean generateSymbolicLinks(Video v){
 		boolean ret = false;
-		Host objectHost = new HostImpl();
-		Producer objectProducer = new ProducerImpl();
+		Host objectHost = HostLocalServiceUtil.createHost(0);
+		Producer objectProducer = ProducerLocalServiceUtil.createProducer(0);
 		try {
 			objectHost = HostLocalServiceUtil.getByHostId(v.getHostId());
 			objectProducer = ProducerLocalServiceUtil.getProducer(v.getProducerId());

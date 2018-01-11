@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
@@ -34,8 +35,6 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import de.uhh.l2g.plugins.model.Creator;
-
-import org.json.JSONArray;
 
 import java.io.Serializable;
 
@@ -71,6 +70,17 @@ public interface CreatorLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getJSONCreator(java.lang.Long creatorId)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getJSONCreatorsByLectureseriesId(
+		java.lang.Long lectureseriesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getJSONCreatorsByVideoId(java.lang.Long videoId);
 
 	/**
 	* @throws PortalException
@@ -273,17 +283,6 @@ public interface CreatorLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getJSONCreator(java.lang.Long creatorId)
-		throws PortalException, SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getJSONCreatorsByLectureseriesId(
-		java.lang.Long lectureseriesId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getJSONCreatorsByVideoId(java.lang.Long videoId);
 
 	public void deleteById(java.lang.Long id)
 		throws NoSuchModelException, SystemException;

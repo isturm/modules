@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
@@ -36,8 +37,6 @@ import de.uhh.l2g.plugins.exception.NoSuchVideoException;
 import de.uhh.l2g.plugins.model.Host;
 import de.uhh.l2g.plugins.model.Producer;
 import de.uhh.l2g.plugins.model.Video;
-
-import org.json.JSONArray;
 
 import java.io.Serializable;
 
@@ -72,6 +71,9 @@ public interface VideoLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getJSONVideo(java.lang.Long videoId);
 
 	/**
 	* @throws PortalException
@@ -312,9 +314,6 @@ public interface VideoLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getJSONVideo(java.lang.Long videoId);
 
 	/**
 	* required properties for jwplayer in portal-ext.properties file

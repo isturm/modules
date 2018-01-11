@@ -53,6 +53,23 @@ public class CreatorLocalServiceUtil {
 		return getService().getIndexableActionableDynamicQuery();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getJSONCreator(
+		java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getJSONCreator(creatorId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getJSONCreatorsByLectureseriesId(
+		java.lang.Long lectureseriesId) {
+		return getService().getJSONCreatorsByLectureseriesId(lectureseriesId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getJSONCreatorsByVideoId(
+		java.lang.Long videoId) {
+		return getService().getJSONCreatorsByVideoId(videoId);
+	}
+
 	/**
 	* @throws PortalException
 	*/
@@ -321,22 +338,6 @@ public class CreatorLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	public static org.json.JSONArray getJSONCreator(java.lang.Long creatorId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getJSONCreator(creatorId);
-	}
-
-	public static org.json.JSONArray getJSONCreatorsByLectureseriesId(
-		java.lang.Long lectureseriesId) {
-		return getService().getJSONCreatorsByLectureseriesId(lectureseriesId);
-	}
-
-	public static org.json.JSONArray getJSONCreatorsByVideoId(
-		java.lang.Long videoId) {
-		return getService().getJSONCreatorsByVideoId(videoId);
 	}
 
 	public static void deleteById(java.lang.Long id)

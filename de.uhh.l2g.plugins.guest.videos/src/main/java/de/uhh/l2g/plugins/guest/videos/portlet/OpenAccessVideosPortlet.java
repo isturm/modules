@@ -65,7 +65,7 @@ import org.osgi.service.component.annotations.Component;
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.mark.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/catalog.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
-		"javax.portlet.display-name=de.uhh.l2g.plugins.guest.videos Portlet",
+		"javax.portlet.display-name=Guest Videos",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",
 		"javax.portlet.name=" + OpenAccessVideosPortletKeys.OpenAccessVideos,

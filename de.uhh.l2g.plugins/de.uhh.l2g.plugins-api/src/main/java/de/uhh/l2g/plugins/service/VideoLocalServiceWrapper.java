@@ -47,6 +47,12 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 		return _videoLocalService.getIndexableActionableDynamicQuery();
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getJSONVideo(
+		java.lang.Long videoId) {
+		return _videoLocalService.getJSONVideo(videoId);
+	}
+
 	/**
 	* @throws PortalException
 	*/
@@ -404,11 +410,6 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _videoLocalService.dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	@Override
-	public org.json.JSONArray getJSONVideo(java.lang.Long videoId) {
-		return _videoLocalService.getJSONVideo(videoId);
 	}
 
 	/**

@@ -56,7 +56,6 @@ import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.model.Producer;
 import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.model.Video_Institution;
-import de.uhh.l2g.plugins.model.impl.InstitutionImpl;
 import de.uhh.l2g.plugins.service.HostLocalServiceUtil;
 import de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil;
 import de.uhh.l2g.plugins.service.ProducerLocalServiceUtil;
@@ -459,7 +458,7 @@ public class RSSManager {
 		List<Video_Institution> vi = Video_InstitutionLocalServiceUtil.getByVideo(videoId);
 		ListIterator<Video_Institution> le = vi.listIterator();
 		while (le.hasNext()) {
-			Institution inst = new InstitutionImpl();
+			Institution inst = InstitutionLocalServiceUtil.createInstitution(0);
 			try {
 				inst = InstitutionLocalServiceUtil.getInstitution(le.next().getInstitutionId());
 			} catch (PortalException e) {

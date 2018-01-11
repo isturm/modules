@@ -89,7 +89,7 @@ import de.uhh.l2g.plugins.util.Security;
 		"com.liferay.portlet.header-portlet-javascript=https://content.jwplatform.com/libraries/meCDJ4WV.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",
 		"com.liferay.portlet.footer-portlet-javascript=/js/autocomplete-creator.js",		
-		"javax.portlet.display-name=de.uhh.l2g.plugins.admin.videos Portlet",
+		"javax.portlet.display-name=Admin Videos",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",
 		"javax.portlet.name=" + AdminVideoManagementPortletKeys.AdminVideoManagement,

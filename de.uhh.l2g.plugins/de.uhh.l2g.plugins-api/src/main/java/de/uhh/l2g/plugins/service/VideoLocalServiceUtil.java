@@ -53,6 +53,11 @@ public class VideoLocalServiceUtil {
 		return getService().getIndexableActionableDynamicQuery();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getJSONVideo(
+		java.lang.Long videoId) {
+		return getService().getJSONVideo(videoId);
+	}
+
 	/**
 	* @throws PortalException
 	*/
@@ -375,10 +380,6 @@ public class VideoLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	public static org.json.JSONArray getJSONVideo(java.lang.Long videoId) {
-		return getService().getJSONVideo(videoId);
 	}
 
 	/**

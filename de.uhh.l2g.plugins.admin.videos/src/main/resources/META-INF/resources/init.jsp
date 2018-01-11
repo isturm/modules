@@ -28,9 +28,11 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@page import="java.util.Map"%>
 
 <%@page import="org.springframework.web.bind.ServletRequestUtils"%>
+
 <%@page import="com.liferay.portal.kernel.json.JSONObject"%>
 <%@page import="com.liferay.portal.kernel.json.JSONArray"%>
 <%@page import="com.liferay.portal.kernel.json.JSONException"%>
+<%@page import="com.liferay.portal.kernel.json.JSONFactoryUtil"%>
 
 <%@page import="de.uhh.l2g.plugins.util.Lecture2GoRoleChecker"%>
 

@@ -47,6 +47,26 @@ public class CreatorLocalServiceWrapper implements CreatorLocalService,
 		return _creatorLocalService.getIndexableActionableDynamicQuery();
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getJSONCreator(
+		java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _creatorLocalService.getJSONCreator(creatorId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getJSONCreatorsByLectureseriesId(
+		java.lang.Long lectureseriesId) {
+		return _creatorLocalService.getJSONCreatorsByLectureseriesId(lectureseriesId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getJSONCreatorsByVideoId(
+		java.lang.Long videoId) {
+		return _creatorLocalService.getJSONCreatorsByVideoId(videoId);
+	}
+
 	/**
 	* @throws PortalException
 	*/
@@ -336,24 +356,6 @@ public class CreatorLocalServiceWrapper implements CreatorLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _creatorLocalService.dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	@Override
-	public org.json.JSONArray getJSONCreator(java.lang.Long creatorId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _creatorLocalService.getJSONCreator(creatorId);
-	}
-
-	@Override
-	public org.json.JSONArray getJSONCreatorsByLectureseriesId(
-		java.lang.Long lectureseriesId) {
-		return _creatorLocalService.getJSONCreatorsByLectureseriesId(lectureseriesId);
-	}
-
-	@Override
-	public org.json.JSONArray getJSONCreatorsByVideoId(java.lang.Long videoId) {
-		return _creatorLocalService.getJSONCreatorsByVideoId(videoId);
 	}
 
 	@Override
