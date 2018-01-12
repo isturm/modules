@@ -1,4 +1,0 @@
-Bundle-Name: de.uhh.l2g.plugins.admin.threads
-Bundle-SymbolicName: de.uhh.l2g.plugins.admin.threads
-Bundle-Version: 1.0.0
-Export-Package: de.uhh.l2g.plugins.admin.threads.constants
