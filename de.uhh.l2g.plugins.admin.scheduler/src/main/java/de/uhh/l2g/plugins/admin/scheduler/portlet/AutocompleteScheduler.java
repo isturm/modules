@@ -64,24 +64,9 @@ public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
 	  @Activate
 	  @Modified
 	  protected void activate(){
-
-	    // extract the cron expression from the properties
-	    //String cronExpression = GetterUtil.getString(properties.get("cron.expression"), _DEFAULT_CRON_EXPRESSION);
-
 	    // create a new trigger definition for the job.
 	    String listenerClass = getEventListenerClass();
-//	    Trigger jobTrigger = TriggerFactoryUtil.createTrigger(listenerClass, listenerClass, 10, TimeUnit.MINUTE);
 	    Trigger jobTrigger = TriggerFactoryUtil.createTrigger(listenerClass, listenerClass, _DEFAULT_CRON_EXPRESSION);
-
-	    // wrap the current scheduler entry in our new wrapper.
-	    // use the persisted storaget type and set the wrapper back to the class field.
-	    //schedulerEntryImpl = new StorageTypeAwareSchedulerEntryImpl(schedulerEntryImpl, StorageType.PERSISTED);
-
-//	    // if we were initialized (i.e. if this is called due to CA modification)
-//	    if (_initialized) {
-//	      // first deactivate the current job before we schedule.
-//	      deactivate();
-//	    }
 
 	    // register the scheduled task
 		schedulerEntryImpl.setTrigger (jobTrigger);
@@ -150,7 +135,7 @@ public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
 	  }
 
 	  // the default cron expression is to run daily at midnight
-	  private static final String _DEFAULT_CRON_EXPRESSION = "*/30 * * * * ?";
+	  private static final String _DEFAULT_CRON_EXPRESSION = "* * * * * ?";
 
 	  private static final Log _log = LogFactoryUtil.getLog(AutocompleteManager.class);
 
