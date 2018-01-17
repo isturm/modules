@@ -1,8 +1,5 @@
 package de.uhh.l2g.plugins.admin.scheduler.portlet;
 
-import java.util.Date;
-import java.util.Map;
-
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -18,15 +15,11 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.scheduler.SchedulerEngine;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.SchedulerException;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.StorageTypeAware;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
-import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 
 import de.uhh.l2g.plugins.util.AutocompleteManager;
 
@@ -46,13 +39,12 @@ public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
 	   */
 	  @Override
 	  protected void doReceive(Message message) throws Exception {
-	    _log.info("Scheduled task executed...");
+	    _log.info("Scheduled task executed...test1...");
 		if (_log.isInfoEnabled()) {
 			_log.info("Received message on schedule: " + message);
 			// uncoment for further debug messages
 			// super.receive(message);
-			_log.info("Autocomplete Scheduler running " + message.getValues().get(SchedulerEngine.JOB_NAME).toString()
-					+ "...");
+			_log.info("Autocomplete Scheduler running " + message.getValues().get(SchedulerEngine.JOB_NAME).toString() + "...");
 			// Do Job
 			try {
 				AutocompleteManager.generateAutocompleteResults();
@@ -71,36 +63,32 @@ public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
 	   */
 	  @Activate
 	  @Modified
-	  protected void activate(Map<String,Object> properties) throws SchedulerException {
+	  protected void activate(){
 
 	    // extract the cron expression from the properties
-	    String cronExpression = GetterUtil.getString(properties.get("cron.expression"), _DEFAULT_CRON_EXPRESSION);
+	    //String cronExpression = GetterUtil.getString(properties.get("cron.expression"), _DEFAULT_CRON_EXPRESSION);
 
 	    // create a new trigger definition for the job.
-	    String listenerClass = getClass().getName();
-	    Trigger jobTrigger = _triggerFactory.createTrigger(listenerClass, listenerClass, new Date(), null, cronExpression);
+	    String listenerClass = getEventListenerClass();
+//	    Trigger jobTrigger = TriggerFactoryUtil.createTrigger(listenerClass, listenerClass, 10, TimeUnit.MINUTE);
+	    Trigger jobTrigger = TriggerFactoryUtil.createTrigger(listenerClass, listenerClass, _DEFAULT_CRON_EXPRESSION);
 
 	    // wrap the current scheduler entry in our new wrapper.
 	    // use the persisted storaget type and set the wrapper back to the class field.
-	    _schedulerEntryImpl = new SchedulerEntryImpl();// (getClass().getName(), jobTrigger);
-	    _schedulerEntryImpl.setTrigger(jobTrigger);
-	    _schedulerEntryImpl.setEventListenerClass(listenerClass);
-//	    _schedulerEntryImpl = new StorageTypeAwareSchedulerEntryImpl(_schedulerEntryImpl, StorageType.PERSISTED);
+	    //schedulerEntryImpl = new StorageTypeAwareSchedulerEntryImpl(schedulerEntryImpl, StorageType.PERSISTED);
 
-	    // update the trigger for the scheduled job.
-	    _schedulerEntryImpl.setTrigger(jobTrigger);
-
-	    // if we were initialized (i.e. if this is called due to CA modification)
-	    if (_initialized) {
-	      // first deactivate the current job before we schedule.
-	      deactivate();
-	    }
+//	    // if we were initialized (i.e. if this is called due to CA modification)
+//	    if (_initialized) {
+//	      // first deactivate the current job before we schedule.
+//	      deactivate();
+//	    }
 
 	    // register the scheduled task
-	    _schedulerEngineHelper.register(this, _schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
+		schedulerEntryImpl.setTrigger (jobTrigger);
+		_schedulerEngineHelper.register(this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
 
 	    // set the initialized flag.
-	    _initialized = true;
+	    _initialized = true;		
 	  }
 
 	  /**
@@ -112,7 +100,7 @@ public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
 	    if (_initialized) {
 	      // unschedule the job so it is cleaned up
 	      try {
-	        _schedulerEngineHelper.unschedule(_schedulerEntryImpl, getStorageType());
+	        _schedulerEngineHelper.unschedule(schedulerEntryImpl, getStorageType());
 	      } catch (SchedulerException se) {
 	        if (_log.isWarnEnabled()) {
 	          _log.warn("Unable to unschedule trigger", se);
@@ -132,8 +120,8 @@ public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
 	   * @return StorageType The storage type to use.
 	   */
 	  protected StorageType getStorageType() {
-	    if (_schedulerEntryImpl instanceof StorageTypeAware) {
-	      return ((StorageTypeAware) _schedulerEntryImpl).getStorageType();
+	    if (schedulerEntryImpl instanceof StorageTypeAware) {
+	      return ((StorageTypeAware) schedulerEntryImpl).getStorageType();
 	    }
 	    
 	    return StorageType.MEMORY_CLUSTERED;
@@ -157,23 +145,16 @@ public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
 	  }
 
 	  @Reference(unbind = "-")
-	  protected void setTriggerFactory(TriggerFactory triggerFactory) {
-	    _triggerFactory = triggerFactory;
-	  }
-
-	  @Reference(unbind = "-")
 	  protected void setSchedulerEngineHelper(SchedulerEngineHelper schedulerEngineHelper) {
 	    _schedulerEngineHelper = schedulerEngineHelper;
 	  }
 
 	  // the default cron expression is to run daily at midnight
-	  private static final String _DEFAULT_CRON_EXPRESSION = "0 0 0 * * ?";
+	  private static final String _DEFAULT_CRON_EXPRESSION = "*/30 * * * * ?";
 
 	  private static final Log _log = LogFactoryUtil.getLog(AutocompleteManager.class);
 
 	  private volatile boolean _initialized;
-	  private TriggerFactory _triggerFactory;
 	  private SchedulerEngineHelper _schedulerEngineHelper;
-	  private SchedulerEntryImpl _schedulerEntryImpl = null;
 	  
 }
