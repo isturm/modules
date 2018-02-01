@@ -1,12 +1,10 @@
 package de.uhh.l2g.plugins.admin.scheduler.portlet;
 
-import de.uhh.l2g.plugins.admin.scheduler.constants.AdminSchedulerManagementPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
-import javax.portlet.Portlet;
-
-import org.osgi.service.component.annotations.Component;
+import de.uhh.l2g.plugins.admin.scheduler.constants.AdminSchedulerManagementPortletKeys;
 
 /**
  * @author isturm
@@ -23,12 +21,9 @@ import org.osgi.service.component.annotations.Component;
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
-	service = Portlet.class
+	service = AdminSchedulerManagementPortlet.class
 )
 public class AdminSchedulerManagementPortlet extends MVCPortlet {
+
 	
-	public AdminSchedulerManagementPortlet(){
-		AutocompleteScheduler acs = new AutocompleteScheduler();
-		acs.activate();
-	}
 }
