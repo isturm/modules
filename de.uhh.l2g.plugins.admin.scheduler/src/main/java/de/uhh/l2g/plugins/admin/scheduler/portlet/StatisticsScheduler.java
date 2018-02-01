@@ -36,7 +36,7 @@ import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
  */
 @Component(
 		  immediate = true, 
-		  property = {"cron.expression=0/60 * * * * ?"},
+		  property = {"cron.expression=0 0/5 * * * ?"},
 		  service = StatisticsScheduler.class
 )
 public class StatisticsScheduler  extends BaseSchedulerEntryMessageListener {  

@@ -30,7 +30,7 @@ import de.uhh.l2g.plugins.util.AutocompleteManager;
 
 @Component(
 		  immediate = true, 
-		  property = {"cron.expression=0/60 * * * * ?"},
+		  property = {"cron.expression=0 0/5 * * * ?"},
 		  service = AutocompleteScheduler.class
 )
 public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
