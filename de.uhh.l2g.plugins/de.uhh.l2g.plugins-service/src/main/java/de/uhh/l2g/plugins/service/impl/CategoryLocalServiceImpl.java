@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
 
 import de.uhh.l2g.plugins.model.Category;
 import de.uhh.l2g.plugins.service.base.CategoryLocalServiceBaseImpl;
@@ -63,8 +66,21 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		return categoryFinder.findCategoriesByLectureseriesIdsAndVideoIds(lectureseriesIds, videoIds);
 	}
 	
+	@Indexable(type = IndexableType.DELETE)
 	public void deleteById(Long id) throws NoSuchModelException, SystemException{
 		categoryPersistence.remove(id);
+	}
+	
+	@Override
+	@Indexable(type = IndexableType.REINDEX)
+	public Category addCategory(Category category) {
+		return super.addCategory(category);
+	}
+	
+	@Override
+	@Indexable(type = IndexableType.REINDEX)
+	public Category updateCategory(Category category) {
+		return super.updateCategory(category);
 	}
 	
 }
