@@ -23,13 +23,21 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Junction;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 
 import de.uhh.l2g.plugins.exception.NoSuchInstitutionException;
 import de.uhh.l2g.plugins.exception.NoSuchLectureseriesException;
@@ -47,11 +55,11 @@ import de.uhh.l2g.plugins.model.impl.InstitutionImpl;
 import de.uhh.l2g.plugins.model.impl.LastvideolistImpl;
 import de.uhh.l2g.plugins.model.impl.LectureseriesImpl;
 import de.uhh.l2g.plugins.model.impl.ProducerImpl;
-import de.uhh.l2g.plugins.model.impl.VideoImpl;
 import de.uhh.l2g.plugins.service.CreatorLocalServiceUtil;
 import de.uhh.l2g.plugins.service.HostLocalServiceUtil;
 import de.uhh.l2g.plugins.service.LastvideolistLocalServiceUtil;
 import de.uhh.l2g.plugins.service.SegmentLocalServiceUtil;
+import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 import de.uhh.l2g.plugins.service.base.VideoLocalServiceBaseImpl;
 import de.uhh.l2g.plugins.util.FFmpegManager;
 
@@ -139,7 +147,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 
 	@Override
 	public Video getFullVideo(Long videoId){
-		Video objectVideo = new VideoImpl();
+		Video objectVideo = VideoLocalServiceUtil.createVideo(0);
 		try {
 			objectVideo = videoPersistence.findByPrimaryKey(videoId);
 		} catch (NoSuchModelException e1) {
@@ -617,7 +625,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	
 	@Override
 	public Video updateVideo(Video video){
-		Video v = new VideoImpl();
+		Video v = VideoLocalServiceUtil.createVideo(0);
 		if(video.getVideoId()>0)
 			try {
 				v=super.updateVideo(video);
@@ -674,4 +682,46 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		}
 		return vl.get(0).getVideoId();
 	}
+	
+	
+	public List<Video> getByIdOrAndTitle(int vId, String vTitle, boolean isAndOperator) throws SystemException {
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.VideoImpl.class, "vid");
+		Junction junction = null;
+		List<Video> videoList = Collections.emptyList();
+		if (isAndOperator) {
+			junction = RestrictionsFactoryUtil.conjunction();
+		} else {
+			junction = RestrictionsFactoryUtil.disjunction();
+		}
+		if (Validator.isDigit(vId + "") || vId > 0) {
+			junction.add(PropertyFactoryUtil.forName("vid.videoId").eq(Long.valueOf(vId)));
+		}
+		if (!Validator.isBlank(vTitle)) {
+			junction.add(PropertyFactoryUtil.forName("vid.title").like(StringPool.PERCENT + HtmlUtil.escape(vTitle) + StringPool.PERCENT));
+		}
+		dynamicQuery.add(junction);
+		try {
+			videoList = VideoLocalServiceUtil.dynamicQuery(dynamicQuery);
+		} catch (final SystemException e) {
+		}
+		return videoList;
+	}
+	
+	public List<Video> getByKeyWords(String keywords) throws SystemException {
+		List<Video> videoList = Collections.emptyList();
+		final Junction junction = RestrictionsFactoryUtil.disjunction();
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.VideoImpl.class, "vid");
+		if (Validator.isDigit(keywords)) {
+			junction.add(PropertyFactoryUtil.forName("vid.videoId").eq(Long.valueOf(keywords)));
+		} else {
+			junction.add(PropertyFactoryUtil.forName("vid.title").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
+		}
+		dynamicQuery.add(junction);
+		try {
+			videoList = VideoLocalServiceUtil.dynamicQuery(dynamicQuery);
+		} catch (final SystemException e) {
+		}
+		return videoList;
+	}
+	
 }

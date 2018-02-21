@@ -15,15 +15,24 @@
 package de.uhh.l2g.plugins.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Junction;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 
 import de.uhh.l2g.plugins.model.Category;
+import de.uhh.l2g.plugins.service.CategoryLocalServiceUtil;
 import de.uhh.l2g.plugins.service.base.CategoryLocalServiceBaseImpl;
 
 /**
@@ -83,4 +92,43 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		return super.updateCategory(category);
 	}
 	
+	public List<Category> getByIdOrAndTitle(int cId, String cName, boolean isAndOperator) throws SystemException {
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CategoryImpl.class, "cat");
+		Junction junction = null;
+		List<Category> categoriesList = Collections.emptyList();
+		if (isAndOperator) {
+			junction = RestrictionsFactoryUtil.conjunction();
+		} else {
+			junction = RestrictionsFactoryUtil.disjunction();
+		}
+		if (Validator.isDigit(cId + "") || cId > 0) {
+			junction.add(PropertyFactoryUtil.forName("cat.categoryId").eq(Long.valueOf(cId)));
+		}
+		if (!Validator.isBlank(cName)) {
+			junction.add(PropertyFactoryUtil.forName("vid.title").like(StringPool.PERCENT + HtmlUtil.escape(cName) + StringPool.PERCENT));
+		}
+		dynamicQuery.add(junction);
+		try {
+			categoriesList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
+		} catch (final SystemException e) {
+		}
+		return categoriesList;
+	}
+	
+	public List<Category> getByKeyWords(String keywords) throws SystemException {
+		List<Category> categoriesList = Collections.emptyList();
+		final Junction junction = RestrictionsFactoryUtil.disjunction();
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CategoryImpl.class, "cat");
+		if (Validator.isDigit(keywords)) {
+			junction.add(PropertyFactoryUtil.forName("cat.categoryId").eq(Long.valueOf(keywords)));
+		} else {
+			junction.add(PropertyFactoryUtil.forName("cat.name").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
+		}
+		dynamicQuery.add(junction);
+		try {
+			categoriesList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
+		} catch (final SystemException e) {
+		}
+		return categoriesList;
+	}	
 }
