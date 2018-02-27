@@ -231,6 +231,20 @@ public class CategoryLocalServiceWrapper implements CategoryLocalService,
 	}
 
 	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Category> getByIdOrAndTitle(
+		int cId, java.lang.String cName, boolean isAndOperator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _categoryLocalService.getByIdOrAndTitle(cId, cName, isAndOperator);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Category> getByKeyWords(
+		java.lang.String keywords)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _categoryLocalService.getByKeyWords(keywords);
+	}
+
+	@Override
 	public java.util.List<de.uhh.l2g.plugins.model.Category> getByName(
 		java.lang.String name)
 		throws com.liferay.portal.kernel.exception.SystemException {

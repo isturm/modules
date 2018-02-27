@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -61,6 +62,12 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 		attributes.put("languageId", getLanguageId());
 		attributes.put("name", getName());
 		attributes.put("translation", getTranslation());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -95,6 +102,42 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 
 		if (translation != null) {
 			setTranslation(translation);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -183,6 +226,26 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 		return _category.getTranslation();
 	}
 
+	/**
+	* Returns the user name of this category.
+	*
+	* @return the user name of this category
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _category.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this category.
+	*
+	* @return the user uuid of this category
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _category.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _category.toString();
@@ -194,6 +257,26 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	}
 
 	/**
+	* Returns the create date of this category.
+	*
+	* @return the create date of this category
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _category.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this category.
+	*
+	* @return the modified date of this category
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _category.getModifiedDate();
+	}
+
+	/**
 	* Returns the category ID of this category.
 	*
 	* @return the category ID of this category
@@ -201,6 +284,26 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	@Override
 	public long getCategoryId() {
 		return _category.getCategoryId();
+	}
+
+	/**
+	* Returns the company ID of this category.
+	*
+	* @return the company ID of this category
+	*/
+	@Override
+	public long getCompanyId() {
+		return _category.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this category.
+	*
+	* @return the group ID of this category
+	*/
+	@Override
+	public long getGroupId() {
+		return _category.getGroupId();
 	}
 
 	/**
@@ -223,6 +326,16 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 		return _category.getPrimaryKey();
 	}
 
+	/**
+	* Returns the user ID of this category.
+	*
+	* @return the user ID of this category
+	*/
+	@Override
+	public long getUserId() {
+		return _category.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_category.persist();
@@ -243,6 +356,26 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 		_category.setCategoryId(categoryId);
 	}
 
+	/**
+	* Sets the company ID of this category.
+	*
+	* @param companyId the company ID of this category
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_category.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this category.
+	*
+	* @param createDate the create date of this category
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_category.setCreateDate(createDate);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_category.setExpandoBridgeAttributes(expandoBridge);
@@ -260,6 +393,16 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	}
 
 	/**
+	* Sets the group ID of this category.
+	*
+	* @param groupId the group ID of this category
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_category.setGroupId(groupId);
+	}
+
+	/**
 	* Sets the language ID of this category.
 	*
 	* @param languageId the language ID of this category
@@ -267,6 +410,16 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	@Override
 	public void setLanguageId(java.lang.String languageId) {
 		_category.setLanguageId(languageId);
+	}
+
+	/**
+	* Sets the modified date of this category.
+	*
+	* @param modifiedDate the modified date of this category
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_category.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -317,6 +470,36 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	@Override
 	public void setTranslation(java.lang.String translation) {
 		_category.setTranslation(translation);
+	}
+
+	/**
+	* Sets the user ID of this category.
+	*
+	* @param userId the user ID of this category
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_category.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this category.
+	*
+	* @param userName the user name of this category
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_category.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this category.
+	*
+	* @param userUuid the user uuid of this category
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_category.setUserUuid(userUuid);
 	}
 
 	@Override

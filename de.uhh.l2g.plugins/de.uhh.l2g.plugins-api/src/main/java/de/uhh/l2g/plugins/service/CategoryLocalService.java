@@ -203,6 +203,14 @@ public interface CategoryLocalService extends BaseLocalService,
 		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Category> getByIdOrAndTitle(int cId, java.lang.String cName,
+		boolean isAndOperator) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Category> getByKeyWords(java.lang.String keywords)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Category> getByName(java.lang.String name)
 		throws SystemException;
 
@@ -243,6 +251,7 @@ public interface CategoryLocalService extends BaseLocalService,
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
 
+	@Indexable(type = IndexableType.DELETE)
 	public void deleteById(java.lang.Long id)
 		throws NoSuchModelException, SystemException;
 }

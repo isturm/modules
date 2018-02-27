@@ -223,6 +223,18 @@ public class CategoryLocalServiceUtil {
 		return getService().getAllCategories(begin, end);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByIdOrAndTitle(
+		int cId, java.lang.String cName, boolean isAndOperator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByIdOrAndTitle(cId, cName, isAndOperator);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByKeyWords(
+		java.lang.String keywords)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByKeyWords(keywords);
+	}
+
 	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByName(
 		java.lang.String name)
 		throws com.liferay.portal.kernel.exception.SystemException {

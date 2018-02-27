@@ -287,6 +287,20 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 	}
 
 	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByIdOrAndTitle(
+		int vId, java.lang.String vTitle, boolean isAndOperator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByIdOrAndTitle(vId, vTitle, isAndOperator);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Video> getByKeyWords(
+		java.lang.String keywords)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByKeyWords(keywords);
+	}
+
+	@Override
 	public java.util.List<de.uhh.l2g.plugins.model.Video> getByLectureseries(
 		java.lang.Long lectureseriesId)
 		throws com.liferay.portal.kernel.exception.SystemException {

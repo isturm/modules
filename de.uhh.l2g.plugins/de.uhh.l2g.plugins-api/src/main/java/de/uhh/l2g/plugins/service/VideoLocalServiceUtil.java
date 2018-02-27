@@ -270,6 +270,18 @@ public class VideoLocalServiceUtil {
 		return getService().getByHitsAndOpenAccess(hits);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Video> getByIdOrAndTitle(
+		int vId, java.lang.String vTitle, boolean isAndOperator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByIdOrAndTitle(vId, vTitle, isAndOperator);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Video> getByKeyWords(
+		java.lang.String keywords)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByKeyWords(keywords);
+	}
+
 	public static java.util.List<de.uhh.l2g.plugins.model.Video> getByLectureseries(
 		java.lang.Long lectureseriesId)
 		throws com.liferay.portal.kernel.exception.SystemException {

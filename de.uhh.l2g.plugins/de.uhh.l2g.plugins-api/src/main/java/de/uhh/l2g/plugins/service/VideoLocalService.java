@@ -236,6 +236,14 @@ public interface VideoLocalService extends BaseLocalService,
 	public List<Video> getByHitsAndOpenAccess(java.lang.Long hits);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByIdOrAndTitle(int vId, java.lang.String vTitle,
+		boolean isAndOperator) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Video> getByKeyWords(java.lang.String keywords)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Video> getByLectureseries(java.lang.Long lectureseriesId)
 		throws SystemException;
 
