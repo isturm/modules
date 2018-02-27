@@ -105,7 +105,7 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 			junction.add(PropertyFactoryUtil.forName("cat.categoryId").eq(Long.valueOf(cId)));
 		}
 		if (!Validator.isBlank(cName)) {
-			junction.add(PropertyFactoryUtil.forName("vid.title").like(StringPool.PERCENT + HtmlUtil.escape(cName) + StringPool.PERCENT));
+			junction.add(PropertyFactoryUtil.forName("cat.name").like(StringPool.PERCENT + HtmlUtil.escape(cName) + StringPool.PERCENT));
 		}
 		dynamicQuery.add(junction);
 		try {

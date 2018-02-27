@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Category in entity cache.
  *
@@ -63,7 +65,7 @@ public class CategoryCacheModel implements CacheModel<Category>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{categoryId=");
 		sb.append(categoryId);
@@ -75,6 +77,18 @@ public class CategoryCacheModel implements CacheModel<Category>, Externalizable 
 		sb.append(name);
 		sb.append(", translation=");
 		sb.append(translation);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -108,6 +122,31 @@ public class CategoryCacheModel implements CacheModel<Category>, Externalizable 
 			categoryImpl.setTranslation(translation);
 		}
 
+		categoryImpl.setGroupId(groupId);
+		categoryImpl.setCompanyId(companyId);
+		categoryImpl.setUserId(userId);
+
+		if (userName == null) {
+			categoryImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			categoryImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			categoryImpl.setCreateDate(null);
+		}
+		else {
+			categoryImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			categoryImpl.setModifiedDate(null);
+		}
+		else {
+			categoryImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		categoryImpl.resetOriginalValues();
 
 		return categoryImpl;
@@ -121,6 +160,15 @@ public class CategoryCacheModel implements CacheModel<Category>, Externalizable 
 		languageId = objectInput.readUTF();
 		name = objectInput.readUTF();
 		translation = objectInput.readUTF();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -150,6 +198,22 @@ public class CategoryCacheModel implements CacheModel<Category>, Externalizable 
 		else {
 			objectOutput.writeUTF(translation);
 		}
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long categoryId;
@@ -157,4 +221,10 @@ public class CategoryCacheModel implements CacheModel<Category>, Externalizable 
 	public String languageId;
 	public String name;
 	public String translation;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

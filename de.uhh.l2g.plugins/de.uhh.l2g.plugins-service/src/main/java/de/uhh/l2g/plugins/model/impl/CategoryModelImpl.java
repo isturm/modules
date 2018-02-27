@@ -20,9 +20,12 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +69,13 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 			{ "parentId", Types.BIGINT },
 			{ "languageId", Types.VARCHAR },
 			{ "name", Types.VARCHAR },
-			{ "translation", Types.VARCHAR }
+			{ "translation", Types.VARCHAR },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -75,9 +85,15 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 		TABLE_COLUMNS_MAP.put("languageId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("translation", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_Category (categoryId LONG not null primary key,parentId LONG,languageId VARCHAR(75) null,name VARCHAR(75) null,translation VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table LG_Category (categoryId LONG not null primary key,parentId LONG,languageId VARCHAR(75) null,name VARCHAR(75) null,translation VARCHAR(75) null,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_Category";
 	public static final String ORDER_BY_JPQL = " ORDER BY category.categoryId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_Category.categoryId DESC";
@@ -140,6 +156,12 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 		attributes.put("languageId", getLanguageId());
 		attributes.put("name", getName());
 		attributes.put("translation", getTranslation());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -177,6 +199,42 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 
 		if (translation != null) {
 			setTranslation(translation);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -257,13 +315,100 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 		_translation = translation;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Category.class.getName(), getPrimaryKey());
 	}
 
@@ -293,6 +438,12 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 		categoryImpl.setLanguageId(getLanguageId());
 		categoryImpl.setName(getName());
 		categoryImpl.setTranslation(getTranslation());
+		categoryImpl.setGroupId(getGroupId());
+		categoryImpl.setCompanyId(getCompanyId());
+		categoryImpl.setUserId(getUserId());
+		categoryImpl.setUserName(getUserName());
+		categoryImpl.setCreateDate(getCreateDate());
+		categoryImpl.setModifiedDate(getModifiedDate());
 
 		categoryImpl.resetOriginalValues();
 
@@ -365,6 +516,8 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 
 		categoryModelImpl._originalName = categoryModelImpl._name;
 
+		categoryModelImpl._setModifiedDate = false;
+
 		categoryModelImpl._columnBitmask = 0;
 	}
 
@@ -400,12 +553,44 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 			categoryCacheModel.translation = null;
 		}
 
+		categoryCacheModel.groupId = getGroupId();
+
+		categoryCacheModel.companyId = getCompanyId();
+
+		categoryCacheModel.userId = getUserId();
+
+		categoryCacheModel.userName = getUserName();
+
+		String userName = categoryCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			categoryCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			categoryCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			categoryCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			categoryCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			categoryCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return categoryCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{categoryId=");
 		sb.append(getCategoryId());
@@ -417,6 +602,18 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 		sb.append(getName());
 		sb.append(", translation=");
 		sb.append(getTranslation());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -424,7 +621,7 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.Category");
@@ -450,6 +647,30 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 			"<column><column-name>translation</column-name><column-value><![CDATA[");
 		sb.append(getTranslation());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -466,6 +687,13 @@ public class CategoryModelImpl extends BaseModelImpl<Category>
 	private String _name;
 	private String _originalName;
 	private String _translation;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private Category _escapedModel;
 }

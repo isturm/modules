@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -40,6 +44,7 @@ import de.uhh.l2g.plugins.service.persistence.CategoryPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -716,6 +721,8 @@ public class CategoryPersistenceImpl extends BasePersistenceImpl<Category>
 		category.setNew(true);
 		category.setPrimaryKey(categoryId);
 
+		category.setCompanyId(companyProvider.getCompanyId());
+
 		return category;
 	}
 
@@ -811,6 +818,28 @@ public class CategoryPersistenceImpl extends BasePersistenceImpl<Category>
 
 		CategoryModelImpl categoryModelImpl = (CategoryModelImpl)category;
 
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (category.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				category.setCreateDate(now);
+			}
+			else {
+				category.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!categoryModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				category.setModifiedDate(now);
+			}
+			else {
+				category.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -890,6 +919,12 @@ public class CategoryPersistenceImpl extends BasePersistenceImpl<Category>
 		categoryImpl.setLanguageId(category.getLanguageId());
 		categoryImpl.setName(category.getName());
 		categoryImpl.setTranslation(category.getTranslation());
+		categoryImpl.setGroupId(category.getGroupId());
+		categoryImpl.setCompanyId(category.getCompanyId());
+		categoryImpl.setUserId(category.getUserId());
+		categoryImpl.setUserName(category.getUserName());
+		categoryImpl.setCreateDate(category.getCreateDate());
+		categoryImpl.setModifiedDate(category.getModifiedDate());
 
 		return categoryImpl;
 	}
@@ -1291,6 +1326,8 @@ public class CategoryPersistenceImpl extends BasePersistenceImpl<Category>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

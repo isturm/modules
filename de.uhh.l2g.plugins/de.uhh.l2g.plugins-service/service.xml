@@ -483,8 +483,11 @@
             <finder-column name="year"></finder-column>
         </finder>
     </entity>
-    <entity name="Category" local-service="true" remote-service="false">
-    	<column name="categoryId" type="long" primary="true" id-type="increment"></column>
+    <entity name="Category" local-service="true"
+    	remote-service="false">
+    	<column name="categoryId" type="long" primary="true"
+    		id-type="increment">
+    	</column>
 
 
     	<!-- PK fields -->
@@ -492,16 +495,31 @@
     	<!-- Group instance -->
 
     	<!-- Audit fields -->
-        <column name="parentId" type="long"></column>
-        <column name="languageId" type="String"></column>
-        <column name="name" type="String"></column>
-        <column name="translation" type="String"></column>
-        <order by="desc">
-            <order-column name="categoryId" order-by="desc"></order-column>
-        </order>
-        <finder name="Name" return-type="Collection">
-            <finder-column name="name"></finder-column>
-        </finder>
+    	<column name="parentId" type="long"></column>
+    	<column name="languageId" type="String"></column>
+    	<column name="name" type="String"></column>
+    	<column name="translation" type="String"></column>
+    	<order by="desc">
+    		<order-column name="categoryId" order-by="desc"></order-column>
+    	</order>
+    	<finder name="Name" return-type="Collection">
+    		<finder-column name="name"></finder-column>
+    	</finder>
+
+
+    	<!-- PK fields -->
+
+    	<!-- Group instance -->
+
+    	<column name="groupId" type="long"></column>
+
+    	<!-- Audit fields -->
+
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Video_Category" local-service="true"
     	remote-service="false">
@@ -721,6 +739,7 @@
 
     
     </entity>
+    
     <exceptions>
         <exception>HostName</exception>
         <exception>HostStreamer</exception>
@@ -731,8 +750,5 @@
         <exception>StatisticDate</exception>
         <exception>NoProperty</exception>
     </exceptions>
-
-
-
 
 </service-builder>
