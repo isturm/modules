@@ -3,7 +3,13 @@ create table LG_Category (
 	parentId LONG,
 	languageId VARCHAR(75) null,
 	name VARCHAR(75) null,
-	translation VARCHAR(75) null
+	translation VARCHAR(75) null,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Coordinator (
@@ -286,4 +292,12 @@ create table LG_Videohitlist (
 	hitsPerMonth LONG,
 	hitsPerYear LONG,
 	videoId LONG
+);
+
+create table employee_data (
+	eid INTEGER not null primary key,
+	name VARCHAR(75) null,
+	phone LONG,
+	age INTEGER,
+	EMP_SALARY DOUBLE
 );
