@@ -23,8 +23,6 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 
 import de.uhh.l2g.plugins.model.Category;
 import de.uhh.l2g.plugins.service.CategoryLocalService;
@@ -55,7 +53,8 @@ public class CategoryIndexer extends BaseIndexer<Category> {
 	@Override
 	public void postProcessSearchQuery(BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
 			SearchContext searchContext) throws Exception {
-		addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
+//		addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
+		addSearchTerm(searchQuery, searchContext, Field.TITLE, true);
 	}
 
 	@Override
@@ -68,12 +67,16 @@ public class CategoryIndexer extends BaseIndexer<Category> {
 		Document document = getBaseModelDocument(CLASS_NAME, category);
 		document.addDate(Field.MODIFIED_DATE, category.getModifiedDate());
 		
-		Locale defaultLocale = PortalUtil.getSiteDefaultLocale(category.getGroupId());
-		String localizedFieldTitle = LocalizationUtil.getLocalizedName(Field.TITLE, defaultLocale.toString());
-		document.addText(localizedFieldTitle, category.getName());
+		//Locale defaultLocale = PortalUtil.getSiteDefaultLocale(category.getGroupId());
+		//String localizedFieldTitle = LocalizationUtil.getLocalizedName(Field.TITLE, defaultLocale.toString());
+		document.addText(Field.TITLE, category.getName());
 		//
-		String localizedFieldCreateDate = LocalizationUtil.getLocalizedName(Field.CREATE_DATE, defaultLocale.toString());
-		document.addText(localizedFieldCreateDate, category.getCreateDate()+"");
+//		String localizedFieldCreateDate = LocalizationUtil.getLocalizedName(Field.CREATE_DATE, defaultLocale.toString());
+		document.addText(Field.CREATE_DATE, category.getCreateDate().toString());
+		document.addNumber(Field.GROUP_ID, category.getGroupId());
+		document.addNumber(Field.UID, category.getUserId());
+		document.addText(Field.USER_NAME, category.getUserName());
+		document.addNumber(Field.UID, category.getUserId());
 
 		return document;
 	}
