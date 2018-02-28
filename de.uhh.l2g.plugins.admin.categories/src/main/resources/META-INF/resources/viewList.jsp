@@ -56,7 +56,7 @@
 					if (displayTerms.isAdvancedSearch()) {//Advance Search
 						categoriesList = CategoryLocalServiceUtil.getByIdOrAndTitle(cId,cName,displayTerms.isAndOperator());
 
-					searchContainer.setTotal(categoriesList.size());
+						searchContainer.setTotal(categoriesList.size());
 		                searchContainer.setResults(ListUtil.subList(categoriesList,searchContainer.getStart(),searchContainer.getEnd()));
 					
 					} else if(!Validator.isBlank(keywords)){//Basic Search
