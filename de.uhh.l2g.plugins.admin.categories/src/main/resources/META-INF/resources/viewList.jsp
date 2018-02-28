@@ -94,12 +94,14 @@
 					<portlet:param name="backURL" value='<%=backURL.toString()%>' />
 				</portlet:renderURL>
 
-				<liferay-ui:search-container-column-text property="categoryId" />
-				
-				<liferay-ui:search-container-column-text property ="name" />
+				<liferay-ui:search-container-column-text>
+					<%=category.getName()%>
+					<%if(count>0){%>
+						<p><b><%=count%></b> <liferay-ui:message key="video-s"/></p>
+					<%}%>
+				</liferay-ui:search-container-column-text>
 				
 				<liferay-ui:search-container-column-text>
-					<div class="video-edit-wrapper">
 						<a href="<%=editURL.toString()%>" title="<liferay-ui:message key='edit'/>">
 						   <span class="icon-large icon-pencil"></span>
 						</a>
@@ -108,7 +110,6 @@
 							<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
 						</a>	
 						<%}%>				
-					</div>
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 			
