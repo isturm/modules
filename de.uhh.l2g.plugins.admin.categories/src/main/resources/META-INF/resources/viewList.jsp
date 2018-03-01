@@ -21,30 +21,20 @@
 	String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 %> 
  
-<portlet:actionURL name="add" var="addURL">
-	<portlet:param name="delta" value='<%=delta%>' />
-	<portlet:param name="cur" value='<%=cur%>' />
-	<portlet:param name="backURL" value='<%=backURL.toString()%>' />
-</portlet:actionURL>
-
 <liferay-portlet:renderURL varImpl="categoriesSearchURL">
     <portlet:param name="mvcPath" value="/viewList.jsp" />
 </liferay-portlet:renderURL>
 
-<div class="">		
-	<aui:container cssClass="">
-		<aui:form action="<%=addURL%>" commandName="model" name="metadata">
-			<aui:row>
-				<aui:col width="40">
-					<aui:input name="name" value="" type="text" label="name"/>
-				</aui:col>
-				<aui:col width="60">
-					<aui:button type="submit" value="add" id="add"/>
-				</aui:col>
-			</aui:row>
-		</aui:form>
-	</aui:container>
+<liferay-portlet:renderURL var="addURL">
+	<portlet:param name="backURL" value='<%=backURL.toString()%>' />
+    <portlet:param name="mvcPath" value="/viewEdit.jsp" />
+</liferay-portlet:renderURL>
 	
+<div class="view list">		
+	<a href="${addURL}" class="add link">
+	    <liferay-ui:message key="add-new-category"/> <span class="icon-large icon-plus-sign"/>
+	</a>
+			
 	<aui:form action="<%= categoriesSearchURL %>" method="post" name="fm">
 		<liferay-ui:search-container emptyResultsMessage="no-categories-found" delta="5" iteratorURL="<%= portletURL %>" displayTerms="<%= new DisplayTerms(renderRequest) %>">
 			<liferay-ui:search-form page="/viewSearch.jsp" servletContext="<%= application %>" />
@@ -83,8 +73,6 @@
 				
 				<portlet:actionURL name="delete" var="removeURL">
 					<portlet:param name="categoryId" value='<%=catIdString%>' />
-					<portlet:param name="delta" value='<%=delta%>' />
-					<portlet:param name="cur" value='<%=cur%>' />
 					<portlet:param name="backURL" value='<%=backURL.toString()%>' />
 				</portlet:actionURL>		
 
@@ -95,7 +83,7 @@
 				</portlet:renderURL>
 
 				<liferay-ui:search-container-column-text>
-					<%=category.getName()%>
+					${category.name}
 					<%if(count>0){%>
 						<p><b><%=count%></b> <liferay-ui:message key="video-s"/></p>
 					<%}%>

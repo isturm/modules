@@ -4,22 +4,40 @@
 <jsp:useBean id="category" type="de.uhh.l2g.plugins.model.Category" scope="request" />
 <jsp:useBean id="backURL" type="java.lang.String" scope="request" />
 
-<portlet:actionURL name="edit" var="editURL">
-	<portlet:param name="categoryId" value='${category.categoryId}' />
-	<portlet:param name="backURL" value='${backURL}' />
-</portlet:actionURL>
+<c:choose>
+  <c:when test="${category.categoryId>0}">
+	<portlet:actionURL name="edit" var="actionURL">
+		<portlet:param name="categoryId" value='${category.categoryId}' />
+		<portlet:param name="backURL" value='${backURL}' />
+	</portlet:actionURL>
+  </c:when>
+  <c:otherwise>
+	<portlet:actionURL name="add" var="actionURL">
+		<portlet:param name="backURL" value='${backURL}' />
+	</portlet:actionURL>
+  </c:otherwise>
+</c:choose>
 
-<div class="noresponsive">
-	<aui:form action="<%=editURL%>" commandName="model">
+<div class="view edit">
+	<aui:form action="${actionURL}" commandName="model">
 		<aui:container cssClass='super-awesome-container'>
 		        <aui:row>
 		                <aui:col>
 		                    <aui:input name="name" value="${category.name}" type="text" label="name"/> 
 		                    <aui:input name="categoryId" value="${category.categoryId}" type="hidden"/>  
 		                </aui:col>
-		                <aui:col>
-		                     <aui:button type="submit" value="edit" id="edit"/>
-		                </aui:col>
+						<c:choose>
+						  <c:when test="${category.categoryId>0}">
+			                <aui:col>
+			                     <aui:button type="submit" value="edit" id="edit"/>
+			                </aui:col>
+						  </c:when>
+						  <c:otherwise>
+			                <aui:col>
+			                     <aui:button type="submit" value="add" id="add"/>
+			                </aui:col>
+						  </c:otherwise>
+						</c:choose>		                
 		        </aui:row>
 		</aui:container>
 	</aui:form>

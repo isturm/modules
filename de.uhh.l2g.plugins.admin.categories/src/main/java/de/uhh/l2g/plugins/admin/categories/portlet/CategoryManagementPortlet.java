@@ -2,6 +2,7 @@ package de.uhh.l2g.plugins.admin.categories.portlet;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Enumeration;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -63,21 +64,19 @@ public class CategoryManagementPortlet extends MVCPortlet {
 		Long catId = new Long(0);
 		Category c = CategoryLocalServiceUtil.createCategory(0);
 		//
+		mvcPath = renderRequest.getParameter("mvcPath");
+		String backURL = renderRequest.getParameter("backURL");
 		try{
-			catId = new Long(renderRequest.getParameter("categoryId"));
-			mvcPath = renderRequest.getParameter("mvcPath");
-			String backURL = renderRequest.getParameterMap().get("backURL")[0];
 			try {
+				catId = new Long(renderRequest.getParameter("categoryId"));
 				c = CategoryLocalServiceUtil.getCategory(catId);
-				renderRequest.setAttribute("category", c);
-				renderRequest.setAttribute("backURL", backURL);
-				renderResponse.setProperty("jspPage", mvcPath);
-			} catch (PortalException e) {
-				_log.error("Category fatching failed!");
-			}
-		}catch (Exception e) {
-			_log.info("Show category list!");
+			}catch (Exception e) {}
+			renderRequest.setAttribute("category", c);
+			renderRequest.setAttribute("backURL", backURL);
+			renderResponse.setProperty("jspPage", mvcPath);
 		}
+		//show all
+		catch (Exception e) {}
 		super.render(renderRequest, renderResponse);
 	}
 	
