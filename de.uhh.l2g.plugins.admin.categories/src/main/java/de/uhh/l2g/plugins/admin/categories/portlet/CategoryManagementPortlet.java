@@ -81,19 +81,6 @@ public class CategoryManagementPortlet extends MVCPortlet {
 		super.render(renderRequest, renderResponse);
 	}
 	
-	public void prepareEdit(RenderRequest renderRequest, RenderResponse renderResponse){
-		Long catId = new Long(renderRequest.getParameter("categoryId"));
-		String mvcPath = renderRequest.getParameter("mvcPath");
-		Category c = CategoryLocalServiceUtil.createCategory(0);
-		try {
-			c = CategoryLocalServiceUtil.getCategory(catId);
-		} catch (PortalException e) {
-			_log.error("Category fatching failed!");
-		}
-		renderRequest.setAttribute("category", c);
-		renderResponse.setProperty("jspPage", mvcPath);		
-	}
-	
 	public void add(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
 		String backURL = request.getParameterMap().get("backURL")[0];
 		String name=request.getParameter("name");
