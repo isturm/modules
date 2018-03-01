@@ -9,7 +9,6 @@
 	int cId = ParamUtil.getInteger(request, "cId");
 	String cName = ParamUtil.getString(request, "cName");
 	PortletURL portletURL = renderResponse.createRenderURL();
-	
 	String delta = "";
 	String cur = ""; 
 	try{new Long(delta = request.getParameterMap().get("delta")[0]).toString();}catch(Exception e){}
@@ -17,27 +16,32 @@
 	PortletURL backURL = portletURL;
 	backURL.setParameter("delta", delta);
 	backURL.setParameter("cur", cur);
-
 	String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 %> 
  
+<c:set var="backURL" value="<%=backURL%>"/>
+
 <liferay-portlet:renderURL varImpl="categoriesSearchURL">
     <portlet:param name="mvcPath" value="/viewList.jsp" />
 </liferay-portlet:renderURL>
 
 <liferay-portlet:renderURL var="addURL">
-	<portlet:param name="backURL" value='<%=backURL.toString()%>' />
+	<portlet:param name="backURL" value='${backURL}' />
     <portlet:param name="mvcPath" value="/viewEdit.jsp" />
 </liferay-portlet:renderURL>
-	
+
+<c:set var="portletURL" value="<%=portletURL%>"/>
+<c:set var="application" value="<%=application%>"/>
+<c:set var="displayTerms" value="<%=new DisplayTerms(renderRequest)%>"/>
+
 <div class="view list">		
 	<a href="${addURL}" class="add link">
 	    <liferay-ui:message key="add-new-category"/> <span class="icon-large icon-plus-sign"/>
 	</a>
 			
-	<aui:form action="<%= categoriesSearchURL %>" method="post" name="fm">
-		<liferay-ui:search-container emptyResultsMessage="no-categories-found" delta="5" iteratorURL="<%= portletURL %>" displayTerms="<%= new DisplayTerms(renderRequest) %>">
-			<liferay-ui:search-form page="/viewSearch.jsp" servletContext="<%= application %>" />
+	<aui:form action="${categoriesSearchURL}" method="post" name="fm">
+		<liferay-ui:search-container emptyResultsMessage="no-categories-found" delta="5" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
+			<liferay-ui:search-form page="/viewSearch.jsp" servletContext="${application}" />
 			<liferay-ui:search-container-results>
 				<%
 					DisplayTerms displayTerms =searchContainer.getDisplayTerms();
@@ -65,39 +69,41 @@
 			<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Category" keyProperty="categoryId" modelVar="category">
 				<% 
 					Long catIdLong = category.getCategoryId();
-					String catIdString = catIdLong.toString(); 
 					//count videos from category
 					List<Video_Category> vcl = Video_CategoryLocalServiceUtil.getByCategory(catIdLong);
 					int count = vcl.size();
 				%>
+				<c:set var="count" value="<%=count%>"/>
+				<c:set var="catId" value="<%=catIdLong%>"/>
+				<c:set var="catId" value="<%=catIdLong%>"/>
 				
 				<portlet:actionURL name="delete" var="removeURL">
-					<portlet:param name="categoryId" value='<%=catIdString%>' />
-					<portlet:param name="backURL" value='<%=backURL.toString()%>' />
+					<portlet:param name="categoryId" value='${catId}' />
+					<portlet:param name="backURL" value='${backURL}' />
 				</portlet:actionURL>		
 
 				<portlet:renderURL var="editURL">
-					<portlet:param name="categoryId" value='<%=catIdString%>' />
+					<portlet:param name="categoryId" value='${catId}' />
 					<portlet:param name="mvcPath" value="/viewEdit.jsp" />
-					<portlet:param name="backURL" value='<%=backURL.toString()%>' />
+					<portlet:param name="backURL" value='${backURL}' />
 				</portlet:renderURL>
 
 				<liferay-ui:search-container-column-text>
 					${category.name}
-					<%if(count>0){%>
-						<p><b><%=count%></b> <liferay-ui:message key="video-s"/></p>
-					<%}%>
+					<c:if test="${count>0}">
+						<p><b>${count}</b> <liferay-ui:message key="video-s"/></p>
+					</c:if>
 				</liferay-ui:search-container-column-text>
 				
 				<liferay-ui:search-container-column-text>
-						<a href="<%=editURL.toString()%>" title="<liferay-ui:message key='edit'/>">
+						<a href="${editURL}" title="<liferay-ui:message key='edit'/>">
 						   <span class="icon-large icon-pencil"></span>
 						</a>
-						<%if(count==0){%>						
-						<a href="<%=removeURL.toString()%>" title="<liferay-ui:message key='delete'/>">
+						<c:if test="${count==0}">						
+						<a href="${removeURL}" title="<liferay-ui:message key='delete'/>">
 							<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
 						</a>	
-						<%}%>				
+						</c:if>				
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 			
