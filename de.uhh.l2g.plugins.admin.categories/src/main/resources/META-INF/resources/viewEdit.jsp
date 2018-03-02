@@ -26,18 +26,17 @@
 		                    <aui:input name="name" value="${category.name}" type="text" label="name"/> 
 		                    <aui:input name="categoryId" value="${category.categoryId}" type="hidden"/>  
 		                </aui:col>
-						<c:choose>
-						  <c:when test="${category.categoryId>0}">
-			                <aui:col>
-			                     <aui:button type="submit" value="edit" id="edit"/>
-			                </aui:col>
-						  </c:when>
-						  <c:otherwise>
-			                <aui:col>
-			                     <aui:button type="submit" value="add" id="add"/>
-			                </aui:col>
-						  </c:otherwise>
-						</c:choose>		                
+						<aui:col>
+							<c:choose>
+							  <c:when test="${category.categoryId>0}">
+				                     <aui:button type="submit" value="edit" id="edit"/>
+							  </c:when>
+							  <c:otherwise>
+				                     <aui:button type="submit" value="add" id="add"/>
+							  </c:otherwise>
+							</c:choose>		
+							<aui:button type="cancel" value="cancel" href="${backURL}"/>
+						</aui:col>                
 		        </aui:row>
 		</aui:container>
 	</aui:form>
