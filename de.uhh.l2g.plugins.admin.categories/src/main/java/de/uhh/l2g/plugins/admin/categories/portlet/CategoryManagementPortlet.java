@@ -84,16 +84,14 @@ public class CategoryManagementPortlet extends MVCPortlet {
 		User user = UserLocalServiceUtil.getUser(userId);
 		long companyId = new Long(0);
 		long groupId = new Long(0); 
-		//
-		Category category = CategoryLocalServiceUtil.createCategory(0);
-		category.setName(name);
-		category.setUserName(user.getScreenName());
-		category.setCreateDate(new Date());
-		category.setUserName(user.getScreenName());
-		category.setUserId(userId);
-		//
-		Company company = CompanyLocalServiceUtil.createCompany(0);
 		try {
+			Category category = CategoryLocalServiceUtil.createCategory(0);
+			category.setName(name);
+			category.setUserName(user.getScreenName());
+			category.setCreateDate(new Date());
+			category.setUserId(userId);
+			//
+			Company company = CompanyLocalServiceUtil.createCompany(0);
 			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
 			company = CompanyLocalServiceUtil.getCompany(companyId); 
 			groupId = company.getGroup().getGroupId(); 
@@ -111,31 +109,29 @@ public class CategoryManagementPortlet extends MVCPortlet {
 	}
 	
 	public void edit(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqCategoryId = new Long(request.getParameterMap().get("categoryId")[0]);
-		String backURL = request.getParameterMap().get("backURL")[0];
+		long reqCategoryId = new Long(request.getParameter("categoryId"));
+		String backURL = request.getParameter("backURL");
 		String name=request.getParameter("name");
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
 		long companyId = new Long(0);
 		long groupId = new Long(0); 
-		Category category = CategoryLocalServiceUtil.getCategory(reqCategoryId);
-		category.setName(name);
-		category.setUserName(user.getScreenName());
-		category.setUserId(userId);
-		//
-		Company company = CompanyLocalServiceUtil.createCompany(0);
 		try {
-				companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-				company = CompanyLocalServiceUtil.getCompany(companyId); 
-				groupId = company.getGroup().getGroupId(); 
-				category.setCompanyId(companyId);
-				category.setGroupId(groupId);
+			Category category = CategoryLocalServiceUtil.getCategory(reqCategoryId);
+			category.setName(name);
+			category.setUserName(user.getScreenName());
+			category.setUserId(userId);
+			Company company = CompanyLocalServiceUtil.createCompany(0);
+			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
+			company = CompanyLocalServiceUtil.getCompany(companyId); 
+			groupId = company.getGroup().getGroupId(); 
+			category.setCompanyId(companyId);
+			category.setGroupId(groupId);
+			CategoryLocalServiceUtil.updateCategory(category);
 		} catch (Exception e1) {
-			_log.warn("Unable to fulfill companyId for categoryId: "+category.getCategoryId());
+			_log.warn("Unable to update category.");
 		}
-		//
-		CategoryLocalServiceUtil.updateCategory(category);
 		try {
 			response.sendRedirect(backURL);
 		} catch (IOException e) {
@@ -144,8 +140,8 @@ public class CategoryManagementPortlet extends MVCPortlet {
 	}
 	
 	public void delete(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqCategoryId = new Long(request.getParameterMap().get("categoryId")[0]);
-		String backURL = request.getParameterMap().get("backURL")[0];
+		long reqCategoryId = new Long(request.getParameter("categoryId"));
+		String backURL = request.getParameter("backURL");
 		//Video_Term, Lecture_Term, Term
 		CategoryLocalServiceUtil.deleteById(reqCategoryId);
 		try {

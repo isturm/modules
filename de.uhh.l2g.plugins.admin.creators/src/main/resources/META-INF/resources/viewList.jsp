@@ -17,8 +17,6 @@
 	long groupId = themeDisplay.getLayout().getGroupId();
 	String name = User.class.getName();
 	User u = UserLocalServiceUtil.getUser(new Long (request.getRemoteUser()));
-	List<Creator> tempCreatorsList = new ArrayList();
-	tempCreatorsList = CreatorLocalServiceUtil.getAllCreators();
 	PortletURL portletURL = renderResponse.createRenderURL();
 
 	String jobTitle = ParamUtil.getString(request, "jobTitle");
@@ -27,11 +25,8 @@
 	String lastName  = ParamUtil.getString(request, "lastName");
 	String fullName = ParamUtil.getString(request, "fullName");
 	
-	String delta = "";
-	String cur = "";
-	
-	try{new Long(delta = request.getParameterMap().get("delta")[0]).toString();}catch(Exception e){}
-	try{new Long(cur = request.getParameterMap().get("cur")[0]).toString();}catch(Exception e){}
+	String delta = request.getParameter("delta");
+	String cur = request.getParameter("cur");
 	
 	PortletURL backURL = portletURL;
 	backURL.setParameter("delta", delta);

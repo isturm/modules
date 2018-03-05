@@ -64,16 +64,15 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 		long groupId = new Long(0); 
 		//
 		if (isValid(fn, ln)) {
-			//
-			Creator creator = CreatorLocalServiceUtil.createCreator(0);
-			creator.setFirstName(fn);
-			creator.setMiddleName(mn);
-			creator.setLastName(ln);
-			creator.setJobTitle(t);
-			creator.setFullName(fullName(fn, mn, ln, t));
-			//
-			Company company = CompanyLocalServiceUtil.createCompany(0);
 			try {
+				Creator creator = CreatorLocalServiceUtil.createCreator(0);
+				creator.setFirstName(fn);
+				creator.setMiddleName(mn);
+				creator.setLastName(ln);
+				creator.setJobTitle(t);
+				creator.setFullName(fullName(fn, mn, ln, t));
+				//
+				Company company = CompanyLocalServiceUtil.createCompany(0);
 				companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
 				company = CompanyLocalServiceUtil.getCompany(companyId); 
 				groupId = company.getGroup().getGroupId(); 
@@ -117,8 +116,8 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 	}
 	
 	public void edit(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqCreatorId = new Long(request.getParameterMap().get("creatorId")[0]);
-		String backURL = request.getParameterMap().get("backURL")[0];
+		long reqCreatorId = new Long(request.getParameter("creatorId"));
+		String backURL = request.getParameter("backURL");
 		String fn=request.getParameter("firstName");
 		String mn=request.getParameter("middleName");
 		String ln=request.getParameter("lastName");
@@ -130,15 +129,15 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 		long groupId = new Long(0); 
 		//		
 		if (isValid(fn, ln)) {
-			Creator creator = CreatorLocalServiceUtil.getCreator(reqCreatorId);
-			creator.setFirstName(fn);
-			creator.setMiddleName(mn);
-			creator.setLastName(ln);
-			creator.setJobTitle(t);
-			creator.setFullName(fullName(fn, mn, ln, t));
-			//
-			Company company = CompanyLocalServiceUtil.createCompany(0);
 			try {
+				Creator creator = CreatorLocalServiceUtil.getCreator(reqCreatorId);
+				creator.setFirstName(fn);
+				creator.setMiddleName(mn);
+				creator.setLastName(ln);
+				creator.setJobTitle(t);
+				creator.setFullName(fullName(fn, mn, ln, t));
+				//
+				Company company = CompanyLocalServiceUtil.createCompany(0);
 				companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
 				company = CompanyLocalServiceUtil.getCompany(companyId); 
 				groupId = company.getGroup().getGroupId(); 
@@ -148,7 +147,7 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 				creator.setUserName(user.getScreenName());
 				CreatorLocalServiceUtil.updateCreator(creator);
 			} catch (Exception e1) {
-				_log.warn("Unable to update new creator entry!");
+				_log.warn("Unable to update creator entry!");
 			}	
 			//
 		}else{
@@ -163,8 +162,8 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 	}
 	
 	public void delete(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqCreatorId = new Long(request.getParameterMap().get("creatorId")[0]);
-		String backURL = request.getParameterMap().get("backURL")[0];
+		long reqCreatorId = new Long(request.getParameter("creatorId"));
+		String backURL = request.getParameter("backURL");
 		//Video_Creator, Lecture_Creator, Creator
 		CreatorLocalServiceUtil.deleteById(reqCreatorId);
 		try {

@@ -9,14 +9,11 @@
 	int cId = ParamUtil.getInteger(request, "cId");
 	String cName = ParamUtil.getString(request, "cName");
 	PortletURL portletURL = renderResponse.createRenderURL();
-	String delta = "";
-	String cur = ""; 
-	try{new Long(delta = request.getParameterMap().get("delta")[0]).toString();}catch(Exception e){}
-	try{new Long(cur = request.getParameterMap().get("cur")[0]).toString();}catch(Exception e){}
+	String delta = request.getParameter("delta");
+	String cur = request.getParameter("cur");
 	PortletURL backURL = portletURL;
 	backURL.setParameter("delta", delta);
 	backURL.setParameter("cur", cur);
-	String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 %> 
  
 <c:set var="backURL" value="<%=backURL%>"/>
