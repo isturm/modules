@@ -49,20 +49,13 @@
 					List<Category> categoriesList =  Collections.EMPTY_LIST;
 					if (displayTerms.isAdvancedSearch()) {//Advance Search
 						categoriesList = CategoryLocalServiceUtil.getByIdOrAndTitle(cId,cName,displayTerms.isAndOperator());
-
-						searchContainer.setTotal(categoriesList.size());
-		                searchContainer.setResults(ListUtil.subList(categoriesList,searchContainer.getStart(),searchContainer.getEnd()));
-					
 					} else if(!Validator.isBlank(keywords)){//Basic Search
 						categoriesList = CategoryLocalServiceUtil.getByKeyWords(keywords);
-						searchContainer.setTotal(categoriesList.size());
-		                searchContainer.setResults(ListUtil.subList(categoriesList,searchContainer.getStart(),searchContainer.getEnd()));
-					}
-					else{//No Search
+					} else{//No Search
 						 categoriesList = CategoryLocalServiceUtil.getAllCategories(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
-						 searchContainer.setTotal(categoriesList.size());		 
-						 searchContainer.setResults(ListUtil.subList(categoriesList,searchContainer.getStart(),searchContainer.getEnd()));
 					}  
+				    searchContainer.setTotal(categoriesList.size());		 
+				    searchContainer.setResults(ListUtil.subList(categoriesList,searchContainer.getStart(),searchContainer.getEnd()));
 				%>
 			</liferay-ui:search-container-results>
 		
@@ -74,7 +67,6 @@
 					int count = vcl.size();
 				%>
 				<c:set var="count" value="<%=count%>"/>
-				<c:set var="catId" value="<%=catIdLong%>"/>
 				<c:set var="catId" value="<%=catIdLong%>"/>
 				
 				<portlet:actionURL name="delete" var="removeURL">

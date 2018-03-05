@@ -77,7 +77,7 @@ public class CategoryManagementPortlet extends MVCPortlet {
 	}
 	
 	public void add(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		String backURL = request.getParameterMap().get("backURL")[0];
+		String backURL = request.getParameter("backURL");
 		String name=request.getParameter("name");
 		//
 		Long userId = new Long(request.getRemoteUser());
