@@ -269,6 +269,12 @@
 		<property name="prefix" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="year" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="translation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.VideoImpl" table="LG_Video">
 		<id name="videoId" type="long">

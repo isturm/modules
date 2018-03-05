@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Term in entity cache.
  *
@@ -63,7 +65,7 @@ public class TermCacheModel implements CacheModel<Term>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{termId=");
 		sb.append(termId);
@@ -77,6 +79,18 @@ public class TermCacheModel implements CacheModel<Term>, Externalizable {
 		sb.append(year);
 		sb.append(", translation=");
 		sb.append(translation);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -117,6 +131,31 @@ public class TermCacheModel implements CacheModel<Term>, Externalizable {
 			termImpl.setTranslation(translation);
 		}
 
+		termImpl.setGroupId(groupId);
+		termImpl.setCompanyId(companyId);
+		termImpl.setUserId(userId);
+
+		if (userName == null) {
+			termImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			termImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			termImpl.setCreateDate(null);
+		}
+		else {
+			termImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			termImpl.setModifiedDate(null);
+		}
+		else {
+			termImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		termImpl.resetOriginalValues();
 
 		return termImpl;
@@ -131,6 +170,15 @@ public class TermCacheModel implements CacheModel<Term>, Externalizable {
 		prefix = objectInput.readUTF();
 		year = objectInput.readUTF();
 		translation = objectInput.readUTF();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -167,6 +215,22 @@ public class TermCacheModel implements CacheModel<Term>, Externalizable {
 		else {
 			objectOutput.writeUTF(translation);
 		}
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long termId;
@@ -175,4 +239,10 @@ public class TermCacheModel implements CacheModel<Term>, Externalizable {
 	public String prefix;
 	public String year;
 	public String translation;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

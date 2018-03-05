@@ -195,6 +195,12 @@
 		<field name="prefix" type="String" />
 		<field name="year" type="String" />
 		<field name="translation" type="String" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Video">
 		<field name="videoId" type="long" />

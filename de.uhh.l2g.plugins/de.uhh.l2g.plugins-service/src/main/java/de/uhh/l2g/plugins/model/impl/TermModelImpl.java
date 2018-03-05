@@ -20,9 +20,12 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +69,13 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 			{ "languageId", Types.VARCHAR },
 			{ "prefix", Types.VARCHAR },
 			{ "year", Types.VARCHAR },
-			{ "translation", Types.VARCHAR }
+			{ "translation", Types.VARCHAR },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -76,9 +86,15 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 		TABLE_COLUMNS_MAP.put("prefix", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("year", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("translation", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_Term (termId LONG not null primary key,parentId LONG,languageId VARCHAR(75) null,prefix VARCHAR(75) null,year VARCHAR(75) null,translation VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table LG_Term (termId LONG not null primary key,parentId LONG,languageId VARCHAR(75) null,prefix VARCHAR(75) null,year VARCHAR(75) null,translation VARCHAR(75) null,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_Term";
 	public static final String ORDER_BY_JPQL = " ORDER BY term.year DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_Term.year DESC";
@@ -142,6 +158,12 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 		attributes.put("prefix", getPrefix());
 		attributes.put("year", getYear());
 		attributes.put("translation", getTranslation());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -185,6 +207,42 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 
 		if (translation != null) {
 			setTranslation(translation);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -288,13 +346,100 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 		_translation = translation;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Term.class.getName(), getPrimaryKey());
 	}
 
@@ -325,6 +470,12 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 		termImpl.setPrefix(getPrefix());
 		termImpl.setYear(getYear());
 		termImpl.setTranslation(getTranslation());
+		termImpl.setGroupId(getGroupId());
+		termImpl.setCompanyId(getCompanyId());
+		termImpl.setUserId(getUserId());
+		termImpl.setUserName(getUserName());
+		termImpl.setCreateDate(getCreateDate());
+		termImpl.setModifiedDate(getModifiedDate());
 
 		termImpl.resetOriginalValues();
 
@@ -391,6 +542,8 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 
 		termModelImpl._originalYear = termModelImpl._year;
 
+		termModelImpl._setModifiedDate = false;
+
 		termModelImpl._columnBitmask = 0;
 	}
 
@@ -434,12 +587,44 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 			termCacheModel.translation = null;
 		}
 
+		termCacheModel.groupId = getGroupId();
+
+		termCacheModel.companyId = getCompanyId();
+
+		termCacheModel.userId = getUserId();
+
+		termCacheModel.userName = getUserName();
+
+		String userName = termCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			termCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			termCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			termCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			termCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			termCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return termCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{termId=");
 		sb.append(getTermId());
@@ -453,6 +638,18 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 		sb.append(getYear());
 		sb.append(", translation=");
 		sb.append(getTranslation());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -460,7 +657,7 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.Term");
@@ -490,6 +687,30 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 			"<column><column-name>translation</column-name><column-value><![CDATA[");
 		sb.append(getTranslation());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -508,6 +729,13 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 	private String _year;
 	private String _originalYear;
 	private String _translation;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private Term _escapedModel;
 }

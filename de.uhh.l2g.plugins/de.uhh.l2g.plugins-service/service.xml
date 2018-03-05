@@ -463,25 +463,42 @@
 
     	<!-- PK fields -->
 
-    	<column name="termId" type="long" primary="true" id-type="increment"></column>
+    	<column name="termId" type="long" primary="true"
+    		id-type="increment">
+    	</column>
 
     	<!-- Group instance -->
 
     	<!-- Audit fields -->
-        <column name="parentId" type="long"></column>
-        <column name="languageId" type="String"></column>
-        <column name="prefix" type="String"></column>
-        <column name="year" type="String"></column>
-        <column name="translation" type="String"></column>
-        <order by="desc">
-            <order-column name="year" order-by="desc"></order-column>
-        </order>
-        <finder name="Prefix" return-type="Collection">
-            <finder-column name="prefix"></finder-column>
-        </finder>
-        <finder name="Year" return-type="Collection">
-            <finder-column name="year"></finder-column>
-        </finder>
+    	<column name="parentId" type="long"></column>
+    	<column name="languageId" type="String"></column>
+    	<column name="prefix" type="String"></column>
+    	<column name="year" type="String"></column>
+    	<column name="translation" type="String"></column>
+    	<order by="desc">
+    		<order-column name="year" order-by="desc"></order-column>
+    	</order>
+    	<finder name="Prefix" return-type="Collection">
+    		<finder-column name="prefix"></finder-column>
+    	</finder>
+    	<finder name="Year" return-type="Collection">
+    		<finder-column name="year"></finder-column>
+    	</finder>
+
+
+    	<!-- PK fields -->
+
+    	<!-- Group instance -->
+
+    	<column name="groupId" type="long"></column>
+
+    	<!-- Audit fields -->
+
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Category" local-service="true"
     	remote-service="false">

@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -40,6 +44,7 @@ import de.uhh.l2g.plugins.service.persistence.TermPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1252,6 +1257,8 @@ public class TermPersistenceImpl extends BasePersistenceImpl<Term>
 		term.setNew(true);
 		term.setPrimaryKey(termId);
 
+		term.setCompanyId(companyProvider.getCompanyId());
+
 		return term;
 	}
 
@@ -1343,6 +1350,28 @@ public class TermPersistenceImpl extends BasePersistenceImpl<Term>
 		boolean isNew = term.isNew();
 
 		TermModelImpl termModelImpl = (TermModelImpl)term;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (term.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				term.setCreateDate(now);
+			}
+			else {
+				term.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!termModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				term.setModifiedDate(now);
+			}
+			else {
+				term.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
 
 		Session session = null;
 
@@ -1445,6 +1474,12 @@ public class TermPersistenceImpl extends BasePersistenceImpl<Term>
 		termImpl.setPrefix(term.getPrefix());
 		termImpl.setYear(term.getYear());
 		termImpl.setTranslation(term.getTranslation());
+		termImpl.setGroupId(term.getGroupId());
+		termImpl.setCompanyId(term.getCompanyId());
+		termImpl.setUserId(term.getUserId());
+		termImpl.setUserName(term.getUserName());
+		termImpl.setCreateDate(term.getCreateDate());
+		termImpl.setModifiedDate(term.getModifiedDate());
 
 		return termImpl;
 	}
@@ -1845,6 +1880,8 @@ public class TermPersistenceImpl extends BasePersistenceImpl<Term>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

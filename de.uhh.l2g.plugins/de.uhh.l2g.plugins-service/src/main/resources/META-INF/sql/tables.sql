@@ -212,7 +212,13 @@ create table LG_Term (
 	languageId VARCHAR(75) null,
 	prefix VARCHAR(75) null,
 	year VARCHAR(75) null,
-	translation VARCHAR(75) null
+	translation VARCHAR(75) null,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Video (

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -62,6 +63,12 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 		attributes.put("prefix", getPrefix());
 		attributes.put("year", getYear());
 		attributes.put("translation", getTranslation());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -102,6 +109,42 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 
 		if (translation != null) {
 			setTranslation(translation);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -204,6 +247,26 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	}
 
 	/**
+	* Returns the user name of this term.
+	*
+	* @return the user name of this term
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _term.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this term.
+	*
+	* @return the user uuid of this term
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _term.getUserUuid();
+	}
+
+	/**
 	* Returns the year of this term.
 	*
 	* @return the year of this term
@@ -221,6 +284,46 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _term.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this term.
+	*
+	* @return the create date of this term
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _term.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this term.
+	*
+	* @return the modified date of this term
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _term.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this term.
+	*
+	* @return the company ID of this term
+	*/
+	@Override
+	public long getCompanyId() {
+		return _term.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this term.
+	*
+	* @return the group ID of this term
+	*/
+	@Override
+	public long getGroupId() {
+		return _term.getGroupId();
 	}
 
 	/**
@@ -253,6 +356,16 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 		return _term.getTermId();
 	}
 
+	/**
+	* Returns the user ID of this term.
+	*
+	* @return the user ID of this term
+	*/
+	@Override
+	public long getUserId() {
+		return _term.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_term.persist();
@@ -261,6 +374,26 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_term.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this term.
+	*
+	* @param companyId the company ID of this term
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_term.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this term.
+	*
+	* @param createDate the create date of this term
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_term.setCreateDate(createDate);
 	}
 
 	@Override
@@ -285,6 +418,16 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	}
 
 	/**
+	* Sets the group ID of this term.
+	*
+	* @param groupId the group ID of this term
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_term.setGroupId(groupId);
+	}
+
+	/**
 	* Sets the language ID of this term.
 	*
 	* @param languageId the language ID of this term
@@ -292,6 +435,16 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	@Override
 	public void setLanguageId(java.lang.String languageId) {
 		_term.setLanguageId(languageId);
+	}
+
+	/**
+	* Sets the modified date of this term.
+	*
+	* @param modifiedDate the modified date of this term
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_term.setModifiedDate(modifiedDate);
 	}
 
 	@Override
@@ -352,6 +505,36 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	@Override
 	public void setTranslation(java.lang.String translation) {
 		_term.setTranslation(translation);
+	}
+
+	/**
+	* Sets the user ID of this term.
+	*
+	* @param userId the user ID of this term
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_term.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this term.
+	*
+	* @param userName the user name of this term
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_term.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this term.
+	*
+	* @param userUuid the user uuid of this term
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_term.setUserUuid(userUuid);
 	}
 
 	/**
