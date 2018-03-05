@@ -25,7 +25,13 @@ create table LG_Creator (
 	middleName VARCHAR(75) null,
 	jobTitle VARCHAR(75) null,
 	gender VARCHAR(75) null,
-	fullName VARCHAR(75) null
+	fullName VARCHAR(75) null,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Host (

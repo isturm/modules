@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -40,6 +44,7 @@ import de.uhh.l2g.plugins.service.persistence.CreatorPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2357,6 +2362,8 @@ public class CreatorPersistenceImpl extends BasePersistenceImpl<Creator>
 		creator.setNew(true);
 		creator.setPrimaryKey(creatorId);
 
+		creator.setCompanyId(companyProvider.getCompanyId());
+
 		return creator;
 	}
 
@@ -2450,6 +2457,28 @@ public class CreatorPersistenceImpl extends BasePersistenceImpl<Creator>
 		boolean isNew = creator.isNew();
 
 		CreatorModelImpl creatorModelImpl = (CreatorModelImpl)creator;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (creator.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				creator.setCreateDate(now);
+			}
+			else {
+				creator.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!creatorModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				creator.setModifiedDate(now);
+			}
+			else {
+				creator.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
 
 		Session session = null;
 
@@ -2603,6 +2632,12 @@ public class CreatorPersistenceImpl extends BasePersistenceImpl<Creator>
 		creatorImpl.setJobTitle(creator.getJobTitle());
 		creatorImpl.setGender(creator.getGender());
 		creatorImpl.setFullName(creator.getFullName());
+		creatorImpl.setGroupId(creator.getGroupId());
+		creatorImpl.setCompanyId(creator.getCompanyId());
+		creatorImpl.setUserId(creator.getUserId());
+		creatorImpl.setUserName(creator.getUserName());
+		creatorImpl.setCreateDate(creator.getCreateDate());
+		creatorImpl.setModifiedDate(creator.getModifiedDate());
 
 		return creatorImpl;
 	}
@@ -3004,6 +3039,8 @@ public class CreatorPersistenceImpl extends BasePersistenceImpl<Creator>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

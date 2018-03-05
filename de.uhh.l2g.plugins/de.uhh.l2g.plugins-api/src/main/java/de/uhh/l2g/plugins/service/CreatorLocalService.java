@@ -229,6 +229,17 @@ public interface CreatorLocalService extends BaseLocalService,
 	public List<Creator> getByFullName(java.lang.String fullName)
 		throws SystemException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(
+		java.lang.String jobTitle, java.lang.String firstName,
+		java.lang.String middleName, java.lang.String lastName,
+		java.lang.String fullName, boolean isAndOperator)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getByKeyWords(java.lang.String keywords)
+		throws SystemException;
+
 	/**
 	* Returns a range of all the creators.
 	*

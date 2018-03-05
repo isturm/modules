@@ -21,9 +21,13 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * The base model interface for the Creator service. Represents a row in the &quot;LG_Creator&quot; database table, with each column mapped to a property of this class.
@@ -39,7 +43,8 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public interface CreatorModel extends BaseModel<Creator> {
+public interface CreatorModel extends BaseModel<Creator>, GroupedModel,
+	ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -163,6 +168,119 @@ public interface CreatorModel extends BaseModel<Creator> {
 	 * @param fullName the full name of this creator
 	 */
 	public void setFullName(String fullName);
+
+	/**
+	 * Returns the group ID of this creator.
+	 *
+	 * @return the group ID of this creator
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this creator.
+	 *
+	 * @param groupId the group ID of this creator
+	 */
+	@Override
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this creator.
+	 *
+	 * @return the company ID of this creator
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this creator.
+	 *
+	 * @param companyId the company ID of this creator
+	 */
+	@Override
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this creator.
+	 *
+	 * @return the user ID of this creator
+	 */
+	@Override
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this creator.
+	 *
+	 * @param userId the user ID of this creator
+	 */
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this creator.
+	 *
+	 * @return the user uuid of this creator
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this creator.
+	 *
+	 * @param userUuid the user uuid of this creator
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this creator.
+	 *
+	 * @return the user name of this creator
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this creator.
+	 *
+	 * @param userName the user name of this creator
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this creator.
+	 *
+	 * @return the create date of this creator
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this creator.
+	 *
+	 * @param createDate the create date of this creator
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this creator.
+	 *
+	 * @return the modified date of this creator
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this creator.
+	 *
+	 * @param modifiedDate the modified date of this creator
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	@Override
 	public boolean isNew();

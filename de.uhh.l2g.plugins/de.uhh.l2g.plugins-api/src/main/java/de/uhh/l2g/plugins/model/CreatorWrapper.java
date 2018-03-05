@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -63,6 +64,12 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 		attributes.put("jobTitle", getJobTitle());
 		attributes.put("gender", getGender());
 		attributes.put("fullName", getFullName());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -109,6 +116,42 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 
 		if (fullName != null) {
 			setFullName(fullName);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -227,6 +270,26 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 		return _creator.getMiddleName();
 	}
 
+	/**
+	* Returns the user name of this creator.
+	*
+	* @return the user name of this creator
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _creator.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this creator.
+	*
+	* @return the user uuid of this creator
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _creator.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _creator.toString();
@@ -235,6 +298,36 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _creator.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this creator.
+	*
+	* @return the create date of this creator
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _creator.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this creator.
+	*
+	* @return the modified date of this creator
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _creator.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this creator.
+	*
+	* @return the company ID of this creator
+	*/
+	@Override
+	public long getCompanyId() {
+		return _creator.getCompanyId();
 	}
 
 	/**
@@ -248,6 +341,16 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	}
 
 	/**
+	* Returns the group ID of this creator.
+	*
+	* @return the group ID of this creator
+	*/
+	@Override
+	public long getGroupId() {
+		return _creator.getGroupId();
+	}
+
+	/**
 	* Returns the primary key of this creator.
 	*
 	* @return the primary key of this creator
@@ -255,6 +358,16 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	@Override
 	public long getPrimaryKey() {
 		return _creator.getPrimaryKey();
+	}
+
+	/**
+	* Returns the user ID of this creator.
+	*
+	* @return the user ID of this creator
+	*/
+	@Override
+	public long getUserId() {
+		return _creator.getUserId();
 	}
 
 	@Override
@@ -265,6 +378,26 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_creator.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this creator.
+	*
+	* @param companyId the company ID of this creator
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_creator.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this creator.
+	*
+	* @param createDate the create date of this creator
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_creator.setCreateDate(createDate);
 	}
 
 	/**
@@ -324,6 +457,16 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	}
 
 	/**
+	* Sets the group ID of this creator.
+	*
+	* @param groupId the group ID of this creator
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_creator.setGroupId(groupId);
+	}
+
+	/**
 	* Sets the job title of this creator.
 	*
 	* @param jobTitle the job title of this creator
@@ -353,6 +496,16 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 		_creator.setMiddleName(middleName);
 	}
 
+	/**
+	* Sets the modified date of this creator.
+	*
+	* @param modifiedDate the modified date of this creator
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_creator.setModifiedDate(modifiedDate);
+	}
+
 	@Override
 	public void setNew(boolean n) {
 		_creator.setNew(n);
@@ -371,6 +524,36 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_creator.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the user ID of this creator.
+	*
+	* @param userId the user ID of this creator
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_creator.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this creator.
+	*
+	* @param userName the user name of this creator
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_creator.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this creator.
+	*
+	* @param userUuid the user uuid of this creator
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_creator.setUserUuid(userUuid);
 	}
 
 	@Override

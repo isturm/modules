@@ -110,8 +110,7 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		dynamicQuery.add(junction);
 		try {
 			categoriesList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
-		} catch (final SystemException e) {
-		}
+		} catch (final SystemException e) {}
 		return categoriesList;
 	}
 	

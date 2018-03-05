@@ -263,6 +263,22 @@ public class CreatorLocalServiceUtil {
 		return getService().getByFullName(fullName);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(
+		java.lang.String jobTitle, java.lang.String firstName,
+		java.lang.String middleName, java.lang.String lastName,
+		java.lang.String fullName, boolean isAndOperator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(jobTitle,
+			firstName, middleName, lastName, fullName, isAndOperator);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Creator> getByKeyWords(
+		java.lang.String keywords)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByKeyWords(keywords);
+	}
+
 	/**
 	* Returns a range of all the creators.
 	*

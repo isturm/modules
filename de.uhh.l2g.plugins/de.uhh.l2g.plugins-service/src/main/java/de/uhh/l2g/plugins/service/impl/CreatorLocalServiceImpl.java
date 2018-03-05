@@ -15,20 +15,29 @@
 package de.uhh.l2g.plugins.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Junction;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.StringPool;
 
 import de.uhh.l2g.plugins.model.Creator;
 import de.uhh.l2g.plugins.model.Lectureseries_Creator;
 import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.model.impl.Lectureseries_CreatorImpl;
+import de.uhh.l2g.plugins.service.CategoryLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Lectureseries_CreatorLocalServiceUtil;
 import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 import de.uhh.l2g.plugins.service.base.CreatorLocalServiceBaseImpl;
@@ -236,5 +245,54 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 		lectureseries_CreatorPersistence.removeByCreator(id);
 		creatorPersistence.remove(id);
 	}
+
+	public List<Creator> getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(String jobTitle, String firstName, String middleName, String lastName, String fullName, boolean isAndOperator) throws SystemException {
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CreatorImpl.class, "creat");
+		Junction junction = null;
+		List<Creator> creatorList = Collections.emptyList();
+		//
+		if (isAndOperator) junction = RestrictionsFactoryUtil.conjunction();
+		else junction = RestrictionsFactoryUtil.disjunction();
+		//title search
+		if (!jobTitle.isEmpty()) junction.add(PropertyFactoryUtil.forName("creat.jobTitle").like(StringPool.PERCENT + HtmlUtil.escape(jobTitle) + StringPool.PERCENT));
+		//firstName search
+		if (!firstName.isEmpty()) junction.add(PropertyFactoryUtil.forName("creat.firstName").like(StringPool.PERCENT + HtmlUtil.escape(firstName) + StringPool.PERCENT));
+		//middleName search
+		if (!middleName.isEmpty()) junction.add(PropertyFactoryUtil.forName("creat.middleName").like(StringPool.PERCENT + HtmlUtil.escape(middleName) + StringPool.PERCENT));
+		//familyName search
+		if (!lastName.isEmpty()) junction.add(PropertyFactoryUtil.forName("creat.lastName").like(StringPool.PERCENT + HtmlUtil.escape(lastName) + StringPool.PERCENT));
+		//fullName search
+		if (!fullName.isEmpty()) junction.add(PropertyFactoryUtil.forName("creat.fullName").like(StringPool.PERCENT + HtmlUtil.escape(fullName) + StringPool.PERCENT));
+		//
+		dynamicQuery.add(junction);
+		//
+		try {
+			creatorList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
+		} catch (final SystemException e) {}
+		//
+		return creatorList;
+	}
 	
+	public List<Creator> getByKeyWords(String keywords) throws SystemException {
+		List<Creator> creatorList = Collections.emptyList();
+		final Junction junction = RestrictionsFactoryUtil.disjunction();
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CreatorImpl.class, "creat");
+		//title search
+		junction.add(PropertyFactoryUtil.forName("creat.jobTitle").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
+		//firstName search
+		junction.add(PropertyFactoryUtil.forName("creat.firstName").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
+		//middleName search
+		junction.add(PropertyFactoryUtil.forName("creat.middleName").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
+		//lastName search
+		junction.add(PropertyFactoryUtil.forName("creat.lastName").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
+		//fullName search
+		junction.add(PropertyFactoryUtil.forName("creat.fullName").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
+		//
+		dynamicQuery.add(junction);
+		try {
+			creatorList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
+		} catch (final SystemException e) {}
+		//
+		return creatorList;
+	}
 }
