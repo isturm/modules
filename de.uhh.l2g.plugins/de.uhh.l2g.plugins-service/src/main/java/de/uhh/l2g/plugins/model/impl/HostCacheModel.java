@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Host in entity cache.
  *
@@ -63,7 +65,7 @@ public class HostCacheModel implements CacheModel<Host>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{hostId=");
 		sb.append(hostId);
@@ -77,12 +79,20 @@ public class HostCacheModel implements CacheModel<Host>, Externalizable {
 		sb.append(serverRoot);
 		sb.append(", name=");
 		sb.append(name);
+		sb.append(", defaultHost=");
+		sb.append(defaultHost);
 		sb.append(", groupId=");
 		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
-		sb.append(", defaultHost=");
-		sb.append(defaultHost);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -124,9 +134,31 @@ public class HostCacheModel implements CacheModel<Host>, Externalizable {
 			hostImpl.setName(name);
 		}
 
+		hostImpl.setDefaultHost(defaultHost);
 		hostImpl.setGroupId(groupId);
 		hostImpl.setCompanyId(companyId);
-		hostImpl.setDefaultHost(defaultHost);
+		hostImpl.setUserId(userId);
+
+		if (userName == null) {
+			hostImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			hostImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			hostImpl.setCreateDate(null);
+		}
+		else {
+			hostImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			hostImpl.setModifiedDate(null);
+		}
+		else {
+			hostImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		hostImpl.resetOriginalValues();
 
@@ -143,11 +175,16 @@ public class HostCacheModel implements CacheModel<Host>, Externalizable {
 		serverRoot = objectInput.readUTF();
 		name = objectInput.readUTF();
 
+		defaultHost = objectInput.readInt();
+
 		groupId = objectInput.readLong();
 
 		companyId = objectInput.readLong();
 
-		defaultHost = objectInput.readInt();
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -185,11 +222,23 @@ public class HostCacheModel implements CacheModel<Host>, Externalizable {
 			objectOutput.writeUTF(name);
 		}
 
+		objectOutput.writeInt(defaultHost);
+
 		objectOutput.writeLong(groupId);
 
 		objectOutput.writeLong(companyId);
 
-		objectOutput.writeInt(defaultHost);
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long hostId;
@@ -198,7 +247,11 @@ public class HostCacheModel implements CacheModel<Host>, Externalizable {
 	public int port;
 	public String serverRoot;
 	public String name;
+	public int defaultHost;
 	public long groupId;
 	public long companyId;
-	public int defaultHost;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

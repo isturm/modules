@@ -21,10 +21,13 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * The base model interface for the Host service. Represents a row in the &quot;LG_Host&quot; database table, with each column mapped to a property of this class.
@@ -40,7 +43,7 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public interface HostModel extends BaseModel<Host>, ShardedModel {
+public interface HostModel extends BaseModel<Host>, GroupedModel, ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -150,10 +153,25 @@ public interface HostModel extends BaseModel<Host>, ShardedModel {
 	public void setName(String name);
 
 	/**
+	 * Returns the default host of this host.
+	 *
+	 * @return the default host of this host
+	 */
+	public int getDefaultHost();
+
+	/**
+	 * Sets the default host of this host.
+	 *
+	 * @param defaultHost the default host of this host
+	 */
+	public void setDefaultHost(int defaultHost);
+
+	/**
 	 * Returns the group ID of this host.
 	 *
 	 * @return the group ID of this host
 	 */
+	@Override
 	public long getGroupId();
 
 	/**
@@ -161,6 +179,7 @@ public interface HostModel extends BaseModel<Host>, ShardedModel {
 	 *
 	 * @param groupId the group ID of this host
 	 */
+	@Override
 	public void setGroupId(long groupId);
 
 	/**
@@ -180,18 +199,85 @@ public interface HostModel extends BaseModel<Host>, ShardedModel {
 	public void setCompanyId(long companyId);
 
 	/**
-	 * Returns the default host of this host.
+	 * Returns the user ID of this host.
 	 *
-	 * @return the default host of this host
+	 * @return the user ID of this host
 	 */
-	public int getDefaultHost();
+	@Override
+	public long getUserId();
 
 	/**
-	 * Sets the default host of this host.
+	 * Sets the user ID of this host.
 	 *
-	 * @param defaultHost the default host of this host
+	 * @param userId the user ID of this host
 	 */
-	public void setDefaultHost(int defaultHost);
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this host.
+	 *
+	 * @return the user uuid of this host
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this host.
+	 *
+	 * @param userUuid the user uuid of this host
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this host.
+	 *
+	 * @return the user name of this host
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this host.
+	 *
+	 * @param userName the user name of this host
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this host.
+	 *
+	 * @return the create date of this host
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this host.
+	 *
+	 * @param createDate the create date of this host
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this host.
+	 *
+	 * @return the modified date of this host
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this host.
+	 *
+	 * @param modifiedDate the modified date of this host
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	@Override
 	public boolean isNew();

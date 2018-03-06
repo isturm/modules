@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 
 import de.uhh.l2g.plugins.admin.creators.constants.CreatorsManagementPortletKeys;
 import de.uhh.l2g.plugins.model.Creator;
@@ -81,8 +82,9 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 				creator.setUserId(userId);
 				creator.setUserName(user.getScreenName());
 				CreatorLocalServiceUtil.addCreator(creator);
-			} catch (Exception e1) {
+			} catch (Exception e) {
 				_log.warn("Unable to add new creator entry!");
+				SessionErrors.add(request, e.getClass().getName());
 			}	
 			//
 			try {
@@ -125,8 +127,6 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
-		long companyId = new Long(0);
-		long groupId = new Long(0); 
 		//		
 		if (isValid(fn, ln)) {
 			try {
@@ -137,17 +137,12 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 				creator.setJobTitle(t);
 				creator.setFullName(fullName(fn, mn, ln, t));
 				//
-				Company company = CompanyLocalServiceUtil.createCompany(0);
-				companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-				company = CompanyLocalServiceUtil.getCompany(companyId); 
-				groupId = company.getGroup().getGroupId(); 
-				creator.setCompanyId(companyId);
-				creator.setGroupId(groupId);
 				creator.setUserId(userId);
 				creator.setUserName(user.getScreenName());
 				CreatorLocalServiceUtil.updateCreator(creator);
-			} catch (Exception e1) {
+			} catch (Exception e) {
 				_log.warn("Unable to update creator entry!");
+				SessionErrors.add(request, e.getClass().getName());
 			}	
 			//
 		}else{

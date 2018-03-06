@@ -41,9 +41,13 @@ create table LG_Host (
 	port INTEGER,
 	serverRoot VARCHAR(75) null,
 	name VARCHAR(75) null,
+	defaultHost INTEGER,
 	groupId LONG,
 	companyId LONG,
-	defaultHost INTEGER
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Institution (

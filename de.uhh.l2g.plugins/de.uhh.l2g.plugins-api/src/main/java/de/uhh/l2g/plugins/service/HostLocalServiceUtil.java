@@ -89,15 +89,6 @@ public class HostLocalServiceUtil {
 		return getService().addHost(host);
 	}
 
-	public static de.uhh.l2g.plugins.model.Host addHost(java.lang.String name,
-		java.lang.String streamLocation, java.lang.String protocol, int port,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .addHost(name, streamLocation, protocol, port, serviceContext);
-	}
-
 	/**
 	* Creates a new host with the primary key. Does not add the host to the database.
 	*
@@ -191,17 +182,6 @@ public class HostLocalServiceUtil {
 	public static de.uhh.l2g.plugins.model.Host updateHost(
 		de.uhh.l2g.plugins.model.Host host) {
 		return getService().updateHost(host);
-	}
-
-	public static de.uhh.l2g.plugins.model.Host updateHost(long hostId,
-		java.lang.String name, java.lang.String streamLocation,
-		java.lang.String protocol, int port,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .updateHost(hostId, name, streamLocation, protocol, port,
-			serviceContext);
 	}
 
 	public static int getByGroupIdCount(long groupId)

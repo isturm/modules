@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.ResourceConstants;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -38,24 +36,6 @@ import de.uhh.l2g.plugins.service.Institution_HostLocalServiceUtil;
 import de.uhh.l2g.plugins.service.base.HostLocalServiceBaseImpl;
 import de.uhh.l2g.plugins.util.RepositoryManager;
 
-/**
- * The implementation of the host local service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are
- * added, rerun ServiceBuilder to copy their definitions into the
- * {@link de.uhh.l2g.plugins.service.HostLocalService} interface.
- *
- * <p>
- * This is a local service. Methods of this service will not have security
- * checks based on the propagated JAAS credentials because this service can only
- * be accessed from within the same VM.
- * </p>
- *
- * @author Iavor Sturm
- * @see de.uhh.l2g.plugins.service.base.HostLocalServiceBaseImpl
- * @see de.uhh.l2g.plugins.service.HostLocalServiceUtil
- */
 public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -66,7 +46,7 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 	 */
 
 	protected static Log LOG = LogFactoryUtil.getLog(Host.class.getName());
-	protected static final String SYS_ROOT = "vh_0000";
+	protected static final String SYS_ROOT = "vh_000";
 	protected static final String SYS_SERVER = "localhost";
 	protected static final String SYS_PROTOCOL = "http";
 	protected static final int SYS_PORT = 80;
@@ -76,7 +56,6 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 		try {
 			h = Institution_HostLocalServiceUtil.getByInstitutionId(institutionId);
 		} catch (PortalException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return h;
@@ -112,12 +91,9 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 	}
 
 	public long getDefaultHostId(long companyId, long groupId) throws SystemException {
-		// System.out.println(companyId +" "+groupId);
 		Host defaultHost = hostPersistence.fetchByDefaultHost(companyId, groupId, false);
-		if (defaultHost == null)
-			return 0;
-		else
-			return defaultHost.getPrimaryKey();
+		if (defaultHost == null) return 0;
+		else return defaultHost.getPrimaryKey();
 	}
 
 	/** Host is locked if it is linked to an institution */
@@ -133,7 +109,6 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 	}
 
 	protected void validate(String name, String streamer) throws PortalException {
-
 		// only default host db entries name field is allowed to be empty
 		if (Validator.isNull(name)) {
 			throw new HostNameException();
@@ -142,7 +117,6 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 		if (Validator.isNull(streamer) || !Validator.isDomain(streamer) || !Validator.isHostName(streamer)) {
 			throw new HostStreamerException();
 		}
-
 	}
 
 	public static final String DEFAULT_STREAMER = "Default";
@@ -152,13 +126,8 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 	 * 
 	 */
 	public Host addDefaultHost(ServiceContext serviceContext) throws SystemException, PortalException {
-
 		long groupId = serviceContext.getScopeGroupId();
 		long companyId = serviceContext.getCompanyId();
-		long userId = serviceContext.getUserId();
-
-		User user = userPersistence.findByPrimaryKey(userId);
-
 		long hostId = counterLocalService.increment(Host.class.getName());
 
 		Host defaultHost = hostPersistence.create(hostId);
@@ -195,9 +164,6 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 		defaultHost.setServerRoot(serverRoot);
 		defaultHost.setPort(port);
 		defaultHost.setDefaultHost(1);
-
-		defaultHost.setExpandoBridgeAttributes(serviceContext);
-
 		hostPersistence.update(defaultHost);
 
 		String repository = GetterUtil.getString(PropsUtil.get("lecture2go.media.repository"));
@@ -210,79 +176,7 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 		} catch (IOException e) {
 			LOG.error("Folder creation failed!", e);
 		}
-
-		resourceLocalService.addResources(user.getCompanyId(), groupId, userId, Host.class.getName(), hostId, false, true, true);
-
 		return defaultHost;
-	}
-
-	public Host addHost(String name, String streamLocation, String protocol, int port, ServiceContext serviceContext) throws SystemException, PortalException {
-
-		long groupId = serviceContext.getScopeGroupId();
-		long companyId = serviceContext.getCompanyId();
-		long userId = serviceContext.getUserId();
-
-		User user = userPersistence.findByPrimaryKey(userId);
-
-		//validate(name, streamLocation);
-
-		long hostId = counterLocalService.increment(Host.class.getName());
-
-		Host host = hostPersistence.create(hostId);
-
-		host.setName(RepositoryManager.prepareServerRoot(hostId));
-		host.setGroupId(groupId);
-		host.setCompanyId(companyId);
-		// host.setStreamingServerTemplateId(streamingServerTemplateId);
-		host.setStreamer(streamLocation);
-		host.setProtocol(protocol);
-		host.setServerRoot(RepositoryManager.prepareServerRoot(hostId));
-		host.setPort(port);
-		host.setExpandoBridgeAttributes(serviceContext);
-
-		hostPersistence.update(host);
-
-		// Create Directory
-		try {
-			RepositoryManager.createFolder(PropsUtil.get("lecture2go.media.repository") + "/" + host.getServerRoot());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		resourceLocalService.addResources(user.getCompanyId(), groupId, userId, Host.class.getName(), hostId, false, true, true);
-
-		return host;
-	}
-
-	public Host updateHost(long hostId, String name, String streamLocation, String protocol, int port, ServiceContext serviceContext) throws SystemException, PortalException {
-
-		long groupId = serviceContext.getScopeGroupId();
-		long companyId = serviceContext.getCompanyId();
-		long userId = serviceContext.getUserId();
-
-		User user = userPersistence.findByPrimaryKey(userId);
-
-		validate(name, streamLocation);
-
-		Host host = getHost(hostId);
-
-		host.setName(name);
-		host.setGroupId(groupId);
-		host.setCompanyId(companyId);
-		// host.setStreamingServerTemplateId(streamingServerTemplateId);
-		host.setStreamer(streamLocation);
-		host.setProtocol(protocol);
-		// Server Root will be constant over all changes
-		// host.setServerRoot(serverRoot);
-		host.setPort(port);
-		host.setExpandoBridgeAttributes(serviceContext);
-
-		hostPersistence.update(host);
-
-		resourceLocalService.updateResources(user.getCompanyId(), groupId, Host.class.getName(), hostId, serviceContext.getGroupPermissions(), serviceContext.getGuestPermissions());
-
-		return host;
 	}
 
 	/**
@@ -292,18 +186,12 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 	 * 
 	 */
 	public Host deleteHost(long hostId, ServiceContext serviceContext) throws PortalException, SystemException {
-		long companyId = serviceContext.getCompanyId();
 		long groupId = serviceContext.getScopeGroupId();
 		Host host = getHost(hostId);
 		int l = getLockingElements(groupId, hostId);
-
+		//
 		if (l < 1) {
-			resourceLocalService.deleteResource(companyId, Host.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, hostId);
 			host = deleteHost(hostId);
-			//delete directory
-			//String hostDir = PropsUtil.get("lecture2go.media.repository") +"/" +host.getServerRoot(); 
-			//File d = new File(hostDir);
-			//d.delete();
 		} else {
 			String message = LanguageUtil.format(serviceContext.getLocale(), "There are {0} objects still refering to this institution", l);
 			SessionMessages.add(serviceContext.getRequest(), "deletion-locked", message);
@@ -313,44 +201,4 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 
 	}
 
-//	/** 
-//	    * 
-//	    */
-//	public long updateCounter() throws SystemException, PortalException {
-//		// current counter
-//		Counter counter = CounterLocalServiceUtil.getCounter(Host.class.getName());
-//		LOG.debug(counter.getCurrentId());
-//		// check Host Count (if 1 it is supposed to be default host)
-//		if (GetterUtil.getString(PropsUtil.get("counter.increment")).isEmpty()) {
-//			LOG.info("It's strongly suggested to set portal property: counter.increment." + Host.class.getName() + "=1");
-//		}
-//		int count = HostLocalServiceUtil.getHostsCount();
-//		LOG.debug(count);
-//		long newHostId = 0; // Reset if table is empty
-//		long hostId = 0; // the actual Id value
-//
-//		if (count > 0) { // our db is filled... with something at least
-//
-//			// Retrieve actual table data
-//			ClassLoader classLoader = (ClassLoader) PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(), "portletClassLoader");
-//			DynamicQuery query = DynamicQueryFactoryUtil.forClass(Host.class, classLoader).addOrder(OrderFactoryUtil.desc("hostId"));
-//			query.setLimit(0, 1);
-//			List<Host> hosts = HostLocalServiceUtil.dynamicQuery(query);
-//			if (hosts.size() > 0)
-//				hostId = hosts.get(0).getHostId(); // current maximum Id
-//
-//		}
-//		// Check back with real directory (there might be old directories, our
-//		// DB does not know or remember)
-//		newHostId = java.lang.Math.max(RepositoryManager.getMaximumRealServerRootId(), hostId);
-//		LOG.debug(newHostId);
-//		// Increment Counter if assynchrone with estimated value or data reseted
-//		if (counter.getCurrentId() < newHostId || newHostId == 0) {
-//			counter.setCurrentId(newHostId);
-//			CounterLocalServiceUtil.updateCounter(counter);
-//		}
-//
-//		return counter.getCurrentId();
-//
-//	}
 }

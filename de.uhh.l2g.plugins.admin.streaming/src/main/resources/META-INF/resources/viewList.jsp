@@ -12,103 +12,92 @@
 <liferay-portlet:renderURL varImpl="outerURL"><portlet:param name="jspPage" value="/admin/institutionList.jsp" /></liferay-portlet:renderURL>
 <liferay-portlet:renderURL varImpl="innerURL"><portlet:param name="jspPage" value="/admin/institutionList.jsp" /></liferay-portlet:renderURL>
 
-<%!com.liferay.portal.kernel.dao.search.SearchContainer<Host> searchHostContainer = null;%>
-
 <%
-String hostModel = Host.class.getName();
-PortletURL portletURL = renderResponse.createRenderURL();
+	long companyId = company.getCompanyId();
+	long groupId = company.getGroup().getGroupId();			
+	
+	String name = User.class.getName();
+	User u = UserLocalServiceUtil.getUser(new Long (request.getRemoteUser()));
+	PortletURL portletURL = renderResponse.createRenderURL();
 
-//Scope(PrimKey): company wide, scope group or instance
-//Scope GroupId
-long groupId = scopeGroupId; 
-//long groupId = themeDisplay.getLayout().getGroupId();
-//Company Id of Application
-long companyId = themeDisplay.getLayout().getCompanyId();
-String companyIdString = String.valueOf(companyId);
-String groupIdString = String.valueOf(groupId);
-String repDirectory = PropsUtil.get("lecture2go.media.repository");
+	String delta = request.getParameter("delta");
+	String cur = request.getParameter("cur");
+	
+	PortletURL backURL = portletURL;
+	backURL.setParameter("delta", delta);
+	backURL.setParameter("cur", cur);
+	String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
+	//	
+	String repDirectory = PropsUtil.get("lecture2go.media.repository");
+	Host defaultHost = HostLocalServiceUtil.getByDefault(companyId, groupId);
+%>
 
-//Get StreamingServer Defaults
-Host defaultHost = HostLocalServiceUtil.getByDefault(companyId, groupId);
+<c:set var="backURL" value="<%=backURL%>"/>
 
+<liferay-portlet:renderURL var="addURL">
+	<portlet:param name="backURL" value='${backURL}' />
+    <portlet:param name="mvcPath" value="/viewEdit.jsp" />
+</liferay-portlet:renderURL>
 
+<c:set var="portletURL" value="<%=portletURL%>"/>
+<c:set var="application" value="<%=application%>"/>
+<c:set var="displayTerms" value="<%=new DisplayTerms(renderRequest)%>"/>
 
-if (defaultHost != null) {%>	
-	<%--STREAMING SERVER START--%>
-		<%if(permissionAdmin){ %>
-			<aui:fieldset column="false" label="streaming-server" cssClass="add-institution" >
-				<aui:row>
-					<aui:form action="<%= addStreamingServerURL %>" name="fm" inlineLabel="true" commandName="model">
-						 <aui:button-row>
-						 	 <aui:fieldset column="true">
-				 	         <aui:input label="streaming-server-domain-or-ip" name="ip" inlineField="true" required="true" value=''></aui:input>
-				 	         <aui:input label="port" name="port" inlineField="true" value=''></aui:input>
-				 	         <aui:input label="protocol" name="protocol" inlineField="true" value=''></aui:input>
-				 	         <aui:input name='hostId' type='hidden' inlineField="true" value='<%= ParamUtil.getString(renderRequest, "hostId") %>'/>
-						 	 <aui:button type="submit" value="add"></aui:button>
-						 	 </aui:fieldset>
-						 </aui:button-row>
-					</aui:form>
-				</aui:row>
-			</aui:fieldset>
-			
-			<%-- LIST --%>
-				<liferay-ui:search-container searchContainer="<%= searchHostContainer %>" curParam ="curStreamingServer" orderByType="asc" emptyResultsMessage="there-are-no-hosts" iteratorURL="<%= innerURL %>" delta="20" deltaConfigurable="true" >
-					<liferay-ui:search-container-results results="<%=HostLocalServiceUtil.getByGroupId(groupId, searchContainer.getStart(), searchContainer.getEnd())%>"  />
-					<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Host" modelVar="Hosts" rowVar="thisRow" keyProperty="hostId"  escapedModel="<%= false %>" indexVar="k">
-	        			<liferay-ui:search-container-column-text name="Host" cssClass="toplevel-institutions">
-		        			<c:choose>
-			        			<c:when  test='<%= (permissionAdmin||permissionCoordinator) %>'> 
-			        		    	<%--DELETE: For advanced security, this should only be generated if user is allowed to delete Hosts--%>	    
-					        		<portlet:actionURL name="deleteStreamingServer" var="deleteStreamingServerURL">
-					        			<c:choose>
-					        				<c:when test='<%=  HostLocalServiceUtil.getLockingElements(groupId, Hosts.getHostId()) < 1 %>'>
-					        					<portlet:param name="curStreamingServerId" value='<%= (new Long(Hosts.getHostId())).toString() %>' />
-											</c:when>
-											<c:otherwise>
-												<portlet:param name="curStreamingServerId" value='<%= "0" %>' />
-											</c:otherwise>
-										</c:choose>
-										<portlet:param name="backURL" value="<%=String.valueOf(portletURL) %>"/>
-									</portlet:actionURL>
-									<aui:form action="<%= updateStreamingServerURL %>" name="fm">
-										<aui:fieldset>
-										<% 
-										String hn = "";
-										if (Hosts.getDefaultHost() > 0) { 
-											hn="Default";
-										} else {
-											hn=Hosts.getName();
-										}%>
-											<aui:input name="curStreamingServerName" label="" inlineField="true" value = "<%= hn %>" disabled="true"/>
-											<input type="hidden" name="<portlet:namespace></portlet:namespace>curStreamingServerName" value = "<%= hn %>"/>
-											
-											<aui:input name="curStreamingServerIP" label="" inlineField="true" value = "<%= Hosts.getStreamer() %>" />				
-											<aui:input name="curStreamingServerPort" label="" inlineField="true" value = "<%= Hosts.getPort() %>" />
-											<aui:input name="curStreamingServerProtocol" label="" inlineField="true" value = "<%= Hosts.getProtocol() %>" />
-											<aui:input name="curStreamingServerId" type='hidden' inlineField="true" value = "<%= (new Long(Hosts.getHostId())).toString() %>"/>
-											<aui:button type="submit" value="edit"></aui:button>
-												<%--DELETE --%>
-												<c:if test='<%= (permissionAdmin||permissionCoordinator) && HostLocalServiceUtil.getLockingElements(groupId, Hosts.getHostId()) < 1 && !(Hosts.getDefaultHost() > 0) %>'>
-													<aui:button name="delete" value="delete" type="button" href="<%=deleteStreamingServerURL.toString() %>" />
-												</c:if>
-										</aui:fieldset>
-									</aui:form>
-									</c:when>
-									<c:otherwise>
-										<liferay-ui:message key="<%=Hosts.getName() %>"></liferay-ui:message>
-										<liferay-ui:message key="<%=Hosts.getStreamer() %>"></liferay-ui:message>
-										<liferay-ui:message key="<%=String.valueOf(Hosts.getPort()) %>"></liferay-ui:message>
-										<liferay-ui:message key="<%=Hosts.getProtocol() %>"></liferay-ui:message>
-										<liferay-ui:message key="<%=repDirectory %>"></liferay-ui:message>
-									</c:otherwise>
-								</c:choose>
-	        				</liferay-ui:search-container-column-text>
-	        			</liferay-ui:search-container-row>
-	        		<liferay-ui:search-iterator searchContainer="<%= searchHostContainer %>" />
-				</liferay-ui:search-container>
-		<%}%>
-	<%--STREAMING SERVER END--%>	
-<%} else {%>
-<liferay-ui:message key="streamer-defaults-not-configured"></liferay-ui:message> 
-<%}%>
+<div class="view list">		
+	<a href="${addURL}" class="add link">
+	    <liferay-ui:message key="add-new-host"/> <span class="icon-large icon-plus-sign"/>
+	</a>
+	
+	<liferay-ui:search-container emptyResultsMessage="no-hosts-found" delta="5" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
+		<liferay-ui:search-container-results>
+			<%
+				DisplayTerms displayTerms =searchContainer.getDisplayTerms();
+				String keywords = displayTerms.getKeywords(); 
+				List<Host> hostsList =  Collections.EMPTY_LIST;
+				hostsList = HostLocalServiceUtil.getByGroupId(groupId);
+			    searchContainer.setTotal(hostsList.size());		 
+			    searchContainer.setResults(ListUtil.subList(hostsList, searchContainer.getStart(), searchContainer.getEnd()));
+			%>
+		</liferay-ui:search-container-results>	
+		<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Host" keyProperty="hostId" modelVar="host">
+			<%
+				int inst = HostLocalServiceUtil.getLockingElements(groupId, host.getHostId());
+			%>
+			<c:set var="hostId" value="<%=host.getHostId()%>"/>
+			<c:set var="isAdmin" value="<%=permissionAdmin%>"/>
+			<c:set var="isCoordinator" value="<%=permissionCoordinator%>"/>
+			<c:set var="inst" value="<%=inst%>"/>
+				
+			<portlet:actionURL name="delete" var="removeURL">
+				<portlet:param name="hostId" value='${hostId}' />
+				<portlet:param name="backURL" value='${backURL}' />
+			</portlet:actionURL>		
+
+			<portlet:renderURL var="editURL">
+				<portlet:param name="hostId" value='${hostId}' />
+				<portlet:param name="mvcPath" value="/viewEdit.jsp" />
+				<portlet:param name="backURL" value='${backURL}' />
+			</portlet:renderURL>
+
+			<liferay-ui:search-container-column-text>
+				${host.name}
+				<c:if test="${inst>0}">
+					<p><b>${inst}</b> <liferay-ui:message key="institution-s"/></p>
+				</c:if>
+			</liferay-ui:search-container-column-text>
+				
+			<liferay-ui:search-container-column-text>
+				<a href="${editURL}" title="<liferay-ui:message key='edit'/>">
+				   <span class="icon-large icon-pencil"></span>
+				</a>
+				<c:if test="${inst==0}">						
+				<a href="${removeURL}" title="<liferay-ui:message key='delete'/>">
+					<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
+				</a>	
+				</c:if>				
+			</liferay-ui:search-container-column-text>
+		</liferay-ui:search-container-row>
+		
+		<liferay-ui:search-iterator />
+	</liferay-ui:search-container>
+</div>

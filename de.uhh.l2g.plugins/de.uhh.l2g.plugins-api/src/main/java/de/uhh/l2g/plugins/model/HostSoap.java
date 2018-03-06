@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,9 +39,13 @@ public class HostSoap implements Serializable {
 		soapModel.setPort(model.getPort());
 		soapModel.setServerRoot(model.getServerRoot());
 		soapModel.setName(model.getName());
+		soapModel.setDefaultHost(model.getDefaultHost());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
-		soapModel.setDefaultHost(model.getDefaultHost());
+		soapModel.setUserId(model.getUserId());
+		soapModel.setUserName(model.getUserName());
+		soapModel.setCreateDate(model.getCreateDate());
+		soapModel.setModifiedDate(model.getModifiedDate());
 
 		return soapModel;
 	}
@@ -141,6 +146,14 @@ public class HostSoap implements Serializable {
 		_name = name;
 	}
 
+	public int getDefaultHost() {
+		return _defaultHost;
+	}
+
+	public void setDefaultHost(int defaultHost) {
+		_defaultHost = defaultHost;
+	}
+
 	public long getGroupId() {
 		return _groupId;
 	}
@@ -157,12 +170,36 @@ public class HostSoap implements Serializable {
 		_companyId = companyId;
 	}
 
-	public int getDefaultHost() {
-		return _defaultHost;
+	public long getUserId() {
+		return _userId;
 	}
 
-	public void setDefaultHost(int defaultHost) {
-		_defaultHost = defaultHost;
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	public String getUserName() {
+		return _userName;
+	}
+
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		_modifiedDate = modifiedDate;
 	}
 
 	private long _hostId;
@@ -171,7 +208,11 @@ public class HostSoap implements Serializable {
 	private int _port;
 	private String _serverRoot;
 	private String _name;
+	private int _defaultHost;
 	private long _groupId;
 	private long _companyId;
-	private int _defaultHost;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
 }

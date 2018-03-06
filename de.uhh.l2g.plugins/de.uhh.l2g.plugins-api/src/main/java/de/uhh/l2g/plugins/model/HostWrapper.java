@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -62,9 +63,13 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 		attributes.put("port", getPort());
 		attributes.put("serverRoot", getServerRoot());
 		attributes.put("name", getName());
+		attributes.put("defaultHost", getDefaultHost());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("defaultHost", getDefaultHost());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -107,6 +112,12 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 			setName(name);
 		}
 
+		Integer defaultHost = (Integer)attributes.get("defaultHost");
+
+		if (defaultHost != null) {
+			setDefaultHost(defaultHost);
+		}
+
 		Long groupId = (Long)attributes.get("groupId");
 
 		if (groupId != null) {
@@ -119,10 +130,28 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 			setCompanyId(companyId);
 		}
 
-		Integer defaultHost = (Integer)attributes.get("defaultHost");
+		Long userId = (Long)attributes.get("userId");
 
-		if (defaultHost != null) {
-			setDefaultHost(defaultHost);
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -241,6 +270,26 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 		return _host.getStreamer();
 	}
 
+	/**
+	* Returns the user name of this host.
+	*
+	* @return the user name of this host
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _host.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this host.
+	*
+	* @return the user uuid of this host
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _host.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _host.toString();
@@ -249,6 +298,26 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _host.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this host.
+	*
+	* @return the create date of this host
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _host.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this host.
+	*
+	* @return the modified date of this host
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _host.getModifiedDate();
 	}
 
 	/**
@@ -291,6 +360,16 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 		return _host.getPrimaryKey();
 	}
 
+	/**
+	* Returns the user ID of this host.
+	*
+	* @return the user ID of this host
+	*/
+	@Override
+	public long getUserId() {
+		return _host.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_host.persist();
@@ -309,6 +388,16 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	@Override
 	public void setCompanyId(long companyId) {
 		_host.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this host.
+	*
+	* @param createDate the create date of this host
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_host.setCreateDate(createDate);
 	}
 
 	/**
@@ -355,6 +444,16 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	@Override
 	public void setHostId(long hostId) {
 		_host.setHostId(hostId);
+	}
+
+	/**
+	* Sets the modified date of this host.
+	*
+	* @param modifiedDate the modified date of this host
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_host.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -425,6 +524,36 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	@Override
 	public void setStreamer(java.lang.String streamer) {
 		_host.setStreamer(streamer);
+	}
+
+	/**
+	* Sets the user ID of this host.
+	*
+	* @param userId the user ID of this host
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_host.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this host.
+	*
+	* @param userName the user name of this host
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_host.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this host.
+	*
+	* @param userUuid the user uuid of this host
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_host.setUserUuid(userUuid);
 	}
 
 	@Override

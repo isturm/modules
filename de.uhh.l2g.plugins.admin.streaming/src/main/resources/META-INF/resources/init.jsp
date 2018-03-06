@@ -19,6 +19,7 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="com.liferay.portal.kernel.util.UnicodeFormatter"%>
+<%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
 
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="javax.portlet.PortletURL"%>
@@ -27,6 +28,7 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.TreeMap"%>
 <%@page import="java.util.Map"%>
+<%@page import="java.util.Collections"%>
 
 <%@page import="org.springframework.web.bind.ServletRequestUtils"%>
 

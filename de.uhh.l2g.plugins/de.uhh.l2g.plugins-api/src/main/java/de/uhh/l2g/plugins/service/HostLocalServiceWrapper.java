@@ -87,16 +87,6 @@ public class HostLocalServiceWrapper implements HostLocalService,
 		return _hostLocalService.addHost(host);
 	}
 
-	@Override
-	public de.uhh.l2g.plugins.model.Host addHost(java.lang.String name,
-		java.lang.String streamLocation, java.lang.String protocol, int port,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _hostLocalService.addHost(name, streamLocation, protocol, port,
-			serviceContext);
-	}
-
 	/**
 	* Creates a new host with the primary key. Does not add the host to the database.
 	*
@@ -199,17 +189,6 @@ public class HostLocalServiceWrapper implements HostLocalService,
 	public de.uhh.l2g.plugins.model.Host updateHost(
 		de.uhh.l2g.plugins.model.Host host) {
 		return _hostLocalService.updateHost(host);
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Host updateHost(long hostId,
-		java.lang.String name, java.lang.String streamLocation,
-		java.lang.String protocol, int port,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _hostLocalService.updateHost(hostId, name, streamLocation,
-			protocol, port, serviceContext);
 	}
 
 	@Override

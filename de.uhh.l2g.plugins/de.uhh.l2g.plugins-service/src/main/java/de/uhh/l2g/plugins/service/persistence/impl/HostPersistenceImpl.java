@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
@@ -43,6 +45,7 @@ import de.uhh.l2g.plugins.service.persistence.HostPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1851,6 +1854,28 @@ public class HostPersistenceImpl extends BasePersistenceImpl<Host>
 
 		HostModelImpl hostModelImpl = (HostModelImpl)host;
 
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (host.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				host.setCreateDate(now);
+			}
+			else {
+				host.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!hostModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				host.setModifiedDate(now);
+			}
+			else {
+				host.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -1965,9 +1990,13 @@ public class HostPersistenceImpl extends BasePersistenceImpl<Host>
 		hostImpl.setPort(host.getPort());
 		hostImpl.setServerRoot(host.getServerRoot());
 		hostImpl.setName(host.getName());
+		hostImpl.setDefaultHost(host.getDefaultHost());
 		hostImpl.setGroupId(host.getGroupId());
 		hostImpl.setCompanyId(host.getCompanyId());
-		hostImpl.setDefaultHost(host.getDefaultHost());
+		hostImpl.setUserId(host.getUserId());
+		hostImpl.setUserName(host.getUserName());
+		hostImpl.setCreateDate(host.getCreateDate());
+		hostImpl.setModifiedDate(host.getModifiedDate());
 
 		return hostImpl;
 	}

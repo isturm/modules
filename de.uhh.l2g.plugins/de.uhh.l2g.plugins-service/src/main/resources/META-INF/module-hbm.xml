@@ -72,16 +72,20 @@
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.HostImpl" table="LG_Host">
 		<id name="hostId" type="long">
-			<generator class="assigned" />
+			<generator class="increment" />
 		</id>
 		<property name="protocol" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="streamer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="port" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="serverRoot" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="defaultHost" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="defaultHost" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.InstitutionImpl" table="LG_Institution">
 		<id name="institutionId" type="long">

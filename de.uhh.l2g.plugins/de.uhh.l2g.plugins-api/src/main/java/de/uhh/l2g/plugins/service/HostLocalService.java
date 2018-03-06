@@ -96,10 +96,6 @@ public interface HostLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Host addHost(Host host);
 
-	public Host addHost(java.lang.String name, java.lang.String streamLocation,
-		java.lang.String protocol, int port, ServiceContext serviceContext)
-		throws PortalException, SystemException;
-
 	/**
 	* Creates a new host with the primary key. Does not add the host to the database.
 	*
@@ -170,10 +166,6 @@ public interface HostLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Host updateHost(Host host);
-
-	public Host updateHost(long hostId, java.lang.String name,
-		java.lang.String streamLocation, java.lang.String protocol, int port,
-		ServiceContext serviceContext) throws PortalException, SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getByGroupIdCount(long groupId) throws SystemException;

@@ -208,33 +208,47 @@
         </finder>
     </entity>
     <entity name="Host" local-service="true" remote-service="false">
-    	<column name="hostId" type="long" primary="true">
-    	</column>
+    	<column name="hostId" type="long" primary="true" id-type="increment"></column>
     	<column name="protocol" type="String"></column>
     	<column name="streamer" type="String"></column>
     	<column name="port" type="int"></column>
     	<column name="serverRoot" type="String"></column>
     	<column name="name" type="String"></column>
-		<column name="groupId" type="long"></column>
-        <column name="companyId" type="long"></column>
-        <column name="defaultHost" type="int"></column>
-        <order by="asc"> <order-column name="serverRoot" />
-        </order>
-		<finder name="GroupId" return-type="Collection">
-            <finder-column name="groupId"></finder-column>
-        </finder>
-        <finder name="CompanyIdAndGroupId" return-type="Collection">
-       		<finder-column name="companyId"></finder-column>
-            <finder-column name="groupId"></finder-column>
-        </finder>
-        <finder name="G_H" return-type="Host">
-            <finder-column name="groupId"></finder-column>
-            <finder-column name="hostId"></finder-column>
-        </finder>
-        <finder name="DefaultHost" return-type="Host" where="defaultHost &gt; 0">
-            <finder-column name="companyId"></finder-column>
-            <finder-column name="groupId"></finder-column>
-        </finder>
+    	<column name="defaultHost" type="int"></column>
+    	<order by="asc">
+    		<order-column name="serverRoot" />
+    	</order>
+    	<finder name="GroupId" return-type="Collection">
+    		<finder-column name="groupId"></finder-column>
+    	</finder>
+    	<finder name="CompanyIdAndGroupId" return-type="Collection">
+    		<finder-column name="companyId"></finder-column>
+    		<finder-column name="groupId"></finder-column>
+    	</finder>
+    	<finder name="G_H" return-type="Host">
+    		<finder-column name="groupId"></finder-column>
+    		<finder-column name="hostId"></finder-column>
+    	</finder>
+    	<finder name="DefaultHost" return-type="Host"
+    		where="defaultHost &gt; 0">
+    		<finder-column name="companyId"></finder-column>
+    		<finder-column name="groupId"></finder-column>
+    	</finder>
+
+
+    	<!-- PK fields -->
+
+    	<!-- Group instance -->
+
+    	<column name="groupId" type="long"></column>
+
+    	<!-- Audit fields -->
+
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Institution_Host" local-service="true" remote-service="false">
         <column name="institutionHostId" type="long" primary="true"></column>

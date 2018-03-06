@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 
 import de.uhh.l2g.plugins.admin.terms.constants.TermsManagementPortletKeys;
 import de.uhh.l2g.plugins.model.Term;
@@ -82,8 +83,6 @@ public class TermsManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
-		long companyId = new Long(0);
-		long groupId = new Long(0); 
 		try {
 			Term term = TermLocalServiceUtil.createTerm(0);
 			term.setYear(y);
@@ -92,16 +91,11 @@ public class TermsManagementPortlet extends MVCPortlet {
 			term.setUserName(user.getScreenName());
 			term.setUserId(userId);
 			TermLocalServiceUtil.addTerm(term);
-			Company company = CompanyLocalServiceUtil.createCompany(0);
-			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-			company = CompanyLocalServiceUtil.getCompany(companyId); 
-			groupId = company.getGroup().getGroupId(); 
-			term.setCompanyId(companyId);
-			term.setGroupId(groupId);
 			//
 			TermLocalServiceUtil.addTerm(term);
-		} catch (Exception e1) {
+		} catch (Exception e) {
 			_log.warn("Unable to add new term entry!");
+			SessionErrors.add(request, e.getClass().getName());
 		}	
 		//
 		try {
@@ -135,8 +129,9 @@ public class TermsManagementPortlet extends MVCPortlet {
 			term.setGroupId(groupId);
 			//
 			TermLocalServiceUtil.updateTerm(term);
-		} catch (Exception e1) {
+		} catch (Exception e) {
 			_log.warn("Unable to update category.");
+			SessionErrors.add(request, e.getClass().getName());
 		}
 		
 		try {

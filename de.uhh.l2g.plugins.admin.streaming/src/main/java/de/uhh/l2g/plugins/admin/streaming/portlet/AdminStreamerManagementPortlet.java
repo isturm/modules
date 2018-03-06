@@ -1,27 +1,38 @@
 package de.uhh.l2g.plugins.admin.streaming.portlet;
 
-import de.uhh.l2g.plugins.admin.streaming.constants.AdminStreamerManagementPortletKeys;
-import de.uhh.l2g.plugins.model.Host;
-import de.uhh.l2g.plugins.model.Institution;
-import de.uhh.l2g.plugins.service.HostLocalServiceUtil;
-import de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil;
+import java.io.IOException;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-
-import org.osgi.service.component.annotations.Component;
+import de.uhh.l2g.plugins.admin.streaming.constants.AdminStreamerManagementPortletKeys;
+import de.uhh.l2g.plugins.model.Host;
+import de.uhh.l2g.plugins.model.Institution;
+import de.uhh.l2g.plugins.service.HostLocalServiceUtil;
+import de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil;
+import de.uhh.l2g.plugins.util.RepositoryManager;
 
 /**
  * @author isturm
@@ -41,56 +52,126 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class AdminStreamerManagementPortlet extends MVCPortlet {
-	protected static Log LOG = LogFactoryUtil.getLog(AdminStreamerManagementPortlet.class.getName());
+	protected static Log _log = LogFactoryUtil.getLog(AdminStreamerManagementPortlet.class.getName());
 	public static final String DEFAULT_STREAMER = "Default";
 
-	public void updateStreamingServer(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
-		ServiceContext serviceContext = ServiceContextFactory.getInstance(Host.class.getName(), request);
-		String hostName = ParamUtil.getString(request, "curStreamingServerName");
-		String ip = ParamUtil.getString(request, "curStreamingServerIP");
-		int port = ParamUtil.getInteger(request, "curStreamingServerPort");
-		long hostId = ParamUtil.getLong(request, "curStreamingServerId");
-		String protocol = ParamUtil.getString(request, "curStreamingServerProtocol");
-		LOG.info("Trying to update " + hostName + ": " + ip);
+	@Override
+	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+		String mvcPath = "";
+		Long hostId = new Long(0);
+		Host h = HostLocalServiceUtil.createHost(0);
+		//
+		mvcPath = renderRequest.getParameter("mvcPath");
+		String backURL = renderRequest.getParameter("backURL");
+		try{
+			try {
+				hostId = new Long(renderRequest.getParameter("hostId"));
+				h = HostLocalServiceUtil.getHost(hostId);
+			}catch (Exception e) {}
+			renderRequest.setAttribute("host", h);
+			renderRequest.setAttribute("backURL", backURL);
+			renderResponse.setProperty("jspPage", mvcPath);
+		}
+		//show all
+		catch (Exception e) {}
+		super.render(renderRequest, renderResponse);
+	}
+	
+	public void edit(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
+		long reqHostId = ParamUtil.getLong(request, "hostId");
+		String backURL = ParamUtil.getString(request, "backURL");
+        //
+		String protocol = ParamUtil.getString(request, "protocol");
+		String streamer = ParamUtil.getString(request, "streamer");
+		int port = ParamUtil.getInteger(request, "port");
+		//
+		Long userId = new Long(request.getRemoteUser());
+		User user = UserLocalServiceUtil.getUser(userId);
 		try {
-			HostLocalServiceUtil.updateHost(hostId, hostName, ip, protocol, port, serviceContext);
+			Host host = HostLocalServiceUtil.getHost(reqHostId);
+			host.setUserName(user.getScreenName());
+			host.setProtocol(protocol);
+			host.setStreamer(streamer);
+			host.setPort(port);
+			host.setUserId(userId);
+			HostLocalServiceUtil.updateHost(host);
 		} catch (Exception e) {
+			_log.error("Unable to update host.");
 			SessionErrors.add(request, e.getClass().getName());
-			LOG.error("Failed updating Streaming Server", e);
-			//PortalUtil.copyRequestParameters(request, response);
-			response.setRenderParameter("mvcPath", "/viewList.jsp");
+		}
+		try {
+			response.sendRedirect(backURL);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
-	public void deleteStreamingServer(ActionRequest request, ActionResponse response) {
-		long hostId = ParamUtil.getLong(request, "curStreamingServerId");
-		LOG.info("Trying to remove " + hostId);
+	public void delete(ActionRequest request, ActionResponse response) {
+		Long hostId = ParamUtil.getLong(request, "hostId");
+		String backURL = ParamUtil.getString(request, "backURL");
+		//
+		_log.info("Trying to remove " + hostId);
 		try {
-			ServiceContext serviceContext = ServiceContextFactory.getInstance(Host.class.getName(), request);
-			if (hostId > 0)
-				HostLocalServiceUtil.deleteHost(hostId, serviceContext);
+			if (hostId > 0) HostLocalServiceUtil.deleteHost(hostId);
 		} catch (Exception e) {
 			SessionErrors.add(request, e.getClass().getName());
-			LOG.error("Failed deleting Streaming Server", e);
-			PortalUtil.copyRequestParameters(request, response);
-			response.setRenderParameter("mvcPath", "/viewList.jsp");
+			_log.error("Failed deleting Streaming Server", e);
+		}
+		//
+		try {
+			response.sendRedirect(backURL);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}	
 	
-	public void addStreamingServer(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
-		ServiceContext serviceContext = ServiceContextFactory.getInstance(Host.class.getName(), request);
+	public void add(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
 		String hostName = "";
-		String ip = ParamUtil.getString(request, "ip");
+		String streamer = ParamUtil.getString(request, "streamer");
 		String protocol = ParamUtil.getString(request, "protocol");
 		int port = ParamUtil.getInteger(request, "port");
-		LOG.info("Trying to add " + hostName + ": " + ip);
+		String backURL = ParamUtil.getString(request, "backURL");
+		//
+		Long userId = new Long(request.getRemoteUser());
+		User user = UserLocalServiceUtil.getUser(userId);
+		long companyId = new Long(0);
+		long groupId = new Long(0); 
+		//
+		_log.info("Trying to add " + hostName + ": " + streamer);
 		try {
-			HostLocalServiceUtil.addHost(hostName, ip, protocol, port, serviceContext);
+			Host host = HostLocalServiceUtil.createHost(0);
+			host.setUserId(userId);
+			host.setUserName(user.getScreenName());
+			//
+			Company company = CompanyLocalServiceUtil.createCompany(0);
+			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
+			company = CompanyLocalServiceUtil.getCompany(companyId); 
+			groupId = company.getGroup().getGroupId();			
+			host.setCompanyId(companyId);
+			host.setGroupId(groupId);
+			host.setProtocol(protocol);
+			host.setPort(port);
+			host.setStreamer(streamer);
+			host.setName(streamer);
+			host = HostLocalServiceUtil.addHost(host);
+			// update server root
+			host.setServerRoot(RepositoryManager.prepareServerRoot(host.getHostId()));
+			HostLocalServiceUtil.updateHost(host);
+			// Create Directory
+			try {
+				RepositoryManager.createFolder(PropsUtil.get("lecture2go.media.repository") + "/" + host.getServerRoot());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} catch (Exception e) {
 			SessionErrors.add(request, e.getClass().getName());
-			LOG.error("Failed adding Streaming Server", e);
-			//PortalUtil.copyRequestParameters(request, response);
-			response.setRenderParameter("mvcPath", "/viewList.jsp");
+			_log.error("Failed adding Streaming Server", e);
+		}
+		//
+		try {
+			response.sendRedirect(backURL);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -98,13 +179,13 @@ public class AdminStreamerManagementPortlet extends MVCPortlet {
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(Institution.class.getName(), request);
 		String institutionName = ParamUtil.getString(request, "treeRoot");
 		long institutionId = ParamUtil.getLong(request, "treeRootId");
-		LOG.info("Root: " + institutionId);
+		_log.info("Root: " + institutionId);
 		try {
 			InstitutionLocalServiceUtil.updateInstitution(institutionId, institutionName, 1, serviceContext);
 			response.setRenderParameter("mvcPath", "/admin/institutionList.jsp");
 		} catch (Exception e) {
 			SessionErrors.add(request, e.getClass().getName());
-			LOG.error("Failed updating top level institution name ", e);
+			_log.error("Failed updating top level institution name ", e);
 			PortalUtil.copyRequestParameters(request, response);
 			response.setRenderParameter("mvcPath", "/admin/institutionList.jsp");
 		}

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 
 import de.uhh.l2g.plugins.admin.categories.constants.CategoryManagementPortletKeys;
 import de.uhh.l2g.plugins.model.Category;
@@ -98,8 +99,9 @@ public class CategoryManagementPortlet extends MVCPortlet {
 			category.setCompanyId(companyId);
 			category.setGroupId(groupId);
 			CategoryLocalServiceUtil.addCategory(category);
-		} catch (Exception e1) {
-			_log.warn("Unable to add new category entry!");
+		} catch (Exception e) {
+			_log.error("Unable to add new category entry!");
+			SessionErrors.add(request, e.getClass().getName());
 		}	
 		try {
 			response.sendRedirect(backURL);
@@ -115,22 +117,15 @@ public class CategoryManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
-		long companyId = new Long(0);
-		long groupId = new Long(0); 
 		try {
 			Category category = CategoryLocalServiceUtil.getCategory(reqCategoryId);
 			category.setName(name);
 			category.setUserName(user.getScreenName());
 			category.setUserId(userId);
-			Company company = CompanyLocalServiceUtil.createCompany(0);
-			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-			company = CompanyLocalServiceUtil.getCompany(companyId); 
-			groupId = company.getGroup().getGroupId(); 
-			category.setCompanyId(companyId);
-			category.setGroupId(groupId);
 			CategoryLocalServiceUtil.updateCategory(category);
-		} catch (Exception e1) {
-			_log.warn("Unable to update category.");
+		} catch (Exception e) {
+			_log.error("Unable to update category.");
+			SessionErrors.add(request, e.getClass().getName());
 		}
 		try {
 			response.sendRedirect(backURL);
