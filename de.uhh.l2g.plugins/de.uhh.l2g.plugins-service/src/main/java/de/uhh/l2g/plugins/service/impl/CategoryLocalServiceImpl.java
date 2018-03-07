@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Junction;
@@ -60,6 +61,18 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		cl = categoryPersistence.findAll(begin, end);
 		return cl;
 	}
+
+	public List<Category> getAllCategoriesByGroupId(Long groupId) throws SystemException {
+		return categoryPersistence.findByGroup(groupId);
+	}
+	
+	public List<Category> getAllCategoriesByCompanyId(Long companyId) throws SystemException {
+		return categoryPersistence.findByCompany(companyId);
+	}
+	
+	public List<Category> getAllCategoriesByGropuIdAndCompanyId(Long groupId, Long companyId) throws SystemException {
+		return categoryPersistence.findByGroupAndCompany(groupId, companyId);
+	}
 	
 	public List<Category> getByName(String name) throws SystemException {
 		List<Category> cl = new ArrayList<Category>();
@@ -92,38 +105,56 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		return super.updateCategory(category);
 	}
 	
-	public List<Category> getByIdOrAndTitle(int cId, String cName, boolean isAndOperator) throws SystemException {
+	public List<Category> getByIdTitleisAndOperatorAndGroupId(int cId, String cName, boolean isAndOperator, Long groupId) throws SystemException {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CategoryImpl.class, "cat");
-		Junction junction = null;
+		//
+		final Junction disjunction = RestrictionsFactoryUtil.disjunction(); 
+		final Junction conjunction = RestrictionsFactoryUtil.conjunction(); 
 		List<Category> categoriesList = Collections.emptyList();
-		if (isAndOperator) {
-			junction = RestrictionsFactoryUtil.conjunction();
-		} else {
-			junction = RestrictionsFactoryUtil.disjunction();
+		//
+		Criterion equalsCategoryId = PropertyFactoryUtil.forName("cat.categoryId").eq(Long.valueOf(cId));  
+		Criterion likeName = PropertyFactoryUtil.forName("cat.name").like(StringPool.PERCENT + HtmlUtil.escape(cName) + StringPool.PERCENT);
+		Criterion equalsGroupId = PropertyFactoryUtil.forName("cat.groupId").eq(Long.valueOf(groupId));  
+		//OR ->isAndOperator false
+		//AND ->isAndOperator true
+		if(isAndOperator){
+			conjunction.add(equalsCategoryId);
+			conjunction.add(likeName);
+		}else{
+			disjunction.add(equalsCategoryId);
+			disjunction.add(likeName);
+			dynamicQuery.add(disjunction);
 		}
-		if (Validator.isDigit(cId + "") || cId > 0) {
-			junction.add(PropertyFactoryUtil.forName("cat.categoryId").eq(Long.valueOf(cId)));
-		}
-		if (!Validator.isBlank(cName)) {
-			junction.add(PropertyFactoryUtil.forName("cat.name").like(StringPool.PERCENT + HtmlUtil.escape(cName) + StringPool.PERCENT));
-		}
-		dynamicQuery.add(junction);
+		conjunction.add(equalsGroupId);
+		//
+		dynamicQuery.add(conjunction);
 		try {
 			categoriesList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
 		} catch (final SystemException e) {}
 		return categoriesList;
 	}
 	
-	public List<Category> getByKeyWords(String keywords) throws SystemException {
+	public List<Category> getByKeyWordsAndGroupId(String keywords, Long groupId) throws SystemException {
 		List<Category> categoriesList = Collections.emptyList();
-		final Junction junction = RestrictionsFactoryUtil.disjunction();
+		//
+		final Junction disjunction = RestrictionsFactoryUtil.disjunction(); //OR
+		final Junction conjunction = RestrictionsFactoryUtil.conjunction(); //AND
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CategoryImpl.class, "cat");
-		if (Validator.isDigit(keywords)) {
-			junction.add(PropertyFactoryUtil.forName("cat.categoryId").eq(Long.valueOf(keywords)));
-		} else {
-			junction.add(PropertyFactoryUtil.forName("cat.name").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
+		//
+		if (Validator.isDigit(keywords)){
+			Criterion equalsCategoryId = PropertyFactoryUtil.forName("cat.groupId").eq(Long.valueOf(keywords));  
+			disjunction.add(equalsCategoryId);
 		}
-		dynamicQuery.add(junction);
+		else {
+			Criterion likeName = PropertyFactoryUtil.forName("cat.name").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT); 
+			disjunction.add(likeName);
+		}
+		//
+		Criterion equalsGroupId = PropertyFactoryUtil.forName("cat.groupId").eq(Long.valueOf(groupId));  
+		conjunction.add(equalsGroupId);
+		//
+		dynamicQuery.add(conjunction);
+		dynamicQuery.add(disjunction);
 		try {
 			categoriesList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
 		} catch (final SystemException e) {

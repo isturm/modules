@@ -6,6 +6,9 @@
 <%@include file="init.jsp"%>
 
 <%
+	long companyId = company.getCompanyId();
+	long groupId = company.getGroup().getGroupId();			
+
 	int cId = ParamUtil.getInteger(request, "cId");
 	String cName = ParamUtil.getString(request, "cName");
 	PortletURL portletURL = renderResponse.createRenderURL();
@@ -27,6 +30,9 @@
     <portlet:param name="mvcPath" value="/viewEdit.jsp" />
 </liferay-portlet:renderURL>
 
+<c:set var="groupId" value="<%=groupId%>"/>
+<c:set var="companyId" value="<%=companyId%>"/>
+
 <c:set var="portletURL" value="<%=portletURL%>"/>
 <c:set var="application" value="<%=application%>"/>
 <c:set var="displayTerms" value="<%=new DisplayTerms(renderRequest)%>"/>
@@ -45,11 +51,11 @@
 					String keywords = displayTerms.getKeywords(); 
 					List<Category> categoriesList =  Collections.EMPTY_LIST;
 					if (displayTerms.isAdvancedSearch()) {//Advance Search
-						categoriesList = CategoryLocalServiceUtil.getByIdOrAndTitle(cId,cName,displayTerms.isAndOperator());
+						categoriesList = CategoryLocalServiceUtil.getByIdTitleisAndOperatorAndGroupId(cId, cName, displayTerms.isAndOperator(), groupId);
 					} else if(!Validator.isBlank(keywords)){//Basic Search
-						categoriesList = CategoryLocalServiceUtil.getByKeyWords(keywords);
+						categoriesList = CategoryLocalServiceUtil.getByKeyWordsAndGroupId(keywords, groupId); 
 					} else{//No Search
-						 categoriesList = CategoryLocalServiceUtil.getAllCategories(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+						 categoriesList = CategoryLocalServiceUtil.getAllCategoriesByGroupId(groupId);
 					}  
 				    searchContainer.setTotal(categoriesList.size());		 
 				    searchContainer.setResults(ListUtil.subList(categoriesList,searchContainer.getStart(),searchContainer.getEnd()));

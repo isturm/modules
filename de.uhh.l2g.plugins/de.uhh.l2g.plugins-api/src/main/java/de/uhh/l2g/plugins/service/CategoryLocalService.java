@@ -203,12 +203,26 @@ public interface CategoryLocalService extends BaseLocalService,
 		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Category> getByIdOrAndTitle(int cId, java.lang.String cName,
-		boolean isAndOperator) throws SystemException;
+	public List<Category> getAllCategoriesByCompanyId(java.lang.Long companyId)
+		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Category> getByKeyWords(java.lang.String keywords)
+	public List<Category> getAllCategoriesByGropuIdAndCompanyId(
+		java.lang.Long groupId, java.lang.Long companyId)
 		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Category> getAllCategoriesByGroupId(java.lang.Long groupId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Category> getByIdTitleisAndOperatorAndGroupId(int cId,
+		java.lang.String cName, boolean isAndOperator, java.lang.Long groupId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Category> getByKeyWordsAndGroupId(java.lang.String keywords,
+		java.lang.Long groupId) throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Category> getByName(java.lang.String name)

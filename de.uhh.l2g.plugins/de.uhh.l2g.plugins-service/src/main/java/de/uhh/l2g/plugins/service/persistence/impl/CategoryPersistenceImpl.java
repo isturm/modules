@@ -629,6 +629,1549 @@ public class CategoryPersistenceImpl extends BasePersistenceImpl<Category>
 	private static final String _FINDER_COLUMN_NAME_NAME_1 = "category.name IS NULL";
 	private static final String _FINDER_COLUMN_NAME_NAME_2 = "category.name = ?";
 	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(category.name IS NULL OR category.name = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP = new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, CategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroup",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP = new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, CategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroup",
+			new String[] { Long.class.getName() },
+			CategoryModelImpl.GROUPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUP = new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroup",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the categories where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching categories
+	 */
+	@Override
+	public List<Category> findByGroup(long groupId) {
+		return findByGroup(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the categories where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @return the range of matching categories
+	 */
+	@Override
+	public List<Category> findByGroup(long groupId, int start, int end) {
+		return findByGroup(groupId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the categories where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching categories
+	 */
+	@Override
+	public List<Category> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Category> orderByComparator) {
+		return findByGroup(groupId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the categories where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching categories
+	 */
+	@Override
+	public List<Category> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Category> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+		}
+
+		List<Category> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Category>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Category category : list) {
+					if ((groupId != category.getGroupId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_CATEGORY_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(CategoryModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				if (!pagination) {
+					list = (List<Category>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Category>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first category in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching category
+	 * @throws NoSuchCategoryException if a matching category could not be found
+	 */
+	@Override
+	public Category findByGroup_First(long groupId,
+		OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = fetchByGroup_First(groupId, orderByComparator);
+
+		if (category != null) {
+			return category;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCategoryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first category in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching category, or <code>null</code> if a matching category could not be found
+	 */
+	@Override
+	public Category fetchByGroup_First(long groupId,
+		OrderByComparator<Category> orderByComparator) {
+		List<Category> list = findByGroup(groupId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last category in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching category
+	 * @throws NoSuchCategoryException if a matching category could not be found
+	 */
+	@Override
+	public Category findByGroup_Last(long groupId,
+		OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = fetchByGroup_Last(groupId, orderByComparator);
+
+		if (category != null) {
+			return category;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCategoryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last category in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching category, or <code>null</code> if a matching category could not be found
+	 */
+	@Override
+	public Category fetchByGroup_Last(long groupId,
+		OrderByComparator<Category> orderByComparator) {
+		int count = countByGroup(groupId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Category> list = findByGroup(groupId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the categories before and after the current category in the ordered set where groupId = &#63;.
+	 *
+	 * @param categoryId the primary key of the current category
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next category
+	 * @throws NoSuchCategoryException if a category with the primary key could not be found
+	 */
+	@Override
+	public Category[] findByGroup_PrevAndNext(long categoryId, long groupId,
+		OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = findByPrimaryKey(categoryId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Category[] array = new CategoryImpl[3];
+
+			array[0] = getByGroup_PrevAndNext(session, category, groupId,
+					orderByComparator, true);
+
+			array[1] = category;
+
+			array[2] = getByGroup_PrevAndNext(session, category, groupId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Category getByGroup_PrevAndNext(Session session,
+		Category category, long groupId,
+		OrderByComparator<Category> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_CATEGORY_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(CategoryModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(category);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Category> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the categories where groupId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 */
+	@Override
+	public void removeByGroup(long groupId) {
+		for (Category category : findByGroup(groupId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(category);
+		}
+	}
+
+	/**
+	 * Returns the number of categories where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching categories
+	 */
+	@Override
+	public int countByGroup(long groupId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUP;
+
+		Object[] finderArgs = new Object[] { groupId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_CATEGORY_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUP_GROUPID_2 = "category.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY = new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, CategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompany",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY =
+		new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, CategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompany",
+			new String[] { Long.class.getName() },
+			CategoryModelImpl.COMPANYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_COMPANY = new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompany",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the categories where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the matching categories
+	 */
+	@Override
+	public List<Category> findByCompany(long companyId) {
+		return findByCompany(companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the categories where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @return the range of matching categories
+	 */
+	@Override
+	public List<Category> findByCompany(long companyId, int start, int end) {
+		return findByCompany(companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the categories where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching categories
+	 */
+	@Override
+	public List<Category> findByCompany(long companyId, int start, int end,
+		OrderByComparator<Category> orderByComparator) {
+		return findByCompany(companyId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the categories where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching categories
+	 */
+	@Override
+	public List<Category> findByCompany(long companyId, int start, int end,
+		OrderByComparator<Category> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY;
+			finderArgs = new Object[] { companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY;
+			finderArgs = new Object[] { companyId, start, end, orderByComparator };
+		}
+
+		List<Category> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Category>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Category category : list) {
+					if ((companyId != category.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_CATEGORY_WHERE);
+
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(CategoryModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<Category>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Category>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first category in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching category
+	 * @throws NoSuchCategoryException if a matching category could not be found
+	 */
+	@Override
+	public Category findByCompany_First(long companyId,
+		OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = fetchByCompany_First(companyId, orderByComparator);
+
+		if (category != null) {
+			return category;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCategoryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first category in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching category, or <code>null</code> if a matching category could not be found
+	 */
+	@Override
+	public Category fetchByCompany_First(long companyId,
+		OrderByComparator<Category> orderByComparator) {
+		List<Category> list = findByCompany(companyId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last category in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching category
+	 * @throws NoSuchCategoryException if a matching category could not be found
+	 */
+	@Override
+	public Category findByCompany_Last(long companyId,
+		OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = fetchByCompany_Last(companyId, orderByComparator);
+
+		if (category != null) {
+			return category;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCategoryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last category in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching category, or <code>null</code> if a matching category could not be found
+	 */
+	@Override
+	public Category fetchByCompany_Last(long companyId,
+		OrderByComparator<Category> orderByComparator) {
+		int count = countByCompany(companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Category> list = findByCompany(companyId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the categories before and after the current category in the ordered set where companyId = &#63;.
+	 *
+	 * @param categoryId the primary key of the current category
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next category
+	 * @throws NoSuchCategoryException if a category with the primary key could not be found
+	 */
+	@Override
+	public Category[] findByCompany_PrevAndNext(long categoryId,
+		long companyId, OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = findByPrimaryKey(categoryId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Category[] array = new CategoryImpl[3];
+
+			array[0] = getByCompany_PrevAndNext(session, category, companyId,
+					orderByComparator, true);
+
+			array[1] = category;
+
+			array[2] = getByCompany_PrevAndNext(session, category, companyId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Category getByCompany_PrevAndNext(Session session,
+		Category category, long companyId,
+		OrderByComparator<Category> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_CATEGORY_WHERE);
+
+		query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(CategoryModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(companyId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(category);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Category> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the categories where companyId = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByCompany(long companyId) {
+		for (Category category : findByCompany(companyId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(category);
+		}
+	}
+
+	/**
+	 * Returns the number of categories where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the number of matching categories
+	 */
+	@Override
+	public int countByCompany(long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COMPANY;
+
+		Object[] finderArgs = new Object[] { companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_CATEGORY_WHERE);
+
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_COMPANY_COMPANYID_2 = "category.companyId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, CategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupAndCompany",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, CategoryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() },
+			CategoryModelImpl.GROUPID_COLUMN_BITMASK |
+			CategoryModelImpl.COMPANYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPANDCOMPANY = new FinderPath(CategoryModelImpl.ENTITY_CACHE_ENABLED,
+			CategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns all the categories where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the matching categories
+	 */
+	@Override
+	public List<Category> findByGroupAndCompany(long groupId, long companyId) {
+		return findByGroupAndCompany(groupId, companyId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the categories where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @return the range of matching categories
+	 */
+	@Override
+	public List<Category> findByGroupAndCompany(long groupId, long companyId,
+		int start, int end) {
+		return findByGroupAndCompany(groupId, companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the categories where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching categories
+	 */
+	@Override
+	public List<Category> findByGroupAndCompany(long groupId, long companyId,
+		int start, int end, OrderByComparator<Category> orderByComparator) {
+		return findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the categories where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of categories
+	 * @param end the upper bound of the range of categories (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching categories
+	 */
+	@Override
+	public List<Category> findByGroupAndCompany(long groupId, long companyId,
+		int start, int end, OrderByComparator<Category> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] { groupId, companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] {
+					groupId, companyId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<Category> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Category>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Category category : list) {
+					if ((groupId != category.getGroupId()) ||
+							(companyId != category.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_CATEGORY_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(CategoryModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<Category>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Category>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first category in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching category
+	 * @throws NoSuchCategoryException if a matching category could not be found
+	 */
+	@Override
+	public Category findByGroupAndCompany_First(long groupId, long companyId,
+		OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = fetchByGroupAndCompany_First(groupId, companyId,
+				orderByComparator);
+
+		if (category != null) {
+			return category;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCategoryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first category in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching category, or <code>null</code> if a matching category could not be found
+	 */
+	@Override
+	public Category fetchByGroupAndCompany_First(long groupId, long companyId,
+		OrderByComparator<Category> orderByComparator) {
+		List<Category> list = findByGroupAndCompany(groupId, companyId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last category in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching category
+	 * @throws NoSuchCategoryException if a matching category could not be found
+	 */
+	@Override
+	public Category findByGroupAndCompany_Last(long groupId, long companyId,
+		OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = fetchByGroupAndCompany_Last(groupId, companyId,
+				orderByComparator);
+
+		if (category != null) {
+			return category;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchCategoryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last category in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching category, or <code>null</code> if a matching category could not be found
+	 */
+	@Override
+	public Category fetchByGroupAndCompany_Last(long groupId, long companyId,
+		OrderByComparator<Category> orderByComparator) {
+		int count = countByGroupAndCompany(groupId, companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Category> list = findByGroupAndCompany(groupId, companyId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the categories before and after the current category in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param categoryId the primary key of the current category
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next category
+	 * @throws NoSuchCategoryException if a category with the primary key could not be found
+	 */
+	@Override
+	public Category[] findByGroupAndCompany_PrevAndNext(long categoryId,
+		long groupId, long companyId,
+		OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException {
+		Category category = findByPrimaryKey(categoryId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Category[] array = new CategoryImpl[3];
+
+			array[0] = getByGroupAndCompany_PrevAndNext(session, category,
+					groupId, companyId, orderByComparator, true);
+
+			array[1] = category;
+
+			array[2] = getByGroupAndCompany_PrevAndNext(session, category,
+					groupId, companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Category getByGroupAndCompany_PrevAndNext(Session session,
+		Category category, long groupId, long companyId,
+		OrderByComparator<Category> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_CATEGORY_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(CategoryModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		qPos.add(companyId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(category);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Category> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the categories where groupId = &#63; and companyId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByGroupAndCompany(long groupId, long companyId) {
+		for (Category category : findByGroupAndCompany(groupId, companyId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(category);
+		}
+	}
+
+	/**
+	 * Returns the number of categories where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the number of matching categories
+	 */
+	@Override
+	public int countByGroupAndCompany(long groupId, long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPANDCOMPANY;
+
+		Object[] finderArgs = new Object[] { groupId, companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_CATEGORY_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2 = "category.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2 = "category.companyId = ?";
 
 	public CategoryPersistenceImpl() {
 		setModelClass(Category.class);
@@ -874,6 +2417,27 @@ public class CategoryPersistenceImpl extends BasePersistenceImpl<Category>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME,
 				args);
 
+			args = new Object[] { categoryModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+				args);
+
+			args = new Object[] { categoryModelImpl.getCompanyId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+				args);
+
+			args = new Object[] {
+					categoryModelImpl.getGroupId(),
+					categoryModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -892,6 +2456,63 @@ public class CategoryPersistenceImpl extends BasePersistenceImpl<Category>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME,
+					args);
+			}
+
+			if ((categoryModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						categoryModelImpl.getOriginalGroupId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+
+				args = new Object[] { categoryModelImpl.getGroupId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+			}
+
+			if ((categoryModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						categoryModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+
+				args = new Object[] { categoryModelImpl.getCompanyId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+			}
+
+			if ((categoryModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						categoryModelImpl.getOriginalGroupId(),
+						categoryModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
+					args);
+
+				args = new Object[] {
+						categoryModelImpl.getGroupId(),
+						categoryModelImpl.getCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
 					args);
 			}
 		}

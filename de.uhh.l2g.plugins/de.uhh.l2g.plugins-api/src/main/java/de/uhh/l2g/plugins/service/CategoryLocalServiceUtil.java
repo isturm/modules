@@ -223,16 +223,38 @@ public class CategoryLocalServiceUtil {
 		return getService().getAllCategories(begin, end);
 	}
 
-	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByIdOrAndTitle(
-		int cId, java.lang.String cName, boolean isAndOperator)
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getAllCategoriesByCompanyId(
+		java.lang.Long companyId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getByIdOrAndTitle(cId, cName, isAndOperator);
+		return getService().getAllCategoriesByCompanyId(companyId);
 	}
 
-	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByKeyWords(
-		java.lang.String keywords)
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getAllCategoriesByGropuIdAndCompanyId(
+		java.lang.Long groupId, java.lang.Long companyId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getByKeyWords(keywords);
+		return getService()
+				   .getAllCategoriesByGropuIdAndCompanyId(groupId, companyId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getAllCategoriesByGroupId(
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllCategoriesByGroupId(groupId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByIdTitleisAndOperatorAndGroupId(
+		int cId, java.lang.String cName, boolean isAndOperator,
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getByIdTitleisAndOperatorAndGroupId(cId, cName,
+			isAndOperator, groupId);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByKeyWordsAndGroupId(
+		java.lang.String keywords, java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByKeyWordsAndGroupId(keywords, groupId);
 	}
 
 	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByName(

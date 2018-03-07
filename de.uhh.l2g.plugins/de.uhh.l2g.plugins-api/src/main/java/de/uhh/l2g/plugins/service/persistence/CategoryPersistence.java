@@ -174,6 +174,412 @@ public interface CategoryPersistence extends BasePersistence<Category> {
 	public int countByName(java.lang.String name);
 
 	/**
+	* Returns all the categories where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching categories
+	*/
+	public java.util.List<Category> findByGroup(long groupId);
+
+	/**
+	* Returns a range of all the categories where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @return the range of matching categories
+	*/
+	public java.util.List<Category> findByGroup(long groupId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the categories where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching categories
+	*/
+	public java.util.List<Category> findByGroup(long groupId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the categories where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching categories
+	*/
+	public java.util.List<Category> findByGroup(long groupId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first category in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching category
+	* @throws NoSuchCategoryException if a matching category could not be found
+	*/
+	public Category findByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Returns the first category in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching category, or <code>null</code> if a matching category could not be found
+	*/
+	public Category fetchByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns the last category in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching category
+	* @throws NoSuchCategoryException if a matching category could not be found
+	*/
+	public Category findByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Returns the last category in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching category, or <code>null</code> if a matching category could not be found
+	*/
+	public Category fetchByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns the categories before and after the current category in the ordered set where groupId = &#63;.
+	*
+	* @param categoryId the primary key of the current category
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next category
+	* @throws NoSuchCategoryException if a category with the primary key could not be found
+	*/
+	public Category[] findByGroup_PrevAndNext(long categoryId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Removes all the categories where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public void removeByGroup(long groupId);
+
+	/**
+	* Returns the number of categories where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching categories
+	*/
+	public int countByGroup(long groupId);
+
+	/**
+	* Returns all the categories where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching categories
+	*/
+	public java.util.List<Category> findByCompany(long companyId);
+
+	/**
+	* Returns a range of all the categories where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @return the range of matching categories
+	*/
+	public java.util.List<Category> findByCompany(long companyId, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the categories where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching categories
+	*/
+	public java.util.List<Category> findByCompany(long companyId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the categories where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching categories
+	*/
+	public java.util.List<Category> findByCompany(long companyId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first category in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching category
+	* @throws NoSuchCategoryException if a matching category could not be found
+	*/
+	public Category findByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Returns the first category in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching category, or <code>null</code> if a matching category could not be found
+	*/
+	public Category fetchByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns the last category in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching category
+	* @throws NoSuchCategoryException if a matching category could not be found
+	*/
+	public Category findByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Returns the last category in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching category, or <code>null</code> if a matching category could not be found
+	*/
+	public Category fetchByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns the categories before and after the current category in the ordered set where companyId = &#63;.
+	*
+	* @param categoryId the primary key of the current category
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next category
+	* @throws NoSuchCategoryException if a category with the primary key could not be found
+	*/
+	public Category[] findByCompany_PrevAndNext(long categoryId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Removes all the categories where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public void removeByCompany(long companyId);
+
+	/**
+	* Returns the number of categories where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching categories
+	*/
+	public int countByCompany(long companyId);
+
+	/**
+	* Returns all the categories where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching categories
+	*/
+	public java.util.List<Category> findByGroupAndCompany(long groupId,
+		long companyId);
+
+	/**
+	* Returns a range of all the categories where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @return the range of matching categories
+	*/
+	public java.util.List<Category> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the categories where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching categories
+	*/
+	public java.util.List<Category> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the categories where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of categories
+	* @param end the upper bound of the range of categories (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching categories
+	*/
+	public java.util.List<Category> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first category in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching category
+	* @throws NoSuchCategoryException if a matching category could not be found
+	*/
+	public Category findByGroupAndCompany_First(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Returns the first category in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching category, or <code>null</code> if a matching category could not be found
+	*/
+	public Category fetchByGroupAndCompany_First(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns the last category in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching category
+	* @throws NoSuchCategoryException if a matching category could not be found
+	*/
+	public Category findByGroupAndCompany_Last(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Returns the last category in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching category, or <code>null</code> if a matching category could not be found
+	*/
+	public Category fetchByGroupAndCompany_Last(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator);
+
+	/**
+	* Returns the categories before and after the current category in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param categoryId the primary key of the current category
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next category
+	* @throws NoSuchCategoryException if a category with the primary key could not be found
+	*/
+	public Category[] findByGroupAndCompany_PrevAndNext(long categoryId,
+		long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Category> orderByComparator)
+		throws NoSuchCategoryException;
+
+	/**
+	* Removes all the categories where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public void removeByGroupAndCompany(long groupId, long companyId);
+
+	/**
+	* Returns the number of categories where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching categories
+	*/
+	public int countByGroupAndCompany(long groupId, long companyId);
+
+	/**
 	* Caches the category in the entity cache if it is enabled.
 	*
 	* @param category the category

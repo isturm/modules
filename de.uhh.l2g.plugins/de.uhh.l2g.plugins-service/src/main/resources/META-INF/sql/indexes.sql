@@ -1,3 +1,5 @@
+create index IX_CE65480 on LG_Category (companyId);
+create index IX_D76873E6 on LG_Category (groupId, companyId);
 create index IX_8FA32867 on LG_Category (name[$COLUMN_LENGTH:75$]);
 
 create index IX_4EE19791 on LG_Coordinator (institutionId);
