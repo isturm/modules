@@ -80,7 +80,7 @@
 			</portlet:renderURL>
 
 			<liferay-ui:search-container-column-text>
-				${host.name}
+				${host.streamer} | <liferay-ui:message key="directory"/> ${host.name}
 				<c:if test="${inst>0}">
 					<p><b>${inst}</b> <liferay-ui:message key="institution-s"/></p>
 				</c:if>
