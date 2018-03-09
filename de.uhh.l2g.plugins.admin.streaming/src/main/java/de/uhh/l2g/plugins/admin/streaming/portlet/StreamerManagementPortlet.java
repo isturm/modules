@@ -27,7 +27,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
-import de.uhh.l2g.plugins.admin.streaming.constants.AdminStreamerManagementPortletKeys;
+import de.uhh.l2g.plugins.admin.streaming.constants.StreamerManagementPortletKeys;
 import de.uhh.l2g.plugins.model.Host;
 import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.service.HostLocalServiceUtil;
@@ -45,14 +45,14 @@ import de.uhh.l2g.plugins.util.RepositoryManager;
 		"javax.portlet.display-name=Admin Streaming",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",
-		"javax.portlet.name=" + AdminStreamerManagementPortletKeys.AdminStreamerManagement,
+		"javax.portlet.name=" + StreamerManagementPortletKeys.StreamerManagement,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
 	service = Portlet.class
 )
-public class AdminStreamerManagementPortlet extends MVCPortlet {
-	protected static Log _log = LogFactoryUtil.getLog(AdminStreamerManagementPortlet.class.getName());
+public class StreamerManagementPortlet extends MVCPortlet {
+	protected static Log _log = LogFactoryUtil.getLog(StreamerManagementPortlet.class.getName());
 	public static final String DEFAULT_STREAMER = "Default";
 
 	@Override
@@ -151,10 +151,10 @@ public class AdminStreamerManagementPortlet extends MVCPortlet {
 			host.setProtocol(protocol);
 			host.setPort(port);
 			host.setStreamer(streamer);
-			host.setName(streamer);
 			host = HostLocalServiceUtil.addHost(host);
 			// update server root
 			host.setServerRoot(RepositoryManager.prepareServerRoot(host.getHostId()));
+			host.setName(RepositoryManager.prepareServerRoot(host.getHostId()));
 			HostLocalServiceUtil.updateHost(host);
 			// Create Directory
 			try {
