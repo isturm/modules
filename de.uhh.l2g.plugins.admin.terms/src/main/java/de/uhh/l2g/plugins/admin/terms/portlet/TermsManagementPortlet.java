@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.ParamUtil;
 
 import de.uhh.l2g.plugins.admin.terms.constants.TermsManagementPortletKeys;
 import de.uhh.l2g.plugins.model.Term;
@@ -56,15 +57,14 @@ public class TermsManagementPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-		String mvcPath = "";
 		Long termId = new Long(0);
 		Term t = TermLocalServiceUtil.createTerm(0);
 		//
-		mvcPath = renderRequest.getParameter("mvcPath");
-		String backURL = renderRequest.getParameter("backURL");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
 		try{
 			try {
-				termId = new Long(renderRequest.getParameter("termId"));
+				termId = ParamUtil.getLong(renderRequest, "termId");
 				t = TermLocalServiceUtil.getTerm(termId);
 			} catch (Exception e) {}
 			renderRequest.setAttribute("term", t);
@@ -77,12 +77,14 @@ public class TermsManagementPortlet extends MVCPortlet {
 	}
 	
 	public void add(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		String backURL = request.getParameter("backURL");
-		String y=request.getParameter("year");
-		String p=request.getParameter("prefix");
+		String backURL = ParamUtil.getString(request, "backURL");
+		String y = ParamUtil.getString(request, "year");
+		String p = ParamUtil.getString(request, "prefix");
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
+		long companyId = new Long(0);
+		long groupId = new Long(0);
 		try {
 			Term term = TermLocalServiceUtil.createTerm(0);
 			term.setYear(y);
@@ -90,7 +92,13 @@ public class TermsManagementPortlet extends MVCPortlet {
 			term.setCreateDate(new Date());
 			term.setUserName(user.getScreenName());
 			term.setUserId(userId);
-			TermLocalServiceUtil.addTerm(term);
+			//
+			Company company = CompanyLocalServiceUtil.createCompany(0);
+			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
+			company = CompanyLocalServiceUtil.getCompany(companyId); 
+			groupId = company.getGroup().getGroupId(); 
+			term.setCompanyId(companyId);
+			term.setGroupId(groupId);
 			//
 			TermLocalServiceUtil.addTerm(term);
 		} catch (Exception e) {
@@ -106,27 +114,20 @@ public class TermsManagementPortlet extends MVCPortlet {
 	}
 	
 	public void edit(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqTermId = new Long(request.getParameter("termId"));
-		String backURL = request.getParameter("backURL");
-		String y=request.getParameter("year");
-		String p=request.getParameter("prefix");
+		long reqTermId = ParamUtil.getLong(request, "termId");
+		String backURL = ParamUtil.getString(request, "backURL");
+		//
+		String y = ParamUtil.getString(request, "year");
+		String p = ParamUtil.getString(request, "prefix");
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
-		long companyId = new Long(0);
-		long groupId = new Long(0); 
 		try {
 			Term term = TermLocalServiceUtil.getTerm(reqTermId);
 			term.setYear(y);
 			term.setPrefix(p);
 			term.setUserId(userId);
 			term.setUserName(user.getScreenName());
-			Company company = CompanyLocalServiceUtil.createCompany(0);
-			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-			company = CompanyLocalServiceUtil.getCompany(companyId); 
-			groupId = company.getGroup().getGroupId(); 
-			term.setCompanyId(companyId);
-			term.setGroupId(groupId);
 			//
 			TermLocalServiceUtil.updateTerm(term);
 		} catch (Exception e) {
@@ -142,8 +143,8 @@ public class TermsManagementPortlet extends MVCPortlet {
 	}
 	
 	public void delete(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqTermId = new Long(request.getParameter("termId"));
-		String backURL = request.getParameter("backURL");
+		long reqTermId = ParamUtil.getLong(request, "termId");
+		String backURL  = ParamUtil.getString(request, "backURL");
 		//Video_Term, Lecture_Term, Term
 		TermLocalServiceUtil.deleteById(reqTermId);
 		try {

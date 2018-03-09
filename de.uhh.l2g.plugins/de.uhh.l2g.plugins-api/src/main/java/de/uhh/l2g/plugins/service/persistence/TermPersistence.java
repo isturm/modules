@@ -305,6 +305,408 @@ public interface TermPersistence extends BasePersistence<Term> {
 	public int countByYear(java.lang.String year);
 
 	/**
+	* Returns all the terms where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching terms
+	*/
+	public java.util.List<Term> findByGroup(long groupId);
+
+	/**
+	* Returns a range of all the terms where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @return the range of matching terms
+	*/
+	public java.util.List<Term> findByGroup(long groupId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the terms where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching terms
+	*/
+	public java.util.List<Term> findByGroup(long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the terms where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching terms
+	*/
+	public java.util.List<Term> findByGroup(long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first term in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public Term findByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Returns the first term in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public Term fetchByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns the last term in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public Term findByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Returns the last term in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public Term fetchByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns the terms before and after the current term in the ordered set where groupId = &#63;.
+	*
+	* @param termId the primary key of the current term
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next term
+	* @throws NoSuchTermException if a term with the primary key could not be found
+	*/
+	public Term[] findByGroup_PrevAndNext(long termId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Removes all the terms where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public void removeByGroup(long groupId);
+
+	/**
+	* Returns the number of terms where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching terms
+	*/
+	public int countByGroup(long groupId);
+
+	/**
+	* Returns all the terms where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching terms
+	*/
+	public java.util.List<Term> findByCompany(long companyId);
+
+	/**
+	* Returns a range of all the terms where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @return the range of matching terms
+	*/
+	public java.util.List<Term> findByCompany(long companyId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the terms where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching terms
+	*/
+	public java.util.List<Term> findByCompany(long companyId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the terms where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching terms
+	*/
+	public java.util.List<Term> findByCompany(long companyId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first term in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public Term findByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Returns the first term in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public Term fetchByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns the last term in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public Term findByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Returns the last term in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public Term fetchByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns the terms before and after the current term in the ordered set where companyId = &#63;.
+	*
+	* @param termId the primary key of the current term
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next term
+	* @throws NoSuchTermException if a term with the primary key could not be found
+	*/
+	public Term[] findByCompany_PrevAndNext(long termId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Removes all the terms where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public void removeByCompany(long companyId);
+
+	/**
+	* Returns the number of terms where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching terms
+	*/
+	public int countByCompany(long companyId);
+
+	/**
+	* Returns all the terms where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching terms
+	*/
+	public java.util.List<Term> findByGroupAndCompany(long groupId,
+		long companyId);
+
+	/**
+	* Returns a range of all the terms where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @return the range of matching terms
+	*/
+	public java.util.List<Term> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the terms where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching terms
+	*/
+	public java.util.List<Term> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the terms where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching terms
+	*/
+	public java.util.List<Term> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first term in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public Term findByGroupAndCompany_First(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Returns the first term in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public Term fetchByGroupAndCompany_First(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns the last term in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public Term findByGroupAndCompany_Last(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Returns the last term in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public Term fetchByGroupAndCompany_Last(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns the terms before and after the current term in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param termId the primary key of the current term
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next term
+	* @throws NoSuchTermException if a term with the primary key could not be found
+	*/
+	public Term[] findByGroupAndCompany_PrevAndNext(long termId, long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Removes all the terms where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public void removeByGroupAndCompany(long groupId, long companyId);
+
+	/**
+	* Returns the number of terms where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching terms
+	*/
+	public int countByGroupAndCompany(long groupId, long companyId);
+
+	/**
 	* Caches the term in the entity cache if it is enabled.
 	*
 	* @param term the term

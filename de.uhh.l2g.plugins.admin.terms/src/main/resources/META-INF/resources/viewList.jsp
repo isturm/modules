@@ -8,6 +8,9 @@
 <%@include file="init.jsp"%>
 
 <%
+	long companyId = company.getCompanyId();
+	long groupId = company.getGroup().getGroupId();	
+
 	PortletURL portletURL = renderResponse.createRenderURL();
 	String delta = request.getParameter("delta");
 	String cur = request.getParameter("cur");
@@ -33,13 +36,13 @@
 	    <liferay-ui:message key="add-new-term"/> <span class="icon-large icon-plus-sign"/>
 	</a>	
 	
-	<liferay-ui:search-container emptyResultsMessage="no-categories-found" delta="10" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
+	<liferay-ui:search-container emptyResultsMessage="no-terms-found" delta="10" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
 			<liferay-ui:search-container-results>
 				<%
 					DisplayTerms displayTerms =searchContainer.getDisplayTerms();
 					String keywords = displayTerms.getKeywords(); 
 					List<Term> termsList =  Collections.EMPTY_LIST;
-					termsList = TermLocalServiceUtil.getTerms(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+					termsList = TermLocalServiceUtil.getByGroupId(groupId);
 				    searchContainer.setTotal(termsList.size());		 
 				    searchContainer.setResults(ListUtil.subList(termsList, searchContainer.getStart(), searchContainer.getEnd()));
 				%>
@@ -76,7 +79,7 @@
 				${term.prefix} ${term.year}
 				<c:if test="${count1>0}">
 					<br/><b>${count1}</b> <liferay-ui:message key="video-s"/>
-				</c:if>					
+				</c:if>
 				<c:if test="${count2>0}">
 					<br/><b>${count2}</b> <liferay-ui:message key="lecture-series-s"/>
 				</c:if>					

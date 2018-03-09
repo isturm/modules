@@ -516,6 +516,16 @@
     	<column name="userName" type="String"></column>
     	<column name="createDate" type="Date"></column>
     	<column name="modifiedDate" type="Date"></column>
+        <finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
     </entity>
     <entity name="Category" local-service="true"
     	remote-service="false">

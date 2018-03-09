@@ -228,6 +228,12 @@ public class TermLocalServiceWrapper implements TermLocalService,
 		return _termLocalService.getAllSemesters();
 	}
 
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Term> getByGroupId(
+		java.lang.Long groupId) {
+		return _termLocalService.getByGroupId(groupId);
+	}
+
 	/**
 	* Returns a range of all the terms.
 	*

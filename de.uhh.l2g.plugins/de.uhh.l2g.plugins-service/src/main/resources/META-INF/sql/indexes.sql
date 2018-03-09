@@ -79,6 +79,8 @@ create index IX_CD004109 on LG_Statistic (statisticId);
 create index IX_6D2C99CC on LG_Tagcloud (objectClassType[$COLUMN_LENGTH:75$], objectId);
 create index IX_385A2033 on LG_Tagcloud (objectId);
 
+create index IX_4BAD3DD2 on LG_Term (companyId);
+create index IX_EEDDE6D4 on LG_Term (groupId, companyId);
 create index IX_4A54301C on LG_Term (prefix[$COLUMN_LENGTH:75$]);
 create index IX_16F89D07 on LG_Term (year[$COLUMN_LENGTH:75$]);
 

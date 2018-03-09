@@ -201,6 +201,9 @@ public interface TermLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Term> getAllSemesters() throws SystemException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Term> getByGroupId(java.lang.Long groupId);
+
 	/**
 	* Returns a range of all the terms.
 	*
