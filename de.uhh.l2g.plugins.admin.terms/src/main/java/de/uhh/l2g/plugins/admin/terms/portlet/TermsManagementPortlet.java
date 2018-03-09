@@ -2,6 +2,7 @@ package de.uhh.l2g.plugins.admin.terms.portlet;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -16,6 +17,7 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -24,6 +26,8 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import de.uhh.l2g.plugins.admin.terms.constants.TermsManagementPortletKeys;
@@ -92,6 +96,7 @@ public class TermsManagementPortlet extends MVCPortlet {
 			term.setCreateDate(new Date());
 			term.setUserName(user.getScreenName());
 			term.setUserId(userId);
+			term.setLanguageId(LocaleUtil.getDefault().toString());
 			//
 			Company company = CompanyLocalServiceUtil.createCompany(0);
 			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
@@ -128,6 +133,7 @@ public class TermsManagementPortlet extends MVCPortlet {
 			term.setPrefix(p);
 			term.setUserId(userId);
 			term.setUserName(user.getScreenName());
+			term.setLanguageId(LocaleUtil.getDefault().toString());
 			//
 			TermLocalServiceUtil.updateTerm(term);
 		} catch (Exception e) {
