@@ -57,12 +57,11 @@ public class AdminStreamerManagementPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-		String mvcPath = "";
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		//
 		Long hostId = new Long(0);
 		Host h = HostLocalServiceUtil.createHost(0);
-		//
-		mvcPath = renderRequest.getParameter("mvcPath");
-		String backURL = renderRequest.getParameter("backURL");
 		try{
 			try {
 				hostId = new Long(renderRequest.getParameter("hostId"));

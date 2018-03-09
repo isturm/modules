@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.ParamUtil;
 
 import de.uhh.l2g.plugins.admin.categories.constants.CategoryManagementPortletKeys;
 import de.uhh.l2g.plugins.model.Category;
@@ -57,15 +58,15 @@ public class CategoryManagementPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-		String mvcPath = "";
 		Long catId = new Long(0);
-		Category c = CategoryLocalServiceUtil.createCategory(0);
 		//
-		mvcPath = renderRequest.getParameter("mvcPath");
-		String backURL = renderRequest.getParameter("backURL");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		//
+		Category c = CategoryLocalServiceUtil.createCategory(0);
 		try{
 			try {
-				catId = new Long(renderRequest.getParameter("categoryId"));
+				catId = ParamUtil.getLong(renderRequest, "categoryId");
 				c = CategoryLocalServiceUtil.getCategory(catId);
 			}catch (Exception e) {}
 			renderRequest.setAttribute("category", c);
@@ -78,8 +79,8 @@ public class CategoryManagementPortlet extends MVCPortlet {
 	}
 	
 	public void add(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		String backURL = request.getParameter("backURL");
-		String name=request.getParameter("name");
+		String backURL = ParamUtil.getString(request, "backURL");
+		String name = ParamUtil.getString(request, "name");
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
@@ -111,9 +112,10 @@ public class CategoryManagementPortlet extends MVCPortlet {
 	}
 	
 	public void edit(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqCategoryId = new Long(request.getParameter("categoryId"));
-		String backURL = request.getParameter("backURL");
-		String name=request.getParameter("name");
+		String backURL = ParamUtil.getString(request, "backURL");
+		//
+		long reqCategoryId = ParamUtil.getLong(request, "categoryId");
+		String name = ParamUtil.getString(request, "name");
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
@@ -135,9 +137,9 @@ public class CategoryManagementPortlet extends MVCPortlet {
 	}
 	
 	public void delete(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqCategoryId = new Long(request.getParameter("categoryId"));
-		String backURL = request.getParameter("backURL");
-		//Video_Term, Lecture_Term, Term
+		long reqCategoryId = ParamUtil.getLong(request, "categoryId");
+		String backURL = ParamUtil.getString(request, "backURL");
+		//
 		CategoryLocalServiceUtil.deleteById(reqCategoryId);
 		try {
 			response.sendRedirect(backURL);

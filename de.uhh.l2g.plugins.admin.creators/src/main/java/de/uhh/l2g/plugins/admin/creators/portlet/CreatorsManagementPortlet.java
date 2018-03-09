@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.ParamUtil;
 
 import de.uhh.l2g.plugins.admin.creators.constants.CreatorsManagementPortletKeys;
 import de.uhh.l2g.plugins.model.Creator;
@@ -53,11 +54,12 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 	}
 
 	public void add(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		String backURL = request.getParameter("backURL");
-		String fn=request.getParameter("firstName");
-		String mn=request.getParameter("middleName");
-		String ln=request.getParameter("lastName");
-		String t=request.getParameter("jobTitle");
+		String backURL = ParamUtil.getString(request, "backURL");
+		//
+		String fn = ParamUtil.getString(request, "firstName");
+		String mn = ParamUtil.getString(request, "middleName");
+		String ln = ParamUtil.getString(request, "lastName");
+		String t = ParamUtil.getString(request, "jobTitle");
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
@@ -118,12 +120,13 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 	}
 	
 	public void edit(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqCreatorId = new Long(request.getParameter("creatorId"));
-		String backURL = request.getParameter("backURL");
-		String fn=request.getParameter("firstName");
-		String mn=request.getParameter("middleName");
-		String ln=request.getParameter("lastName");
-		String t=request.getParameter("jobTitle");
+		long reqCreatorId = ParamUtil.getLong(request, "creatorId");
+		String backURL = ParamUtil.getString(request, "backURL");
+		//
+		String fn = ParamUtil.getString(request, "firstName");
+		String mn = ParamUtil.getString(request, "middleName");
+		String ln = ParamUtil.getString(request, "lastName");
+		String t = ParamUtil.getString(request, "jobTitle");
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
@@ -157,8 +160,9 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 	}
 	
 	public void delete(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		long reqCreatorId = new Long(request.getParameter("creatorId"));
-		String backURL = request.getParameter("backURL");
+		long reqCreatorId = ParamUtil.getLong(request, "creatorId");
+		String backURL = ParamUtil.getString(request, "backURL");
+		//
 		//Video_Creator, Lecture_Creator, Creator
 		CreatorLocalServiceUtil.deleteById(reqCreatorId);
 		try {
