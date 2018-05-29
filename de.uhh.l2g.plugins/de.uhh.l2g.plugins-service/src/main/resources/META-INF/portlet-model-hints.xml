@@ -18,6 +18,12 @@
 		<field name="coordinatorId" type="long" />
 		<field name="institutionId" type="long" />
 		<field name="officeId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Creator">
 		<field name="creatorId" type="long" />
@@ -70,6 +76,12 @@
 	<model name="de.uhh.l2g.plugins.model.Lastvideolist">
 		<field name="lastvideolistId" type="int" />
 		<field name="videoId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Lectureseries">
 		<field name="number" type="String" />
@@ -90,6 +102,12 @@
 		<field name="videoSort" type="int" />
 		<field name="USID" type="String" />
 		<field name="previewVideoId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Lectureseries_Category">
 		<field name="lectureseriesCategoryId" type="long" />
@@ -126,6 +144,12 @@
 		<field name="subject" type="String" />
 		<field name="description" type="String" />
 		<field name="publisher" type="String" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Office">
 		<field name="officeId" type="long" />
@@ -133,6 +157,12 @@
 		<field name="www" type="String" />
 		<field name="email" type="String" />
 		<field name="institutionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Producer">
 		<field name="producerId" type="long" />
@@ -142,6 +172,12 @@
 		<field name="institutionId" type="long" />
 		<field name="numberOfProductions" type="long" />
 		<field name="approved" type="int" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Producer_Lectureseries">
 		<field name="producerLectureseriesId" type="long" />
@@ -168,6 +204,11 @@
 		<field name="end" type="String" />
 		<field name="chapter" type="int" />
 		<field name="userId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Statistic">
 		<field name="createDate" type="Date" />
@@ -191,6 +232,12 @@
 		<field name="objectClassType" type="String" />
 		<field name="objectId" type="long" />
 		<field name="tags" type="String" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Term">
 		<field name="termId" type="long" />
@@ -230,6 +277,12 @@
 		<field name="termId" type="long" />
 		<field name="tags" type="String" />
 		<field name="password" type="String" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.Video_Category">
 		<field name="videoCategoryId" type="long" />
@@ -260,6 +313,12 @@
 		<field name="hitsPerMonth" type="long" />
 		<field name="hitsPerYear" type="long" />
 		<field name="videoId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="de.uhh.l2g.plugins.model.VideoStatistic">
 		<field name="videoStatisticId" type="long" />

@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import de.uhh.l2g.plugins.model.Coordinator;
 
@@ -26,6 +27,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
+import java.util.Date;
 
 /**
  * The cache model class for representing Coordinator in entity cache.
@@ -63,7 +66,7 @@ public class CoordinatorCacheModel implements CacheModel<Coordinator>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{coordinatorId=");
 		sb.append(coordinatorId);
@@ -71,6 +74,18 @@ public class CoordinatorCacheModel implements CacheModel<Coordinator>,
 		sb.append(institutionId);
 		sb.append(", officeId=");
 		sb.append(officeId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -83,6 +98,30 @@ public class CoordinatorCacheModel implements CacheModel<Coordinator>,
 		coordinatorImpl.setCoordinatorId(coordinatorId);
 		coordinatorImpl.setInstitutionId(institutionId);
 		coordinatorImpl.setOfficeId(officeId);
+		coordinatorImpl.setGroupId(groupId);
+		coordinatorImpl.setCompanyId(companyId);
+		coordinatorImpl.setUserId(userId);
+
+		if (userName == null) {
+			coordinatorImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			coordinatorImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			coordinatorImpl.setCreateDate(null);
+		}
+		else {
+			coordinatorImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			coordinatorImpl.setModifiedDate(null);
+		}
+		else {
+			coordinatorImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		coordinatorImpl.resetOriginalValues();
 
@@ -96,6 +135,15 @@ public class CoordinatorCacheModel implements CacheModel<Coordinator>,
 		institutionId = objectInput.readLong();
 
 		officeId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -106,9 +154,31 @@ public class CoordinatorCacheModel implements CacheModel<Coordinator>,
 		objectOutput.writeLong(institutionId);
 
 		objectOutput.writeLong(officeId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long coordinatorId;
 	public long institutionId;
 	public long officeId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

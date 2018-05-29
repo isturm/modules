@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -61,6 +62,12 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 		attributes.put("www", getWww());
 		attributes.put("email", getEmail());
 		attributes.put("institutionId", getInstitutionId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -95,6 +102,42 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 
 		if (institutionId != null) {
 			setInstitutionId(institutionId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -174,6 +217,26 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	}
 
 	/**
+	* Returns the user name of this office.
+	*
+	* @return the user name of this office
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _office.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this office.
+	*
+	* @return the user uuid of this office
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _office.getUserUuid();
+	}
+
+	/**
 	* Returns the www of this office.
 	*
 	* @return the www of this office
@@ -191,6 +254,46 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _office.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this office.
+	*
+	* @return the create date of this office
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _office.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this office.
+	*
+	* @return the modified date of this office
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _office.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this office.
+	*
+	* @return the company ID of this office
+	*/
+	@Override
+	public long getCompanyId() {
+		return _office.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this office.
+	*
+	* @return the group ID of this office
+	*/
+	@Override
+	public long getGroupId() {
+		return _office.getGroupId();
 	}
 
 	/**
@@ -223,6 +326,16 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 		return _office.getPrimaryKey();
 	}
 
+	/**
+	* Returns the user ID of this office.
+	*
+	* @return the user ID of this office
+	*/
+	@Override
+	public long getUserId() {
+		return _office.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_office.persist();
@@ -231,6 +344,26 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_office.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this office.
+	*
+	* @param companyId the company ID of this office
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_office.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this office.
+	*
+	* @param createDate the create date of this office
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_office.setCreateDate(createDate);
 	}
 
 	/**
@@ -260,6 +393,16 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	}
 
 	/**
+	* Sets the group ID of this office.
+	*
+	* @param groupId the group ID of this office
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_office.setGroupId(groupId);
+	}
+
+	/**
 	* Sets the institution ID of this office.
 	*
 	* @param institutionId the institution ID of this office
@@ -267,6 +410,16 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	@Override
 	public void setInstitutionId(long institutionId) {
 		_office.setInstitutionId(institutionId);
+	}
+
+	/**
+	* Sets the modified date of this office.
+	*
+	* @param modifiedDate the modified date of this office
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_office.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -307,6 +460,36 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_office.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the user ID of this office.
+	*
+	* @param userId the user ID of this office
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_office.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this office.
+	*
+	* @param userName the user name of this office
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_office.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this office.
+	*
+	* @param userUuid the user uuid of this office
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_office.setUserUuid(userUuid);
 	}
 
 	/**

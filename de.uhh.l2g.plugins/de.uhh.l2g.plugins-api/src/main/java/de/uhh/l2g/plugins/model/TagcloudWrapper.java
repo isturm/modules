@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -60,6 +61,12 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 		attributes.put("objectClassType", getObjectClassType());
 		attributes.put("objectId", getObjectId());
 		attributes.put("tags", getTags());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -88,6 +95,42 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 
 		if (tags != null) {
 			setTags(tags);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -166,6 +209,26 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 		return _tagcloud.getTags();
 	}
 
+	/**
+	* Returns the user name of this tagcloud.
+	*
+	* @return the user name of this tagcloud
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _tagcloud.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this tagcloud.
+	*
+	* @return the user uuid of this tagcloud
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _tagcloud.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _tagcloud.toString();
@@ -174,6 +237,46 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _tagcloud.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this tagcloud.
+	*
+	* @return the create date of this tagcloud
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _tagcloud.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this tagcloud.
+	*
+	* @return the modified date of this tagcloud
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _tagcloud.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this tagcloud.
+	*
+	* @return the company ID of this tagcloud
+	*/
+	@Override
+	public long getCompanyId() {
+		return _tagcloud.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this tagcloud.
+	*
+	* @return the group ID of this tagcloud
+	*/
+	@Override
+	public long getGroupId() {
+		return _tagcloud.getGroupId();
 	}
 
 	/**
@@ -206,6 +309,16 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 		return _tagcloud.getTagcloudId();
 	}
 
+	/**
+	* Returns the user ID of this tagcloud.
+	*
+	* @return the user ID of this tagcloud
+	*/
+	@Override
+	public long getUserId() {
+		return _tagcloud.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_tagcloud.persist();
@@ -214,6 +327,26 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_tagcloud.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this tagcloud.
+	*
+	* @param companyId the company ID of this tagcloud
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_tagcloud.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this tagcloud.
+	*
+	* @param createDate the create date of this tagcloud
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_tagcloud.setCreateDate(createDate);
 	}
 
 	@Override
@@ -230,6 +363,26 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_tagcloud.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the group ID of this tagcloud.
+	*
+	* @param groupId the group ID of this tagcloud
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_tagcloud.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the modified date of this tagcloud.
+	*
+	* @param modifiedDate the modified date of this tagcloud
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_tagcloud.setModifiedDate(modifiedDate);
 	}
 
 	@Override
@@ -290,6 +443,36 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	@Override
 	public void setTags(java.lang.String tags) {
 		_tagcloud.setTags(tags);
+	}
+
+	/**
+	* Sets the user ID of this tagcloud.
+	*
+	* @param userId the user ID of this tagcloud
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_tagcloud.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this tagcloud.
+	*
+	* @param userName the user name of this tagcloud
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_tagcloud.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this tagcloud.
+	*
+	* @param userUuid the user uuid of this tagcloud
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_tagcloud.setUserUuid(userUuid);
 	}
 
 	@Override

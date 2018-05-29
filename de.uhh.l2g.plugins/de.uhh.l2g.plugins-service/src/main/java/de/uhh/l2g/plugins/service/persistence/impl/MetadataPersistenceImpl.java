@@ -24,6 +24,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -43,6 +47,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -192,6 +197,8 @@ public class MetadataPersistenceImpl extends BasePersistenceImpl<Metadata>
 		metadata.setNew(true);
 		metadata.setPrimaryKey(metadataId);
 
+		metadata.setCompanyId(companyProvider.getCompanyId());
+
 		return metadata;
 	}
 
@@ -285,6 +292,30 @@ public class MetadataPersistenceImpl extends BasePersistenceImpl<Metadata>
 
 		boolean isNew = metadata.isNew();
 
+		MetadataModelImpl metadataModelImpl = (MetadataModelImpl)metadata;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (metadata.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				metadata.setCreateDate(now);
+			}
+			else {
+				metadata.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!metadataModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				metadata.setModifiedDate(now);
+			}
+			else {
+				metadata.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -339,6 +370,12 @@ public class MetadataPersistenceImpl extends BasePersistenceImpl<Metadata>
 		metadataImpl.setSubject(metadata.getSubject());
 		metadataImpl.setDescription(metadata.getDescription());
 		metadataImpl.setPublisher(metadata.getPublisher());
+		metadataImpl.setGroupId(metadata.getGroupId());
+		metadataImpl.setCompanyId(metadata.getCompanyId());
+		metadataImpl.setUserId(metadata.getUserId());
+		metadataImpl.setUserName(metadata.getUserName());
+		metadataImpl.setCreateDate(metadata.getCreateDate());
+		metadataImpl.setModifiedDate(metadata.getModifiedDate());
 
 		return metadataImpl;
 	}
@@ -745,6 +782,8 @@ public class MetadataPersistenceImpl extends BasePersistenceImpl<Metadata>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -40,6 +44,7 @@ import de.uhh.l2g.plugins.service.persistence.LastvideolistPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -679,6 +684,8 @@ public class LastvideolistPersistenceImpl extends BasePersistenceImpl<Lastvideol
 		lastvideolist.setNew(true);
 		lastvideolist.setPrimaryKey(lastvideolistId);
 
+		lastvideolist.setCompanyId(companyProvider.getCompanyId());
+
 		return lastvideolist;
 	}
 
@@ -775,6 +782,29 @@ public class LastvideolistPersistenceImpl extends BasePersistenceImpl<Lastvideol
 
 		LastvideolistModelImpl lastvideolistModelImpl = (LastvideolistModelImpl)lastvideolist;
 
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (lastvideolist.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				lastvideolist.setCreateDate(now);
+			}
+			else {
+				lastvideolist.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!lastvideolistModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				lastvideolist.setModifiedDate(now);
+			}
+			else {
+				lastvideolist.setModifiedDate(serviceContext.getModifiedDate(
+						now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -854,6 +884,12 @@ public class LastvideolistPersistenceImpl extends BasePersistenceImpl<Lastvideol
 
 		lastvideolistImpl.setLastvideolistId(lastvideolist.getLastvideolistId());
 		lastvideolistImpl.setVideoId(lastvideolist.getVideoId());
+		lastvideolistImpl.setGroupId(lastvideolist.getGroupId());
+		lastvideolistImpl.setCompanyId(lastvideolist.getCompanyId());
+		lastvideolistImpl.setUserId(lastvideolist.getUserId());
+		lastvideolistImpl.setUserName(lastvideolist.getUserName());
+		lastvideolistImpl.setCreateDate(lastvideolist.getCreateDate());
+		lastvideolistImpl.setModifiedDate(lastvideolist.getModifiedDate());
 
 		return lastvideolistImpl;
 	}
@@ -1257,6 +1293,8 @@ public class LastvideolistPersistenceImpl extends BasePersistenceImpl<Lastvideol
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

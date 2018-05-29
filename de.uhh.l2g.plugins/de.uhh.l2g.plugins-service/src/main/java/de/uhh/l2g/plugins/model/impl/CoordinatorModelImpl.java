@@ -20,12 +20,16 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import de.uhh.l2g.plugins.model.Coordinator;
 import de.uhh.l2g.plugins.model.CoordinatorModel;
@@ -34,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +67,13 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "coordinatorId", Types.BIGINT },
 			{ "institutionId", Types.BIGINT },
-			{ "officeId", Types.BIGINT }
+			{ "officeId", Types.BIGINT },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -70,9 +81,15 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 		TABLE_COLUMNS_MAP.put("coordinatorId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("institutionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officeId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_Coordinator (coordinatorId LONG not null primary key,institutionId LONG,officeId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table LG_Coordinator (coordinatorId LONG not null primary key,institutionId LONG,officeId LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_Coordinator";
 	public static final String ORDER_BY_JPQL = " ORDER BY coordinator.coordinatorId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_Coordinator.coordinatorId ASC";
@@ -134,6 +151,12 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 		attributes.put("coordinatorId", getCoordinatorId());
 		attributes.put("institutionId", getInstitutionId());
 		attributes.put("officeId", getOfficeId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -159,6 +182,42 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 
 		if (officeId != null) {
 			setOfficeId(officeId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -216,13 +275,100 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 		return _originalOfficeId;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Coordinator.class.getName(), getPrimaryKey());
 	}
 
@@ -250,6 +396,12 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 		coordinatorImpl.setCoordinatorId(getCoordinatorId());
 		coordinatorImpl.setInstitutionId(getInstitutionId());
 		coordinatorImpl.setOfficeId(getOfficeId());
+		coordinatorImpl.setGroupId(getGroupId());
+		coordinatorImpl.setCompanyId(getCompanyId());
+		coordinatorImpl.setUserId(getUserId());
+		coordinatorImpl.setUserName(getUserName());
+		coordinatorImpl.setCreateDate(getCreateDate());
+		coordinatorImpl.setModifiedDate(getModifiedDate());
 
 		coordinatorImpl.resetOriginalValues();
 
@@ -320,6 +472,8 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 
 		coordinatorModelImpl._setOriginalOfficeId = false;
 
+		coordinatorModelImpl._setModifiedDate = false;
+
 		coordinatorModelImpl._columnBitmask = 0;
 	}
 
@@ -333,12 +487,44 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 
 		coordinatorCacheModel.officeId = getOfficeId();
 
+		coordinatorCacheModel.groupId = getGroupId();
+
+		coordinatorCacheModel.companyId = getCompanyId();
+
+		coordinatorCacheModel.userId = getUserId();
+
+		coordinatorCacheModel.userName = getUserName();
+
+		String userName = coordinatorCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			coordinatorCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			coordinatorCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			coordinatorCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			coordinatorCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			coordinatorCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return coordinatorCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{coordinatorId=");
 		sb.append(getCoordinatorId());
@@ -346,6 +532,18 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 		sb.append(getInstitutionId());
 		sb.append(", officeId=");
 		sb.append(getOfficeId());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -353,7 +551,7 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.Coordinator");
@@ -370,6 +568,30 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 		sb.append(
 			"<column><column-name>officeId</column-name><column-value><![CDATA[");
 		sb.append(getOfficeId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -388,6 +610,13 @@ public class CoordinatorModelImpl extends BaseModelImpl<Coordinator>
 	private long _officeId;
 	private long _originalOfficeId;
 	private boolean _setOriginalOfficeId;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private Coordinator _escapedModel;
 }

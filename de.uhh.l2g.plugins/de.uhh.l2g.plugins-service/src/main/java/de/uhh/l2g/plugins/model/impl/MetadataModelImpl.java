@@ -20,9 +20,12 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +71,13 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 			{ "title", Types.VARCHAR },
 			{ "subject", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
-			{ "publisher", Types.VARCHAR }
+			{ "publisher", Types.VARCHAR },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -79,9 +89,15 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 		TABLE_COLUMNS_MAP.put("subject", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publisher", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_Metadata (metadataId LONG not null primary key,type_ VARCHAR(75) null,language VARCHAR(75) null,title VARCHAR(75) null,subject VARCHAR(75) null,description VARCHAR(75) null,publisher VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table LG_Metadata (metadataId LONG not null primary key,type_ VARCHAR(75) null,language VARCHAR(75) null,title VARCHAR(75) null,subject VARCHAR(75) null,description VARCHAR(75) null,publisher VARCHAR(75) null,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_Metadata";
 	public static final String ORDER_BY_JPQL = " ORDER BY metadata.metadataId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_Metadata.metadataId ASC";
@@ -142,6 +158,12 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 		attributes.put("subject", getSubject());
 		attributes.put("description", getDescription());
 		attributes.put("publisher", getPublisher());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -191,6 +213,42 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 
 		if (publisher != null) {
 			setPublisher(publisher);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -295,8 +353,95 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 	}
 
 	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
+	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Metadata.class.getName(), getPrimaryKey());
 	}
 
@@ -328,6 +473,12 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 		metadataImpl.setSubject(getSubject());
 		metadataImpl.setDescription(getDescription());
 		metadataImpl.setPublisher(getPublisher());
+		metadataImpl.setGroupId(getGroupId());
+		metadataImpl.setCompanyId(getCompanyId());
+		metadataImpl.setUserId(getUserId());
+		metadataImpl.setUserName(getUserName());
+		metadataImpl.setCreateDate(getCreateDate());
+		metadataImpl.setModifiedDate(getModifiedDate());
 
 		metadataImpl.resetOriginalValues();
 
@@ -388,6 +539,9 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 
 	@Override
 	public void resetOriginalValues() {
+		MetadataModelImpl metadataModelImpl = this;
+
+		metadataModelImpl._setModifiedDate = false;
 	}
 
 	@Override
@@ -444,12 +598,44 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 			metadataCacheModel.publisher = null;
 		}
 
+		metadataCacheModel.groupId = getGroupId();
+
+		metadataCacheModel.companyId = getCompanyId();
+
+		metadataCacheModel.userId = getUserId();
+
+		metadataCacheModel.userName = getUserName();
+
+		String userName = metadataCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			metadataCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			metadataCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			metadataCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			metadataCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			metadataCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return metadataCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{metadataId=");
 		sb.append(getMetadataId());
@@ -465,6 +651,18 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 		sb.append(getDescription());
 		sb.append(", publisher=");
 		sb.append(getPublisher());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -472,7 +670,7 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.Metadata");
@@ -506,6 +704,30 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 			"<column><column-name>publisher</column-name><column-value><![CDATA[");
 		sb.append(getPublisher());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -523,5 +745,12 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 	private String _subject;
 	private String _description;
 	private String _publisher;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private Metadata _escapedModel;
 }

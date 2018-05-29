@@ -61,6 +61,12 @@ public class CoordinatorWrapper implements Coordinator,
 		attributes.put("coordinatorId", getCoordinatorId());
 		attributes.put("institutionId", getInstitutionId());
 		attributes.put("officeId", getOfficeId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -83,6 +89,42 @@ public class CoordinatorWrapper implements Coordinator,
 
 		if (officeId != null) {
 			setOfficeId(officeId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -156,6 +198,26 @@ public class CoordinatorWrapper implements Coordinator,
 		return _coordinator.getLastName();
 	}
 
+	/**
+	* Returns the user name of this coordinator.
+	*
+	* @return the user name of this coordinator
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _coordinator.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this coordinator.
+	*
+	* @return the user uuid of this coordinator
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _coordinator.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _coordinator.toString();
@@ -166,9 +228,39 @@ public class CoordinatorWrapper implements Coordinator,
 		return _coordinator.toXmlString();
 	}
 
+	/**
+	* Returns the create date of this coordinator.
+	*
+	* @return the create date of this coordinator
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _coordinator.getCreateDate();
+	}
+
 	@Override
 	public Date getLastLoginDate() {
 		return _coordinator.getLastLoginDate();
+	}
+
+	/**
+	* Returns the modified date of this coordinator.
+	*
+	* @return the modified date of this coordinator
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _coordinator.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this coordinator.
+	*
+	* @return the company ID of this coordinator
+	*/
+	@Override
+	public long getCompanyId() {
+		return _coordinator.getCompanyId();
 	}
 
 	/**
@@ -179,6 +271,16 @@ public class CoordinatorWrapper implements Coordinator,
 	@Override
 	public long getCoordinatorId() {
 		return _coordinator.getCoordinatorId();
+	}
+
+	/**
+	* Returns the group ID of this coordinator.
+	*
+	* @return the group ID of this coordinator
+	*/
+	@Override
+	public long getGroupId() {
+		return _coordinator.getGroupId();
 	}
 
 	/**
@@ -211,6 +313,16 @@ public class CoordinatorWrapper implements Coordinator,
 		return _coordinator.getPrimaryKey();
 	}
 
+	/**
+	* Returns the user ID of this coordinator.
+	*
+	* @return the user ID of this coordinator
+	*/
+	@Override
+	public long getUserId() {
+		return _coordinator.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_coordinator.persist();
@@ -222,6 +334,16 @@ public class CoordinatorWrapper implements Coordinator,
 	}
 
 	/**
+	* Sets the company ID of this coordinator.
+	*
+	* @param companyId the company ID of this coordinator
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_coordinator.setCompanyId(companyId);
+	}
+
+	/**
 	* Sets the coordinator ID of this coordinator.
 	*
 	* @param coordinatorId the coordinator ID of this coordinator
@@ -229,6 +351,16 @@ public class CoordinatorWrapper implements Coordinator,
 	@Override
 	public void setCoordinatorId(long coordinatorId) {
 		_coordinator.setCoordinatorId(coordinatorId);
+	}
+
+	/**
+	* Sets the create date of this coordinator.
+	*
+	* @param createDate the create date of this coordinator
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_coordinator.setCreateDate(createDate);
 	}
 
 	@Override
@@ -258,6 +390,16 @@ public class CoordinatorWrapper implements Coordinator,
 	}
 
 	/**
+	* Sets the group ID of this coordinator.
+	*
+	* @param groupId the group ID of this coordinator
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_coordinator.setGroupId(groupId);
+	}
+
+	/**
 	* Sets the institution ID of this coordinator.
 	*
 	* @param institutionId the institution ID of this coordinator
@@ -275,6 +417,16 @@ public class CoordinatorWrapper implements Coordinator,
 	@Override
 	public void setLastName(java.lang.String lastName) {
 		_coordinator.setLastName(lastName);
+	}
+
+	/**
+	* Sets the modified date of this coordinator.
+	*
+	* @param modifiedDate the modified date of this coordinator
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_coordinator.setModifiedDate(modifiedDate);
 	}
 
 	@Override
@@ -305,6 +457,36 @@ public class CoordinatorWrapper implements Coordinator,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_coordinator.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the user ID of this coordinator.
+	*
+	* @param userId the user ID of this coordinator
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_coordinator.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this coordinator.
+	*
+	* @param userName the user name of this coordinator
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_coordinator.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this coordinator.
+	*
+	* @param userUuid the user uuid of this coordinator
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_coordinator.setUserUuid(userUuid);
 	}
 
 	@Override

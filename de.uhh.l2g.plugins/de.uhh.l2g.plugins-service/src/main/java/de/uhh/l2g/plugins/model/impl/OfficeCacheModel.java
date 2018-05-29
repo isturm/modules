@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Office in entity cache.
  *
@@ -63,7 +65,7 @@ public class OfficeCacheModel implements CacheModel<Office>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{officeId=");
 		sb.append(officeId);
@@ -75,6 +77,18 @@ public class OfficeCacheModel implements CacheModel<Office>, Externalizable {
 		sb.append(email);
 		sb.append(", institutionId=");
 		sb.append(institutionId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -108,6 +122,30 @@ public class OfficeCacheModel implements CacheModel<Office>, Externalizable {
 		}
 
 		officeImpl.setInstitutionId(institutionId);
+		officeImpl.setGroupId(groupId);
+		officeImpl.setCompanyId(companyId);
+		officeImpl.setUserId(userId);
+
+		if (userName == null) {
+			officeImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			officeImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			officeImpl.setCreateDate(null);
+		}
+		else {
+			officeImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			officeImpl.setModifiedDate(null);
+		}
+		else {
+			officeImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		officeImpl.resetOriginalValues();
 
@@ -122,6 +160,15 @@ public class OfficeCacheModel implements CacheModel<Office>, Externalizable {
 		email = objectInput.readUTF();
 
 		institutionId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -151,6 +198,22 @@ public class OfficeCacheModel implements CacheModel<Office>, Externalizable {
 		}
 
 		objectOutput.writeLong(institutionId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long officeId;
@@ -158,4 +221,10 @@ public class OfficeCacheModel implements CacheModel<Office>, Externalizable {
 	public String www;
 	public String email;
 	public long institutionId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

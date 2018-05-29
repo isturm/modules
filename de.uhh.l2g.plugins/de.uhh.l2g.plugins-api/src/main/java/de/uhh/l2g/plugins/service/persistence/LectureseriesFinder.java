@@ -30,19 +30,22 @@ public interface LectureseriesFinder {
 	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> findAllLectureseriesWhithOpenaccessVideos();
 
 	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> findLatest(
-		int limit);
+		int limit, java.lang.Long groupId, java.lang.Long companyId);
 
 	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> findFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(
 		java.lang.Long institutionId, java.lang.Long parentInstitutionId,
 		java.lang.Long termId, java.lang.Long categoryId,
-		java.lang.Long creatorId, java.lang.String searchQuery);
+		java.lang.Long creatorId, java.lang.String searchQuery,
+		java.lang.Long groupId, java.lang.Long companyId);
 
 	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> findFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(
 		java.lang.Long institutionId, java.lang.Long parentInstitutionId,
 		java.lang.Long termId, java.lang.Long categoryId,
-		java.lang.Long creatorId, java.lang.String searchQuery, int limit);
+		java.lang.Long creatorId, java.lang.String searchQuery, int limit,
+		java.lang.Long groupId, java.lang.Long companyId);
 
 	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> findFilteredByApprovedSemesterFacultyProducer(
 		java.lang.Integer approved, java.lang.Long termId,
-		java.lang.Long facultyId, java.lang.Long producerId);
+		java.lang.Long facultyId, java.lang.Long producerId,
+		java.lang.Long groupId, java.lang.Long companyId);
 }

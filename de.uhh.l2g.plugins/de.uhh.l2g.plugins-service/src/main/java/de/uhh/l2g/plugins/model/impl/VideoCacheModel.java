@@ -65,7 +65,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(59);
 
 		sb.append("{videoId=");
 		sb.append(videoId);
@@ -113,6 +113,18 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		sb.append(tags);
 		sb.append(", password=");
 		sb.append(password);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -217,6 +229,31 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 			videoImpl.setPassword(password);
 		}
 
+		videoImpl.setGroupId(groupId);
+		videoImpl.setCompanyId(companyId);
+		videoImpl.setUserId(userId);
+
+		if (userName == null) {
+			videoImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			videoImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			videoImpl.setCreateDate(null);
+		}
+		else {
+			videoImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			videoImpl.setModifiedDate(null);
+		}
+		else {
+			videoImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		videoImpl.resetOriginalValues();
 
 		return videoImpl;
@@ -258,6 +295,15 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		termId = objectInput.readLong();
 		tags = objectInput.readUTF();
 		password = objectInput.readUTF();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -357,6 +403,22 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		else {
 			objectOutput.writeUTF(password);
 		}
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long videoId;
@@ -382,4 +444,10 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 	public long termId;
 	public String tags;
 	public String password;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

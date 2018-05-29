@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -63,6 +64,12 @@ public class VideohitlistWrapper implements Videohitlist,
 		attributes.put("hitsPerMonth", getHitsPerMonth());
 		attributes.put("hitsPerYear", getHitsPerYear());
 		attributes.put("videoId", getVideoId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -103,6 +110,42 @@ public class VideohitlistWrapper implements Videohitlist,
 
 		if (videoId != null) {
 			setVideoId(videoId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -161,6 +204,26 @@ public class VideohitlistWrapper implements Videohitlist,
 		return new VideohitlistWrapper((Videohitlist)_videohitlist.clone());
 	}
 
+	/**
+	* Returns the user name of this videohitlist.
+	*
+	* @return the user name of this videohitlist
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _videohitlist.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this videohitlist.
+	*
+	* @return the user uuid of this videohitlist
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _videohitlist.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _videohitlist.toString();
@@ -169,6 +232,46 @@ public class VideohitlistWrapper implements Videohitlist,
 	@Override
 	public java.lang.String toXmlString() {
 		return _videohitlist.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this videohitlist.
+	*
+	* @return the create date of this videohitlist
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _videohitlist.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this videohitlist.
+	*
+	* @return the modified date of this videohitlist
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _videohitlist.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this videohitlist.
+	*
+	* @return the company ID of this videohitlist
+	*/
+	@Override
+	public long getCompanyId() {
+		return _videohitlist.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this videohitlist.
+	*
+	* @return the group ID of this videohitlist
+	*/
+	@Override
+	public long getGroupId() {
+		return _videohitlist.getGroupId();
 	}
 
 	/**
@@ -222,6 +325,16 @@ public class VideohitlistWrapper implements Videohitlist,
 	}
 
 	/**
+	* Returns the user ID of this videohitlist.
+	*
+	* @return the user ID of this videohitlist
+	*/
+	@Override
+	public long getUserId() {
+		return _videohitlist.getUserId();
+	}
+
+	/**
 	* Returns the video ID of this videohitlist.
 	*
 	* @return the video ID of this videohitlist
@@ -251,6 +364,26 @@ public class VideohitlistWrapper implements Videohitlist,
 		_videohitlist.setCachedModel(cachedModel);
 	}
 
+	/**
+	* Sets the company ID of this videohitlist.
+	*
+	* @param companyId the company ID of this videohitlist
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_videohitlist.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this videohitlist.
+	*
+	* @param createDate the create date of this videohitlist
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_videohitlist.setCreateDate(createDate);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_videohitlist.setExpandoBridgeAttributes(expandoBridge);
@@ -265,6 +398,16 @@ public class VideohitlistWrapper implements Videohitlist,
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_videohitlist.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the group ID of this videohitlist.
+	*
+	* @param groupId the group ID of this videohitlist
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_videohitlist.setGroupId(groupId);
 	}
 
 	/**
@@ -307,6 +450,16 @@ public class VideohitlistWrapper implements Videohitlist,
 		_videohitlist.setHitsPerYear(hitsPerYear);
 	}
 
+	/**
+	* Sets the modified date of this videohitlist.
+	*
+	* @param modifiedDate the modified date of this videohitlist
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_videohitlist.setModifiedDate(modifiedDate);
+	}
+
 	@Override
 	public void setNew(boolean n) {
 		_videohitlist.setNew(n);
@@ -325,6 +478,36 @@ public class VideohitlistWrapper implements Videohitlist,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_videohitlist.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the user ID of this videohitlist.
+	*
+	* @param userId the user ID of this videohitlist
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_videohitlist.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this videohitlist.
+	*
+	* @param userName the user name of this videohitlist
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_videohitlist.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this videohitlist.
+	*
+	* @param userUuid the user uuid of this videohitlist
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_videohitlist.setUserUuid(userUuid);
 	}
 
 	/**

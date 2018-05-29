@@ -21,9 +21,13 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * The base model interface for the Metadata service. Represents a row in the &quot;LG_Metadata&quot; database table, with each column mapped to a property of this class.
@@ -39,7 +43,8 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public interface MetadataModel extends BaseModel<Metadata> {
+public interface MetadataModel extends BaseModel<Metadata>, GroupedModel,
+	ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -163,6 +168,119 @@ public interface MetadataModel extends BaseModel<Metadata> {
 	 * @param publisher the publisher of this metadata
 	 */
 	public void setPublisher(String publisher);
+
+	/**
+	 * Returns the group ID of this metadata.
+	 *
+	 * @return the group ID of this metadata
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this metadata.
+	 *
+	 * @param groupId the group ID of this metadata
+	 */
+	@Override
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this metadata.
+	 *
+	 * @return the company ID of this metadata
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this metadata.
+	 *
+	 * @param companyId the company ID of this metadata
+	 */
+	@Override
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this metadata.
+	 *
+	 * @return the user ID of this metadata
+	 */
+	@Override
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this metadata.
+	 *
+	 * @param userId the user ID of this metadata
+	 */
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this metadata.
+	 *
+	 * @return the user uuid of this metadata
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this metadata.
+	 *
+	 * @param userUuid the user uuid of this metadata
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this metadata.
+	 *
+	 * @return the user name of this metadata
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this metadata.
+	 *
+	 * @param userName the user name of this metadata
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this metadata.
+	 *
+	 * @return the create date of this metadata
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this metadata.
+	 *
+	 * @param createDate the create date of this metadata
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this metadata.
+	 *
+	 * @return the modified date of this metadata
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this metadata.
+	 *
+	 * @param modifiedDate the modified date of this metadata
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	@Override
 	public boolean isNew();

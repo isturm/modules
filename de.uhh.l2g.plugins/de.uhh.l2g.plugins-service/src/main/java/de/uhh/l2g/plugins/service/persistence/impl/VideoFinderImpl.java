@@ -78,6 +78,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			q.addScalar("termId", Type.LONG);
 			q.addScalar("tags", Type.STRING);
 			q.addScalar("password_", Type.STRING);
+			q.addScalar("groupId", Type.LONG);
+			q.addScalar("companyId", Type.LONG);
+			q.addScalar("userId", Type.LONG);
+			q.addScalar("userName", Type.LONG);
+			q.addScalar("createDate", Type.DATE);
+			q.addScalar("modifiedDate", Type.DATE);				
 			q.setCacheable(false);
 			
 			@SuppressWarnings("unchecked")
@@ -124,7 +130,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			q.addScalar("termId", Type.LONG);
 			q.addScalar("tags", Type.STRING);
 			q.addScalar("password_", Type.STRING);
-			
+			q.addScalar("groupId", Type.LONG);
+			q.addScalar("companyId", Type.LONG);
+			q.addScalar("userId", Type.LONG);
+			q.addScalar("userName", Type.LONG);
+			q.addScalar("createDate", Type.DATE);
+			q.addScalar("modifiedDate", Type.DATE);	
 			q.setCacheable(false);
 			
 			QueryPos qPos = QueryPos.getInstance(q);
@@ -174,7 +185,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			q.addScalar("termId", Type.LONG);
 			q.addScalar("tags", Type.STRING);
 			q.addScalar("password_", Type.STRING);
-			
+			q.addScalar("groupId", Type.LONG);
+			q.addScalar("companyId", Type.LONG);
+			q.addScalar("userId", Type.LONG);
+			q.addScalar("userName", Type.LONG);
+			q.addScalar("createDate", Type.DATE);
+			q.addScalar("modifiedDate", Type.DATE);	
 			q.setCacheable(false);
 			
 			QueryPos qPos = QueryPos.getInstance(q);
@@ -207,6 +223,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			q.addScalar("lectureseriesNumber", Type.STRING);
 			q.addScalar("creatorFullName", Type.STRING);
 			q.addScalar("videoId", Type.LONG);
+			q.addScalar("groupId", Type.LONG);
+			q.addScalar("companyId", Type.LONG);
+			q.addScalar("userId", Type.LONG);
+			q.addScalar("userName", Type.LONG);
+			q.addScalar("createDate", Type.DATE);
+			q.addScalar("modifiedDate", Type.DATE);	
 			q.setCacheable(false);
 			@SuppressWarnings("unchecked")
 			List <Object[]> l =  (List<Object[]>) QueryUtil.list(q, getDialect(), com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
@@ -236,6 +258,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			q.addScalar("lectureseriesNumber", Type.STRING);
 			q.addScalar("creatorFullName", Type.STRING);
 			q.addScalar("videoId", Type.LONG);
+			q.addScalar("groupId", Type.LONG);
+			q.addScalar("companyId", Type.LONG);
+			q.addScalar("userId", Type.LONG);
+			q.addScalar("userName", Type.LONG);
+			q.addScalar("createDate", Type.DATE);
+			q.addScalar("modifiedDate", Type.DATE);	
 			q.setCacheable(false);
 			
 			QueryPos qPos = QueryPos.getInstance(q);
@@ -290,7 +318,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			q.addScalar("termId", Type.LONG);
 			q.addScalar("tags", Type.STRING);
 			q.addScalar("password_", Type.STRING);
-			
+			q.addScalar("groupId", Type.LONG);
+			q.addScalar("companyId", Type.LONG);
+			q.addScalar("userId", Type.LONG);
+			q.addScalar("userName", Type.LONG);
+			q.addScalar("createDate", Type.DATE);
+			q.addScalar("modifiedDate", Type.DATE);	
 			q.setCacheable(false);
 			
 			QueryPos qPos = QueryPos.getInstance(q);
@@ -412,7 +445,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			v.setDownloadLink((Integer)video[12]);
 			v.setMetadataId((Long)video[13]);
 			v.setSecureFilename((String)video[14]);
-			v.setHits((Integer)video[15]);
+			v.setHits((Integer)video[15]);	
 			//parse date
 			DateFormat formatter ;
 			Date date = new Date();
@@ -431,7 +464,13 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			v.setTermId((Long)video[20]);
 			v.setTags((String)video[21]);
 			v.setPassword((String)video[22]);
-			
+			v.setGroupId((Long) video[23]);
+			v.setCompanyId((Long) video[24]);
+			v.setUserId((Long) video[25]);
+			v.setUserName((String) video[26]);
+			v.setCreateDate((Date) video[27]);
+			v.setModifiedDate((Date) video[28]);
+			//
 			vl.add(v);
 		}
 		return vl;
@@ -446,6 +485,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			v.setLectureseriesNumber((String)video[2]);
 			v.setCreatorFullName((String)video[3]);
 			v.setVideoId((Long)video[4]);
+			v.setGroupId((Long) video[5]);
+			v.setCompanyId((Long) video[6]);
+			v.setUserId((Long) video[7]);
+			v.setUserName((String) video[8]);
+			v.setCreateDate((Date) video[9]);
+			v.setModifiedDate((Date) video[10]);			
 			//creators
 			List<Video_Creator> vc;
 			try {

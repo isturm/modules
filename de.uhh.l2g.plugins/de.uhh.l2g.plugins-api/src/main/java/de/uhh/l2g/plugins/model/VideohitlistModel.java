@@ -18,11 +18,16 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
+import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * The base model interface for the Videohitlist service. Represents a row in the &quot;LG_Videohitlist&quot; database table, with each column mapped to a property of this class.
@@ -38,7 +43,8 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public interface VideohitlistModel extends BaseModel<Videohitlist> {
+public interface VideohitlistModel extends BaseModel<Videohitlist>, GroupedModel,
+	ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -142,6 +148,119 @@ public interface VideohitlistModel extends BaseModel<Videohitlist> {
 	 * @param videoId the video ID of this videohitlist
 	 */
 	public void setVideoId(long videoId);
+
+	/**
+	 * Returns the group ID of this videohitlist.
+	 *
+	 * @return the group ID of this videohitlist
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this videohitlist.
+	 *
+	 * @param groupId the group ID of this videohitlist
+	 */
+	@Override
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this videohitlist.
+	 *
+	 * @return the company ID of this videohitlist
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this videohitlist.
+	 *
+	 * @param companyId the company ID of this videohitlist
+	 */
+	@Override
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this videohitlist.
+	 *
+	 * @return the user ID of this videohitlist
+	 */
+	@Override
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this videohitlist.
+	 *
+	 * @param userId the user ID of this videohitlist
+	 */
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this videohitlist.
+	 *
+	 * @return the user uuid of this videohitlist
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this videohitlist.
+	 *
+	 * @param userUuid the user uuid of this videohitlist
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this videohitlist.
+	 *
+	 * @return the user name of this videohitlist
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this videohitlist.
+	 *
+	 * @param userName the user name of this videohitlist
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this videohitlist.
+	 *
+	 * @return the create date of this videohitlist
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this videohitlist.
+	 *
+	 * @param createDate the create date of this videohitlist
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this videohitlist.
+	 *
+	 * @return the modified date of this videohitlist
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this videohitlist.
+	 *
+	 * @param modifiedDate the modified date of this videohitlist
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	@Override
 	public boolean isNew();

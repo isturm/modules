@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -41,6 +45,7 @@ import de.uhh.l2g.plugins.service.persistence.OfficePersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -425,6 +430,8 @@ public class OfficePersistenceImpl extends BasePersistenceImpl<Office>
 		office.setNew(true);
 		office.setPrimaryKey(officeId);
 
+		office.setCompanyId(companyProvider.getCompanyId());
+
 		return office;
 	}
 
@@ -518,6 +525,28 @@ public class OfficePersistenceImpl extends BasePersistenceImpl<Office>
 
 		OfficeModelImpl officeModelImpl = (OfficeModelImpl)office;
 
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (office.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				office.setCreateDate(now);
+			}
+			else {
+				office.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!officeModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				office.setModifiedDate(now);
+			}
+			else {
+				office.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -577,6 +606,12 @@ public class OfficePersistenceImpl extends BasePersistenceImpl<Office>
 		officeImpl.setWww(office.getWww());
 		officeImpl.setEmail(office.getEmail());
 		officeImpl.setInstitutionId(office.getInstitutionId());
+		officeImpl.setGroupId(office.getGroupId());
+		officeImpl.setCompanyId(office.getCompanyId());
+		officeImpl.setUserId(office.getUserId());
+		officeImpl.setUserName(office.getUserName());
+		officeImpl.setCreateDate(office.getCreateDate());
+		officeImpl.setModifiedDate(office.getModifiedDate());
 
 		return officeImpl;
 	}
@@ -977,6 +1012,8 @@ public class OfficePersistenceImpl extends BasePersistenceImpl<Office>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

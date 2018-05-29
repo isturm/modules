@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -41,6 +45,7 @@ import de.uhh.l2g.plugins.service.persistence.ProducerPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2229,6 +2234,8 @@ public class ProducerPersistenceImpl extends BasePersistenceImpl<Producer>
 		producer.setNew(true);
 		producer.setPrimaryKey(producerId);
 
+		producer.setCompanyId(companyProvider.getCompanyId());
+
 		return producer;
 	}
 
@@ -2323,6 +2330,28 @@ public class ProducerPersistenceImpl extends BasePersistenceImpl<Producer>
 		boolean isNew = producer.isNew();
 
 		ProducerModelImpl producerModelImpl = (ProducerModelImpl)producer;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (producer.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				producer.setCreateDate(now);
+			}
+			else {
+				producer.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!producerModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				producer.setModifiedDate(now);
+			}
+			else {
+				producer.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
 
 		Session session = null;
 
@@ -2456,6 +2485,12 @@ public class ProducerPersistenceImpl extends BasePersistenceImpl<Producer>
 		producerImpl.setInstitutionId(producer.getInstitutionId());
 		producerImpl.setNumberOfProductions(producer.getNumberOfProductions());
 		producerImpl.setApproved(producer.getApproved());
+		producerImpl.setGroupId(producer.getGroupId());
+		producerImpl.setCompanyId(producer.getCompanyId());
+		producerImpl.setUserId(producer.getUserId());
+		producerImpl.setUserName(producer.getUserName());
+		producerImpl.setCreateDate(producer.getCreateDate());
+		producerImpl.setModifiedDate(producer.getModifiedDate());
 
 		return producerImpl;
 	}
@@ -2857,6 +2892,8 @@ public class ProducerPersistenceImpl extends BasePersistenceImpl<Producer>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

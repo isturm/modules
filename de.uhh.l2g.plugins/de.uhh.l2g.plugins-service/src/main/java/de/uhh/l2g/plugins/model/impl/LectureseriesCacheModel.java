@@ -66,7 +66,7 @@ public class LectureseriesCacheModel implements CacheModel<Lectureseries>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("{number=");
 		sb.append(number);
@@ -104,6 +104,18 @@ public class LectureseriesCacheModel implements CacheModel<Lectureseries>,
 		sb.append(USID);
 		sb.append(", previewVideoId=");
 		sb.append(previewVideoId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -204,6 +216,30 @@ public class LectureseriesCacheModel implements CacheModel<Lectureseries>,
 		}
 
 		lectureseriesImpl.setPreviewVideoId(previewVideoId);
+		lectureseriesImpl.setGroupId(groupId);
+		lectureseriesImpl.setCompanyId(companyId);
+		lectureseriesImpl.setUserId(userId);
+
+		if (userName == null) {
+			lectureseriesImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			lectureseriesImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			lectureseriesImpl.setCreateDate(null);
+		}
+		else {
+			lectureseriesImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			lectureseriesImpl.setModifiedDate(null);
+		}
+		else {
+			lectureseriesImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		lectureseriesImpl.resetOriginalValues();
 
@@ -237,6 +273,15 @@ public class LectureseriesCacheModel implements CacheModel<Lectureseries>,
 		USID = objectInput.readUTF();
 
 		previewVideoId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -326,6 +371,22 @@ public class LectureseriesCacheModel implements CacheModel<Lectureseries>,
 		}
 
 		objectOutput.writeLong(previewVideoId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public String number;
@@ -346,4 +407,10 @@ public class LectureseriesCacheModel implements CacheModel<Lectureseries>,
 	public int videoSort;
 	public String USID;
 	public long previewVideoId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

@@ -64,6 +64,12 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 		attributes.put("institutionId", getInstitutionId());
 		attributes.put("numberOfProductions", getNumberOfProductions());
 		attributes.put("approved", getApproved());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -110,6 +116,42 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 
 		if (approved != null) {
 			setApproved(approved);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -213,6 +255,26 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 		return _producer.getLastName();
 	}
 
+	/**
+	* Returns the user name of this producer.
+	*
+	* @return the user name of this producer
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _producer.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this producer.
+	*
+	* @return the user uuid of this producer
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _producer.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _producer.toString();
@@ -223,9 +285,49 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 		return _producer.toXmlString();
 	}
 
+	/**
+	* Returns the create date of this producer.
+	*
+	* @return the create date of this producer
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _producer.getCreateDate();
+	}
+
 	@Override
 	public Date getLastLoginDate() {
 		return _producer.getLastLoginDate();
+	}
+
+	/**
+	* Returns the modified date of this producer.
+	*
+	* @return the modified date of this producer
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _producer.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this producer.
+	*
+	* @return the company ID of this producer
+	*/
+	@Override
+	public long getCompanyId() {
+		return _producer.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this producer.
+	*
+	* @return the group ID of this producer
+	*/
+	@Override
+	public long getGroupId() {
+		return _producer.getGroupId();
 	}
 
 	/**
@@ -278,6 +380,16 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 		return _producer.getProducerId();
 	}
 
+	/**
+	* Returns the user ID of this producer.
+	*
+	* @return the user ID of this producer
+	*/
+	@Override
+	public long getUserId() {
+		return _producer.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_producer.persist();
@@ -296,6 +408,26 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_producer.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this producer.
+	*
+	* @param companyId the company ID of this producer
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_producer.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this producer.
+	*
+	* @param createDate the create date of this producer
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_producer.setCreateDate(createDate);
 	}
 
 	@Override
@@ -322,6 +454,16 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	@Override
 	public void setFirstName(java.lang.String firstName) {
 		_producer.setFirstName(firstName);
+	}
+
+	/**
+	* Sets the group ID of this producer.
+	*
+	* @param groupId the group ID of this producer
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_producer.setGroupId(groupId);
 	}
 
 	/**
@@ -374,6 +516,16 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 		_producer.setLastName(lastName);
 	}
 
+	/**
+	* Sets the modified date of this producer.
+	*
+	* @param modifiedDate the modified date of this producer
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_producer.setModifiedDate(modifiedDate);
+	}
+
 	@Override
 	public void setNew(boolean n) {
 		_producer.setNew(n);
@@ -412,6 +564,36 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	@Override
 	public void setProducerId(long producerId) {
 		_producer.setProducerId(producerId);
+	}
+
+	/**
+	* Sets the user ID of this producer.
+	*
+	* @param userId the user ID of this producer
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_producer.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this producer.
+	*
+	* @param userName the user name of this producer
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_producer.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this producer.
+	*
+	* @param userUuid the user uuid of this producer
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_producer.setUserUuid(userUuid);
 	}
 
 	@Override

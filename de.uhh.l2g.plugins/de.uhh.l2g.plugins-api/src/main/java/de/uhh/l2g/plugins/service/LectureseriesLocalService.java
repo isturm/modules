@@ -224,16 +224,19 @@ public interface LectureseriesLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Lectureseries> getFilteredByApprovedSemesterFacultyProducer(
 		java.lang.Integer approved, java.lang.Long semester,
-		java.lang.Long facultyId, java.lang.Long producerId);
+		java.lang.Long facultyId, java.lang.Long producerId,
+		java.lang.Long groupId, java.lang.Long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Lectureseries> getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(
 		java.lang.Long institutionId, java.lang.Long parentInstitutionId,
 		java.lang.Long termId, java.lang.Long categoryId,
-		java.lang.Long creatorId, java.lang.String searchQuery);
+		java.lang.Long creatorId, java.lang.String searchQuery,
+		java.lang.Long groupId, java.lang.Long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Lectureseries> getLatest(int limit);
+	public List<Lectureseries> getLatest(int limit, java.lang.Long groupId,
+		java.lang.Long companyId);
 
 	/**
 	* Returns a range of all the lectureserieses.
@@ -252,7 +255,8 @@ public interface LectureseriesLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Map<Term, List<Lectureseries>> getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(
 		java.lang.Integer approved, java.lang.Long semester,
-		java.lang.Long facultyId, java.lang.Long producerId);
+		java.lang.Long facultyId, java.lang.Long producerId,
+		java.lang.Long groupId, java.lang.Long companyId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

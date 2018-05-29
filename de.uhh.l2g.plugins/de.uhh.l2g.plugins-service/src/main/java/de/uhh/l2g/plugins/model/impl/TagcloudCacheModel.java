@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Tagcloud in entity cache.
  *
@@ -63,7 +65,7 @@ public class TagcloudCacheModel implements CacheModel<Tagcloud>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{tagcloudId=");
 		sb.append(tagcloudId);
@@ -73,6 +75,18 @@ public class TagcloudCacheModel implements CacheModel<Tagcloud>, Externalizable 
 		sb.append(objectId);
 		sb.append(", tags=");
 		sb.append(tags);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -100,6 +114,31 @@ public class TagcloudCacheModel implements CacheModel<Tagcloud>, Externalizable 
 			tagcloudImpl.setTags(tags);
 		}
 
+		tagcloudImpl.setGroupId(groupId);
+		tagcloudImpl.setCompanyId(companyId);
+		tagcloudImpl.setUserId(userId);
+
+		if (userName == null) {
+			tagcloudImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			tagcloudImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			tagcloudImpl.setCreateDate(null);
+		}
+		else {
+			tagcloudImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			tagcloudImpl.setModifiedDate(null);
+		}
+		else {
+			tagcloudImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		tagcloudImpl.resetOriginalValues();
 
 		return tagcloudImpl;
@@ -112,6 +151,15 @@ public class TagcloudCacheModel implements CacheModel<Tagcloud>, Externalizable 
 
 		objectId = objectInput.readLong();
 		tags = objectInput.readUTF();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -134,10 +182,32 @@ public class TagcloudCacheModel implements CacheModel<Tagcloud>, Externalizable 
 		else {
 			objectOutput.writeUTF(tags);
 		}
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long tagcloudId;
 	public String objectClassType;
 	public long objectId;
 	public String tags;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

@@ -77,6 +77,12 @@ public class LectureseriesWrapper implements Lectureseries,
 		attributes.put("videoSort", getVideoSort());
 		attributes.put("USID", getUSID());
 		attributes.put("previewVideoId", getPreviewVideoId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -192,6 +198,42 @@ public class LectureseriesWrapper implements Lectureseries,
 
 		if (previewVideoId != null) {
 			setPreviewVideoId(previewVideoId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -395,6 +437,26 @@ public class LectureseriesWrapper implements Lectureseries,
 		return _lectureseries.getUSID();
 	}
 
+	/**
+	* Returns the user name of this lectureseries.
+	*
+	* @return the user name of this lectureseries
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _lectureseries.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this lectureseries.
+	*
+	* @return the user uuid of this lectureseries
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _lectureseries.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _lectureseries.toString();
@@ -403,6 +465,16 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public java.lang.String toXmlString() {
 		return _lectureseries.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this lectureseries.
+	*
+	* @return the create date of this lectureseries
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _lectureseries.getCreateDate();
 	}
 
 	/**
@@ -416,6 +488,16 @@ public class LectureseriesWrapper implements Lectureseries,
 	}
 
 	/**
+	* Returns the modified date of this lectureseries.
+	*
+	* @return the modified date of this lectureseries
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _lectureseries.getModifiedDate();
+	}
+
+	/**
 	* Returns the category ID of this lectureseries.
 	*
 	* @return the category ID of this lectureseries
@@ -423,6 +505,26 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public long getCategoryId() {
 		return _lectureseries.getCategoryId();
+	}
+
+	/**
+	* Returns the company ID of this lectureseries.
+	*
+	* @return the company ID of this lectureseries
+	*/
+	@Override
+	public long getCompanyId() {
+		return _lectureseries.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this lectureseries.
+	*
+	* @return the group ID of this lectureseries
+	*/
+	@Override
+	public long getGroupId() {
+		return _lectureseries.getGroupId();
 	}
 
 	/**
@@ -475,6 +577,16 @@ public class LectureseriesWrapper implements Lectureseries,
 		return _lectureseries.getTermId();
 	}
 
+	/**
+	* Returns the user ID of this lectureseries.
+	*
+	* @return the user ID of this lectureseries
+	*/
+	@Override
+	public long getUserId() {
+		return _lectureseries.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_lectureseries.persist();
@@ -503,6 +615,26 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public void setCategoryId(long categoryId) {
 		_lectureseries.setCategoryId(categoryId);
+	}
+
+	/**
+	* Sets the company ID of this lectureseries.
+	*
+	* @param companyId the company ID of this lectureseries
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_lectureseries.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this lectureseries.
+	*
+	* @param createDate the create date of this lectureseries
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_lectureseries.setCreateDate(createDate);
 	}
 
 	/**
@@ -539,6 +671,16 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public void setFacultyName(java.lang.String facultyName) {
 		_lectureseries.setFacultyName(facultyName);
+	}
+
+	/**
+	* Sets the group ID of this lectureseries.
+	*
+	* @param groupId the group ID of this lectureseries
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_lectureseries.setGroupId(groupId);
 	}
 
 	/**
@@ -600,6 +742,16 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public void setLongDesc(java.lang.String longDesc) {
 		_lectureseries.setLongDesc(longDesc);
+	}
+
+	/**
+	* Sets the modified date of this lectureseries.
+	*
+	* @param modifiedDate the modified date of this lectureseries
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_lectureseries.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -705,6 +857,36 @@ public class LectureseriesWrapper implements Lectureseries,
 	@Override
 	public void setUSID(java.lang.String USID) {
 		_lectureseries.setUSID(USID);
+	}
+
+	/**
+	* Sets the user ID of this lectureseries.
+	*
+	* @param userId the user ID of this lectureseries
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_lectureseries.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this lectureseries.
+	*
+	* @param userName the user name of this lectureseries
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_lectureseries.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this lectureseries.
+	*
+	* @param userUuid the user uuid of this lectureseries
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_lectureseries.setUserUuid(userUuid);
 	}
 
 	/**

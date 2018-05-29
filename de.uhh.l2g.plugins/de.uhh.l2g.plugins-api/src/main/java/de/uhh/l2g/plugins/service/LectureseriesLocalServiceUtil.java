@@ -248,24 +248,27 @@ public class LectureseriesLocalServiceUtil {
 
 	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getFilteredByApprovedSemesterFacultyProducer(
 		java.lang.Integer approved, java.lang.Long semester,
-		java.lang.Long facultyId, java.lang.Long producerId) {
+		java.lang.Long facultyId, java.lang.Long producerId,
+		java.lang.Long groupId, java.lang.Long companyId) {
 		return getService()
 				   .getFilteredByApprovedSemesterFacultyProducer(approved,
-			semester, facultyId, producerId);
+			semester, facultyId, producerId, groupId, companyId);
 	}
 
 	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(
 		java.lang.Long institutionId, java.lang.Long parentInstitutionId,
 		java.lang.Long termId, java.lang.Long categoryId,
-		java.lang.Long creatorId, java.lang.String searchQuery) {
+		java.lang.Long creatorId, java.lang.String searchQuery,
+		java.lang.Long groupId, java.lang.Long companyId) {
 		return getService()
 				   .getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(institutionId,
-			parentInstitutionId, termId, categoryId, creatorId, searchQuery);
+			parentInstitutionId, termId, categoryId, creatorId, searchQuery,
+			groupId, companyId);
 	}
 
 	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getLatest(
-		int limit) {
-		return getService().getLatest(limit);
+		int limit, java.lang.Long groupId, java.lang.Long companyId) {
+		return getService().getLatest(limit, groupId, companyId);
 	}
 
 	/**
@@ -286,10 +289,11 @@ public class LectureseriesLocalServiceUtil {
 
 	public static java.util.Map<de.uhh.l2g.plugins.model.Term, java.util.List<de.uhh.l2g.plugins.model.Lectureseries>> getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(
 		java.lang.Integer approved, java.lang.Long semester,
-		java.lang.Long facultyId, java.lang.Long producerId) {
+		java.lang.Long facultyId, java.lang.Long producerId,
+		java.lang.Long groupId, java.lang.Long companyId) {
 		return getService()
 				   .getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(approved,
-			semester, facultyId, producerId);
+			semester, facultyId, producerId, groupId, companyId);
 	}
 
 	/**

@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -41,6 +45,7 @@ import de.uhh.l2g.plugins.service.persistence.CoordinatorPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -928,6 +933,8 @@ public class CoordinatorPersistenceImpl extends BasePersistenceImpl<Coordinator>
 		coordinator.setNew(true);
 		coordinator.setPrimaryKey(coordinatorId);
 
+		coordinator.setCompanyId(companyProvider.getCompanyId());
+
 		return coordinator;
 	}
 
@@ -1024,6 +1031,28 @@ public class CoordinatorPersistenceImpl extends BasePersistenceImpl<Coordinator>
 
 		CoordinatorModelImpl coordinatorModelImpl = (CoordinatorModelImpl)coordinator;
 
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (coordinator.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				coordinator.setCreateDate(now);
+			}
+			else {
+				coordinator.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!coordinatorModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				coordinator.setModifiedDate(now);
+			}
+			else {
+				coordinator.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -1107,6 +1136,12 @@ public class CoordinatorPersistenceImpl extends BasePersistenceImpl<Coordinator>
 		coordinatorImpl.setCoordinatorId(coordinator.getCoordinatorId());
 		coordinatorImpl.setInstitutionId(coordinator.getInstitutionId());
 		coordinatorImpl.setOfficeId(coordinator.getOfficeId());
+		coordinatorImpl.setGroupId(coordinator.getGroupId());
+		coordinatorImpl.setCompanyId(coordinator.getCompanyId());
+		coordinatorImpl.setUserId(coordinator.getUserId());
+		coordinatorImpl.setUserName(coordinator.getUserName());
+		coordinatorImpl.setCreateDate(coordinator.getCreateDate());
+		coordinatorImpl.setModifiedDate(coordinator.getModifiedDate());
 
 		return coordinatorImpl;
 	}
@@ -1510,6 +1545,8 @@ public class CoordinatorPersistenceImpl extends BasePersistenceImpl<Coordinator>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

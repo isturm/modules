@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -7118,6 +7122,1566 @@ public class LectureseriesPersistenceImpl extends BasePersistenceImpl<Lectureser
 	private static final String _FINDER_COLUMN_USID_USID_1 = "lectureseries.USID IS NULL";
 	private static final String _FINDER_COLUMN_USID_USID_2 = "lectureseries.USID = ?";
 	private static final String _FINDER_COLUMN_USID_USID_3 = "(lectureseries.USID IS NULL OR lectureseries.USID = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP = new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED,
+			LectureseriesImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroup",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP = new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED,
+			LectureseriesImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroup", new String[] { Long.class.getName() },
+			LectureseriesModelImpl.GROUPID_COLUMN_BITMASK |
+			LectureseriesModelImpl.NAME_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUP = new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroup",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the lectureserieses where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByGroup(long groupId) {
+		return findByGroup(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the lectureserieses where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @return the range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByGroup(long groupId, int start, int end) {
+		return findByGroup(groupId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the lectureserieses where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Lectureseries> orderByComparator) {
+		return findByGroup(groupId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the lectureserieses where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Lectureseries> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+		}
+
+		List<Lectureseries> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Lectureseries>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Lectureseries lectureseries : list) {
+					if ((groupId != lectureseries.getGroupId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_LECTURESERIES_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(LectureseriesModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				if (!pagination) {
+					list = (List<Lectureseries>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Lectureseries>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first lectureseries in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching lectureseries
+	 * @throws NoSuchLectureseriesException if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries findByGroup_First(long groupId,
+		OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = fetchByGroup_First(groupId,
+				orderByComparator);
+
+		if (lectureseries != null) {
+			return lectureseries;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchLectureseriesException(msg.toString());
+	}
+
+	/**
+	 * Returns the first lectureseries in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching lectureseries, or <code>null</code> if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries fetchByGroup_First(long groupId,
+		OrderByComparator<Lectureseries> orderByComparator) {
+		List<Lectureseries> list = findByGroup(groupId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last lectureseries in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching lectureseries
+	 * @throws NoSuchLectureseriesException if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries findByGroup_Last(long groupId,
+		OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = fetchByGroup_Last(groupId,
+				orderByComparator);
+
+		if (lectureseries != null) {
+			return lectureseries;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchLectureseriesException(msg.toString());
+	}
+
+	/**
+	 * Returns the last lectureseries in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching lectureseries, or <code>null</code> if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries fetchByGroup_Last(long groupId,
+		OrderByComparator<Lectureseries> orderByComparator) {
+		int count = countByGroup(groupId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Lectureseries> list = findByGroup(groupId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the lectureserieses before and after the current lectureseries in the ordered set where groupId = &#63;.
+	 *
+	 * @param lectureseriesId the primary key of the current lectureseries
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next lectureseries
+	 * @throws NoSuchLectureseriesException if a lectureseries with the primary key could not be found
+	 */
+	@Override
+	public Lectureseries[] findByGroup_PrevAndNext(long lectureseriesId,
+		long groupId, OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = findByPrimaryKey(lectureseriesId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Lectureseries[] array = new LectureseriesImpl[3];
+
+			array[0] = getByGroup_PrevAndNext(session, lectureseries, groupId,
+					orderByComparator, true);
+
+			array[1] = lectureseries;
+
+			array[2] = getByGroup_PrevAndNext(session, lectureseries, groupId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Lectureseries getByGroup_PrevAndNext(Session session,
+		Lectureseries lectureseries, long groupId,
+		OrderByComparator<Lectureseries> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_LECTURESERIES_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(LectureseriesModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(lectureseries);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Lectureseries> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the lectureserieses where groupId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 */
+	@Override
+	public void removeByGroup(long groupId) {
+		for (Lectureseries lectureseries : findByGroup(groupId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(lectureseries);
+		}
+	}
+
+	/**
+	 * Returns the number of lectureserieses where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching lectureserieses
+	 */
+	@Override
+	public int countByGroup(long groupId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUP;
+
+		Object[] finderArgs = new Object[] { groupId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_LECTURESERIES_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUP_GROUPID_2 = "lectureseries.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY = new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED,
+			LectureseriesImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompany",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY =
+		new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED,
+			LectureseriesImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCompany", new String[] { Long.class.getName() },
+			LectureseriesModelImpl.COMPANYID_COLUMN_BITMASK |
+			LectureseriesModelImpl.NAME_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_COMPANY = new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompany",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the lectureserieses where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByCompany(long companyId) {
+		return findByCompany(companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the lectureserieses where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @return the range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByCompany(long companyId, int start, int end) {
+		return findByCompany(companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the lectureserieses where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByCompany(long companyId, int start,
+		int end, OrderByComparator<Lectureseries> orderByComparator) {
+		return findByCompany(companyId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the lectureserieses where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByCompany(long companyId, int start,
+		int end, OrderByComparator<Lectureseries> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY;
+			finderArgs = new Object[] { companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY;
+			finderArgs = new Object[] { companyId, start, end, orderByComparator };
+		}
+
+		List<Lectureseries> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Lectureseries>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Lectureseries lectureseries : list) {
+					if ((companyId != lectureseries.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_LECTURESERIES_WHERE);
+
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(LectureseriesModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<Lectureseries>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Lectureseries>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first lectureseries in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching lectureseries
+	 * @throws NoSuchLectureseriesException if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries findByCompany_First(long companyId,
+		OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = fetchByCompany_First(companyId,
+				orderByComparator);
+
+		if (lectureseries != null) {
+			return lectureseries;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchLectureseriesException(msg.toString());
+	}
+
+	/**
+	 * Returns the first lectureseries in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching lectureseries, or <code>null</code> if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries fetchByCompany_First(long companyId,
+		OrderByComparator<Lectureseries> orderByComparator) {
+		List<Lectureseries> list = findByCompany(companyId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last lectureseries in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching lectureseries
+	 * @throws NoSuchLectureseriesException if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries findByCompany_Last(long companyId,
+		OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = fetchByCompany_Last(companyId,
+				orderByComparator);
+
+		if (lectureseries != null) {
+			return lectureseries;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchLectureseriesException(msg.toString());
+	}
+
+	/**
+	 * Returns the last lectureseries in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching lectureseries, or <code>null</code> if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries fetchByCompany_Last(long companyId,
+		OrderByComparator<Lectureseries> orderByComparator) {
+		int count = countByCompany(companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Lectureseries> list = findByCompany(companyId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the lectureserieses before and after the current lectureseries in the ordered set where companyId = &#63;.
+	 *
+	 * @param lectureseriesId the primary key of the current lectureseries
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next lectureseries
+	 * @throws NoSuchLectureseriesException if a lectureseries with the primary key could not be found
+	 */
+	@Override
+	public Lectureseries[] findByCompany_PrevAndNext(long lectureseriesId,
+		long companyId, OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = findByPrimaryKey(lectureseriesId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Lectureseries[] array = new LectureseriesImpl[3];
+
+			array[0] = getByCompany_PrevAndNext(session, lectureseries,
+					companyId, orderByComparator, true);
+
+			array[1] = lectureseries;
+
+			array[2] = getByCompany_PrevAndNext(session, lectureseries,
+					companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Lectureseries getByCompany_PrevAndNext(Session session,
+		Lectureseries lectureseries, long companyId,
+		OrderByComparator<Lectureseries> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_LECTURESERIES_WHERE);
+
+		query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(LectureseriesModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(companyId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(lectureseries);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Lectureseries> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the lectureserieses where companyId = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByCompany(long companyId) {
+		for (Lectureseries lectureseries : findByCompany(companyId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(lectureseries);
+		}
+	}
+
+	/**
+	 * Returns the number of lectureserieses where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the number of matching lectureserieses
+	 */
+	@Override
+	public int countByCompany(long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COMPANY;
+
+		Object[] finderArgs = new Object[] { companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_LECTURESERIES_WHERE);
+
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_COMPANY_COMPANYID_2 = "lectureseries.companyId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED,
+			LectureseriesImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupAndCompany",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED,
+			LectureseriesImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() },
+			LectureseriesModelImpl.GROUPID_COLUMN_BITMASK |
+			LectureseriesModelImpl.COMPANYID_COLUMN_BITMASK |
+			LectureseriesModelImpl.NAME_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPANDCOMPANY = new FinderPath(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
+			LectureseriesModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns all the lectureserieses where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByGroupAndCompany(long groupId,
+		long companyId) {
+		return findByGroupAndCompany(groupId, companyId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the lectureserieses where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @return the range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end) {
+		return findByGroupAndCompany(groupId, companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the lectureserieses where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Lectureseries> orderByComparator) {
+		return findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the lectureserieses where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LectureseriesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of lectureserieses
+	 * @param end the upper bound of the range of lectureserieses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching lectureserieses
+	 */
+	@Override
+	public List<Lectureseries> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Lectureseries> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] { groupId, companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] {
+					groupId, companyId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<Lectureseries> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Lectureseries>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Lectureseries lectureseries : list) {
+					if ((groupId != lectureseries.getGroupId()) ||
+							(companyId != lectureseries.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_LECTURESERIES_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(LectureseriesModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<Lectureseries>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Lectureseries>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first lectureseries in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching lectureseries
+	 * @throws NoSuchLectureseriesException if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries findByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = fetchByGroupAndCompany_First(groupId,
+				companyId, orderByComparator);
+
+		if (lectureseries != null) {
+			return lectureseries;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchLectureseriesException(msg.toString());
+	}
+
+	/**
+	 * Returns the first lectureseries in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching lectureseries, or <code>null</code> if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries fetchByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Lectureseries> orderByComparator) {
+		List<Lectureseries> list = findByGroupAndCompany(groupId, companyId, 0,
+				1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last lectureseries in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching lectureseries
+	 * @throws NoSuchLectureseriesException if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries findByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = fetchByGroupAndCompany_Last(groupId,
+				companyId, orderByComparator);
+
+		if (lectureseries != null) {
+			return lectureseries;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchLectureseriesException(msg.toString());
+	}
+
+	/**
+	 * Returns the last lectureseries in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching lectureseries, or <code>null</code> if a matching lectureseries could not be found
+	 */
+	@Override
+	public Lectureseries fetchByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Lectureseries> orderByComparator) {
+		int count = countByGroupAndCompany(groupId, companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Lectureseries> list = findByGroupAndCompany(groupId, companyId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the lectureserieses before and after the current lectureseries in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param lectureseriesId the primary key of the current lectureseries
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next lectureseries
+	 * @throws NoSuchLectureseriesException if a lectureseries with the primary key could not be found
+	 */
+	@Override
+	public Lectureseries[] findByGroupAndCompany_PrevAndNext(
+		long lectureseriesId, long groupId, long companyId,
+		OrderByComparator<Lectureseries> orderByComparator)
+		throws NoSuchLectureseriesException {
+		Lectureseries lectureseries = findByPrimaryKey(lectureseriesId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Lectureseries[] array = new LectureseriesImpl[3];
+
+			array[0] = getByGroupAndCompany_PrevAndNext(session, lectureseries,
+					groupId, companyId, orderByComparator, true);
+
+			array[1] = lectureseries;
+
+			array[2] = getByGroupAndCompany_PrevAndNext(session, lectureseries,
+					groupId, companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Lectureseries getByGroupAndCompany_PrevAndNext(Session session,
+		Lectureseries lectureseries, long groupId, long companyId,
+		OrderByComparator<Lectureseries> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_LECTURESERIES_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(LectureseriesModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		qPos.add(companyId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(lectureseries);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Lectureseries> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the lectureserieses where groupId = &#63; and companyId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByGroupAndCompany(long groupId, long companyId) {
+		for (Lectureseries lectureseries : findByGroupAndCompany(groupId,
+				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(lectureseries);
+		}
+	}
+
+	/**
+	 * Returns the number of lectureserieses where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the number of matching lectureserieses
+	 */
+	@Override
+	public int countByGroupAndCompany(long groupId, long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPANDCOMPANY;
+
+		Object[] finderArgs = new Object[] { groupId, companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_LECTURESERIES_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2 = "lectureseries.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2 = "lectureseries.companyId = ?";
 
 	public LectureseriesPersistenceImpl() {
 		setModelClass(Lectureseries.class);
@@ -7229,6 +8793,8 @@ public class LectureseriesPersistenceImpl extends BasePersistenceImpl<Lectureser
 		lectureseries.setNew(true);
 		lectureseries.setPrimaryKey(lectureseriesId);
 
+		lectureseries.setCompanyId(companyProvider.getCompanyId());
+
 		return lectureseries;
 	}
 
@@ -7324,6 +8890,29 @@ public class LectureseriesPersistenceImpl extends BasePersistenceImpl<Lectureser
 		boolean isNew = lectureseries.isNew();
 
 		LectureseriesModelImpl lectureseriesModelImpl = (LectureseriesModelImpl)lectureseries;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (lectureseries.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				lectureseries.setCreateDate(now);
+			}
+			else {
+				lectureseries.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!lectureseriesModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				lectureseries.setModifiedDate(now);
+			}
+			else {
+				lectureseries.setModifiedDate(serviceContext.getModifiedDate(
+						now));
+			}
+		}
 
 		Session session = null;
 
@@ -7438,6 +9027,27 @@ public class LectureseriesPersistenceImpl extends BasePersistenceImpl<Lectureser
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_USID, args);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USID,
+				args);
+
+			args = new Object[] { lectureseriesModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+				args);
+
+			args = new Object[] { lectureseriesModelImpl.getCompanyId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+				args);
+
+			args = new Object[] {
+					lectureseriesModelImpl.getGroupId(),
+					lectureseriesModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
 				args);
 
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
@@ -7678,6 +9288,63 @@ public class LectureseriesPersistenceImpl extends BasePersistenceImpl<Lectureser
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USID,
 					args);
 			}
+
+			if ((lectureseriesModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						lectureseriesModelImpl.getOriginalGroupId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+
+				args = new Object[] { lectureseriesModelImpl.getGroupId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+			}
+
+			if ((lectureseriesModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						lectureseriesModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+
+				args = new Object[] { lectureseriesModelImpl.getCompanyId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+			}
+
+			if ((lectureseriesModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						lectureseriesModelImpl.getOriginalGroupId(),
+						lectureseriesModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
+					args);
+
+				args = new Object[] {
+						lectureseriesModelImpl.getGroupId(),
+						lectureseriesModelImpl.getCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
+					args);
+			}
 		}
 
 		entityCache.putResult(LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
@@ -7717,6 +9384,12 @@ public class LectureseriesPersistenceImpl extends BasePersistenceImpl<Lectureser
 		lectureseriesImpl.setVideoSort(lectureseries.getVideoSort());
 		lectureseriesImpl.setUSID(lectureseries.getUSID());
 		lectureseriesImpl.setPreviewVideoId(lectureseries.getPreviewVideoId());
+		lectureseriesImpl.setGroupId(lectureseries.getGroupId());
+		lectureseriesImpl.setCompanyId(lectureseries.getCompanyId());
+		lectureseriesImpl.setUserId(lectureseries.getUserId());
+		lectureseriesImpl.setUserName(lectureseries.getUserName());
+		lectureseriesImpl.setCreateDate(lectureseries.getCreateDate());
+		lectureseriesImpl.setModifiedDate(lectureseries.getModifiedDate());
 
 		return lectureseriesImpl;
 	}
@@ -8125,6 +9798,8 @@ public class LectureseriesPersistenceImpl extends BasePersistenceImpl<Lectureser
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

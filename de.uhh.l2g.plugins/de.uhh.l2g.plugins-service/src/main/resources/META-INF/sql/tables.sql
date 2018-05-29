@@ -15,7 +15,13 @@ create table LG_Category (
 create table LG_Coordinator (
 	coordinatorId LONG not null primary key,
 	institutionId LONG,
-	officeId LONG
+	officeId LONG,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Creator (
@@ -72,7 +78,13 @@ create table LG_Institution_Host (
 
 create table LG_Lastvideolist (
 	lastvideolistId INTEGER not null primary key,
-	videoId LONG
+	videoId LONG,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Lectureseries (
@@ -93,7 +105,13 @@ create table LG_Lectureseries (
 	latestVideoGenerationDate VARCHAR(75) null,
 	videoSort INTEGER,
 	USID VARCHAR(75) null,
-	previewVideoId LONG
+	previewVideoId LONG,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Lectureseries_Category (
@@ -134,7 +152,13 @@ create table LG_Metadata (
 	title VARCHAR(75) null,
 	subject VARCHAR(75) null,
 	description VARCHAR(75) null,
-	publisher VARCHAR(75) null
+	publisher VARCHAR(75) null,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Office (
@@ -142,7 +166,13 @@ create table LG_Office (
 	name VARCHAR(75) null,
 	www VARCHAR(75) null,
 	email VARCHAR(75) null,
-	institutionId LONG
+	institutionId LONG,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Producer (
@@ -152,7 +182,13 @@ create table LG_Producer (
 	hostId LONG,
 	institutionId LONG,
 	numberOfProductions LONG,
-	approved INTEGER
+	approved INTEGER,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Producer_Lectureseries (
@@ -181,7 +217,12 @@ create table LG_Segment (
 	description VARCHAR(75) null,
 	end_ VARCHAR(75) null,
 	chapter INTEGER,
-	userId LONG
+	userId LONG,
+	groupId LONG,
+	companyId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Statistic (
@@ -207,7 +248,13 @@ create table LG_Tagcloud (
 	tagcloudId LONG not null primary key,
 	objectClassType VARCHAR(75) null,
 	objectId LONG,
-	tags VARCHAR(75) null
+	tags VARCHAR(75) null,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Term (
@@ -248,7 +295,13 @@ create table LG_Video (
 	citation2go INTEGER,
 	termId LONG,
 	tags VARCHAR(75) null,
-	password_ VARCHAR(75) null
+	password_ VARCHAR(75) null,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_VideoStatistic (
@@ -307,7 +360,13 @@ create table LG_Videohitlist (
 	hitsPerWeek LONG,
 	hitsPerMonth LONG,
 	hitsPerYear LONG,
-	videoId LONG
+	videoId LONG,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table employee_data (

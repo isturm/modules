@@ -20,9 +20,12 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +69,13 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 			{ "name", Types.VARCHAR },
 			{ "www", Types.VARCHAR },
 			{ "email", Types.VARCHAR },
-			{ "institutionId", Types.BIGINT }
+			{ "institutionId", Types.BIGINT },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -75,9 +85,15 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 		TABLE_COLUMNS_MAP.put("www", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("institutionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_Office (officeId LONG not null primary key,name VARCHAR(75) null,www VARCHAR(75) null,email VARCHAR(75) null,institutionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table LG_Office (officeId LONG not null primary key,name VARCHAR(75) null,www VARCHAR(75) null,email VARCHAR(75) null,institutionId LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_Office";
 	public static final String ORDER_BY_JPQL = " ORDER BY office.officeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_Office.officeId ASC";
@@ -140,6 +156,12 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 		attributes.put("www", getWww());
 		attributes.put("email", getEmail());
 		attributes.put("institutionId", getInstitutionId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -177,6 +199,42 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 
 		if (institutionId != null) {
 			setInstitutionId(institutionId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -257,13 +315,100 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 		return _originalInstitutionId;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Office.class.getName(), getPrimaryKey());
 	}
 
@@ -293,6 +438,12 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 		officeImpl.setWww(getWww());
 		officeImpl.setEmail(getEmail());
 		officeImpl.setInstitutionId(getInstitutionId());
+		officeImpl.setGroupId(getGroupId());
+		officeImpl.setCompanyId(getCompanyId());
+		officeImpl.setUserId(getUserId());
+		officeImpl.setUserName(getUserName());
+		officeImpl.setCreateDate(getCreateDate());
+		officeImpl.setModifiedDate(getModifiedDate());
 
 		officeImpl.resetOriginalValues();
 
@@ -359,6 +510,8 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 
 		officeModelImpl._setOriginalInstitutionId = false;
 
+		officeModelImpl._setModifiedDate = false;
+
 		officeModelImpl._columnBitmask = 0;
 	}
 
@@ -394,12 +547,44 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 
 		officeCacheModel.institutionId = getInstitutionId();
 
+		officeCacheModel.groupId = getGroupId();
+
+		officeCacheModel.companyId = getCompanyId();
+
+		officeCacheModel.userId = getUserId();
+
+		officeCacheModel.userName = getUserName();
+
+		String userName = officeCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			officeCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			officeCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			officeCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			officeCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			officeCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return officeCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{officeId=");
 		sb.append(getOfficeId());
@@ -411,6 +596,18 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 		sb.append(getEmail());
 		sb.append(", institutionId=");
 		sb.append(getInstitutionId());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -418,7 +615,7 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.Office");
@@ -444,6 +641,30 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 			"<column><column-name>institutionId</column-name><column-value><![CDATA[");
 		sb.append(getInstitutionId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -461,6 +682,13 @@ public class OfficeModelImpl extends BaseModelImpl<Office>
 	private long _institutionId;
 	private long _originalInstitutionId;
 	private boolean _setOriginalInstitutionId;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private Office _escapedModel;
 }

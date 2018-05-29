@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Metadata in entity cache.
  *
@@ -63,7 +65,7 @@ public class MetadataCacheModel implements CacheModel<Metadata>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{metadataId=");
 		sb.append(metadataId);
@@ -79,6 +81,18 @@ public class MetadataCacheModel implements CacheModel<Metadata>, Externalizable 
 		sb.append(description);
 		sb.append(", publisher=");
 		sb.append(publisher);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -132,6 +146,31 @@ public class MetadataCacheModel implements CacheModel<Metadata>, Externalizable 
 			metadataImpl.setPublisher(publisher);
 		}
 
+		metadataImpl.setGroupId(groupId);
+		metadataImpl.setCompanyId(companyId);
+		metadataImpl.setUserId(userId);
+
+		if (userName == null) {
+			metadataImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			metadataImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			metadataImpl.setCreateDate(null);
+		}
+		else {
+			metadataImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			metadataImpl.setModifiedDate(null);
+		}
+		else {
+			metadataImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		metadataImpl.resetOriginalValues();
 
 		return metadataImpl;
@@ -146,6 +185,15 @@ public class MetadataCacheModel implements CacheModel<Metadata>, Externalizable 
 		subject = objectInput.readUTF();
 		description = objectInput.readUTF();
 		publisher = objectInput.readUTF();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -194,6 +242,22 @@ public class MetadataCacheModel implements CacheModel<Metadata>, Externalizable 
 		else {
 			objectOutput.writeUTF(publisher);
 		}
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long metadataId;
@@ -203,4 +267,10 @@ public class MetadataCacheModel implements CacheModel<Metadata>, Externalizable 
 	public String subject;
 	public String description;
 	public String publisher;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

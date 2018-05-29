@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -64,6 +65,11 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 		attributes.put("end", getEnd());
 		attributes.put("chapter", getChapter());
 		attributes.put("userId", getUserId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -116,6 +122,36 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 
 		if (userId != null) {
 			setUserId(userId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -240,6 +276,16 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	}
 
 	/**
+	* Returns the user name of this segment.
+	*
+	* @return the user name of this segment
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _segment.getUserName();
+	}
+
+	/**
 	* Returns the user uuid of this segment.
 	*
 	* @return the user uuid of this segment
@@ -257,6 +303,46 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _segment.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this segment.
+	*
+	* @return the create date of this segment
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _segment.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this segment.
+	*
+	* @return the modified date of this segment
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _segment.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this segment.
+	*
+	* @return the company ID of this segment
+	*/
+	@Override
+	public long getCompanyId() {
+		return _segment.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this segment.
+	*
+	* @return the group ID of this segment
+	*/
+	@Override
+	public long getGroupId() {
+		return _segment.getGroupId();
 	}
 
 	@Override
@@ -325,6 +411,26 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	}
 
 	/**
+	* Sets the company ID of this segment.
+	*
+	* @param companyId the company ID of this segment
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_segment.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this segment.
+	*
+	* @param createDate the create date of this segment
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_segment.setCreateDate(createDate);
+	}
+
+	/**
 	* Sets the description of this segment.
 	*
 	* @param description the description of this segment
@@ -360,9 +466,29 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 		_segment.setExpandoBridgeAttributes(serviceContext);
 	}
 
+	/**
+	* Sets the group ID of this segment.
+	*
+	* @param groupId the group ID of this segment
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_segment.setGroupId(groupId);
+	}
+
 	@Override
 	public void setImage(java.lang.String image) {
 		_segment.setImage(image);
+	}
+
+	/**
+	* Sets the modified date of this segment.
+	*
+	* @param modifiedDate the modified date of this segment
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_segment.setModifiedDate(modifiedDate);
 	}
 
 	@Override
@@ -438,6 +564,16 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	@Override
 	public void setUserId(long userId) {
 		_segment.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this segment.
+	*
+	* @param userName the user name of this segment
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_segment.setUserName(userName);
 	}
 
 	/**

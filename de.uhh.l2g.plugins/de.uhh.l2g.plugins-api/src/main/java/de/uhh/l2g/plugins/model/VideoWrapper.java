@@ -80,6 +80,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		attributes.put("termId", getTermId());
 		attributes.put("tags", getTags());
 		attributes.put("password", getPassword());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -223,6 +229,42 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 
 		if (password != null) {
 			setPassword(password);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -646,6 +688,26 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getUrl();
 	}
 
+	/**
+	* Returns the user name of this video.
+	*
+	* @return the user name of this video
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _video.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this video.
+	*
+	* @return the user uuid of this video
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _video.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String getVttChapterFile() {
 		return _video.getVttChapterFile();
@@ -682,6 +744,26 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Returns the create date of this video.
+	*
+	* @return the create date of this video
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _video.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this video.
+	*
+	* @return the modified date of this video
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _video.getModifiedDate();
+	}
+
+	/**
 	* Returns the upload date of this video.
 	*
 	* @return the upload date of this video
@@ -689,6 +771,26 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public Date getUploadDate() {
 		return _video.getUploadDate();
+	}
+
+	/**
+	* Returns the company ID of this video.
+	*
+	* @return the company ID of this video
+	*/
+	@Override
+	public long getCompanyId() {
+		return _video.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this video.
+	*
+	* @return the group ID of this video
+	*/
+	@Override
+	public long getGroupId() {
+		return _video.getGroupId();
 	}
 
 	/**
@@ -772,6 +874,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Returns the user ID of this video.
+	*
+	* @return the user ID of this video
+	*/
+	@Override
+	public long getUserId() {
+		return _video.getUserId();
+	}
+
+	/**
 	* Returns the video ID of this video.
 	*
 	* @return the video ID of this video
@@ -812,6 +924,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Sets the company ID of this video.
+	*
+	* @param companyId the company ID of this video
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_video.setCompanyId(companyId);
+	}
+
+	/**
 	* Sets the container format of this video.
 	*
 	* @param containerFormat the container format of this video
@@ -819,6 +941,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setContainerFormat(java.lang.String containerFormat) {
 		_video.setContainerFormat(containerFormat);
+	}
+
+	/**
+	* Sets the create date of this video.
+	*
+	* @param createDate the create date of this video
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_video.setCreateDate(createDate);
 	}
 
 	@Override
@@ -930,6 +1062,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setGenerationDate(java.lang.String generationDate) {
 		_video.setGenerationDate(generationDate);
+	}
+
+	/**
+	* Sets the group ID of this video.
+	*
+	* @param groupId the group ID of this video
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_video.setGroupId(groupId);
 	}
 
 	@Override
@@ -1045,6 +1187,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setMetadataId(long metadataId) {
 		_video.setMetadataId(metadataId);
+	}
+
+	/**
+	* Sets the modified date of this video.
+	*
+	* @param modifiedDate the modified date of this video
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_video.setModifiedDate(modifiedDate);
 	}
 
 	@Override
@@ -1260,6 +1412,36 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setUrl(java.lang.String url) {
 		_video.setUrl(url);
+	}
+
+	/**
+	* Sets the user ID of this video.
+	*
+	* @param userId the user ID of this video
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_video.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this video.
+	*
+	* @param userName the user name of this video
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_video.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this video.
+	*
+	* @param userUuid the user uuid of this video
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_video.setUserUuid(userUuid);
 	}
 
 	/**

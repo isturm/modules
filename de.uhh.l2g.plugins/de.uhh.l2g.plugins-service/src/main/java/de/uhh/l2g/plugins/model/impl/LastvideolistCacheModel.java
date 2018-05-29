@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import de.uhh.l2g.plugins.model.Lastvideolist;
 
@@ -26,6 +27,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
+import java.util.Date;
 
 /**
  * The cache model class for representing Lastvideolist in entity cache.
@@ -63,12 +66,24 @@ public class LastvideolistCacheModel implements CacheModel<Lastvideolist>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(5);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{lastvideolistId=");
 		sb.append(lastvideolistId);
 		sb.append(", videoId=");
 		sb.append(videoId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -80,6 +95,30 @@ public class LastvideolistCacheModel implements CacheModel<Lastvideolist>,
 
 		lastvideolistImpl.setLastvideolistId(lastvideolistId);
 		lastvideolistImpl.setVideoId(videoId);
+		lastvideolistImpl.setGroupId(groupId);
+		lastvideolistImpl.setCompanyId(companyId);
+		lastvideolistImpl.setUserId(userId);
+
+		if (userName == null) {
+			lastvideolistImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			lastvideolistImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			lastvideolistImpl.setCreateDate(null);
+		}
+		else {
+			lastvideolistImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			lastvideolistImpl.setModifiedDate(null);
+		}
+		else {
+			lastvideolistImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		lastvideolistImpl.resetOriginalValues();
 
@@ -91,6 +130,15 @@ public class LastvideolistCacheModel implements CacheModel<Lastvideolist>,
 		lastvideolistId = objectInput.readInt();
 
 		videoId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -99,8 +147,30 @@ public class LastvideolistCacheModel implements CacheModel<Lastvideolist>,
 		objectOutput.writeInt(lastvideolistId);
 
 		objectOutput.writeLong(videoId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public int lastvideolistId;
 	public long videoId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

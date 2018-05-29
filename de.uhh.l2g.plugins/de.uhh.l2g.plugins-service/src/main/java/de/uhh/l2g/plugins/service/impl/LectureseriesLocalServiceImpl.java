@@ -75,8 +75,8 @@ public class LectureseriesLocalServiceImpl extends LectureseriesLocalServiceBase
 		return l;
 	}
 	
-	public List<Lectureseries> getFilteredByApprovedSemesterFacultyProducer(Integer approved, Long semester, Long facultyId, Long producerId) {
-		List<Lectureseries> l = lectureseriesFinder.findFilteredByApprovedSemesterFacultyProducer(approved, semester, facultyId, producerId);
+	public List<Lectureseries> getFilteredByApprovedSemesterFacultyProducer(Integer approved, Long semester, Long facultyId, Long producerId, Long groupId, Long companyId) {
+		List<Lectureseries> l = lectureseriesFinder.findFilteredByApprovedSemesterFacultyProducer(approved, semester, facultyId, producerId, groupId, companyId);
 		try{
 			l.isEmpty();//check
 		}catch(NullPointerException npe){
@@ -85,8 +85,8 @@ public class LectureseriesLocalServiceImpl extends LectureseriesLocalServiceBase
 		return l;
 	}
 	
-	public Map<Term, List<Lectureseries>> getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(Integer approved, Long semester, Long facultyId, Long producerId) {
-		List<Lectureseries> l = getFilteredByApprovedSemesterFacultyProducer(approved,semester,facultyId,producerId);
+	public Map<Term, List<Lectureseries>> getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(Integer approved, Long semester, Long facultyId, Long producerId, Long groupId, Long companyId) {
+		List<Lectureseries> l = getFilteredByApprovedSemesterFacultyProducer(approved, semester, facultyId, producerId, groupId, companyId);
 		Map<Term, List<Lectureseries>> lectureseriesTreeMapSortedByTerm = new TreeMap<Term, List<Lectureseries>>(new Comparator<Term>() {
 			@Override
 			public int compare(Term t1, Term t2) {
@@ -237,12 +237,12 @@ public class LectureseriesLocalServiceImpl extends LectureseriesLocalServiceBase
 		lectureseriesPersistence.update(lectureseries);
 	}
 	
-	public List<Lectureseries> getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(Long institutionId, Long parentInstitutionId, Long termId, Long categoryId, Long creatorId, String searchQuery){
-		return lectureseriesFinder.findFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(institutionId, parentInstitutionId, termId, categoryId, creatorId, searchQuery);
+	public List<Lectureseries> getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(Long institutionId, Long parentInstitutionId, Long termId, Long categoryId, Long creatorId, String searchQuery, Long groupId, Long companyId){
+		return lectureseriesFinder.findFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(institutionId, parentInstitutionId, termId, categoryId, creatorId, searchQuery, groupId, companyId);
 	}
 	
-	public List<Lectureseries> getLatest(int limit){
-		return lectureseriesFinder.findLatest(limit); 
+	public List<Lectureseries> getLatest(int limit, Long groupId, Long companyId){
+		return lectureseriesFinder.findLatest(limit, groupId, companyId); 
 	}	
 	
 	public Lectureseries getByUSID(String usid){

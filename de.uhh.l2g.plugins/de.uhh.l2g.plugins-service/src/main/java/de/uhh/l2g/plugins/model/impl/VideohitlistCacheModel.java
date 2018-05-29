@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import de.uhh.l2g.plugins.model.Videohitlist;
 
@@ -26,6 +27,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
+import java.util.Date;
 
 /**
  * The cache model class for representing Videohitlist in entity cache.
@@ -63,7 +66,7 @@ public class VideohitlistCacheModel implements CacheModel<Videohitlist>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{videohitlistId=");
 		sb.append(videohitlistId);
@@ -77,6 +80,18 @@ public class VideohitlistCacheModel implements CacheModel<Videohitlist>,
 		sb.append(hitsPerYear);
 		sb.append(", videoId=");
 		sb.append(videoId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -92,6 +107,30 @@ public class VideohitlistCacheModel implements CacheModel<Videohitlist>,
 		videohitlistImpl.setHitsPerMonth(hitsPerMonth);
 		videohitlistImpl.setHitsPerYear(hitsPerYear);
 		videohitlistImpl.setVideoId(videoId);
+		videohitlistImpl.setGroupId(groupId);
+		videohitlistImpl.setCompanyId(companyId);
+		videohitlistImpl.setUserId(userId);
+
+		if (userName == null) {
+			videohitlistImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			videohitlistImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			videohitlistImpl.setCreateDate(null);
+		}
+		else {
+			videohitlistImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			videohitlistImpl.setModifiedDate(null);
+		}
+		else {
+			videohitlistImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		videohitlistImpl.resetOriginalValues();
 
@@ -111,6 +150,15 @@ public class VideohitlistCacheModel implements CacheModel<Videohitlist>,
 		hitsPerYear = objectInput.readLong();
 
 		videoId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -127,6 +175,22 @@ public class VideohitlistCacheModel implements CacheModel<Videohitlist>,
 		objectOutput.writeLong(hitsPerYear);
 
 		objectOutput.writeLong(videoId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long videohitlistId;
@@ -135,4 +199,10 @@ public class VideohitlistCacheModel implements CacheModel<Videohitlist>,
 	public long hitsPerMonth;
 	public long hitsPerYear;
 	public long videoId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

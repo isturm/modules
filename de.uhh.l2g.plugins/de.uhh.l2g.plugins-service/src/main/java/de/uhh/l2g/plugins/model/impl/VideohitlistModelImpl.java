@@ -20,12 +20,16 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import de.uhh.l2g.plugins.model.Videohitlist;
 import de.uhh.l2g.plugins.model.VideohitlistModel;
@@ -34,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +70,13 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 			{ "hitsPerWeek", Types.BIGINT },
 			{ "hitsPerMonth", Types.BIGINT },
 			{ "hitsPerYear", Types.BIGINT },
-			{ "videoId", Types.BIGINT }
+			{ "videoId", Types.BIGINT },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -76,9 +87,15 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 		TABLE_COLUMNS_MAP.put("hitsPerMonth", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("hitsPerYear", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("videoId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_Videohitlist (videohitlistId LONG not null primary key,hitsPerDay LONG,hitsPerWeek LONG,hitsPerMonth LONG,hitsPerYear LONG,videoId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table LG_Videohitlist (videohitlistId LONG not null primary key,hitsPerDay LONG,hitsPerWeek LONG,hitsPerMonth LONG,hitsPerYear LONG,videoId LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_Videohitlist";
 	public static final String ORDER_BY_JPQL = " ORDER BY videohitlist.videohitlistId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_Videohitlist.videohitlistId ASC";
@@ -142,6 +159,12 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 		attributes.put("hitsPerMonth", getHitsPerMonth());
 		attributes.put("hitsPerYear", getHitsPerYear());
 		attributes.put("videoId", getVideoId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -185,6 +208,42 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 
 		if (videoId != null) {
 			setVideoId(videoId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -260,13 +319,100 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 		return _originalVideoId;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Videohitlist.class.getName(), getPrimaryKey());
 	}
 
@@ -297,6 +443,12 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 		videohitlistImpl.setHitsPerMonth(getHitsPerMonth());
 		videohitlistImpl.setHitsPerYear(getHitsPerYear());
 		videohitlistImpl.setVideoId(getVideoId());
+		videohitlistImpl.setGroupId(getGroupId());
+		videohitlistImpl.setCompanyId(getCompanyId());
+		videohitlistImpl.setUserId(getUserId());
+		videohitlistImpl.setUserName(getUserName());
+		videohitlistImpl.setCreateDate(getCreateDate());
+		videohitlistImpl.setModifiedDate(getModifiedDate());
 
 		videohitlistImpl.resetOriginalValues();
 
@@ -363,6 +515,8 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 
 		videohitlistModelImpl._setOriginalVideoId = false;
 
+		videohitlistModelImpl._setModifiedDate = false;
+
 		videohitlistModelImpl._columnBitmask = 0;
 	}
 
@@ -382,12 +536,44 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 
 		videohitlistCacheModel.videoId = getVideoId();
 
+		videohitlistCacheModel.groupId = getGroupId();
+
+		videohitlistCacheModel.companyId = getCompanyId();
+
+		videohitlistCacheModel.userId = getUserId();
+
+		videohitlistCacheModel.userName = getUserName();
+
+		String userName = videohitlistCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			videohitlistCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			videohitlistCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			videohitlistCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			videohitlistCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			videohitlistCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return videohitlistCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{videohitlistId=");
 		sb.append(getVideohitlistId());
@@ -401,6 +587,18 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 		sb.append(getHitsPerYear());
 		sb.append(", videoId=");
 		sb.append(getVideoId());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -408,7 +606,7 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.Videohitlist");
@@ -438,6 +636,30 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 			"<column><column-name>videoId</column-name><column-value><![CDATA[");
 		sb.append(getVideoId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -456,6 +678,13 @@ public class VideohitlistModelImpl extends BaseModelImpl<Videohitlist>
 	private long _videoId;
 	private long _originalVideoId;
 	private boolean _setOriginalVideoId;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private Videohitlist _escapedModel;
 }

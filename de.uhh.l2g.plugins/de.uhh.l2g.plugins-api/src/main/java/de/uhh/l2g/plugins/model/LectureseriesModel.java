@@ -21,6 +21,8 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -41,7 +43,8 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface LectureseriesModel extends BaseModel<Lectureseries> {
+public interface LectureseriesModel extends BaseModel<Lectureseries>,
+	GroupedModel, ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -323,6 +326,119 @@ public interface LectureseriesModel extends BaseModel<Lectureseries> {
 	 * @param previewVideoId the preview video ID of this lectureseries
 	 */
 	public void setPreviewVideoId(long previewVideoId);
+
+	/**
+	 * Returns the group ID of this lectureseries.
+	 *
+	 * @return the group ID of this lectureseries
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this lectureseries.
+	 *
+	 * @param groupId the group ID of this lectureseries
+	 */
+	@Override
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this lectureseries.
+	 *
+	 * @return the company ID of this lectureseries
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this lectureseries.
+	 *
+	 * @param companyId the company ID of this lectureseries
+	 */
+	@Override
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this lectureseries.
+	 *
+	 * @return the user ID of this lectureseries
+	 */
+	@Override
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this lectureseries.
+	 *
+	 * @param userId the user ID of this lectureseries
+	 */
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this lectureseries.
+	 *
+	 * @return the user uuid of this lectureseries
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this lectureseries.
+	 *
+	 * @param userUuid the user uuid of this lectureseries
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this lectureseries.
+	 *
+	 * @return the user name of this lectureseries
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this lectureseries.
+	 *
+	 * @param userName the user name of this lectureseries
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this lectureseries.
+	 *
+	 * @return the create date of this lectureseries
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this lectureseries.
+	 *
+	 * @param createDate the create date of this lectureseries
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this lectureseries.
+	 *
+	 * @return the modified date of this lectureseries
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this lectureseries.
+	 *
+	 * @param modifiedDate the modified date of this lectureseries
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	@Override
 	public boolean isNew();

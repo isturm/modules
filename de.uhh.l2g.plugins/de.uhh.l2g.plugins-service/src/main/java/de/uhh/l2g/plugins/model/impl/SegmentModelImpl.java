@@ -38,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +72,12 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 			{ "description", Types.VARCHAR },
 			{ "end_", Types.VARCHAR },
 			{ "chapter", Types.INTEGER },
-			{ "userId", Types.BIGINT }
+			{ "userId", Types.BIGINT },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -84,9 +90,14 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 		TABLE_COLUMNS_MAP.put("end_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("chapter", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_Segment (segmentId LONG not null primary key,videoId LONG,start_ VARCHAR(75) null,title VARCHAR(75) null,description VARCHAR(75) null,end_ VARCHAR(75) null,chapter INTEGER,userId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table LG_Segment (segmentId LONG not null primary key,videoId LONG,start_ VARCHAR(75) null,title VARCHAR(75) null,description VARCHAR(75) null,end_ VARCHAR(75) null,chapter INTEGER,userId LONG,groupId LONG,companyId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_Segment";
 	public static final String ORDER_BY_JPQL = " ORDER BY segment.start ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_Segment.start_ ASC";
@@ -153,6 +164,11 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 		attributes.put("end", getEnd());
 		attributes.put("chapter", getChapter());
 		attributes.put("userId", getUserId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -208,6 +224,36 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 
 		if (userId != null) {
 			setUserId(userId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -353,13 +399,74 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 		return _originalUserId;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Segment.class.getName(), getPrimaryKey());
 	}
 
@@ -392,6 +499,11 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 		segmentImpl.setEnd(getEnd());
 		segmentImpl.setChapter(getChapter());
 		segmentImpl.setUserId(getUserId());
+		segmentImpl.setGroupId(getGroupId());
+		segmentImpl.setCompanyId(getCompanyId());
+		segmentImpl.setUserName(getUserName());
+		segmentImpl.setCreateDate(getCreateDate());
+		segmentImpl.setModifiedDate(getModifiedDate());
 
 		segmentImpl.resetOriginalValues();
 
@@ -460,6 +572,8 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 
 		segmentModelImpl._setOriginalUserId = false;
 
+		segmentModelImpl._setModifiedDate = false;
+
 		segmentModelImpl._columnBitmask = 0;
 	}
 
@@ -507,12 +621,42 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 
 		segmentCacheModel.userId = getUserId();
 
+		segmentCacheModel.groupId = getGroupId();
+
+		segmentCacheModel.companyId = getCompanyId();
+
+		segmentCacheModel.userName = getUserName();
+
+		String userName = segmentCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			segmentCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			segmentCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			segmentCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			segmentCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			segmentCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return segmentCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{segmentId=");
 		sb.append(getSegmentId());
@@ -530,6 +674,16 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 		sb.append(getChapter());
 		sb.append(", userId=");
 		sb.append(getUserId());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -537,7 +691,7 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.Segment");
@@ -575,6 +729,26 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 			"<column><column-name>userId</column-name><column-value><![CDATA[");
 		sb.append(getUserId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -597,6 +771,12 @@ public class SegmentModelImpl extends BaseModelImpl<Segment>
 	private long _userId;
 	private long _originalUserId;
 	private boolean _setOriginalUserId;
+	private long _groupId;
+	private long _companyId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private Segment _escapedModel;
 }

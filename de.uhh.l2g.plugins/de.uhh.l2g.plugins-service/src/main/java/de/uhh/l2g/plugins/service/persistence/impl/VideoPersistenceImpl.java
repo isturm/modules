@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -5991,6 +5995,8 @@ public class VideoPersistenceImpl extends BasePersistenceImpl<Video>
 		video.setNew(true);
 		video.setPrimaryKey(videoId);
 
+		video.setCompanyId(companyProvider.getCompanyId());
+
 		return video;
 	}
 
@@ -6083,6 +6089,28 @@ public class VideoPersistenceImpl extends BasePersistenceImpl<Video>
 		boolean isNew = video.isNew();
 
 		VideoModelImpl videoModelImpl = (VideoModelImpl)video;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (video.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				video.setCreateDate(now);
+			}
+			else {
+				video.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!videoModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				video.setModifiedDate(now);
+			}
+			else {
+				video.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
 
 		Session session = null;
 
@@ -6445,6 +6473,12 @@ public class VideoPersistenceImpl extends BasePersistenceImpl<Video>
 		videoImpl.setTermId(video.getTermId());
 		videoImpl.setTags(video.getTags());
 		videoImpl.setPassword(video.getPassword());
+		videoImpl.setGroupId(video.getGroupId());
+		videoImpl.setCompanyId(video.getCompanyId());
+		videoImpl.setUserId(video.getUserId());
+		videoImpl.setUserName(video.getUserName());
+		videoImpl.setCreateDate(video.getCreateDate());
+		videoImpl.setModifiedDate(video.getModifiedDate());
 
 		return videoImpl;
 	}
@@ -6850,6 +6884,8 @@ public class VideoPersistenceImpl extends BasePersistenceImpl<Video>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

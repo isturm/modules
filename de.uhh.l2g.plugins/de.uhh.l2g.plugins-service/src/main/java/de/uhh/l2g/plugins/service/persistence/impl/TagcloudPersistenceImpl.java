@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -41,6 +45,7 @@ import de.uhh.l2g.plugins.service.persistence.TagcloudPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1560,6 +1565,8 @@ public class TagcloudPersistenceImpl extends BasePersistenceImpl<Tagcloud>
 		tagcloud.setNew(true);
 		tagcloud.setPrimaryKey(tagcloudId);
 
+		tagcloud.setCompanyId(companyProvider.getCompanyId());
+
 		return tagcloud;
 	}
 
@@ -1654,6 +1661,28 @@ public class TagcloudPersistenceImpl extends BasePersistenceImpl<Tagcloud>
 		boolean isNew = tagcloud.isNew();
 
 		TagcloudModelImpl tagcloudModelImpl = (TagcloudModelImpl)tagcloud;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (tagcloud.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				tagcloud.setCreateDate(now);
+			}
+			else {
+				tagcloud.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!tagcloudModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				tagcloud.setModifiedDate(now);
+			}
+			else {
+				tagcloud.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
 
 		Session session = null;
 
@@ -1763,6 +1792,12 @@ public class TagcloudPersistenceImpl extends BasePersistenceImpl<Tagcloud>
 		tagcloudImpl.setObjectClassType(tagcloud.getObjectClassType());
 		tagcloudImpl.setObjectId(tagcloud.getObjectId());
 		tagcloudImpl.setTags(tagcloud.getTags());
+		tagcloudImpl.setGroupId(tagcloud.getGroupId());
+		tagcloudImpl.setCompanyId(tagcloud.getCompanyId());
+		tagcloudImpl.setUserId(tagcloud.getUserId());
+		tagcloudImpl.setUserName(tagcloud.getUserName());
+		tagcloudImpl.setCreateDate(tagcloud.getCreateDate());
+		tagcloudImpl.setModifiedDate(tagcloud.getModifiedDate());
 
 		return tagcloudImpl;
 	}
@@ -2164,6 +2199,8 @@ public class TagcloudPersistenceImpl extends BasePersistenceImpl<Tagcloud>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

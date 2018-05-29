@@ -52,6 +52,12 @@
 		</id>
 		<property name="institutionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="officeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.CreatorImpl" table="LG_Creator">
 		<id name="creatorId" type="long">
@@ -114,6 +120,12 @@
 			<generator class="increment" />
 		</id>
 		<property name="videoId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.LectureseriesImpl" table="LG_Lectureseries">
 		<id name="lectureseriesId" type="long">
@@ -136,6 +148,12 @@
 		<property name="videoSort" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="USID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="previewVideoId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.Lectureseries_CategoryImpl" table="LG_Lectureseries_Category">
 		<id name="lectureseriesCategoryId" type="long">
@@ -182,6 +200,12 @@
 		<property name="subject" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publisher" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.OfficeImpl" table="LG_Office">
 		<id name="officeId" type="long">
@@ -191,6 +215,12 @@
 		<property name="www" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="institutionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.ProducerImpl" table="LG_Producer">
 		<id name="producerId" type="long">
@@ -202,6 +232,12 @@
 		<property name="institutionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="numberOfProductions" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="approved" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.Producer_LectureseriesImpl" table="LG_Producer_Lectureseries">
 		<id name="producerLectureseriesId" type="long">
@@ -234,6 +270,11 @@
 		<property column="end_" name="end" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="chapter" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.StatisticImpl" table="LG_Statistic">
 		<id name="statisticId" type="long">
@@ -263,6 +304,12 @@
 		<property name="objectClassType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="objectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="tags" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.TermImpl" table="LG_Term">
 		<id name="termId" type="long">
@@ -306,6 +353,12 @@
 		<property name="termId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="tags" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="password_" name="password" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.Video_CategoryImpl" table="LG_Video_Category">
 		<id name="videoCategoryId" type="long">
@@ -346,6 +399,12 @@
 		<property name="hitsPerMonth" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="hitsPerYear" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="videoId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.VideoStatisticImpl" table="LG_VideoStatistic">
 		<id name="videoStatisticId" type="long">

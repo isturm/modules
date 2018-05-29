@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -59,6 +60,12 @@ public class LastvideolistWrapper implements Lastvideolist,
 
 		attributes.put("lastvideolistId", getLastvideolistId());
 		attributes.put("videoId", getVideoId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -75,6 +82,42 @@ public class LastvideolistWrapper implements Lastvideolist,
 
 		if (videoId != null) {
 			setVideoId(videoId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -153,6 +196,26 @@ public class LastvideolistWrapper implements Lastvideolist,
 		return new LastvideolistWrapper((Lastvideolist)_lastvideolist.clone());
 	}
 
+	/**
+	* Returns the user name of this lastvideolist.
+	*
+	* @return the user name of this lastvideolist
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _lastvideolist.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this lastvideolist.
+	*
+	* @return the user uuid of this lastvideolist
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _lastvideolist.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _lastvideolist.toString();
@@ -161,6 +224,56 @@ public class LastvideolistWrapper implements Lastvideolist,
 	@Override
 	public java.lang.String toXmlString() {
 		return _lastvideolist.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this lastvideolist.
+	*
+	* @return the create date of this lastvideolist
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _lastvideolist.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this lastvideolist.
+	*
+	* @return the modified date of this lastvideolist
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _lastvideolist.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this lastvideolist.
+	*
+	* @return the company ID of this lastvideolist
+	*/
+	@Override
+	public long getCompanyId() {
+		return _lastvideolist.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this lastvideolist.
+	*
+	* @return the group ID of this lastvideolist
+	*/
+	@Override
+	public long getGroupId() {
+		return _lastvideolist.getGroupId();
+	}
+
+	/**
+	* Returns the user ID of this lastvideolist.
+	*
+	* @return the user ID of this lastvideolist
+	*/
+	@Override
+	public long getUserId() {
+		return _lastvideolist.getUserId();
 	}
 
 	/**
@@ -183,6 +296,26 @@ public class LastvideolistWrapper implements Lastvideolist,
 		_lastvideolist.setCachedModel(cachedModel);
 	}
 
+	/**
+	* Sets the company ID of this lastvideolist.
+	*
+	* @param companyId the company ID of this lastvideolist
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_lastvideolist.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this lastvideolist.
+	*
+	* @param createDate the create date of this lastvideolist
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_lastvideolist.setCreateDate(createDate);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_lastvideolist.setExpandoBridgeAttributes(expandoBridge);
@@ -200,6 +333,16 @@ public class LastvideolistWrapper implements Lastvideolist,
 	}
 
 	/**
+	* Sets the group ID of this lastvideolist.
+	*
+	* @param groupId the group ID of this lastvideolist
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_lastvideolist.setGroupId(groupId);
+	}
+
+	/**
 	* Sets the lastvideolist ID of this lastvideolist.
 	*
 	* @param lastvideolistId the lastvideolist ID of this lastvideolist
@@ -207,6 +350,16 @@ public class LastvideolistWrapper implements Lastvideolist,
 	@Override
 	public void setLastvideolistId(int lastvideolistId) {
 		_lastvideolist.setLastvideolistId(lastvideolistId);
+	}
+
+	/**
+	* Sets the modified date of this lastvideolist.
+	*
+	* @param modifiedDate the modified date of this lastvideolist
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_lastvideolist.setModifiedDate(modifiedDate);
 	}
 
 	@Override
@@ -227,6 +380,36 @@ public class LastvideolistWrapper implements Lastvideolist,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_lastvideolist.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the user ID of this lastvideolist.
+	*
+	* @param userId the user ID of this lastvideolist
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_lastvideolist.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this lastvideolist.
+	*
+	* @param userName the user name of this lastvideolist
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_lastvideolist.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this lastvideolist.
+	*
+	* @param userUuid the user uuid of this lastvideolist
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_lastvideolist.setUserUuid(userUuid);
 	}
 
 	/**

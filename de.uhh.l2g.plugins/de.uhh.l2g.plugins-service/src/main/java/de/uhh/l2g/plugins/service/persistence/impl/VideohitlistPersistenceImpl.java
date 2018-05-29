@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -40,6 +44,7 @@ import de.uhh.l2g.plugins.service.persistence.VideohitlistPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -674,6 +679,8 @@ public class VideohitlistPersistenceImpl extends BasePersistenceImpl<Videohitlis
 		videohitlist.setNew(true);
 		videohitlist.setPrimaryKey(videohitlistId);
 
+		videohitlist.setCompanyId(companyProvider.getCompanyId());
+
 		return videohitlist;
 	}
 
@@ -770,6 +777,28 @@ public class VideohitlistPersistenceImpl extends BasePersistenceImpl<Videohitlis
 
 		VideohitlistModelImpl videohitlistModelImpl = (VideohitlistModelImpl)videohitlist;
 
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (videohitlist.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				videohitlist.setCreateDate(now);
+			}
+			else {
+				videohitlist.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!videohitlistModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				videohitlist.setModifiedDate(now);
+			}
+			else {
+				videohitlist.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
+
 		Session session = null;
 
 		try {
@@ -853,6 +882,12 @@ public class VideohitlistPersistenceImpl extends BasePersistenceImpl<Videohitlis
 		videohitlistImpl.setHitsPerMonth(videohitlist.getHitsPerMonth());
 		videohitlistImpl.setHitsPerYear(videohitlist.getHitsPerYear());
 		videohitlistImpl.setVideoId(videohitlist.getVideoId());
+		videohitlistImpl.setGroupId(videohitlist.getGroupId());
+		videohitlistImpl.setCompanyId(videohitlist.getCompanyId());
+		videohitlistImpl.setUserId(videohitlist.getUserId());
+		videohitlistImpl.setUserName(videohitlist.getUserName());
+		videohitlistImpl.setCreateDate(videohitlist.getCreateDate());
+		videohitlistImpl.setModifiedDate(videohitlist.getModifiedDate());
 
 		return videohitlistImpl;
 	}
@@ -1256,6 +1291,8 @@ public class VideohitlistPersistenceImpl extends BasePersistenceImpl<Videohitlis
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Segment in entity cache.
  *
@@ -63,7 +65,7 @@ public class SegmentCacheModel implements CacheModel<Segment>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{segmentId=");
 		sb.append(segmentId);
@@ -81,6 +83,16 @@ public class SegmentCacheModel implements CacheModel<Segment>, Externalizable {
 		sb.append(chapter);
 		sb.append(", userId=");
 		sb.append(userId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -123,6 +135,29 @@ public class SegmentCacheModel implements CacheModel<Segment>, Externalizable {
 
 		segmentImpl.setChapter(chapter);
 		segmentImpl.setUserId(userId);
+		segmentImpl.setGroupId(groupId);
+		segmentImpl.setCompanyId(companyId);
+
+		if (userName == null) {
+			segmentImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			segmentImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			segmentImpl.setCreateDate(null);
+		}
+		else {
+			segmentImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			segmentImpl.setModifiedDate(null);
+		}
+		else {
+			segmentImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		segmentImpl.resetOriginalValues();
 
@@ -142,6 +177,13 @@ public class SegmentCacheModel implements CacheModel<Segment>, Externalizable {
 		chapter = objectInput.readInt();
 
 		userId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -182,6 +224,20 @@ public class SegmentCacheModel implements CacheModel<Segment>, Externalizable {
 		objectOutput.writeInt(chapter);
 
 		objectOutput.writeLong(userId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long segmentId;
@@ -192,4 +248,9 @@ public class SegmentCacheModel implements CacheModel<Segment>, Externalizable {
 	public String end;
 	public int chapter;
 	public long userId;
+	public long groupId;
+	public long companyId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

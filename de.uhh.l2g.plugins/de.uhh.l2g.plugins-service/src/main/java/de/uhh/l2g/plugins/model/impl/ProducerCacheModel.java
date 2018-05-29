@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Producer in entity cache.
  *
@@ -63,7 +65,7 @@ public class ProducerCacheModel implements CacheModel<Producer>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{producerId=");
 		sb.append(producerId);
@@ -79,6 +81,18 @@ public class ProducerCacheModel implements CacheModel<Producer>, Externalizable 
 		sb.append(numberOfProductions);
 		sb.append(", approved=");
 		sb.append(approved);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -108,6 +122,30 @@ public class ProducerCacheModel implements CacheModel<Producer>, Externalizable 
 		producerImpl.setInstitutionId(institutionId);
 		producerImpl.setNumberOfProductions(numberOfProductions);
 		producerImpl.setApproved(approved);
+		producerImpl.setGroupId(groupId);
+		producerImpl.setCompanyId(companyId);
+		producerImpl.setUserId(userId);
+
+		if (userName == null) {
+			producerImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			producerImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			producerImpl.setCreateDate(null);
+		}
+		else {
+			producerImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			producerImpl.setModifiedDate(null);
+		}
+		else {
+			producerImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		producerImpl.resetOriginalValues();
 
@@ -127,6 +165,15 @@ public class ProducerCacheModel implements CacheModel<Producer>, Externalizable 
 		numberOfProductions = objectInput.readLong();
 
 		approved = objectInput.readInt();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -155,6 +202,22 @@ public class ProducerCacheModel implements CacheModel<Producer>, Externalizable 
 		objectOutput.writeLong(numberOfProductions);
 
 		objectOutput.writeInt(approved);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long producerId;
@@ -164,4 +227,10 @@ public class ProducerCacheModel implements CacheModel<Producer>, Externalizable 
 	public long institutionId;
 	public long numberOfProductions;
 	public int approved;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

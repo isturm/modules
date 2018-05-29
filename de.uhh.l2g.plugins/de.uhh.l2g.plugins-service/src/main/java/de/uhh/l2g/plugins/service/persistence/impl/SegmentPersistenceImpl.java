@@ -25,6 +25,10 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -44,6 +48,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1192,6 +1197,8 @@ public class SegmentPersistenceImpl extends BasePersistenceImpl<Segment>
 		segment.setNew(true);
 		segment.setPrimaryKey(segmentId);
 
+		segment.setCompanyId(companyProvider.getCompanyId());
+
 		return segment;
 	}
 
@@ -1285,6 +1292,28 @@ public class SegmentPersistenceImpl extends BasePersistenceImpl<Segment>
 		boolean isNew = segment.isNew();
 
 		SegmentModelImpl segmentModelImpl = (SegmentModelImpl)segment;
+
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+
+		Date now = new Date();
+
+		if (isNew && (segment.getCreateDate() == null)) {
+			if (serviceContext == null) {
+				segment.setCreateDate(now);
+			}
+			else {
+				segment.setCreateDate(serviceContext.getCreateDate(now));
+			}
+		}
+
+		if (!segmentModelImpl.hasSetModifiedDate()) {
+			if (serviceContext == null) {
+				segment.setModifiedDate(now);
+			}
+			else {
+				segment.setModifiedDate(serviceContext.getModifiedDate(now));
+			}
+		}
 
 		Session session = null;
 
@@ -1393,6 +1422,11 @@ public class SegmentPersistenceImpl extends BasePersistenceImpl<Segment>
 		segmentImpl.setEnd(segment.getEnd());
 		segmentImpl.setChapter(segment.getChapter());
 		segmentImpl.setUserId(segment.getUserId());
+		segmentImpl.setGroupId(segment.getGroupId());
+		segmentImpl.setCompanyId(segment.getCompanyId());
+		segmentImpl.setUserName(segment.getUserName());
+		segmentImpl.setCreateDate(segment.getCreateDate());
+		segmentImpl.setModifiedDate(segment.getModifiedDate());
 
 		return segmentImpl;
 	}
@@ -1799,6 +1833,8 @@ public class SegmentPersistenceImpl extends BasePersistenceImpl<Segment>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

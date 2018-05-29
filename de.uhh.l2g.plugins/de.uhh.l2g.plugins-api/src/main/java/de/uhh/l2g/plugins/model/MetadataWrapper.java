@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -63,6 +64,12 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 		attributes.put("subject", getSubject());
 		attributes.put("description", getDescription());
 		attributes.put("publisher", getPublisher());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -109,6 +116,42 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 
 		if (publisher != null) {
 			setPublisher(publisher);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -227,6 +270,26 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 		return _metadata.getType();
 	}
 
+	/**
+	* Returns the user name of this metadata.
+	*
+	* @return the user name of this metadata
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _metadata.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this metadata.
+	*
+	* @return the user uuid of this metadata
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _metadata.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _metadata.toString();
@@ -235,6 +298,46 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _metadata.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this metadata.
+	*
+	* @return the create date of this metadata
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _metadata.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this metadata.
+	*
+	* @return the modified date of this metadata
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _metadata.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this metadata.
+	*
+	* @return the company ID of this metadata
+	*/
+	@Override
+	public long getCompanyId() {
+		return _metadata.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this metadata.
+	*
+	* @return the group ID of this metadata
+	*/
+	@Override
+	public long getGroupId() {
+		return _metadata.getGroupId();
 	}
 
 	/**
@@ -257,6 +360,16 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 		return _metadata.getPrimaryKey();
 	}
 
+	/**
+	* Returns the user ID of this metadata.
+	*
+	* @return the user ID of this metadata
+	*/
+	@Override
+	public long getUserId() {
+		return _metadata.getUserId();
+	}
+
 	@Override
 	public void persist() {
 		_metadata.persist();
@@ -265,6 +378,26 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_metadata.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this metadata.
+	*
+	* @param companyId the company ID of this metadata
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_metadata.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this metadata.
+	*
+	* @param createDate the create date of this metadata
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_metadata.setCreateDate(createDate);
 	}
 
 	/**
@@ -294,6 +427,16 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	}
 
 	/**
+	* Sets the group ID of this metadata.
+	*
+	* @param groupId the group ID of this metadata
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_metadata.setGroupId(groupId);
+	}
+
+	/**
 	* Sets the language of this metadata.
 	*
 	* @param language the language of this metadata
@@ -311,6 +454,16 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	@Override
 	public void setMetadataId(long metadataId) {
 		_metadata.setMetadataId(metadataId);
+	}
+
+	/**
+	* Sets the modified date of this metadata.
+	*
+	* @param modifiedDate the modified date of this metadata
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_metadata.setModifiedDate(modifiedDate);
 	}
 
 	@Override
@@ -371,6 +524,36 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	@Override
 	public void setType(java.lang.String type) {
 		_metadata.setType(type);
+	}
+
+	/**
+	* Sets the user ID of this metadata.
+	*
+	* @param userId the user ID of this metadata
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_metadata.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this metadata.
+	*
+	* @param userName the user name of this metadata
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_metadata.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this metadata.
+	*
+	* @param userUuid the user uuid of this metadata
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_metadata.setUserUuid(userUuid);
 	}
 
 	@Override

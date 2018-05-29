@@ -21,9 +21,13 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * The base model interface for the Office service. Represents a row in the &quot;LG_Office&quot; database table, with each column mapped to a property of this class.
@@ -39,7 +43,8 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public interface OfficeModel extends BaseModel<Office> {
+public interface OfficeModel extends BaseModel<Office>, GroupedModel,
+	ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -132,6 +137,119 @@ public interface OfficeModel extends BaseModel<Office> {
 	 * @param institutionId the institution ID of this office
 	 */
 	public void setInstitutionId(long institutionId);
+
+	/**
+	 * Returns the group ID of this office.
+	 *
+	 * @return the group ID of this office
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this office.
+	 *
+	 * @param groupId the group ID of this office
+	 */
+	@Override
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this office.
+	 *
+	 * @return the company ID of this office
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this office.
+	 *
+	 * @param companyId the company ID of this office
+	 */
+	@Override
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this office.
+	 *
+	 * @return the user ID of this office
+	 */
+	@Override
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this office.
+	 *
+	 * @param userId the user ID of this office
+	 */
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this office.
+	 *
+	 * @return the user uuid of this office
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this office.
+	 *
+	 * @param userUuid the user uuid of this office
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this office.
+	 *
+	 * @return the user name of this office
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this office.
+	 *
+	 * @param userName the user name of this office
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this office.
+	 *
+	 * @return the create date of this office
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this office.
+	 *
+	 * @param createDate the create date of this office
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this office.
+	 *
+	 * @return the modified date of this office
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this office.
+	 *
+	 * @param modifiedDate the modified date of this office
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	@Override
 	public boolean isNew();

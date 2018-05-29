@@ -20,9 +20,12 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +71,13 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 			{ "hostId", Types.BIGINT },
 			{ "institutionId", Types.BIGINT },
 			{ "numberOfProductions", Types.BIGINT },
-			{ "approved", Types.INTEGER }
+			{ "approved", Types.INTEGER },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -79,9 +89,15 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 		TABLE_COLUMNS_MAP.put("institutionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("numberOfProductions", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("approved", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_Producer (producerId LONG not null primary key,idNum VARCHAR(75) null,homeDir VARCHAR(75) null,hostId LONG,institutionId LONG,numberOfProductions LONG,approved INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table LG_Producer (producerId LONG not null primary key,idNum VARCHAR(75) null,homeDir VARCHAR(75) null,hostId LONG,institutionId LONG,numberOfProductions LONG,approved INTEGER,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_Producer";
 	public static final String ORDER_BY_JPQL = " ORDER BY producer.producerId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_Producer.producerId ASC";
@@ -150,6 +166,12 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 		attributes.put("institutionId", getInstitutionId());
 		attributes.put("numberOfProductions", getNumberOfProductions());
 		attributes.put("approved", getApproved());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -199,6 +221,42 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 
 		if (approved != null) {
 			setApproved(approved);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -338,13 +396,100 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 		return _originalApproved;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Producer.class.getName(), getPrimaryKey());
 	}
 
@@ -376,6 +521,12 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 		producerImpl.setInstitutionId(getInstitutionId());
 		producerImpl.setNumberOfProductions(getNumberOfProductions());
 		producerImpl.setApproved(getApproved());
+		producerImpl.setGroupId(getGroupId());
+		producerImpl.setCompanyId(getCompanyId());
+		producerImpl.setUserId(getUserId());
+		producerImpl.setUserName(getUserName());
+		producerImpl.setCreateDate(getCreateDate());
+		producerImpl.setModifiedDate(getModifiedDate());
 
 		producerImpl.resetOriginalValues();
 
@@ -454,6 +605,8 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 
 		producerModelImpl._setOriginalApproved = false;
 
+		producerModelImpl._setModifiedDate = false;
+
 		producerModelImpl._columnBitmask = 0;
 	}
 
@@ -487,12 +640,44 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 
 		producerCacheModel.approved = getApproved();
 
+		producerCacheModel.groupId = getGroupId();
+
+		producerCacheModel.companyId = getCompanyId();
+
+		producerCacheModel.userId = getUserId();
+
+		producerCacheModel.userName = getUserName();
+
+		String userName = producerCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			producerCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			producerCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			producerCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			producerCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			producerCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return producerCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{producerId=");
 		sb.append(getProducerId());
@@ -508,6 +693,18 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 		sb.append(getNumberOfProductions());
 		sb.append(", approved=");
 		sb.append(getApproved());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -515,7 +712,7 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.Producer");
@@ -549,6 +746,30 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 			"<column><column-name>approved</column-name><column-value><![CDATA[");
 		sb.append(getApproved());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -574,6 +795,13 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 	private int _approved;
 	private int _originalApproved;
 	private boolean _setOriginalApproved;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private Producer _escapedModel;
 }
