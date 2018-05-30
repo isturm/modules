@@ -113,10 +113,12 @@ public class CreatorModelImpl extends BaseModelImpl<Creator>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.de.uhh.l2g.plugins.model.Creator"),
 			true);
-	public static final long FIRSTNAME_COLUMN_BITMASK = 1L;
-	public static final long FULLNAME_COLUMN_BITMASK = 2L;
-	public static final long LASTNAME_COLUMN_BITMASK = 4L;
-	public static final long MIDDLENAME_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long FIRSTNAME_COLUMN_BITMASK = 2L;
+	public static final long FULLNAME_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long LASTNAME_COLUMN_BITMASK = 16L;
+	public static final long MIDDLENAME_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"lock.expiration.time.de.uhh.l2g.plugins.model.Creator"));
 
@@ -405,7 +407,19 @@ public class CreatorModelImpl extends BaseModelImpl<Creator>
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
 		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@Override
@@ -415,7 +429,19 @@ public class CreatorModelImpl extends BaseModelImpl<Creator>
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
 		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
 	}
 
 	@Override
@@ -596,6 +622,14 @@ public class CreatorModelImpl extends BaseModelImpl<Creator>
 		creatorModelImpl._originalMiddleName = creatorModelImpl._middleName;
 
 		creatorModelImpl._originalFullName = creatorModelImpl._fullName;
+
+		creatorModelImpl._originalGroupId = creatorModelImpl._groupId;
+
+		creatorModelImpl._setOriginalGroupId = false;
+
+		creatorModelImpl._originalCompanyId = creatorModelImpl._companyId;
+
+		creatorModelImpl._setOriginalCompanyId = false;
 
 		creatorModelImpl._setModifiedDate = false;
 
@@ -808,7 +842,11 @@ public class CreatorModelImpl extends BaseModelImpl<Creator>
 	private String _fullName;
 	private String _originalFullName;
 	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;

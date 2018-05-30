@@ -114,11 +114,13 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 				"value.object.column.bitmask.enabled.de.uhh.l2g.plugins.model.Producer"),
 			true);
 	public static final long APPROVED_COLUMN_BITMASK = 1L;
-	public static final long HOMEDIR_COLUMN_BITMASK = 2L;
-	public static final long HOSTID_COLUMN_BITMASK = 4L;
-	public static final long IDNUM_COLUMN_BITMASK = 8L;
-	public static final long INSTITUTIONID_COLUMN_BITMASK = 16L;
-	public static final long PRODUCERID_COLUMN_BITMASK = 32L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long HOMEDIR_COLUMN_BITMASK = 8L;
+	public static final long HOSTID_COLUMN_BITMASK = 16L;
+	public static final long IDNUM_COLUMN_BITMASK = 32L;
+	public static final long INSTITUTIONID_COLUMN_BITMASK = 64L;
+	public static final long PRODUCERID_COLUMN_BITMASK = 128L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"lock.expiration.time.de.uhh.l2g.plugins.model.Producer"));
 
@@ -403,7 +405,19 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
 		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@Override
@@ -413,7 +427,19 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
 		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
 	}
 
 	@Override
@@ -604,6 +630,14 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 		producerModelImpl._originalApproved = producerModelImpl._approved;
 
 		producerModelImpl._setOriginalApproved = false;
+
+		producerModelImpl._originalGroupId = producerModelImpl._groupId;
+
+		producerModelImpl._setOriginalGroupId = false;
+
+		producerModelImpl._originalCompanyId = producerModelImpl._companyId;
+
+		producerModelImpl._setOriginalCompanyId = false;
 
 		producerModelImpl._setModifiedDate = false;
 
@@ -796,7 +830,11 @@ public class ProducerModelImpl extends BaseModelImpl<Producer>
 	private int _originalApproved;
 	private boolean _setOriginalApproved;
 	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;

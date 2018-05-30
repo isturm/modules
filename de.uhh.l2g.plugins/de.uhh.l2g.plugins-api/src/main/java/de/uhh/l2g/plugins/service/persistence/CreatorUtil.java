@@ -745,6 +745,496 @@ public class CreatorUtil {
 	}
 
 	/**
+	* Returns all the creators where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching creators
+	*/
+	public static List<Creator> findByGroup(long groupId) {
+		return getPersistence().findByGroup(groupId);
+	}
+
+	/**
+	* Returns a range of all the creators where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @return the range of matching creators
+	*/
+	public static List<Creator> findByGroup(long groupId, int start, int end) {
+		return getPersistence().findByGroup(groupId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the creators where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching creators
+	*/
+	public static List<Creator> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Creator> orderByComparator) {
+		return getPersistence()
+				   .findByGroup(groupId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the creators where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching creators
+	*/
+	public static List<Creator> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Creator> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByGroup(groupId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first creator in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching creator
+	* @throws NoSuchCreatorException if a matching creator could not be found
+	*/
+	public static Creator findByGroup_First(long groupId,
+		OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence().findByGroup_First(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the first creator in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching creator, or <code>null</code> if a matching creator could not be found
+	*/
+	public static Creator fetchByGroup_First(long groupId,
+		OrderByComparator<Creator> orderByComparator) {
+		return getPersistence().fetchByGroup_First(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the last creator in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching creator
+	* @throws NoSuchCreatorException if a matching creator could not be found
+	*/
+	public static Creator findByGroup_Last(long groupId,
+		OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence().findByGroup_Last(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the last creator in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching creator, or <code>null</code> if a matching creator could not be found
+	*/
+	public static Creator fetchByGroup_Last(long groupId,
+		OrderByComparator<Creator> orderByComparator) {
+		return getPersistence().fetchByGroup_Last(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the creators before and after the current creator in the ordered set where groupId = &#63;.
+	*
+	* @param creatorId the primary key of the current creator
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next creator
+	* @throws NoSuchCreatorException if a creator with the primary key could not be found
+	*/
+	public static Creator[] findByGroup_PrevAndNext(long creatorId,
+		long groupId, OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence()
+				   .findByGroup_PrevAndNext(creatorId, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the creators where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public static void removeByGroup(long groupId) {
+		getPersistence().removeByGroup(groupId);
+	}
+
+	/**
+	* Returns the number of creators where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching creators
+	*/
+	public static int countByGroup(long groupId) {
+		return getPersistence().countByGroup(groupId);
+	}
+
+	/**
+	* Returns all the creators where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching creators
+	*/
+	public static List<Creator> findByCompany(long companyId) {
+		return getPersistence().findByCompany(companyId);
+	}
+
+	/**
+	* Returns a range of all the creators where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @return the range of matching creators
+	*/
+	public static List<Creator> findByCompany(long companyId, int start, int end) {
+		return getPersistence().findByCompany(companyId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the creators where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching creators
+	*/
+	public static List<Creator> findByCompany(long companyId, int start,
+		int end, OrderByComparator<Creator> orderByComparator) {
+		return getPersistence()
+				   .findByCompany(companyId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the creators where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching creators
+	*/
+	public static List<Creator> findByCompany(long companyId, int start,
+		int end, OrderByComparator<Creator> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByCompany(companyId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first creator in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching creator
+	* @throws NoSuchCreatorException if a matching creator could not be found
+	*/
+	public static Creator findByCompany_First(long companyId,
+		OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence().findByCompany_First(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the first creator in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching creator, or <code>null</code> if a matching creator could not be found
+	*/
+	public static Creator fetchByCompany_First(long companyId,
+		OrderByComparator<Creator> orderByComparator) {
+		return getPersistence()
+				   .fetchByCompany_First(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the last creator in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching creator
+	* @throws NoSuchCreatorException if a matching creator could not be found
+	*/
+	public static Creator findByCompany_Last(long companyId,
+		OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence().findByCompany_Last(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the last creator in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching creator, or <code>null</code> if a matching creator could not be found
+	*/
+	public static Creator fetchByCompany_Last(long companyId,
+		OrderByComparator<Creator> orderByComparator) {
+		return getPersistence().fetchByCompany_Last(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the creators before and after the current creator in the ordered set where companyId = &#63;.
+	*
+	* @param creatorId the primary key of the current creator
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next creator
+	* @throws NoSuchCreatorException if a creator with the primary key could not be found
+	*/
+	public static Creator[] findByCompany_PrevAndNext(long creatorId,
+		long companyId, OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence()
+				   .findByCompany_PrevAndNext(creatorId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the creators where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public static void removeByCompany(long companyId) {
+		getPersistence().removeByCompany(companyId);
+	}
+
+	/**
+	* Returns the number of creators where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching creators
+	*/
+	public static int countByCompany(long companyId) {
+		return getPersistence().countByCompany(companyId);
+	}
+
+	/**
+	* Returns all the creators where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching creators
+	*/
+	public static List<Creator> findByGroupAndCompany(long groupId,
+		long companyId) {
+		return getPersistence().findByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
+	* Returns a range of all the creators where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @return the range of matching creators
+	*/
+	public static List<Creator> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the creators where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching creators
+	*/
+	public static List<Creator> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Creator> orderByComparator) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the creators where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CreatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of creators
+	* @param end the upper bound of the range of creators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching creators
+	*/
+	public static List<Creator> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Creator> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first creator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching creator
+	* @throws NoSuchCreatorException if a matching creator could not be found
+	*/
+	public static Creator findByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence()
+				   .findByGroupAndCompany_First(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first creator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching creator, or <code>null</code> if a matching creator could not be found
+	*/
+	public static Creator fetchByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Creator> orderByComparator) {
+		return getPersistence()
+				   .fetchByGroupAndCompany_First(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last creator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching creator
+	* @throws NoSuchCreatorException if a matching creator could not be found
+	*/
+	public static Creator findByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence()
+				   .findByGroupAndCompany_Last(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last creator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching creator, or <code>null</code> if a matching creator could not be found
+	*/
+	public static Creator fetchByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Creator> orderByComparator) {
+		return getPersistence()
+				   .fetchByGroupAndCompany_Last(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the creators before and after the current creator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param creatorId the primary key of the current creator
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next creator
+	* @throws NoSuchCreatorException if a creator with the primary key could not be found
+	*/
+	public static Creator[] findByGroupAndCompany_PrevAndNext(long creatorId,
+		long groupId, long companyId,
+		OrderByComparator<Creator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCreatorException {
+		return getPersistence()
+				   .findByGroupAndCompany_PrevAndNext(creatorId, groupId,
+			companyId, orderByComparator);
+	}
+
+	/**
+	* Removes all the creators where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public static void removeByGroupAndCompany(long groupId, long companyId) {
+		getPersistence().removeByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
+	* Returns the number of creators where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching creators
+	*/
+	public static int countByGroupAndCompany(long groupId, long companyId) {
+		return getPersistence().countByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
 	* Caches the creator in the entity cache if it is enabled.
 	*
 	* @param creator the creator

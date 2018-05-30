@@ -190,6 +190,418 @@ public interface VideoStatisticPersistence extends BasePersistence<VideoStatisti
 	public int countByCompanyIdAndGroupId(long groupId, long companyId);
 
 	/**
+	* Returns all the video statistics where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByGroup(long groupId);
+
+	/**
+	* Returns a range of all the video statistics where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @return the range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByGroup(long groupId, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the video statistics where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByGroup(long groupId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the video statistics where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByGroup(long groupId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first video statistic in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video statistic
+	* @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	*/
+	public VideoStatistic findByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Returns the first video statistic in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	*/
+	public VideoStatistic fetchByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns the last video statistic in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video statistic
+	* @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	*/
+	public VideoStatistic findByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Returns the last video statistic in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	*/
+	public VideoStatistic fetchByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns the video statistics before and after the current video statistic in the ordered set where groupId = &#63;.
+	*
+	* @param videoStatisticId the primary key of the current video statistic
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next video statistic
+	* @throws NoSuchVideoStatisticException if a video statistic with the primary key could not be found
+	*/
+	public VideoStatistic[] findByGroup_PrevAndNext(long videoStatisticId,
+		long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Removes all the video statistics where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public void removeByGroup(long groupId);
+
+	/**
+	* Returns the number of video statistics where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching video statistics
+	*/
+	public int countByGroup(long groupId);
+
+	/**
+	* Returns all the video statistics where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByCompany(long companyId);
+
+	/**
+	* Returns a range of all the video statistics where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @return the range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByCompany(long companyId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the video statistics where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByCompany(long companyId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the video statistics where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByCompany(long companyId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first video statistic in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video statistic
+	* @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	*/
+	public VideoStatistic findByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Returns the first video statistic in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	*/
+	public VideoStatistic fetchByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns the last video statistic in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video statistic
+	* @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	*/
+	public VideoStatistic findByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Returns the last video statistic in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	*/
+	public VideoStatistic fetchByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns the video statistics before and after the current video statistic in the ordered set where companyId = &#63;.
+	*
+	* @param videoStatisticId the primary key of the current video statistic
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next video statistic
+	* @throws NoSuchVideoStatisticException if a video statistic with the primary key could not be found
+	*/
+	public VideoStatistic[] findByCompany_PrevAndNext(long videoStatisticId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Removes all the video statistics where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public void removeByCompany(long companyId);
+
+	/**
+	* Returns the number of video statistics where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching video statistics
+	*/
+	public int countByCompany(long companyId);
+
+	/**
+	* Returns all the video statistics where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByGroupAndCompany(long groupId,
+		long companyId);
+
+	/**
+	* Returns a range of all the video statistics where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @return the range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the video statistics where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the video statistics where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of video statistics
+	* @param end the upper bound of the range of video statistics (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching video statistics
+	*/
+	public java.util.List<VideoStatistic> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video statistic
+	* @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	*/
+	public VideoStatistic findByGroupAndCompany_First(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Returns the first video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	*/
+	public VideoStatistic fetchByGroupAndCompany_First(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns the last video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video statistic
+	* @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	*/
+	public VideoStatistic findByGroupAndCompany_Last(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Returns the last video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	*/
+	public VideoStatistic fetchByGroupAndCompany_Last(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator);
+
+	/**
+	* Returns the video statistics before and after the current video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param videoStatisticId the primary key of the current video statistic
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next video statistic
+	* @throws NoSuchVideoStatisticException if a video statistic with the primary key could not be found
+	*/
+	public VideoStatistic[] findByGroupAndCompany_PrevAndNext(
+		long videoStatisticId, long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException;
+
+	/**
+	* Removes all the video statistics where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public void removeByGroupAndCompany(long groupId, long companyId);
+
+	/**
+	* Returns the number of video statistics where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching video statistics
+	*/
+	public int countByGroupAndCompany(long groupId, long companyId);
+
+	/**
 	* Caches the video statistic in the entity cache if it is enabled.
 	*
 	* @param videoStatistic the video statistic

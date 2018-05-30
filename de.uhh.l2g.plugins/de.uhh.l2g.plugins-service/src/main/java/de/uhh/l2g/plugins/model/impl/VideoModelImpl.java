@@ -145,16 +145,18 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.de.uhh.l2g.plugins.model.Video"),
 			true);
-	public static final long DOWNLOADLINK_COLUMN_BITMASK = 1L;
-	public static final long FILENAME_COLUMN_BITMASK = 2L;
-	public static final long LECTURESERIESID_COLUMN_BITMASK = 4L;
-	public static final long OPENACCESS_COLUMN_BITMASK = 8L;
-	public static final long PASSWORD_COLUMN_BITMASK = 16L;
-	public static final long PRODUCERID_COLUMN_BITMASK = 32L;
-	public static final long ROOTINSTITUTIONID_COLUMN_BITMASK = 64L;
-	public static final long TERMID_COLUMN_BITMASK = 128L;
-	public static final long UPLOADDATE_COLUMN_BITMASK = 256L;
-	public static final long VIDEOID_COLUMN_BITMASK = 512L;
+	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long DOWNLOADLINK_COLUMN_BITMASK = 2L;
+	public static final long FILENAME_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long LECTURESERIESID_COLUMN_BITMASK = 16L;
+	public static final long OPENACCESS_COLUMN_BITMASK = 32L;
+	public static final long PASSWORD_COLUMN_BITMASK = 64L;
+	public static final long PRODUCERID_COLUMN_BITMASK = 128L;
+	public static final long ROOTINSTITUTIONID_COLUMN_BITMASK = 256L;
+	public static final long TERMID_COLUMN_BITMASK = 512L;
+	public static final long UPLOADDATE_COLUMN_BITMASK = 1024L;
+	public static final long VIDEOID_COLUMN_BITMASK = 2048L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"lock.expiration.time.de.uhh.l2g.plugins.model.Video"));
 
@@ -800,7 +802,19 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
 		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@Override
@@ -810,7 +824,19 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
 		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
 	}
 
 	@Override
@@ -1047,6 +1073,14 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		videoModelImpl._setOriginalTermId = false;
 
 		videoModelImpl._originalPassword = videoModelImpl._password;
+
+		videoModelImpl._originalGroupId = videoModelImpl._groupId;
+
+		videoModelImpl._setOriginalGroupId = false;
+
+		videoModelImpl._originalCompanyId = videoModelImpl._companyId;
+
+		videoModelImpl._setOriginalCompanyId = false;
 
 		videoModelImpl._setModifiedDate = false;
 
@@ -1445,7 +1479,11 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	private String _password;
 	private String _originalPassword;
 	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;

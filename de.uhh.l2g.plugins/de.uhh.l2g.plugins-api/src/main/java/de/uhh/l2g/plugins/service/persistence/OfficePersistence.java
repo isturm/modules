@@ -87,6 +87,409 @@ public interface OfficePersistence extends BasePersistence<Office> {
 	public int countByInstitution(long institutionId);
 
 	/**
+	* Returns all the offices where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching offices
+	*/
+	public java.util.List<Office> findByGroup(long groupId);
+
+	/**
+	* Returns a range of all the offices where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @return the range of matching offices
+	*/
+	public java.util.List<Office> findByGroup(long groupId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the offices where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching offices
+	*/
+	public java.util.List<Office> findByGroup(long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the offices where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching offices
+	*/
+	public java.util.List<Office> findByGroup(long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first office in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public Office findByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Returns the first office in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public Office fetchByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns the last office in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public Office findByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Returns the last office in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public Office fetchByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns the offices before and after the current office in the ordered set where groupId = &#63;.
+	*
+	* @param officeId the primary key of the current office
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next office
+	* @throws NoSuchOfficeException if a office with the primary key could not be found
+	*/
+	public Office[] findByGroup_PrevAndNext(long officeId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Removes all the offices where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public void removeByGroup(long groupId);
+
+	/**
+	* Returns the number of offices where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching offices
+	*/
+	public int countByGroup(long groupId);
+
+	/**
+	* Returns all the offices where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching offices
+	*/
+	public java.util.List<Office> findByCompany(long companyId);
+
+	/**
+	* Returns a range of all the offices where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @return the range of matching offices
+	*/
+	public java.util.List<Office> findByCompany(long companyId, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the offices where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching offices
+	*/
+	public java.util.List<Office> findByCompany(long companyId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the offices where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching offices
+	*/
+	public java.util.List<Office> findByCompany(long companyId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first office in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public Office findByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Returns the first office in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public Office fetchByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns the last office in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public Office findByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Returns the last office in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public Office fetchByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns the offices before and after the current office in the ordered set where companyId = &#63;.
+	*
+	* @param officeId the primary key of the current office
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next office
+	* @throws NoSuchOfficeException if a office with the primary key could not be found
+	*/
+	public Office[] findByCompany_PrevAndNext(long officeId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Removes all the offices where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public void removeByCompany(long companyId);
+
+	/**
+	* Returns the number of offices where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching offices
+	*/
+	public int countByCompany(long companyId);
+
+	/**
+	* Returns all the offices where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching offices
+	*/
+	public java.util.List<Office> findByGroupAndCompany(long groupId,
+		long companyId);
+
+	/**
+	* Returns a range of all the offices where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @return the range of matching offices
+	*/
+	public java.util.List<Office> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the offices where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching offices
+	*/
+	public java.util.List<Office> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the offices where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching offices
+	*/
+	public java.util.List<Office> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public Office findByGroupAndCompany_First(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Returns the first office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public Office fetchByGroupAndCompany_First(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns the last office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public Office findByGroupAndCompany_Last(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Returns the last office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public Office fetchByGroupAndCompany_Last(long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator);
+
+	/**
+	* Returns the offices before and after the current office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param officeId the primary key of the current office
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next office
+	* @throws NoSuchOfficeException if a office with the primary key could not be found
+	*/
+	public Office[] findByGroupAndCompany_PrevAndNext(long officeId,
+		long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Office> orderByComparator)
+		throws NoSuchOfficeException;
+
+	/**
+	* Removes all the offices where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public void removeByGroupAndCompany(long groupId, long companyId);
+
+	/**
+	* Returns the number of offices where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching offices
+	*/
+	public int countByGroupAndCompany(long groupId, long companyId);
+
+	/**
 	* Caches the office in the entity cache if it is enabled.
 	*
 	* @param office the office

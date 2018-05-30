@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import de.uhh.l2g.plugins.model.License;
 
@@ -26,6 +27,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
+import java.util.Date;
 
 /**
  * The cache model class for representing License in entity cache.
@@ -62,7 +65,7 @@ public class LicenseCacheModel implements CacheModel<License>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{licenseId=");
 		sb.append(licenseId);
@@ -82,6 +85,18 @@ public class LicenseCacheModel implements CacheModel<License>, Externalizable {
 		sb.append(ccbync);
 		sb.append(", l2go=");
 		sb.append(l2go);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -100,6 +115,30 @@ public class LicenseCacheModel implements CacheModel<License>, Externalizable {
 		licenseImpl.setCcbysa(ccbysa);
 		licenseImpl.setCcbync(ccbync);
 		licenseImpl.setL2go(l2go);
+		licenseImpl.setGroupId(groupId);
+		licenseImpl.setCompanyId(companyId);
+		licenseImpl.setUserId(userId);
+
+		if (userName == null) {
+			licenseImpl.setUserName(StringPool.BLANK);
+		}
+		else {
+			licenseImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			licenseImpl.setCreateDate(null);
+		}
+		else {
+			licenseImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			licenseImpl.setModifiedDate(null);
+		}
+		else {
+			licenseImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		licenseImpl.resetOriginalValues();
 
@@ -125,6 +164,15 @@ public class LicenseCacheModel implements CacheModel<License>, Externalizable {
 		ccbync = objectInput.readInt();
 
 		l2go = objectInput.readInt();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 	}
 
 	@Override
@@ -147,6 +195,22 @@ public class LicenseCacheModel implements CacheModel<License>, Externalizable {
 		objectOutput.writeInt(ccbync);
 
 		objectOutput.writeInt(l2go);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 	}
 
 	public long licenseId;
@@ -158,4 +222,10 @@ public class LicenseCacheModel implements CacheModel<License>, Externalizable {
 	public int ccbysa;
 	public int ccbync;
 	public int l2go;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 }

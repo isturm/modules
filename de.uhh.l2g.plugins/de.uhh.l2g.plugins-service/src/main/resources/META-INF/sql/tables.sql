@@ -142,7 +142,13 @@ create table LG_License (
 	ccbyncsa INTEGER,
 	ccbysa INTEGER,
 	ccbync INTEGER,
-	l2go INTEGER
+	l2go INTEGER,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null
 );
 
 create table LG_Metadata (

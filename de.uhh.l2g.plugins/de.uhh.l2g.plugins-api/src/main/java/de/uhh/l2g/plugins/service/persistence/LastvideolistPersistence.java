@@ -174,6 +174,418 @@ public interface LastvideolistPersistence extends BasePersistence<Lastvideolist>
 	public int countByVideo(long videoId);
 
 	/**
+	* Returns all the lastvideolists where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByGroup(long groupId);
+
+	/**
+	* Returns a range of all the lastvideolists where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @return the range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByGroup(long groupId, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the lastvideolists where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByGroup(long groupId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the lastvideolists where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByGroup(long groupId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first lastvideolist in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching lastvideolist
+	* @throws NoSuchLastvideolistException if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist findByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Returns the first lastvideolist in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching lastvideolist, or <code>null</code> if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist fetchByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns the last lastvideolist in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching lastvideolist
+	* @throws NoSuchLastvideolistException if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist findByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Returns the last lastvideolist in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching lastvideolist, or <code>null</code> if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist fetchByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns the lastvideolists before and after the current lastvideolist in the ordered set where groupId = &#63;.
+	*
+	* @param lastvideolistId the primary key of the current lastvideolist
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next lastvideolist
+	* @throws NoSuchLastvideolistException if a lastvideolist with the primary key could not be found
+	*/
+	public Lastvideolist[] findByGroup_PrevAndNext(int lastvideolistId,
+		long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Removes all the lastvideolists where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public void removeByGroup(long groupId);
+
+	/**
+	* Returns the number of lastvideolists where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching lastvideolists
+	*/
+	public int countByGroup(long groupId);
+
+	/**
+	* Returns all the lastvideolists where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByCompany(long companyId);
+
+	/**
+	* Returns a range of all the lastvideolists where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @return the range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByCompany(long companyId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the lastvideolists where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByCompany(long companyId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the lastvideolists where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByCompany(long companyId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first lastvideolist in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching lastvideolist
+	* @throws NoSuchLastvideolistException if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist findByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Returns the first lastvideolist in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching lastvideolist, or <code>null</code> if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist fetchByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns the last lastvideolist in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching lastvideolist
+	* @throws NoSuchLastvideolistException if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist findByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Returns the last lastvideolist in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching lastvideolist, or <code>null</code> if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist fetchByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns the lastvideolists before and after the current lastvideolist in the ordered set where companyId = &#63;.
+	*
+	* @param lastvideolistId the primary key of the current lastvideolist
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next lastvideolist
+	* @throws NoSuchLastvideolistException if a lastvideolist with the primary key could not be found
+	*/
+	public Lastvideolist[] findByCompany_PrevAndNext(int lastvideolistId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Removes all the lastvideolists where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public void removeByCompany(long companyId);
+
+	/**
+	* Returns the number of lastvideolists where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching lastvideolists
+	*/
+	public int countByCompany(long companyId);
+
+	/**
+	* Returns all the lastvideolists where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByGroupAndCompany(long groupId,
+		long companyId);
+
+	/**
+	* Returns a range of all the lastvideolists where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @return the range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the lastvideolists where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the lastvideolists where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LastvideolistModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of lastvideolists
+	* @param end the upper bound of the range of lastvideolists (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching lastvideolists
+	*/
+	public java.util.List<Lastvideolist> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first lastvideolist in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching lastvideolist
+	* @throws NoSuchLastvideolistException if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist findByGroupAndCompany_First(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Returns the first lastvideolist in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching lastvideolist, or <code>null</code> if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist fetchByGroupAndCompany_First(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns the last lastvideolist in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching lastvideolist
+	* @throws NoSuchLastvideolistException if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist findByGroupAndCompany_Last(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Returns the last lastvideolist in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching lastvideolist, or <code>null</code> if a matching lastvideolist could not be found
+	*/
+	public Lastvideolist fetchByGroupAndCompany_Last(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator);
+
+	/**
+	* Returns the lastvideolists before and after the current lastvideolist in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param lastvideolistId the primary key of the current lastvideolist
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next lastvideolist
+	* @throws NoSuchLastvideolistException if a lastvideolist with the primary key could not be found
+	*/
+	public Lastvideolist[] findByGroupAndCompany_PrevAndNext(
+		int lastvideolistId, long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Lastvideolist> orderByComparator)
+		throws NoSuchLastvideolistException;
+
+	/**
+	* Removes all the lastvideolists where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public void removeByGroupAndCompany(long groupId, long companyId);
+
+	/**
+	* Returns the number of lastvideolists where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching lastvideolists
+	*/
+	public int countByGroupAndCompany(long groupId, long companyId);
+
+	/**
 	* Caches the lastvideolist in the entity cache if it is enabled.
 	*
 	* @param lastvideolist the lastvideolist

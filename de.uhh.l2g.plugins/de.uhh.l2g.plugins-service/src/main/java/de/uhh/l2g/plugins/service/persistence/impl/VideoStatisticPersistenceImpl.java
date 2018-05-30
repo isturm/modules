@@ -640,6 +640,1565 @@ public class VideoStatisticPersistenceImpl extends BasePersistenceImpl<VideoStat
 
 	private static final String _FINDER_COLUMN_COMPANYIDANDGROUPID_GROUPID_2 = "videoStatistic.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_COMPANYIDANDGROUPID_COMPANYID_2 = "videoStatistic.companyId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP = new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED,
+			VideoStatisticImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroup",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP = new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED,
+			VideoStatisticImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroup",
+			new String[] { Long.class.getName() },
+			VideoStatisticModelImpl.GROUPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUP = new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroup",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the video statistics where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByGroup(long groupId) {
+		return findByGroup(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the video statistics where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @return the range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByGroup(long groupId, int start, int end) {
+		return findByGroup(groupId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the video statistics where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByGroup(long groupId, int start, int end,
+		OrderByComparator<VideoStatistic> orderByComparator) {
+		return findByGroup(groupId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the video statistics where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByGroup(long groupId, int start, int end,
+		OrderByComparator<VideoStatistic> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+		}
+
+		List<VideoStatistic> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<VideoStatistic>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (VideoStatistic videoStatistic : list) {
+					if ((groupId != videoStatistic.getGroupId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_VIDEOSTATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(VideoStatisticModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				if (!pagination) {
+					list = (List<VideoStatistic>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<VideoStatistic>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first video statistic in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching video statistic
+	 * @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic findByGroup_First(long groupId,
+		OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = fetchByGroup_First(groupId,
+				orderByComparator);
+
+		if (videoStatistic != null) {
+			return videoStatistic;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchVideoStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the first video statistic in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic fetchByGroup_First(long groupId,
+		OrderByComparator<VideoStatistic> orderByComparator) {
+		List<VideoStatistic> list = findByGroup(groupId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last video statistic in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching video statistic
+	 * @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic findByGroup_Last(long groupId,
+		OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = fetchByGroup_Last(groupId,
+				orderByComparator);
+
+		if (videoStatistic != null) {
+			return videoStatistic;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchVideoStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the last video statistic in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic fetchByGroup_Last(long groupId,
+		OrderByComparator<VideoStatistic> orderByComparator) {
+		int count = countByGroup(groupId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<VideoStatistic> list = findByGroup(groupId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the video statistics before and after the current video statistic in the ordered set where groupId = &#63;.
+	 *
+	 * @param videoStatisticId the primary key of the current video statistic
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next video statistic
+	 * @throws NoSuchVideoStatisticException if a video statistic with the primary key could not be found
+	 */
+	@Override
+	public VideoStatistic[] findByGroup_PrevAndNext(long videoStatisticId,
+		long groupId, OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = findByPrimaryKey(videoStatisticId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			VideoStatistic[] array = new VideoStatisticImpl[3];
+
+			array[0] = getByGroup_PrevAndNext(session, videoStatistic, groupId,
+					orderByComparator, true);
+
+			array[1] = videoStatistic;
+
+			array[2] = getByGroup_PrevAndNext(session, videoStatistic, groupId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected VideoStatistic getByGroup_PrevAndNext(Session session,
+		VideoStatistic videoStatistic, long groupId,
+		OrderByComparator<VideoStatistic> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_VIDEOSTATISTIC_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(VideoStatisticModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(videoStatistic);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<VideoStatistic> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the video statistics where groupId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 */
+	@Override
+	public void removeByGroup(long groupId) {
+		for (VideoStatistic videoStatistic : findByGroup(groupId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(videoStatistic);
+		}
+	}
+
+	/**
+	 * Returns the number of video statistics where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching video statistics
+	 */
+	@Override
+	public int countByGroup(long groupId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUP;
+
+		Object[] finderArgs = new Object[] { groupId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_VIDEOSTATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUP_GROUPID_2 = "videoStatistic.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY = new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED,
+			VideoStatisticImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCompany",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY =
+		new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED,
+			VideoStatisticImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompany",
+			new String[] { Long.class.getName() },
+			VideoStatisticModelImpl.COMPANYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_COMPANY = new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompany",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the video statistics where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByCompany(long companyId) {
+		return findByCompany(companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the video statistics where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @return the range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByCompany(long companyId, int start, int end) {
+		return findByCompany(companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the video statistics where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByCompany(long companyId, int start,
+		int end, OrderByComparator<VideoStatistic> orderByComparator) {
+		return findByCompany(companyId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the video statistics where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByCompany(long companyId, int start,
+		int end, OrderByComparator<VideoStatistic> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY;
+			finderArgs = new Object[] { companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY;
+			finderArgs = new Object[] { companyId, start, end, orderByComparator };
+		}
+
+		List<VideoStatistic> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<VideoStatistic>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (VideoStatistic videoStatistic : list) {
+					if ((companyId != videoStatistic.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_VIDEOSTATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(VideoStatisticModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<VideoStatistic>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<VideoStatistic>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first video statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching video statistic
+	 * @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic findByCompany_First(long companyId,
+		OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = fetchByCompany_First(companyId,
+				orderByComparator);
+
+		if (videoStatistic != null) {
+			return videoStatistic;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchVideoStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the first video statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic fetchByCompany_First(long companyId,
+		OrderByComparator<VideoStatistic> orderByComparator) {
+		List<VideoStatistic> list = findByCompany(companyId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last video statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching video statistic
+	 * @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic findByCompany_Last(long companyId,
+		OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = fetchByCompany_Last(companyId,
+				orderByComparator);
+
+		if (videoStatistic != null) {
+			return videoStatistic;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchVideoStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the last video statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic fetchByCompany_Last(long companyId,
+		OrderByComparator<VideoStatistic> orderByComparator) {
+		int count = countByCompany(companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<VideoStatistic> list = findByCompany(companyId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the video statistics before and after the current video statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param videoStatisticId the primary key of the current video statistic
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next video statistic
+	 * @throws NoSuchVideoStatisticException if a video statistic with the primary key could not be found
+	 */
+	@Override
+	public VideoStatistic[] findByCompany_PrevAndNext(long videoStatisticId,
+		long companyId, OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = findByPrimaryKey(videoStatisticId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			VideoStatistic[] array = new VideoStatisticImpl[3];
+
+			array[0] = getByCompany_PrevAndNext(session, videoStatistic,
+					companyId, orderByComparator, true);
+
+			array[1] = videoStatistic;
+
+			array[2] = getByCompany_PrevAndNext(session, videoStatistic,
+					companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected VideoStatistic getByCompany_PrevAndNext(Session session,
+		VideoStatistic videoStatistic, long companyId,
+		OrderByComparator<VideoStatistic> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_VIDEOSTATISTIC_WHERE);
+
+		query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(VideoStatisticModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(companyId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(videoStatistic);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<VideoStatistic> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the video statistics where companyId = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByCompany(long companyId) {
+		for (VideoStatistic videoStatistic : findByCompany(companyId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(videoStatistic);
+		}
+	}
+
+	/**
+	 * Returns the number of video statistics where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the number of matching video statistics
+	 */
+	@Override
+	public int countByCompany(long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COMPANY;
+
+		Object[] finderArgs = new Object[] { companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_VIDEOSTATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_COMPANY_COMPANYID_2 = "videoStatistic.companyId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED,
+			VideoStatisticImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupAndCompany",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED,
+			VideoStatisticImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() },
+			VideoStatisticModelImpl.GROUPID_COLUMN_BITMASK |
+			VideoStatisticModelImpl.COMPANYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPANDCOMPANY = new FinderPath(VideoStatisticModelImpl.ENTITY_CACHE_ENABLED,
+			VideoStatisticModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns all the video statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByGroupAndCompany(long groupId,
+		long companyId) {
+		return findByGroupAndCompany(groupId, companyId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the video statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @return the range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end) {
+		return findByGroupAndCompany(groupId, companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the video statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<VideoStatistic> orderByComparator) {
+		return findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the video statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoStatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of video statistics
+	 * @param end the upper bound of the range of video statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching video statistics
+	 */
+	@Override
+	public List<VideoStatistic> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<VideoStatistic> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] { groupId, companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] {
+					groupId, companyId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<VideoStatistic> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<VideoStatistic>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (VideoStatistic videoStatistic : list) {
+					if ((groupId != videoStatistic.getGroupId()) ||
+							(companyId != videoStatistic.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_VIDEOSTATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(VideoStatisticModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<VideoStatistic>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<VideoStatistic>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching video statistic
+	 * @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic findByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = fetchByGroupAndCompany_First(groupId,
+				companyId, orderByComparator);
+
+		if (videoStatistic != null) {
+			return videoStatistic;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchVideoStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the first video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic fetchByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<VideoStatistic> orderByComparator) {
+		List<VideoStatistic> list = findByGroupAndCompany(groupId, companyId,
+				0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching video statistic
+	 * @throws NoSuchVideoStatisticException if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic findByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = fetchByGroupAndCompany_Last(groupId,
+				companyId, orderByComparator);
+
+		if (videoStatistic != null) {
+			return videoStatistic;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchVideoStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the last video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching video statistic, or <code>null</code> if a matching video statistic could not be found
+	 */
+	@Override
+	public VideoStatistic fetchByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<VideoStatistic> orderByComparator) {
+		int count = countByGroupAndCompany(groupId, companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<VideoStatistic> list = findByGroupAndCompany(groupId, companyId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the video statistics before and after the current video statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param videoStatisticId the primary key of the current video statistic
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next video statistic
+	 * @throws NoSuchVideoStatisticException if a video statistic with the primary key could not be found
+	 */
+	@Override
+	public VideoStatistic[] findByGroupAndCompany_PrevAndNext(
+		long videoStatisticId, long groupId, long companyId,
+		OrderByComparator<VideoStatistic> orderByComparator)
+		throws NoSuchVideoStatisticException {
+		VideoStatistic videoStatistic = findByPrimaryKey(videoStatisticId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			VideoStatistic[] array = new VideoStatisticImpl[3];
+
+			array[0] = getByGroupAndCompany_PrevAndNext(session,
+					videoStatistic, groupId, companyId, orderByComparator, true);
+
+			array[1] = videoStatistic;
+
+			array[2] = getByGroupAndCompany_PrevAndNext(session,
+					videoStatistic, groupId, companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected VideoStatistic getByGroupAndCompany_PrevAndNext(Session session,
+		VideoStatistic videoStatistic, long groupId, long companyId,
+		OrderByComparator<VideoStatistic> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_VIDEOSTATISTIC_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(VideoStatisticModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		qPos.add(companyId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(videoStatistic);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<VideoStatistic> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the video statistics where groupId = &#63; and companyId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByGroupAndCompany(long groupId, long companyId) {
+		for (VideoStatistic videoStatistic : findByGroupAndCompany(groupId,
+				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(videoStatistic);
+		}
+	}
+
+	/**
+	 * Returns the number of video statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the number of matching video statistics
+	 */
+	@Override
+	public int countByGroupAndCompany(long groupId, long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPANDCOMPANY;
+
+		Object[] finderArgs = new Object[] { groupId, companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_VIDEOSTATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2 = "videoStatistic.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2 = "videoStatistic.companyId = ?";
 
 	public VideoStatisticPersistenceImpl() {
 		setModelClass(VideoStatistic.class);
@@ -893,6 +2452,27 @@ public class VideoStatisticPersistenceImpl extends BasePersistenceImpl<VideoStat
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID,
 				args);
 
+			args = new Object[] { videoStatisticModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+				args);
+
+			args = new Object[] { videoStatisticModelImpl.getCompanyId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+				args);
+
+			args = new Object[] {
+					videoStatisticModelImpl.getGroupId(),
+					videoStatisticModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -919,6 +2499,63 @@ public class VideoStatisticPersistenceImpl extends BasePersistenceImpl<VideoStat
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYIDANDGROUPID,
 					args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID,
+					args);
+			}
+
+			if ((videoStatisticModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						videoStatisticModelImpl.getOriginalGroupId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+
+				args = new Object[] { videoStatisticModelImpl.getGroupId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+			}
+
+			if ((videoStatisticModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						videoStatisticModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+
+				args = new Object[] { videoStatisticModelImpl.getCompanyId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+			}
+
+			if ((videoStatisticModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						videoStatisticModelImpl.getOriginalGroupId(),
+						videoStatisticModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
+					args);
+
+				args = new Object[] {
+						videoStatisticModelImpl.getGroupId(),
+						videoStatisticModelImpl.getCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
 					args);
 			}
 		}

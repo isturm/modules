@@ -9344,26 +9344,525 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 
 	private static final String _FINDER_COLUMN_G_I_GROUPID_2 = "institution.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_G_I_INSTITUTIONID_2 = "institution.institutionId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANYID =
-		new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
 			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroup",
 			new String[] {
 				Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID =
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroup",
+			new String[] { Long.class.getName() },
+			InstitutionModelImpl.GROUPID_COLUMN_BITMASK |
+			InstitutionModelImpl.SORT_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUP = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+			InstitutionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroup",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the institutions where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the matching institutions
+	 */
+	@Override
+	public List<Institution> findByGroup(long groupId) {
+		return findByGroup(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the institutions where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InstitutionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of institutions
+	 * @param end the upper bound of the range of institutions (not inclusive)
+	 * @return the range of matching institutions
+	 */
+	@Override
+	public List<Institution> findByGroup(long groupId, int start, int end) {
+		return findByGroup(groupId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the institutions where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InstitutionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of institutions
+	 * @param end the upper bound of the range of institutions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching institutions
+	 */
+	@Override
+	public List<Institution> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Institution> orderByComparator) {
+		return findByGroup(groupId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the institutions where groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InstitutionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of institutions
+	 * @param end the upper bound of the range of institutions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching institutions
+	 */
+	@Override
+	public List<Institution> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Institution> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+		}
+
+		List<Institution> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Institution>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Institution institution : list) {
+					if ((groupId != institution.getGroupId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_INSTITUTION_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(InstitutionModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				if (!pagination) {
+					list = (List<Institution>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Institution>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first institution in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching institution
+	 * @throws NoSuchInstitutionException if a matching institution could not be found
+	 */
+	@Override
+	public Institution findByGroup_First(long groupId,
+		OrderByComparator<Institution> orderByComparator)
+		throws NoSuchInstitutionException {
+		Institution institution = fetchByGroup_First(groupId, orderByComparator);
+
+		if (institution != null) {
+			return institution;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchInstitutionException(msg.toString());
+	}
+
+	/**
+	 * Returns the first institution in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching institution, or <code>null</code> if a matching institution could not be found
+	 */
+	@Override
+	public Institution fetchByGroup_First(long groupId,
+		OrderByComparator<Institution> orderByComparator) {
+		List<Institution> list = findByGroup(groupId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last institution in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching institution
+	 * @throws NoSuchInstitutionException if a matching institution could not be found
+	 */
+	@Override
+	public Institution findByGroup_Last(long groupId,
+		OrderByComparator<Institution> orderByComparator)
+		throws NoSuchInstitutionException {
+		Institution institution = fetchByGroup_Last(groupId, orderByComparator);
+
+		if (institution != null) {
+			return institution;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchInstitutionException(msg.toString());
+	}
+
+	/**
+	 * Returns the last institution in the ordered set where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching institution, or <code>null</code> if a matching institution could not be found
+	 */
+	@Override
+	public Institution fetchByGroup_Last(long groupId,
+		OrderByComparator<Institution> orderByComparator) {
+		int count = countByGroup(groupId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Institution> list = findByGroup(groupId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the institutions before and after the current institution in the ordered set where groupId = &#63;.
+	 *
+	 * @param institutionId the primary key of the current institution
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next institution
+	 * @throws NoSuchInstitutionException if a institution with the primary key could not be found
+	 */
+	@Override
+	public Institution[] findByGroup_PrevAndNext(long institutionId,
+		long groupId, OrderByComparator<Institution> orderByComparator)
+		throws NoSuchInstitutionException {
+		Institution institution = findByPrimaryKey(institutionId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Institution[] array = new InstitutionImpl[3];
+
+			array[0] = getByGroup_PrevAndNext(session, institution, groupId,
+					orderByComparator, true);
+
+			array[1] = institution;
+
+			array[2] = getByGroup_PrevAndNext(session, institution, groupId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Institution getByGroup_PrevAndNext(Session session,
+		Institution institution, long groupId,
+		OrderByComparator<Institution> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_INSTITUTION_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(InstitutionModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(institution);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Institution> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the institutions where groupId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 */
+	@Override
+	public void removeByGroup(long groupId) {
+		for (Institution institution : findByGroup(groupId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(institution);
+		}
+	}
+
+	/**
+	 * Returns the number of institutions where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching institutions
+	 */
+	@Override
+	public int countByGroup(long groupId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUP;
+
+		Object[] finderArgs = new Object[] { groupId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_INSTITUTION_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUP_GROUPID_2 = "institution.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompany",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY =
 		new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
 			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompany",
 			new String[] { Long.class.getName() },
 			InstitutionModelImpl.COMPANYID_COLUMN_BITMASK |
 			InstitutionModelImpl.SORT_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_COMPANYID = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_COUNT_BY_COMPANY = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
 			InstitutionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompany",
 			new String[] { Long.class.getName() });
 
 	/**
@@ -9373,8 +9872,8 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the matching institutions
 	 */
 	@Override
-	public List<Institution> findByCompanyId(long companyId) {
-		return findByCompanyId(companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+	public List<Institution> findByCompany(long companyId) {
+		return findByCompany(companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			null);
 	}
 
@@ -9391,8 +9890,8 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the range of matching institutions
 	 */
 	@Override
-	public List<Institution> findByCompanyId(long companyId, int start, int end) {
-		return findByCompanyId(companyId, start, end, null);
+	public List<Institution> findByCompany(long companyId, int start, int end) {
+		return findByCompany(companyId, start, end, null);
 	}
 
 	/**
@@ -9409,9 +9908,9 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the ordered range of matching institutions
 	 */
 	@Override
-	public List<Institution> findByCompanyId(long companyId, int start,
-		int end, OrderByComparator<Institution> orderByComparator) {
-		return findByCompanyId(companyId, start, end, orderByComparator, true);
+	public List<Institution> findByCompany(long companyId, int start, int end,
+		OrderByComparator<Institution> orderByComparator) {
+		return findByCompany(companyId, start, end, orderByComparator, true);
 	}
 
 	/**
@@ -9429,8 +9928,8 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the ordered range of matching institutions
 	 */
 	@Override
-	public List<Institution> findByCompanyId(long companyId, int start,
-		int end, OrderByComparator<Institution> orderByComparator,
+	public List<Institution> findByCompany(long companyId, int start, int end,
+		OrderByComparator<Institution> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -9439,11 +9938,11 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY;
 			finderArgs = new Object[] { companyId };
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANYID;
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY;
 			finderArgs = new Object[] { companyId, start, end, orderByComparator };
 		}
 
@@ -9477,7 +9976,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 
 			query.append(_SQL_SELECT_INSTITUTION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -9540,10 +10039,10 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @throws NoSuchInstitutionException if a matching institution could not be found
 	 */
 	@Override
-	public Institution findByCompanyId_First(long companyId,
+	public Institution findByCompany_First(long companyId,
 		OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException {
-		Institution institution = fetchByCompanyId_First(companyId,
+		Institution institution = fetchByCompany_First(companyId,
 				orderByComparator);
 
 		if (institution != null) {
@@ -9570,9 +10069,9 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the first matching institution, or <code>null</code> if a matching institution could not be found
 	 */
 	@Override
-	public Institution fetchByCompanyId_First(long companyId,
+	public Institution fetchByCompany_First(long companyId,
 		OrderByComparator<Institution> orderByComparator) {
-		List<Institution> list = findByCompanyId(companyId, 0, 1,
+		List<Institution> list = findByCompany(companyId, 0, 1,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -9591,10 +10090,10 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @throws NoSuchInstitutionException if a matching institution could not be found
 	 */
 	@Override
-	public Institution findByCompanyId_Last(long companyId,
+	public Institution findByCompany_Last(long companyId,
 		OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException {
-		Institution institution = fetchByCompanyId_Last(companyId,
+		Institution institution = fetchByCompany_Last(companyId,
 				orderByComparator);
 
 		if (institution != null) {
@@ -9621,15 +10120,15 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the last matching institution, or <code>null</code> if a matching institution could not be found
 	 */
 	@Override
-	public Institution fetchByCompanyId_Last(long companyId,
+	public Institution fetchByCompany_Last(long companyId,
 		OrderByComparator<Institution> orderByComparator) {
-		int count = countByCompanyId(companyId);
+		int count = countByCompany(companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Institution> list = findByCompanyId(companyId, count - 1, count,
+		List<Institution> list = findByCompany(companyId, count - 1, count,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -9649,7 +10148,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @throws NoSuchInstitutionException if a institution with the primary key could not be found
 	 */
 	@Override
-	public Institution[] findByCompanyId_PrevAndNext(long institutionId,
+	public Institution[] findByCompany_PrevAndNext(long institutionId,
 		long companyId, OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException {
 		Institution institution = findByPrimaryKey(institutionId);
@@ -9661,12 +10160,12 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 
 			Institution[] array = new InstitutionImpl[3];
 
-			array[0] = getByCompanyId_PrevAndNext(session, institution,
+			array[0] = getByCompany_PrevAndNext(session, institution,
 					companyId, orderByComparator, true);
 
 			array[1] = institution;
 
-			array[2] = getByCompanyId_PrevAndNext(session, institution,
+			array[2] = getByCompany_PrevAndNext(session, institution,
 					companyId, orderByComparator, false);
 
 			return array;
@@ -9679,7 +10178,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 		}
 	}
 
-	protected Institution getByCompanyId_PrevAndNext(Session session,
+	protected Institution getByCompany_PrevAndNext(Session session,
 		Institution institution, long companyId,
 		OrderByComparator<Institution> orderByComparator, boolean previous) {
 		StringBundler query = null;
@@ -9695,7 +10194,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 
 		query.append(_SQL_SELECT_INSTITUTION_WHERE);
 
-		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+		query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -9791,8 +10290,8 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @param companyId the company ID
 	 */
 	@Override
-	public void removeByCompanyId(long companyId) {
-		for (Institution institution : findByCompanyId(companyId,
+	public void removeByCompany(long companyId) {
+		for (Institution institution : findByCompany(companyId,
 				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(institution);
 		}
@@ -9805,8 +10304,8 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the number of matching institutions
 	 */
 	@Override
-	public int countByCompanyId(long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_COMPANYID;
+	public int countByCompany(long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COMPANY;
 
 		Object[] finderArgs = new Object[] { companyId };
 
@@ -9817,7 +10316,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 
 			query.append(_SQL_COUNT_INSTITUTION_WHERE);
 
-			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
 
 			String sql = query.toString();
 
@@ -9849,7 +10348,555 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "institution.companyId = ?";
+	private static final String _FINDER_COLUMN_COMPANY_COMPANYID_2 = "institution.companyId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupAndCompany",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() },
+			InstitutionModelImpl.GROUPID_COLUMN_BITMASK |
+			InstitutionModelImpl.COMPANYID_COLUMN_BITMASK |
+			InstitutionModelImpl.SORT_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPANDCOMPANY = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+			InstitutionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns all the institutions where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the matching institutions
+	 */
+	@Override
+	public List<Institution> findByGroupAndCompany(long groupId, long companyId) {
+		return findByGroupAndCompany(groupId, companyId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the institutions where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InstitutionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of institutions
+	 * @param end the upper bound of the range of institutions (not inclusive)
+	 * @return the range of matching institutions
+	 */
+	@Override
+	public List<Institution> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end) {
+		return findByGroupAndCompany(groupId, companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the institutions where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InstitutionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of institutions
+	 * @param end the upper bound of the range of institutions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching institutions
+	 */
+	@Override
+	public List<Institution> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Institution> orderByComparator) {
+		return findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the institutions where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InstitutionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of institutions
+	 * @param end the upper bound of the range of institutions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching institutions
+	 */
+	@Override
+	public List<Institution> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Institution> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] { groupId, companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] {
+					groupId, companyId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<Institution> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Institution>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Institution institution : list) {
+					if ((groupId != institution.getGroupId()) ||
+							(companyId != institution.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_INSTITUTION_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(InstitutionModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<Institution>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Institution>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first institution in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching institution
+	 * @throws NoSuchInstitutionException if a matching institution could not be found
+	 */
+	@Override
+	public Institution findByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Institution> orderByComparator)
+		throws NoSuchInstitutionException {
+		Institution institution = fetchByGroupAndCompany_First(groupId,
+				companyId, orderByComparator);
+
+		if (institution != null) {
+			return institution;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchInstitutionException(msg.toString());
+	}
+
+	/**
+	 * Returns the first institution in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching institution, or <code>null</code> if a matching institution could not be found
+	 */
+	@Override
+	public Institution fetchByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Institution> orderByComparator) {
+		List<Institution> list = findByGroupAndCompany(groupId, companyId, 0,
+				1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last institution in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching institution
+	 * @throws NoSuchInstitutionException if a matching institution could not be found
+	 */
+	@Override
+	public Institution findByGroupAndCompany_Last(long groupId, long companyId,
+		OrderByComparator<Institution> orderByComparator)
+		throws NoSuchInstitutionException {
+		Institution institution = fetchByGroupAndCompany_Last(groupId,
+				companyId, orderByComparator);
+
+		if (institution != null) {
+			return institution;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchInstitutionException(msg.toString());
+	}
+
+	/**
+	 * Returns the last institution in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching institution, or <code>null</code> if a matching institution could not be found
+	 */
+	@Override
+	public Institution fetchByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Institution> orderByComparator) {
+		int count = countByGroupAndCompany(groupId, companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Institution> list = findByGroupAndCompany(groupId, companyId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the institutions before and after the current institution in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param institutionId the primary key of the current institution
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next institution
+	 * @throws NoSuchInstitutionException if a institution with the primary key could not be found
+	 */
+	@Override
+	public Institution[] findByGroupAndCompany_PrevAndNext(long institutionId,
+		long groupId, long companyId,
+		OrderByComparator<Institution> orderByComparator)
+		throws NoSuchInstitutionException {
+		Institution institution = findByPrimaryKey(institutionId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Institution[] array = new InstitutionImpl[3];
+
+			array[0] = getByGroupAndCompany_PrevAndNext(session, institution,
+					groupId, companyId, orderByComparator, true);
+
+			array[1] = institution;
+
+			array[2] = getByGroupAndCompany_PrevAndNext(session, institution,
+					groupId, companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Institution getByGroupAndCompany_PrevAndNext(Session session,
+		Institution institution, long groupId, long companyId,
+		OrderByComparator<Institution> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_INSTITUTION_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(InstitutionModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		qPos.add(companyId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(institution);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Institution> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the institutions where groupId = &#63; and companyId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByGroupAndCompany(long groupId, long companyId) {
+		for (Institution institution : findByGroupAndCompany(groupId,
+				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(institution);
+		}
+	}
+
+	/**
+	 * Returns the number of institutions where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the number of matching institutions
+	 */
+	@Override
+	public int countByGroupAndCompany(long groupId, long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPANDCOMPANY;
+
+		Object[] finderArgs = new Object[] { groupId, companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_INSTITUTION_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2 = "institution.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2 = "institution.companyId = ?";
 
 	public InstitutionPersistenceImpl() {
 		setModelClass(Institution.class);
@@ -10275,10 +11322,25 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_G_P_S,
 				args);
 
+			args = new Object[] { institutionModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+				args);
+
 			args = new Object[] { institutionModelImpl.getCompanyId() };
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+				args);
+
+			args = new Object[] {
+					institutionModelImpl.getGroupId(),
+					institutionModelImpl.getCompanyId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
 				args);
 
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
@@ -10600,19 +11662,59 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 			}
 
 			if ((institutionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID.getColumnBitmask()) != 0) {
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						institutionModelImpl.getOriginalGroupId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+
+				args = new Object[] { institutionModelImpl.getGroupId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+			}
+
+			if ((institutionModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
 						institutionModelImpl.getOriginalCompanyId()
 					};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
 					args);
 
 				args = new Object[] { institutionModelImpl.getCompanyId() };
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANYID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+			}
+
+			if ((institutionModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						institutionModelImpl.getOriginalGroupId(),
+						institutionModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
+					args);
+
+				args = new Object[] {
+						institutionModelImpl.getGroupId(),
+						institutionModelImpl.getCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
 					args);
 			}
 		}

@@ -845,66 +845,60 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	private static final String _FINDER_COLUMN_C_G_D_GROUPID_2 = "statistic.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_C_G_D_CREATEDATE_1 = "statistic.createDate IS NULL";
 	private static final String _FINDER_COLUMN_C_G_D_CREATEDATE_2 = "statistic.createDate = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_C_G = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
 			StatisticModelImpl.FINDER_CACHE_ENABLED, StatisticImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_G",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroup",
 			new String[] {
-				Long.class.getName(), Long.class.getName(),
+				Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_G = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
 			StatisticModelImpl.FINDER_CACHE_ENABLED, StatisticImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_G",
-			new String[] { Long.class.getName(), Long.class.getName() },
-			StatisticModelImpl.COMPANYID_COLUMN_BITMASK |
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroup",
+			new String[] { Long.class.getName() },
 			StatisticModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_C_G = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUP = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
 			StatisticModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_G",
-			new String[] { Long.class.getName(), Long.class.getName() });
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroup",
+			new String[] { Long.class.getName() });
 
 	/**
-	 * Returns all the statistics where companyId = &#63; and groupId = &#63;.
+	 * Returns all the statistics where groupId = &#63;.
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @return the matching statistics
 	 */
 	@Override
-	public List<Statistic> findByC_G(long companyId, long groupId) {
-		return findByC_G(companyId, groupId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+	public List<Statistic> findByGroup(long groupId) {
+		return findByGroup(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the statistics where companyId = &#63; and groupId = &#63;.
+	 * Returns a range of all the statistics where groupId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param start the lower bound of the range of statistics
 	 * @param end the upper bound of the range of statistics (not inclusive)
 	 * @return the range of matching statistics
 	 */
 	@Override
-	public List<Statistic> findByC_G(long companyId, long groupId, int start,
-		int end) {
-		return findByC_G(companyId, groupId, start, end, null);
+	public List<Statistic> findByGroup(long groupId, int start, int end) {
+		return findByGroup(groupId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the statistics where companyId = &#63; and groupId = &#63;.
+	 * Returns an ordered range of all the statistics where groupId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param start the lower bound of the range of statistics
 	 * @param end the upper bound of the range of statistics (not inclusive)
@@ -912,19 +906,18 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	 * @return the ordered range of matching statistics
 	 */
 	@Override
-	public List<Statistic> findByC_G(long companyId, long groupId, int start,
-		int end, OrderByComparator<Statistic> orderByComparator) {
-		return findByC_G(companyId, groupId, start, end, orderByComparator, true);
+	public List<Statistic> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Statistic> orderByComparator) {
+		return findByGroup(groupId, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the statistics where companyId = &#63; and groupId = &#63;.
+	 * Returns an ordered range of all the statistics where groupId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param start the lower bound of the range of statistics
 	 * @param end the upper bound of the range of statistics (not inclusive)
@@ -933,8 +926,8 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	 * @return the ordered range of matching statistics
 	 */
 	@Override
-	public List<Statistic> findByC_G(long companyId, long groupId, int start,
-		int end, OrderByComparator<Statistic> orderByComparator,
+	public List<Statistic> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Statistic> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -943,16 +936,12 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_G;
-			finderArgs = new Object[] { companyId, groupId };
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId };
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_C_G;
-			finderArgs = new Object[] {
-					companyId, groupId,
-					
-					start, end, orderByComparator
-				};
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUP;
+			finderArgs = new Object[] { groupId, start, end, orderByComparator };
 		}
 
 		List<Statistic> list = null;
@@ -963,8 +952,7 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Statistic statistic : list) {
-					if ((companyId != statistic.getCompanyId()) ||
-							(groupId != statistic.getGroupId())) {
+					if ((groupId != statistic.getGroupId())) {
 						list = null;
 
 						break;
@@ -977,18 +965,16 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
+				query = new StringBundler(3 +
 						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(4);
+				query = new StringBundler(3);
 			}
 
 			query.append(_SQL_SELECT_STATISTIC_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_COMPANYID_2);
-
-			query.append(_FINDER_COLUMN_C_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1009,8 +995,6 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(companyId);
 
 				qPos.add(groupId);
 
@@ -1045,33 +1029,28 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	}
 
 	/**
-	 * Returns the first statistic in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the first statistic in the ordered set where groupId = &#63;.
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching statistic
 	 * @throws NoSuchStatisticException if a matching statistic could not be found
 	 */
 	@Override
-	public Statistic findByC_G_First(long companyId, long groupId,
+	public Statistic findByGroup_First(long groupId,
 		OrderByComparator<Statistic> orderByComparator)
 		throws NoSuchStatisticException {
-		Statistic statistic = fetchByC_G_First(companyId, groupId,
-				orderByComparator);
+		Statistic statistic = fetchByGroup_First(groupId, orderByComparator);
 
 		if (statistic != null) {
 			return statistic;
 		}
 
-		StringBundler msg = new StringBundler(6);
+		StringBundler msg = new StringBundler(4);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("companyId=");
-		msg.append(companyId);
-
-		msg.append(", groupId=");
+		msg.append("groupId=");
 		msg.append(groupId);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
@@ -1080,18 +1059,16 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	}
 
 	/**
-	 * Returns the first statistic in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the first statistic in the ordered set where groupId = &#63;.
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching statistic, or <code>null</code> if a matching statistic could not be found
 	 */
 	@Override
-	public Statistic fetchByC_G_First(long companyId, long groupId,
+	public Statistic fetchByGroup_First(long groupId,
 		OrderByComparator<Statistic> orderByComparator) {
-		List<Statistic> list = findByC_G(companyId, groupId, 0, 1,
-				orderByComparator);
+		List<Statistic> list = findByGroup(groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1101,33 +1078,28 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	}
 
 	/**
-	 * Returns the last statistic in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the last statistic in the ordered set where groupId = &#63;.
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching statistic
 	 * @throws NoSuchStatisticException if a matching statistic could not be found
 	 */
 	@Override
-	public Statistic findByC_G_Last(long companyId, long groupId,
+	public Statistic findByGroup_Last(long groupId,
 		OrderByComparator<Statistic> orderByComparator)
 		throws NoSuchStatisticException {
-		Statistic statistic = fetchByC_G_Last(companyId, groupId,
-				orderByComparator);
+		Statistic statistic = fetchByGroup_Last(groupId, orderByComparator);
 
 		if (statistic != null) {
 			return statistic;
 		}
 
-		StringBundler msg = new StringBundler(6);
+		StringBundler msg = new StringBundler(4);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("companyId=");
-		msg.append(companyId);
-
-		msg.append(", groupId=");
+		msg.append("groupId=");
 		msg.append(groupId);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
@@ -1136,23 +1108,22 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	}
 
 	/**
-	 * Returns the last statistic in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the last statistic in the ordered set where groupId = &#63;.
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching statistic, or <code>null</code> if a matching statistic could not be found
 	 */
 	@Override
-	public Statistic fetchByC_G_Last(long companyId, long groupId,
+	public Statistic fetchByGroup_Last(long groupId,
 		OrderByComparator<Statistic> orderByComparator) {
-		int count = countByC_G(companyId, groupId);
+		int count = countByGroup(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Statistic> list = findByC_G(companyId, groupId, count - 1, count,
+		List<Statistic> list = findByGroup(groupId, count - 1, count,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1163,18 +1134,17 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	}
 
 	/**
-	 * Returns the statistics before and after the current statistic in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the statistics before and after the current statistic in the ordered set where groupId = &#63;.
 	 *
 	 * @param statisticId the primary key of the current statistic
-	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next statistic
 	 * @throws NoSuchStatisticException if a statistic with the primary key could not be found
 	 */
 	@Override
-	public Statistic[] findByC_G_PrevAndNext(long statisticId, long companyId,
-		long groupId, OrderByComparator<Statistic> orderByComparator)
+	public Statistic[] findByGroup_PrevAndNext(long statisticId, long groupId,
+		OrderByComparator<Statistic> orderByComparator)
 		throws NoSuchStatisticException {
 		Statistic statistic = findByPrimaryKey(statisticId);
 
@@ -1185,13 +1155,13 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 
 			Statistic[] array = new StatisticImpl[3];
 
-			array[0] = getByC_G_PrevAndNext(session, statistic, companyId,
-					groupId, orderByComparator, true);
+			array[0] = getByGroup_PrevAndNext(session, statistic, groupId,
+					orderByComparator, true);
 
 			array[1] = statistic;
 
-			array[2] = getByC_G_PrevAndNext(session, statistic, companyId,
-					groupId, orderByComparator, false);
+			array[2] = getByGroup_PrevAndNext(session, statistic, groupId,
+					orderByComparator, false);
 
 			return array;
 		}
@@ -1203,25 +1173,524 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 		}
 	}
 
-	protected Statistic getByC_G_PrevAndNext(Session session,
-		Statistic statistic, long companyId, long groupId,
+	protected Statistic getByGroup_PrevAndNext(Session session,
+		Statistic statistic, long groupId,
 		OrderByComparator<Statistic> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
+			query = new StringBundler(4 +
 					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(4);
+			query = new StringBundler(3);
 		}
 
 		query.append(_SQL_SELECT_STATISTIC_WHERE);
 
-		query.append(_FINDER_COLUMN_C_G_COMPANYID_2);
+		query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
 
-		query.append(_FINDER_COLUMN_C_G_GROUPID_2);
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(StatisticModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(statistic);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Statistic> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the statistics where groupId = &#63; from the database.
+	 *
+	 * @param groupId the group ID
+	 */
+	@Override
+	public void removeByGroup(long groupId) {
+		for (Statistic statistic : findByGroup(groupId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(statistic);
+		}
+	}
+
+	/**
+	 * Returns the number of statistics where groupId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @return the number of matching statistics
+	 */
+	@Override
+	public int countByGroup(long groupId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUP;
+
+		Object[] finderArgs = new Object[] { groupId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_STATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUP_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_GROUP_GROUPID_2 = "statistic.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+			StatisticModelImpl.FINDER_CACHE_ENABLED, StatisticImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompany",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY =
+		new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+			StatisticModelImpl.FINDER_CACHE_ENABLED, StatisticImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompany",
+			new String[] { Long.class.getName() },
+			StatisticModelImpl.COMPANYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_COMPANY = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+			StatisticModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompany",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the statistics where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the matching statistics
+	 */
+	@Override
+	public List<Statistic> findByCompany(long companyId) {
+		return findByCompany(companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the statistics where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of statistics
+	 * @param end the upper bound of the range of statistics (not inclusive)
+	 * @return the range of matching statistics
+	 */
+	@Override
+	public List<Statistic> findByCompany(long companyId, int start, int end) {
+		return findByCompany(companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the statistics where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of statistics
+	 * @param end the upper bound of the range of statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching statistics
+	 */
+	@Override
+	public List<Statistic> findByCompany(long companyId, int start, int end,
+		OrderByComparator<Statistic> orderByComparator) {
+		return findByCompany(companyId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the statistics where companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of statistics
+	 * @param end the upper bound of the range of statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching statistics
+	 */
+	@Override
+	public List<Statistic> findByCompany(long companyId, int start, int end,
+		OrderByComparator<Statistic> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY;
+			finderArgs = new Object[] { companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANY;
+			finderArgs = new Object[] { companyId, start, end, orderByComparator };
+		}
+
+		List<Statistic> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Statistic>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Statistic statistic : list) {
+					if ((companyId != statistic.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_STATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(StatisticModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<Statistic>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Statistic>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching statistic
+	 * @throws NoSuchStatisticException if a matching statistic could not be found
+	 */
+	@Override
+	public Statistic findByCompany_First(long companyId,
+		OrderByComparator<Statistic> orderByComparator)
+		throws NoSuchStatisticException {
+		Statistic statistic = fetchByCompany_First(companyId, orderByComparator);
+
+		if (statistic != null) {
+			return statistic;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the first statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching statistic, or <code>null</code> if a matching statistic could not be found
+	 */
+	@Override
+	public Statistic fetchByCompany_First(long companyId,
+		OrderByComparator<Statistic> orderByComparator) {
+		List<Statistic> list = findByCompany(companyId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching statistic
+	 * @throws NoSuchStatisticException if a matching statistic could not be found
+	 */
+	@Override
+	public Statistic findByCompany_Last(long companyId,
+		OrderByComparator<Statistic> orderByComparator)
+		throws NoSuchStatisticException {
+		Statistic statistic = fetchByCompany_Last(companyId, orderByComparator);
+
+		if (statistic != null) {
+			return statistic;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the last statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching statistic, or <code>null</code> if a matching statistic could not be found
+	 */
+	@Override
+	public Statistic fetchByCompany_Last(long companyId,
+		OrderByComparator<Statistic> orderByComparator) {
+		int count = countByCompany(companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Statistic> list = findByCompany(companyId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the statistics before and after the current statistic in the ordered set where companyId = &#63;.
+	 *
+	 * @param statisticId the primary key of the current statistic
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next statistic
+	 * @throws NoSuchStatisticException if a statistic with the primary key could not be found
+	 */
+	@Override
+	public Statistic[] findByCompany_PrevAndNext(long statisticId,
+		long companyId, OrderByComparator<Statistic> orderByComparator)
+		throws NoSuchStatisticException {
+		Statistic statistic = findByPrimaryKey(statisticId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Statistic[] array = new StatisticImpl[3];
+
+			array[0] = getByCompany_PrevAndNext(session, statistic, companyId,
+					orderByComparator, true);
+
+			array[1] = statistic;
+
+			array[2] = getByCompany_PrevAndNext(session, statistic, companyId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Statistic getByCompany_PrevAndNext(Session session,
+		Statistic statistic, long companyId,
+		OrderByComparator<Statistic> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_STATISTIC_WHERE);
+
+		query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1293,7 +1762,543 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 
 		qPos.add(companyId);
 
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(statistic);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Statistic> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the statistics where companyId = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByCompany(long companyId) {
+		for (Statistic statistic : findByCompany(companyId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(statistic);
+		}
+	}
+
+	/**
+	 * Returns the number of statistics where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @return the number of matching statistics
+	 */
+	@Override
+	public int countByCompany(long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COMPANY;
+
+		Object[] finderArgs = new Object[] { companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_STATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_COMPANY_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_COMPANY_COMPANYID_2 = "statistic.companyId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+			StatisticModelImpl.FINDER_CACHE_ENABLED, StatisticImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupAndCompany",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY =
+		new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+			StatisticModelImpl.FINDER_CACHE_ENABLED, StatisticImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() },
+			StatisticModelImpl.GROUPID_COLUMN_BITMASK |
+			StatisticModelImpl.COMPANYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPANDCOMPANY = new FinderPath(StatisticModelImpl.ENTITY_CACHE_ENABLED,
+			StatisticModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupAndCompany",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns all the statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @return the matching statistics
+	 */
+	@Override
+	public List<Statistic> findByGroupAndCompany(long groupId, long companyId) {
+		return findByGroupAndCompany(groupId, companyId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of statistics
+	 * @param end the upper bound of the range of statistics (not inclusive)
+	 * @return the range of matching statistics
+	 */
+	@Override
+	public List<Statistic> findByGroupAndCompany(long groupId, long companyId,
+		int start, int end) {
+		return findByGroupAndCompany(groupId, companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of statistics
+	 * @param end the upper bound of the range of statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching statistics
+	 */
+	@Override
+	public List<Statistic> findByGroupAndCompany(long groupId, long companyId,
+		int start, int end, OrderByComparator<Statistic> orderByComparator) {
+		return findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the statistics where groupId = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link StatisticModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of statistics
+	 * @param end the upper bound of the range of statistics (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching statistics
+	 */
+	@Override
+	public List<Statistic> findByGroupAndCompany(long groupId, long companyId,
+		int start, int end, OrderByComparator<Statistic> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] { groupId, companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPANDCOMPANY;
+			finderArgs = new Object[] {
+					groupId, companyId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<Statistic> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Statistic>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Statistic statistic : list) {
+					if ((groupId != statistic.getGroupId()) ||
+							(companyId != statistic.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_STATISTIC_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(StatisticModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(groupId);
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<Statistic>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Statistic>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching statistic
+	 * @throws NoSuchStatisticException if a matching statistic could not be found
+	 */
+	@Override
+	public Statistic findByGroupAndCompany_First(long groupId, long companyId,
+		OrderByComparator<Statistic> orderByComparator)
+		throws NoSuchStatisticException {
+		Statistic statistic = fetchByGroupAndCompany_First(groupId, companyId,
+				orderByComparator);
+
+		if (statistic != null) {
+			return statistic;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the first statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching statistic, or <code>null</code> if a matching statistic could not be found
+	 */
+	@Override
+	public Statistic fetchByGroupAndCompany_First(long groupId, long companyId,
+		OrderByComparator<Statistic> orderByComparator) {
+		List<Statistic> list = findByGroupAndCompany(groupId, companyId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching statistic
+	 * @throws NoSuchStatisticException if a matching statistic could not be found
+	 */
+	@Override
+	public Statistic findByGroupAndCompany_Last(long groupId, long companyId,
+		OrderByComparator<Statistic> orderByComparator)
+		throws NoSuchStatisticException {
+		Statistic statistic = fetchByGroupAndCompany_Last(groupId, companyId,
+				orderByComparator);
+
+		if (statistic != null) {
+			return statistic;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchStatisticException(msg.toString());
+	}
+
+	/**
+	 * Returns the last statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching statistic, or <code>null</code> if a matching statistic could not be found
+	 */
+	@Override
+	public Statistic fetchByGroupAndCompany_Last(long groupId, long companyId,
+		OrderByComparator<Statistic> orderByComparator) {
+		int count = countByGroupAndCompany(groupId, companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Statistic> list = findByGroupAndCompany(groupId, companyId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the statistics before and after the current statistic in the ordered set where groupId = &#63; and companyId = &#63;.
+	 *
+	 * @param statisticId the primary key of the current statistic
+	 * @param groupId the group ID
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next statistic
+	 * @throws NoSuchStatisticException if a statistic with the primary key could not be found
+	 */
+	@Override
+	public Statistic[] findByGroupAndCompany_PrevAndNext(long statisticId,
+		long groupId, long companyId,
+		OrderByComparator<Statistic> orderByComparator)
+		throws NoSuchStatisticException {
+		Statistic statistic = findByPrimaryKey(statisticId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Statistic[] array = new StatisticImpl[3];
+
+			array[0] = getByGroupAndCompany_PrevAndNext(session, statistic,
+					groupId, companyId, orderByComparator, true);
+
+			array[1] = statistic;
+
+			array[2] = getByGroupAndCompany_PrevAndNext(session, statistic,
+					groupId, companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Statistic getByGroupAndCompany_PrevAndNext(Session session,
+		Statistic statistic, long groupId, long companyId,
+		OrderByComparator<Statistic> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_STATISTIC_WHERE);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
+
+		query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(StatisticModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
 		qPos.add(groupId);
+
+		qPos.add(companyId);
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(statistic);
@@ -1314,31 +2319,31 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 	}
 
 	/**
-	 * Removes all the statistics where companyId = &#63; and groupId = &#63; from the database.
+	 * Removes all the statistics where groupId = &#63; and companyId = &#63; from the database.
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param companyId the company ID
 	 */
 	@Override
-	public void removeByC_G(long companyId, long groupId) {
-		for (Statistic statistic : findByC_G(companyId, groupId,
+	public void removeByGroupAndCompany(long groupId, long companyId) {
+		for (Statistic statistic : findByGroupAndCompany(groupId, companyId,
 				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(statistic);
 		}
 	}
 
 	/**
-	 * Returns the number of statistics where companyId = &#63; and groupId = &#63;.
+	 * Returns the number of statistics where groupId = &#63; and companyId = &#63;.
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param companyId the company ID
 	 * @return the number of matching statistics
 	 */
 	@Override
-	public int countByC_G(long companyId, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_C_G;
+	public int countByGroupAndCompany(long groupId, long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPANDCOMPANY;
 
-		Object[] finderArgs = new Object[] { companyId, groupId };
+		Object[] finderArgs = new Object[] { groupId, companyId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1347,9 +2352,9 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 
 			query.append(_SQL_COUNT_STATISTIC_WHERE);
 
-			query.append(_FINDER_COLUMN_C_G_COMPANYID_2);
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_C_G_GROUPID_2);
+			query.append(_FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2);
 
 			String sql = query.toString();
 
@@ -1362,9 +2367,9 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(companyId);
-
 				qPos.add(groupId);
+
+				qPos.add(companyId);
 
 				count = (Long)q.uniqueResult();
 
@@ -1383,8 +2388,8 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_G_COMPANYID_2 = "statistic.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_C_G_GROUPID_2 = "statistic.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2 = "statistic.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2 = "statistic.companyId = ?";
 
 	public StatisticPersistenceImpl() {
 		setModelClass(Statistic.class);
@@ -1741,13 +2746,25 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 		}
 		else
 		 if (isNew) {
-			Object[] args = new Object[] {
-					statisticModelImpl.getCompanyId(),
-					statisticModelImpl.getGroupId()
+			Object[] args = new Object[] { statisticModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+				args);
+
+			args = new Object[] { statisticModelImpl.getCompanyId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+				args);
+
+			args = new Object[] {
+					statisticModelImpl.getGroupId(),
+					statisticModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_G, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_G,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
 				args);
 
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
@@ -1757,23 +2774,59 @@ public class StatisticPersistenceImpl extends BasePersistenceImpl<Statistic>
 
 		else {
 			if ((statisticModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_G.getColumnBitmask()) != 0) {
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
-						statisticModelImpl.getOriginalCompanyId(),
 						statisticModelImpl.getOriginalGroupId()
 					};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_G, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_G,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+
+				args = new Object[] { statisticModelImpl.getGroupId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUP, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUP,
+					args);
+			}
+
+			if ((statisticModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						statisticModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+
+				args = new Object[] { statisticModelImpl.getCompanyId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COMPANY, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANY,
+					args);
+			}
+
+			if ((statisticModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						statisticModelImpl.getOriginalGroupId(),
+						statisticModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
 					args);
 
 				args = new Object[] {
-						statisticModelImpl.getCompanyId(),
-						statisticModelImpl.getGroupId()
+						statisticModelImpl.getGroupId(),
+						statisticModelImpl.getCompanyId()
 					};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_G, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_G,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPANDCOMPANY,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPANDCOMPANY,
 					args);
 			}
 		}

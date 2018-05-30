@@ -105,8 +105,10 @@ public class ScheduledThreadModelImpl extends BaseModelImpl<ScheduledThread>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.de.uhh.l2g.plugins.model.ScheduledThread"),
 			true);
-	public static final long SCHEDULERCLASSNAME_COLUMN_BITMASK = 1L;
-	public static final long SCHEDULEDTHREADID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long SCHEDULERCLASSNAME_COLUMN_BITMASK = 4L;
+	public static final long SCHEDULEDTHREADID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"lock.expiration.time.de.uhh.l2g.plugins.model.ScheduledThread"));
 
@@ -237,7 +239,19 @@ public class ScheduledThreadModelImpl extends BaseModelImpl<ScheduledThread>
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
 		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@Override
@@ -247,7 +261,19 @@ public class ScheduledThreadModelImpl extends BaseModelImpl<ScheduledThread>
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
 		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
 	}
 
 	@Override
@@ -459,6 +485,14 @@ public class ScheduledThreadModelImpl extends BaseModelImpl<ScheduledThread>
 	public void resetOriginalValues() {
 		ScheduledThreadModelImpl scheduledThreadModelImpl = this;
 
+		scheduledThreadModelImpl._originalGroupId = scheduledThreadModelImpl._groupId;
+
+		scheduledThreadModelImpl._setOriginalGroupId = false;
+
+		scheduledThreadModelImpl._originalCompanyId = scheduledThreadModelImpl._companyId;
+
+		scheduledThreadModelImpl._setOriginalCompanyId = false;
+
 		scheduledThreadModelImpl._setModifiedDate = false;
 
 		scheduledThreadModelImpl._originalSchedulerClassName = scheduledThreadModelImpl._schedulerClassName;
@@ -606,7 +640,11 @@ public class ScheduledThreadModelImpl extends BaseModelImpl<ScheduledThread>
 		};
 	private long _scheduledThreadId;
 	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;

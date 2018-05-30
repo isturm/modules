@@ -20,12 +20,16 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import de.uhh.l2g.plugins.model.License;
 import de.uhh.l2g.plugins.model.LicenseModel;
@@ -34,6 +38,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +73,13 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 			{ "ccbyncsa", Types.INTEGER },
 			{ "ccbysa", Types.INTEGER },
 			{ "ccbync", Types.INTEGER },
-			{ "l2go", Types.INTEGER }
+			{ "l2go", Types.INTEGER },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
+			{ "userId", Types.BIGINT },
+			{ "userName", Types.VARCHAR },
+			{ "createDate", Types.TIMESTAMP },
+			{ "modifiedDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -82,9 +93,15 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 		TABLE_COLUMNS_MAP.put("ccbysa", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("ccbync", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("l2go", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LG_License (licenseId LONG not null primary key,videoId LONG,ccby INTEGER,ccbybc INTEGER,ccbyncnd INTEGER,ccbyncsa INTEGER,ccbysa INTEGER,ccbync INTEGER,l2go INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table LG_License (licenseId LONG not null primary key,videoId LONG,ccby INTEGER,ccbybc INTEGER,ccbyncnd INTEGER,ccbyncsa INTEGER,ccbysa INTEGER,ccbync INTEGER,l2go INTEGER,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LG_License";
 	public static final String ORDER_BY_JPQL = " ORDER BY license.licenseId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LG_License.licenseId ASC";
@@ -100,8 +117,10 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.de.uhh.l2g.plugins.model.License"),
 			true);
-	public static final long VIDEOID_COLUMN_BITMASK = 1L;
-	public static final long LICENSEID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long VIDEOID_COLUMN_BITMASK = 4L;
+	public static final long LICENSEID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"lock.expiration.time.de.uhh.l2g.plugins.model.License"));
 
@@ -151,6 +170,12 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 		attributes.put("ccbysa", getCcbysa());
 		attributes.put("ccbync", getCcbync());
 		attributes.put("l2go", getL2go());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -212,6 +237,42 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 
 		if (l2go != null) {
 			setL2go(l2go);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -317,13 +378,124 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 		_l2go = l2go;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
+		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
+		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
+	}
+
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			License.class.getName(), getPrimaryKey());
 	}
 
@@ -357,6 +529,12 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 		licenseImpl.setCcbysa(getCcbysa());
 		licenseImpl.setCcbync(getCcbync());
 		licenseImpl.setL2go(getL2go());
+		licenseImpl.setGroupId(getGroupId());
+		licenseImpl.setCompanyId(getCompanyId());
+		licenseImpl.setUserId(getUserId());
+		licenseImpl.setUserName(getUserName());
+		licenseImpl.setCreateDate(getCreateDate());
+		licenseImpl.setModifiedDate(getModifiedDate());
 
 		licenseImpl.resetOriginalValues();
 
@@ -423,6 +601,16 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 
 		licenseModelImpl._setOriginalVideoId = false;
 
+		licenseModelImpl._originalGroupId = licenseModelImpl._groupId;
+
+		licenseModelImpl._setOriginalGroupId = false;
+
+		licenseModelImpl._originalCompanyId = licenseModelImpl._companyId;
+
+		licenseModelImpl._setOriginalCompanyId = false;
+
+		licenseModelImpl._setModifiedDate = false;
+
 		licenseModelImpl._columnBitmask = 0;
 	}
 
@@ -448,12 +636,44 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 
 		licenseCacheModel.l2go = getL2go();
 
+		licenseCacheModel.groupId = getGroupId();
+
+		licenseCacheModel.companyId = getCompanyId();
+
+		licenseCacheModel.userId = getUserId();
+
+		licenseCacheModel.userName = getUserName();
+
+		String userName = licenseCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			licenseCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			licenseCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			licenseCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			licenseCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			licenseCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
 		return licenseCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{licenseId=");
 		sb.append(getLicenseId());
@@ -473,6 +693,18 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 		sb.append(getCcbync());
 		sb.append(", l2go=");
 		sb.append(getL2go());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", userId=");
+		sb.append(getUserId());
+		sb.append(", userName=");
+		sb.append(getUserName());
+		sb.append(", createDate=");
+		sb.append(getCreateDate());
+		sb.append(", modifiedDate=");
+		sb.append(getModifiedDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -480,7 +712,7 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("de.uhh.l2g.plugins.model.License");
@@ -522,6 +754,30 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 			"<column><column-name>l2go</column-name><column-value><![CDATA[");
 		sb.append(getL2go());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userId</column-name><column-value><![CDATA[");
+		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>userName</column-name><column-value><![CDATA[");
+		sb.append(getUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>createDate</column-name><column-value><![CDATA[");
+		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
+		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -543,6 +799,17 @@ public class LicenseModelImpl extends BaseModelImpl<License>
 	private int _ccbysa;
 	private int _ccbync;
 	private int _l2go;
+	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
+	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private long _columnBitmask;
 	private License _escapedModel;
 }

@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -65,6 +66,12 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 		attributes.put("ccbysa", getCcbysa());
 		attributes.put("ccbync", getCcbync());
 		attributes.put("l2go", getL2go());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 
 		return attributes;
 	}
@@ -123,6 +130,42 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 
 		if (l2go != null) {
 			setL2go(l2go);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 	}
 
@@ -251,6 +294,26 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 		return new LicenseWrapper((License)_license.clone());
 	}
 
+	/**
+	* Returns the user name of this license.
+	*
+	* @return the user name of this license
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _license.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this license.
+	*
+	* @return the user uuid of this license
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _license.getUserUuid();
+	}
+
 	@Override
 	public java.lang.String toString() {
 		return _license.toString();
@@ -259,6 +322,46 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 	@Override
 	public java.lang.String toXmlString() {
 		return _license.toXmlString();
+	}
+
+	/**
+	* Returns the create date of this license.
+	*
+	* @return the create date of this license
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _license.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this license.
+	*
+	* @return the modified date of this license
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _license.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this license.
+	*
+	* @return the company ID of this license
+	*/
+	@Override
+	public long getCompanyId() {
+		return _license.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this license.
+	*
+	* @return the group ID of this license
+	*/
+	@Override
+	public long getGroupId() {
+		return _license.getGroupId();
 	}
 
 	/**
@@ -279,6 +382,16 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 	@Override
 	public long getPrimaryKey() {
 		return _license.getPrimaryKey();
+	}
+
+	/**
+	* Returns the user ID of this license.
+	*
+	* @return the user ID of this license
+	*/
+	@Override
+	public long getUserId() {
+		return _license.getUserId();
 	}
 
 	/**
@@ -361,6 +474,26 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 		_license.setCcbysa(ccbysa);
 	}
 
+	/**
+	* Sets the company ID of this license.
+	*
+	* @param companyId the company ID of this license
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_license.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this license.
+	*
+	* @param createDate the create date of this license
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_license.setCreateDate(createDate);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_license.setExpandoBridgeAttributes(expandoBridge);
@@ -375,6 +508,16 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_license.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the group ID of this license.
+	*
+	* @param groupId the group ID of this license
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_license.setGroupId(groupId);
 	}
 
 	/**
@@ -397,6 +540,16 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 		_license.setLicenseId(licenseId);
 	}
 
+	/**
+	* Sets the modified date of this license.
+	*
+	* @param modifiedDate the modified date of this license
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_license.setModifiedDate(modifiedDate);
+	}
+
 	@Override
 	public void setNew(boolean n) {
 		_license.setNew(n);
@@ -415,6 +568,36 @@ public class LicenseWrapper implements License, ModelWrapper<License> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_license.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the user ID of this license.
+	*
+	* @param userId the user ID of this license
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_license.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this license.
+	*
+	* @param userName the user name of this license
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_license.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this license.
+	*
+	* @param userUuid the user uuid of this license
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_license.setUserUuid(userUuid);
 	}
 
 	/**

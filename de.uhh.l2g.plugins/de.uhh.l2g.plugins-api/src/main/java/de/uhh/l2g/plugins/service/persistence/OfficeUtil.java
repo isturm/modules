@@ -165,6 +165,495 @@ public class OfficeUtil {
 	}
 
 	/**
+	* Returns all the offices where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching offices
+	*/
+	public static List<Office> findByGroup(long groupId) {
+		return getPersistence().findByGroup(groupId);
+	}
+
+	/**
+	* Returns a range of all the offices where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @return the range of matching offices
+	*/
+	public static List<Office> findByGroup(long groupId, int start, int end) {
+		return getPersistence().findByGroup(groupId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the offices where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching offices
+	*/
+	public static List<Office> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Office> orderByComparator) {
+		return getPersistence()
+				   .findByGroup(groupId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the offices where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching offices
+	*/
+	public static List<Office> findByGroup(long groupId, int start, int end,
+		OrderByComparator<Office> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByGroup(groupId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first office in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public static Office findByGroup_First(long groupId,
+		OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence().findByGroup_First(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the first office in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public static Office fetchByGroup_First(long groupId,
+		OrderByComparator<Office> orderByComparator) {
+		return getPersistence().fetchByGroup_First(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the last office in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public static Office findByGroup_Last(long groupId,
+		OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence().findByGroup_Last(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the last office in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public static Office fetchByGroup_Last(long groupId,
+		OrderByComparator<Office> orderByComparator) {
+		return getPersistence().fetchByGroup_Last(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the offices before and after the current office in the ordered set where groupId = &#63;.
+	*
+	* @param officeId the primary key of the current office
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next office
+	* @throws NoSuchOfficeException if a office with the primary key could not be found
+	*/
+	public static Office[] findByGroup_PrevAndNext(long officeId, long groupId,
+		OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence()
+				   .findByGroup_PrevAndNext(officeId, groupId, orderByComparator);
+	}
+
+	/**
+	* Removes all the offices where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public static void removeByGroup(long groupId) {
+		getPersistence().removeByGroup(groupId);
+	}
+
+	/**
+	* Returns the number of offices where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching offices
+	*/
+	public static int countByGroup(long groupId) {
+		return getPersistence().countByGroup(groupId);
+	}
+
+	/**
+	* Returns all the offices where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching offices
+	*/
+	public static List<Office> findByCompany(long companyId) {
+		return getPersistence().findByCompany(companyId);
+	}
+
+	/**
+	* Returns a range of all the offices where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @return the range of matching offices
+	*/
+	public static List<Office> findByCompany(long companyId, int start, int end) {
+		return getPersistence().findByCompany(companyId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the offices where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching offices
+	*/
+	public static List<Office> findByCompany(long companyId, int start,
+		int end, OrderByComparator<Office> orderByComparator) {
+		return getPersistence()
+				   .findByCompany(companyId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the offices where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching offices
+	*/
+	public static List<Office> findByCompany(long companyId, int start,
+		int end, OrderByComparator<Office> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByCompany(companyId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first office in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public static Office findByCompany_First(long companyId,
+		OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence().findByCompany_First(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the first office in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public static Office fetchByCompany_First(long companyId,
+		OrderByComparator<Office> orderByComparator) {
+		return getPersistence()
+				   .fetchByCompany_First(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the last office in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public static Office findByCompany_Last(long companyId,
+		OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence().findByCompany_Last(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the last office in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public static Office fetchByCompany_Last(long companyId,
+		OrderByComparator<Office> orderByComparator) {
+		return getPersistence().fetchByCompany_Last(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the offices before and after the current office in the ordered set where companyId = &#63;.
+	*
+	* @param officeId the primary key of the current office
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next office
+	* @throws NoSuchOfficeException if a office with the primary key could not be found
+	*/
+	public static Office[] findByCompany_PrevAndNext(long officeId,
+		long companyId, OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence()
+				   .findByCompany_PrevAndNext(officeId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the offices where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public static void removeByCompany(long companyId) {
+		getPersistence().removeByCompany(companyId);
+	}
+
+	/**
+	* Returns the number of offices where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching offices
+	*/
+	public static int countByCompany(long companyId) {
+		return getPersistence().countByCompany(companyId);
+	}
+
+	/**
+	* Returns all the offices where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching offices
+	*/
+	public static List<Office> findByGroupAndCompany(long groupId,
+		long companyId) {
+		return getPersistence().findByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
+	* Returns a range of all the offices where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @return the range of matching offices
+	*/
+	public static List<Office> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the offices where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching offices
+	*/
+	public static List<Office> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Office> orderByComparator) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the offices where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of offices
+	* @param end the upper bound of the range of offices (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching offices
+	*/
+	public static List<Office> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Office> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public static Office findByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence()
+				   .findByGroupAndCompany_First(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public static Office fetchByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Office> orderByComparator) {
+		return getPersistence()
+				   .fetchByGroupAndCompany_First(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office
+	* @throws NoSuchOfficeException if a matching office could not be found
+	*/
+	public static Office findByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence()
+				   .findByGroupAndCompany_Last(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching office, or <code>null</code> if a matching office could not be found
+	*/
+	public static Office fetchByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Office> orderByComparator) {
+		return getPersistence()
+				   .fetchByGroupAndCompany_Last(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the offices before and after the current office in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param officeId the primary key of the current office
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next office
+	* @throws NoSuchOfficeException if a office with the primary key could not be found
+	*/
+	public static Office[] findByGroupAndCompany_PrevAndNext(long officeId,
+		long groupId, long companyId,
+		OrderByComparator<Office> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchOfficeException {
+		return getPersistence()
+				   .findByGroupAndCompany_PrevAndNext(officeId, groupId,
+			companyId, orderByComparator);
+	}
+
+	/**
+	* Removes all the offices where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public static void removeByGroupAndCompany(long groupId, long companyId) {
+		getPersistence().removeByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
+	* Returns the number of offices where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching offices
+	*/
+	public static int countByGroupAndCompany(long groupId, long companyId) {
+		return getPersistence().countByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
 	* Caches the office in the entity cache if it is enabled.
 	*
 	* @param office the office

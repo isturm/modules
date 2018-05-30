@@ -175,7 +175,14 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="institutionId"></finder-column>
         </finder>
-        <finder name="CompanyId" return-type="Collection">
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>
     </entity>
@@ -222,7 +229,16 @@
     	<finder name="UID" return-type="Producer">
     		<finder-column name="idNum"></finder-column>
     	</finder>
-
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
 
     	<!-- PK fields -->
 
@@ -264,9 +280,16 @@
     	<order by="asc">
     		<order-column name="serverRoot" />
     	</order>
-    	<finder name="GroupId" return-type="Collection">
-    		<finder-column name="groupId"></finder-column>
-    	</finder>
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
     	<finder name="CompanyIdAndGroupId" return-type="Collection">
     		<finder-column name="companyId"></finder-column>
     		<finder-column name="groupId"></finder-column>
@@ -344,9 +367,16 @@
     	<finder name="Institution" return-type="Office">
     		<finder-column name="institutionId"></finder-column>
     	</finder>
-
-
-    	<!-- PK fields -->
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>    	<!-- PK fields -->
 
     	<!-- Group instance -->
 
@@ -371,9 +401,16 @@
     	<finder name="Office" return-type="Collection">
     		<finder-column name="officeId"></finder-column>
     	</finder>
-
-
-    	<!-- PK fields -->
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>    	<!-- PK fields -->
 
     	<!-- Group instance -->
 
@@ -401,6 +438,58 @@
     	<finder name="Video" return-type="Collection">
     		<finder-column name="videoId"></finder-column>
     	</finder>
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        
+    	<!-- PK fields -->
+
+    	<!-- Group instance -->
+
+    	<column name="groupId" type="long"></column>
+
+    	<!-- Audit fields -->
+
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
+    </entity>
+    <entity name="License" local-service="true"
+    	remote-service="false">
+    	<column name="licenseId" type="long" primary="true"
+    		id-type="increment">
+    	</column>
+    	<column name="videoId" type="long"></column>
+    	<column name="ccby" type="int"></column>
+    	<column name="ccbybc" type="int"></column>
+    	<column name="ccbyncnd" type="int"></column>
+    	<column name="ccbyncsa" type="int"></column>
+    	<column name="ccbysa" type="int"></column>
+    	<column name="ccbync" type="int"></column>
+    	<column name="l2go" type="int"></column>
+    	<finder name="Video"
+    		return-type="de.uhh.l2g.plugins.model.License">
+    		<finder-column name="videoId"></finder-column>
+    	</finder>
+    	<finder name="Group" return-type="Collection">
+    		<finder-column name="groupId"></finder-column>
+    	</finder>
+    	<finder name="Company" return-type="Collection">
+    		<finder-column name="companyId"></finder-column>
+    	</finder>
+    	<finder name="GroupAndCompany" return-type="Collection">
+    		<finder-column name="groupId"></finder-column>
+    		<finder-column name="companyId"></finder-column>
+    	</finder>
 
 
     	<!-- PK fields -->
@@ -416,20 +505,6 @@
     	<column name="userName" type="String"></column>
     	<column name="createDate" type="Date"></column>
     	<column name="modifiedDate" type="Date"></column>
-    </entity>
-    <entity name="License" local-service="true" remote-service="false">
-        <column name="licenseId" type="long" primary="true" id-type="increment"></column>
-        <column name="videoId" type="long"></column>
-        <column name="ccby" type="int"></column>
-        <column name="ccbybc" type="int"></column>
-        <column name="ccbyncnd" type="int"></column>
-        <column name="ccbyncsa" type="int"></column>
-        <column name="ccbysa" type="int"></column>
-        <column name="ccbync" type="int"></column>
-        <column name="l2go" type="int"></column>
-        <finder name="Video" return-type="de.uhh.l2g.plugins.model.License">
-            <finder-column name="videoId"></finder-column>
-        </finder>
     </entity>
     <entity name="Metadata" local-service="true"
     	remote-service="false">
@@ -457,6 +532,16 @@
     	<column name="userName" type="String"></column>
     	<column name="createDate" type="Date"></column>
     	<column name="modifiedDate" type="Date"></column>
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>    	
     </entity>
     <entity name="Segment" local-service="true"
     	remote-service="false">
@@ -481,9 +566,17 @@
     	<finder name="User" return-type="Collection">
     		<finder-column name="userId"></finder-column>
     	</finder>
-
-
-    	<!-- PK fields -->
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
+     	<!-- PK fields -->
 
     	<!-- Group instance -->
 
@@ -565,7 +658,16 @@
     	<finder name="Term" return-type="Collection">
     		<finder-column name="termId"></finder-column>
     	</finder>
-
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
 
     	<!-- PK fields -->
 
@@ -613,7 +715,16 @@
     	<finder name="Video" return-type="Collection">
     		<finder-column name="videoId"></finder-column>
     	</finder>
-
+	 	<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
 
     	<!-- PK fields -->
 
@@ -819,8 +930,17 @@
     	<finder name="FullName" return-type="Collection">
     		<finder-column name="fullName"></finder-column>
     	</finder>
-
-
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        
     	<!-- PK fields -->
 
     	<!-- Group instance -->
@@ -884,7 +1004,16 @@
     		<finder-column name="objectClassType"></finder-column>
     		<finder-column name="objectId"></finder-column>
     	</finder>
-
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>
 
     	<!-- PK fields -->
 
@@ -926,9 +1055,15 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="createDate"></finder-column>
         </finder>
-        <finder name="C_G" return-type="Collection">
-            <finder-column name="companyId"></finder-column>
+ 		<finder name="Group" return-type="Collection">
             <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
         </finder>
     </entity>
     <entity name="VideoStatistic" local-service="true" remote-service="false">
@@ -971,6 +1106,16 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>        
     </entity>
     <entity name="ScheduledThread" local-service="true"
     	remote-service="false">
@@ -996,9 +1141,16 @@
     		return-type="ScheduledThread">
     		<finder-column name="schedulerClassName"></finder-column>
     	</finder>
-
-
-    
+ 		<finder name="Group" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="Company" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="GroupAndCompany" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+        </finder>    
     </entity>
     
     <exceptions>

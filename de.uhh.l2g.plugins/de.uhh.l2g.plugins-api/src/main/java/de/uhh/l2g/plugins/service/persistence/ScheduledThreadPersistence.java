@@ -90,6 +90,418 @@ public interface ScheduledThreadPersistence extends BasePersistence<ScheduledThr
 	public int countBySchedulerClassName(java.lang.String schedulerClassName);
 
 	/**
+	* Returns all the scheduled threads where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByGroup(long groupId);
+
+	/**
+	* Returns a range of all the scheduled threads where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @return the range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByGroup(long groupId, int start,
+		int end);
+
+	/**
+	* Returns an ordered range of all the scheduled threads where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByGroup(long groupId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the scheduled threads where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByGroup(long groupId, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first scheduled thread in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching scheduled thread
+	* @throws NoSuchScheduledThreadException if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread findByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Returns the first scheduled thread in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching scheduled thread, or <code>null</code> if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread fetchByGroup_First(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns the last scheduled thread in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching scheduled thread
+	* @throws NoSuchScheduledThreadException if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread findByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Returns the last scheduled thread in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching scheduled thread, or <code>null</code> if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread fetchByGroup_Last(long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns the scheduled threads before and after the current scheduled thread in the ordered set where groupId = &#63;.
+	*
+	* @param scheduledThreadId the primary key of the current scheduled thread
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next scheduled thread
+	* @throws NoSuchScheduledThreadException if a scheduled thread with the primary key could not be found
+	*/
+	public ScheduledThread[] findByGroup_PrevAndNext(long scheduledThreadId,
+		long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Removes all the scheduled threads where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public void removeByGroup(long groupId);
+
+	/**
+	* Returns the number of scheduled threads where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching scheduled threads
+	*/
+	public int countByGroup(long groupId);
+
+	/**
+	* Returns all the scheduled threads where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByCompany(long companyId);
+
+	/**
+	* Returns a range of all the scheduled threads where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @return the range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByCompany(long companyId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the scheduled threads where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByCompany(long companyId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the scheduled threads where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByCompany(long companyId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first scheduled thread in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching scheduled thread
+	* @throws NoSuchScheduledThreadException if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread findByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Returns the first scheduled thread in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching scheduled thread, or <code>null</code> if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread fetchByCompany_First(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns the last scheduled thread in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching scheduled thread
+	* @throws NoSuchScheduledThreadException if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread findByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Returns the last scheduled thread in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching scheduled thread, or <code>null</code> if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread fetchByCompany_Last(long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns the scheduled threads before and after the current scheduled thread in the ordered set where companyId = &#63;.
+	*
+	* @param scheduledThreadId the primary key of the current scheduled thread
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next scheduled thread
+	* @throws NoSuchScheduledThreadException if a scheduled thread with the primary key could not be found
+	*/
+	public ScheduledThread[] findByCompany_PrevAndNext(long scheduledThreadId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Removes all the scheduled threads where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public void removeByCompany(long companyId);
+
+	/**
+	* Returns the number of scheduled threads where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching scheduled threads
+	*/
+	public int countByCompany(long companyId);
+
+	/**
+	* Returns all the scheduled threads where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByGroupAndCompany(long groupId,
+		long companyId);
+
+	/**
+	* Returns a range of all the scheduled threads where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @return the range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the scheduled threads where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the scheduled threads where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduledThreadModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of scheduled threads
+	* @param end the upper bound of the range of scheduled threads (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching scheduled threads
+	*/
+	public java.util.List<ScheduledThread> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first scheduled thread in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching scheduled thread
+	* @throws NoSuchScheduledThreadException if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread findByGroupAndCompany_First(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Returns the first scheduled thread in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching scheduled thread, or <code>null</code> if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread fetchByGroupAndCompany_First(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns the last scheduled thread in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching scheduled thread
+	* @throws NoSuchScheduledThreadException if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread findByGroupAndCompany_Last(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Returns the last scheduled thread in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching scheduled thread, or <code>null</code> if a matching scheduled thread could not be found
+	*/
+	public ScheduledThread fetchByGroupAndCompany_Last(long groupId,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator);
+
+	/**
+	* Returns the scheduled threads before and after the current scheduled thread in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param scheduledThreadId the primary key of the current scheduled thread
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next scheduled thread
+	* @throws NoSuchScheduledThreadException if a scheduled thread with the primary key could not be found
+	*/
+	public ScheduledThread[] findByGroupAndCompany_PrevAndNext(
+		long scheduledThreadId, long groupId, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<ScheduledThread> orderByComparator)
+		throws NoSuchScheduledThreadException;
+
+	/**
+	* Removes all the scheduled threads where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public void removeByGroupAndCompany(long groupId, long companyId);
+
+	/**
+	* Returns the number of scheduled threads where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching scheduled threads
+	*/
+	public int countByGroupAndCompany(long groupId, long companyId);
+
+	/**
 	* Caches the scheduled thread in the entity cache if it is enabled.
 	*
 	* @param scheduledThread the scheduled thread

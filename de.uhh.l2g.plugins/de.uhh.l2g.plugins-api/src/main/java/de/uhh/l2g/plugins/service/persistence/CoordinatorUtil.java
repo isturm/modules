@@ -324,6 +324,499 @@ public class CoordinatorUtil {
 	}
 
 	/**
+	* Returns all the coordinators where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the matching coordinators
+	*/
+	public static List<Coordinator> findByGroup(long groupId) {
+		return getPersistence().findByGroup(groupId);
+	}
+
+	/**
+	* Returns a range of all the coordinators where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @return the range of matching coordinators
+	*/
+	public static List<Coordinator> findByGroup(long groupId, int start, int end) {
+		return getPersistence().findByGroup(groupId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching coordinators
+	*/
+	public static List<Coordinator> findByGroup(long groupId, int start,
+		int end, OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence()
+				   .findByGroup(groupId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching coordinators
+	*/
+	public static List<Coordinator> findByGroup(long groupId, int start,
+		int end, OrderByComparator<Coordinator> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByGroup(groupId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first coordinator in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByGroup_First(long groupId,
+		OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().findByGroup_First(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the first coordinator in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByGroup_First(long groupId,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence().fetchByGroup_First(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the last coordinator in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByGroup_Last(long groupId,
+		OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().findByGroup_Last(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the last coordinator in the ordered set where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByGroup_Last(long groupId,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence().fetchByGroup_Last(groupId, orderByComparator);
+	}
+
+	/**
+	* Returns the coordinators before and after the current coordinator in the ordered set where groupId = &#63;.
+	*
+	* @param coordinatorId the primary key of the current coordinator
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next coordinator
+	* @throws NoSuchCoordinatorException if a coordinator with the primary key could not be found
+	*/
+	public static Coordinator[] findByGroup_PrevAndNext(long coordinatorId,
+		long groupId, OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence()
+				   .findByGroup_PrevAndNext(coordinatorId, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the coordinators where groupId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	*/
+	public static void removeByGroup(long groupId) {
+		getPersistence().removeByGroup(groupId);
+	}
+
+	/**
+	* Returns the number of coordinators where groupId = &#63;.
+	*
+	* @param groupId the group ID
+	* @return the number of matching coordinators
+	*/
+	public static int countByGroup(long groupId) {
+		return getPersistence().countByGroup(groupId);
+	}
+
+	/**
+	* Returns all the coordinators where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the matching coordinators
+	*/
+	public static List<Coordinator> findByCompany(long companyId) {
+		return getPersistence().findByCompany(companyId);
+	}
+
+	/**
+	* Returns a range of all the coordinators where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @return the range of matching coordinators
+	*/
+	public static List<Coordinator> findByCompany(long companyId, int start,
+		int end) {
+		return getPersistence().findByCompany(companyId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching coordinators
+	*/
+	public static List<Coordinator> findByCompany(long companyId, int start,
+		int end, OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence()
+				   .findByCompany(companyId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators where companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching coordinators
+	*/
+	public static List<Coordinator> findByCompany(long companyId, int start,
+		int end, OrderByComparator<Coordinator> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByCompany(companyId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first coordinator in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByCompany_First(long companyId,
+		OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().findByCompany_First(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the first coordinator in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByCompany_First(long companyId,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence()
+				   .fetchByCompany_First(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the last coordinator in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByCompany_Last(long companyId,
+		OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence().findByCompany_Last(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the last coordinator in the ordered set where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByCompany_Last(long companyId,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence().fetchByCompany_Last(companyId, orderByComparator);
+	}
+
+	/**
+	* Returns the coordinators before and after the current coordinator in the ordered set where companyId = &#63;.
+	*
+	* @param coordinatorId the primary key of the current coordinator
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next coordinator
+	* @throws NoSuchCoordinatorException if a coordinator with the primary key could not be found
+	*/
+	public static Coordinator[] findByCompany_PrevAndNext(long coordinatorId,
+		long companyId, OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence()
+				   .findByCompany_PrevAndNext(coordinatorId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the coordinators where companyId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	*/
+	public static void removeByCompany(long companyId) {
+		getPersistence().removeByCompany(companyId);
+	}
+
+	/**
+	* Returns the number of coordinators where companyId = &#63;.
+	*
+	* @param companyId the company ID
+	* @return the number of matching coordinators
+	*/
+	public static int countByCompany(long companyId) {
+		return getPersistence().countByCompany(companyId);
+	}
+
+	/**
+	* Returns all the coordinators where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the matching coordinators
+	*/
+	public static List<Coordinator> findByGroupAndCompany(long groupId,
+		long companyId) {
+		return getPersistence().findByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
+	* Returns a range of all the coordinators where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @return the range of matching coordinators
+	*/
+	public static List<Coordinator> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching coordinators
+	*/
+	public static List<Coordinator> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the coordinators where groupId = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CoordinatorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param start the lower bound of the range of coordinators
+	* @param end the upper bound of the range of coordinators (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching coordinators
+	*/
+	public static List<Coordinator> findByGroupAndCompany(long groupId,
+		long companyId, int start, int end,
+		OrderByComparator<Coordinator> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByGroupAndCompany(groupId, companyId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first coordinator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence()
+				   .findByGroupAndCompany_First(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first coordinator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByGroupAndCompany_First(long groupId,
+		long companyId, OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence()
+				   .fetchByGroupAndCompany_First(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last coordinator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching coordinator
+	* @throws NoSuchCoordinatorException if a matching coordinator could not be found
+	*/
+	public static Coordinator findByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence()
+				   .findByGroupAndCompany_Last(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last coordinator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching coordinator, or <code>null</code> if a matching coordinator could not be found
+	*/
+	public static Coordinator fetchByGroupAndCompany_Last(long groupId,
+		long companyId, OrderByComparator<Coordinator> orderByComparator) {
+		return getPersistence()
+				   .fetchByGroupAndCompany_Last(groupId, companyId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the coordinators before and after the current coordinator in the ordered set where groupId = &#63; and companyId = &#63;.
+	*
+	* @param coordinatorId the primary key of the current coordinator
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next coordinator
+	* @throws NoSuchCoordinatorException if a coordinator with the primary key could not be found
+	*/
+	public static Coordinator[] findByGroupAndCompany_PrevAndNext(
+		long coordinatorId, long groupId, long companyId,
+		OrderByComparator<Coordinator> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchCoordinatorException {
+		return getPersistence()
+				   .findByGroupAndCompany_PrevAndNext(coordinatorId, groupId,
+			companyId, orderByComparator);
+	}
+
+	/**
+	* Removes all the coordinators where groupId = &#63; and companyId = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	*/
+	public static void removeByGroupAndCompany(long groupId, long companyId) {
+		getPersistence().removeByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
+	* Returns the number of coordinators where groupId = &#63; and companyId = &#63;.
+	*
+	* @param groupId the group ID
+	* @param companyId the company ID
+	* @return the number of matching coordinators
+	*/
+	public static int countByGroupAndCompany(long groupId, long companyId) {
+		return getPersistence().countByGroupAndCompany(groupId, companyId);
+	}
+
+	/**
 	* Caches the coordinator in the entity cache if it is enabled.
 	*
 	* @param coordinator the coordinator

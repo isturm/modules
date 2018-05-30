@@ -110,7 +110,12 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"value.object.finder.cache.enabled.de.uhh.l2g.plugins.model.Metadata"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(de.uhh.l2g.plugins.service.util.ServiceProps.get(
+				"value.object.column.bitmask.enabled.de.uhh.l2g.plugins.model.Metadata"),
+			true);
+	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long METADATAID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(de.uhh.l2g.plugins.service.util.ServiceProps.get(
 				"lock.expiration.time.de.uhh.l2g.plugins.model.Metadata"));
 
@@ -359,7 +364,19 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
 		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@Override
@@ -369,7 +386,19 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
 		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
 	}
 
 	@Override
@@ -437,6 +466,10 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 		_setModifiedDate = true;
 
 		_modifiedDate = modifiedDate;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -541,7 +574,17 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 	public void resetOriginalValues() {
 		MetadataModelImpl metadataModelImpl = this;
 
+		metadataModelImpl._originalGroupId = metadataModelImpl._groupId;
+
+		metadataModelImpl._setOriginalGroupId = false;
+
+		metadataModelImpl._originalCompanyId = metadataModelImpl._companyId;
+
+		metadataModelImpl._setOriginalCompanyId = false;
+
 		metadataModelImpl._setModifiedDate = false;
+
+		metadataModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -746,11 +789,16 @@ public class MetadataModelImpl extends BaseModelImpl<Metadata>
 	private String _description;
 	private String _publisher;
 	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private long _columnBitmask;
 	private Metadata _escapedModel;
 }
