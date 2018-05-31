@@ -66,15 +66,15 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 	}
 
 	public List<Host> getByGroupId(long groupId) throws SystemException {
-		return hostPersistence.findByGroupId(groupId);
+		return hostPersistence.findByGroup(groupId);
 	}
 
 	public List<Host> getByGroupId(long groupId, int start, int end) throws SystemException {
-		return hostPersistence.findByGroupId(groupId, start, end);
+		return hostPersistence.findByGroup(groupId, start, end);
 	}
 
 	public int getByGroupIdCount(long groupId) throws SystemException {
-		return hostPersistence.countByGroupId(groupId);
+		return hostPersistence.countByGroup(groupId);
 	}
 
 	public Host getByGroupIdAndHostId(long groupId, long hostId) throws SystemException {

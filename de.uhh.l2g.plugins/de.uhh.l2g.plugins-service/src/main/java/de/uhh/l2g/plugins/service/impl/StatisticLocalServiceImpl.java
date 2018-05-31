@@ -62,7 +62,7 @@ public class StatisticLocalServiceImpl
 	 */
 
 	public List<Statistic> getByCompanyIdandGroupId(long companyId, long groupId) throws SystemException, PortalException {
-		List<Statistic> institution_host = statisticPersistence.findByC_G(companyId, groupId);
+		List<Statistic> institution_host = statisticPersistence.findByGroupAndCompany(groupId, companyId);
 		return institution_host; 
 	}
 
