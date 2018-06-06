@@ -14,7 +14,9 @@
 <%@include file="init.jsp"%>
 
 <%
-	long groupId = themeDisplay.getLayout().getGroupId();
+	long companyId = company.getCompanyId();
+	long groupId = company.getGroup().getGroupId();			
+
 	String name = User.class.getName();
 	User u = UserLocalServiceUtil.getUser(new Long (request.getRemoteUser()));
 	PortletURL portletURL = renderResponse.createRenderURL();
@@ -64,12 +66,13 @@
 					DisplayTerms displayTerms =searchContainer.getDisplayTerms();
 					String keywords = displayTerms.getKeywords(); 
 					List<Creator> creatorList =  Collections.EMPTY_LIST;
+					
 					if (displayTerms.isAdvancedSearch()) {//Advance Search
-						creatorList = CreatorLocalServiceUtil.getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(jobTitle,firstName,middleName,lastName ,fullName,displayTerms.isAndOperator());
+						creatorList = CreatorLocalServiceUtil.getByJobTitleFirstNameMiddleNameLastNameFullNameAndCompanyId(jobTitle,firstName,middleName,lastName ,fullName, companyId, displayTerms.isAndOperator());
 					} else if(!Validator.isBlank(keywords)){//Basic Search
-						creatorList = CreatorLocalServiceUtil.getByKeyWords(keywords);
+						creatorList = CreatorLocalServiceUtil.getByKeyWordsAndCompanyId(keywords, companyId);
 					} else{//No Search
-						 creatorList = CreatorLocalServiceUtil.getAllCreators();
+						 creatorList = CreatorLocalServiceUtil.getAllByCompany(companyId);
 					} 
 					searchContainer.setTotal(creatorList.size());		 
 					searchContainer.setResults(ListUtil.subList(creatorList,searchContainer.getStart(),searchContainer.getEnd()));

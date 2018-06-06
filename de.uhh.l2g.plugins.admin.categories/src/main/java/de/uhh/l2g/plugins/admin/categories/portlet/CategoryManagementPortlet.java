@@ -63,8 +63,8 @@ public class CategoryManagementPortlet extends MVCPortlet {
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		String backURL = ParamUtil.getString(renderRequest, "backURL");
 		//
-		Category c = CategoryLocalServiceUtil.createCategory(0);
 		try{
+			Category c = CategoryLocalServiceUtil.createCategory(0);
 			try {
 				catId = ParamUtil.getLong(renderRequest, "categoryId");
 				c = CategoryLocalServiceUtil.getCategory(catId);

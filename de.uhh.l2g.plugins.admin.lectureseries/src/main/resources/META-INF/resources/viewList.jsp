@@ -13,26 +13,30 @@
 <%@page import="de.uhh.l2g.plugins.model.Creator"%>
 <%@page import="de.uhh.l2g.plugins.model.Term"%>
 <%@page import="de.uhh.l2g.plugins.model.Category"%>
-<%@page import="java.util.Locale"%>
-<%@page import="java.util.Set"%>
-<%@page import="com.liferay.portal.kernel.language.LanguageUtil"%>
-<%@page import="com.liferay.portal.kernel.util.LocaleUtil"%>
-<%@page import="org.springframework.web.bind.ServletRequestUtils"%>
 
 <%@include file="init.jsp"%>
 
 <%
+	Long companyId = company.getCompanyId();
+	Long groupId = company.getGroup().getGroupId();		
+
+	String name = User.class.getName();
+	User u = UserLocalServiceUtil.getUser(new Long (request.getRemoteUser()));
+
 	Map<String,String> institutions = new LinkedHashMap<String, String>();
 	List<Producer> producers = new ArrayList<Producer>();
 	
 	List<Lectureseries> tempLectureseriesList = new ArrayList();
 	List<Term> semesters = TermLocalServiceUtil.getAllSemesters();
 	
-	Long institutionId = ServletRequestUtils.getLongParameter(request, "institutionId", 0);
-	
-	Long producerId = ServletRequestUtils.getLongParameter(request, "producerId", 0);
-	Long semesterId = ServletRequestUtils.getLongParameter(request, "semesterId", 0);
-	Integer statusId = ServletRequestUtils.getIntParameter(request, "statusId", 0);
+	Long institutionId = ParamUtil.getLong(request, "institutionId");
+	Long producerId = ParamUtil.getLong(request, "producerId");
+	Long semesterId = ParamUtil.getLong(request, "semesterId");
+	Integer statusId = ParamUtil.getInteger(request, "statusId");
+	//
+	String delta = request.getParameter("delta");
+	String cur = request.getParameter("cur");
+	//
 	
 	PortletURL portletURL = renderResponse.createRenderURL();
 	portletURL.setParameter("institutionId", institutionId+"");
@@ -58,15 +62,26 @@
 		Producer p = ProducerLocalServiceUtil.getProducer(remoteUser.getUserId());
 		producerId = p.getProducerId();
 	}
+	PortletURL backURL = portletURL;
+	backURL.setParameter("delta", delta);
+	backURL.setParameter("cur", cur);
+
 	String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
 %>
 
-<portlet:renderURL var="addLectureseriesURL">
-	<portlet:param name="jspPage" value="/admin/editLectureseries.jsp" />
-	<portlet:param name="backURL" value="<%=String.valueOf(portletURL)%>"/>
-</portlet:renderURL>
-<div class="noresponsive">
-	<label class="edit-video-lable"><%=pageName%></label>
+<c:set var="backURL" value="<%=backURL%>"/>
+<c:set var="pageName" value="<%=pageName%>"/>
+
+<c:set var="portletURL" value="<%=portletURL%>"/>
+<c:set var="application" value="<%=application%>"/>
+<c:set var="displayTerms" value="<%=new DisplayTerms(renderRequest)%>"/>
+
+<liferay-portlet:renderURL var="addURL">
+	<portlet:param name="backURL" value='${backURL}' />
+    <portlet:param name="mvcPath" value="/viewEdit.jsp" />
+</liferay-portlet:renderURL>
+
+<div class="view list">		
 	<aui:fieldset helpMessage='<liferay-ui:message key="choose-filter"/>' column="true" cssClass="list">
 					<%if(permissionAdmin || permissionCoordinator){ %>
 							<portlet:renderURL var="sortByInstitution">
@@ -88,7 +103,7 @@
 									}%>
 								</aui:select>
 							</aui:form>	
-							
+
 							<portlet:renderURL var="sortByProducer">
 								<portlet:param name="jspPage" value="/viewList.jsp" />
 								<portlet:param name="institutionId" value="<%=institutionId.toString()%>"/>
@@ -150,21 +165,29 @@
 											<%}%>
 								</aui:select>
 							</aui:form>
-	</aui:fieldset>
+	</aui:fieldset>   
 
-	<a href="<%=addLectureseriesURL.toString()%>" class="add-link">
+	<a href="${addURL}" class="add link">
 	    <liferay-ui:message key="add-new-lectureseries"/> <span class="icon-large icon-plus-sign"/>
 	</a>
 
-	<liferay-ui:search-container emptyResultsMessage='<liferay-ui:message key="no-lectureseries-found"/>' delta="10" iteratorURL="<%= portletURL %>">
+	<liferay-ui:search-container emptyResultsMessage="no-lectureseries-found" delta="10" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
+	<liferay-ui:search-form page="/viewSearch.jsp" servletContext="${application}" />
 		<liferay-ui:search-container-results>
 			<%
-				tempLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(statusId, semesterId, new Long(institutionId), new Long(producerId));
-				results = ListUtil.subList(tempLectureseriesList, searchContainer.getStart(), searchContainer.getEnd());
-				total = tempLectureseriesList.size();
-				pageContext.setAttribute("results", results);
-				pageContext.setAttribute("total", total);
-			%>
+				DisplayTerms displayTerms =searchContainer.getDisplayTerms();
+				String keywords = displayTerms.getKeywords(); 
+				List<Lectureseries> lectureseriesList =  Collections.EMPTY_LIST;
+				if (displayTerms.isAdvancedSearch()) {//Advance Search
+
+				} else if(!Validator.isBlank(keywords)){//Basic Search
+					//lectureseriesList = LectureseriesLocalServiceUtil.getByKeyWords(keywords);
+				} else{//No Search
+					lectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(statusId, semesterId, new Long(institutionId), new Long(producerId), groupId, companyId);
+				}  
+			    searchContainer.setTotal(lectureseriesList.size());		 
+			    searchContainer.setResults(ListUtil.subList(lectureseriesList, searchContainer.getStart(), searchContainer.getEnd()));
+			%>				
 		</liferay-ui:search-container-results>
 	
 		<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Lectureseries" keyProperty="lectureseriesId" modelVar="lectser">
@@ -174,7 +197,6 @@
 			</portlet:actionURL>
 			<%
 				String lTerm=TermLocalServiceUtil.getById(lectser.getTermId()).getTermName();
-				
 			%>
 			<liferay-ui:search-container-column-text name="name">
 				<div class="adminrow wide">

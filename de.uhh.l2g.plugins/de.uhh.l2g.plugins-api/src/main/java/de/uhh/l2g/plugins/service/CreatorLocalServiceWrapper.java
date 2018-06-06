@@ -264,9 +264,23 @@ public class CreatorLocalServiceWrapper implements CreatorLocalService,
 	}
 
 	@Override
-	public java.util.List<de.uhh.l2g.plugins.model.Creator> getAllCreators()
+	public java.util.List<de.uhh.l2g.plugins.model.Creator> getAll()
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _creatorLocalService.getAllCreators();
+		return _creatorLocalService.getAll();
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Creator> getAllByCompany(
+		java.lang.Long companyId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _creatorLocalService.getAllByCompany(companyId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Creator> getAllByGroup(
+		java.lang.Long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _creatorLocalService.getAllByGroup(groupId);
 	}
 
 	@Override
@@ -277,20 +291,39 @@ public class CreatorLocalServiceWrapper implements CreatorLocalService,
 	}
 
 	@Override
-	public java.util.List<de.uhh.l2g.plugins.model.Creator> getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(
+	public java.util.List<de.uhh.l2g.plugins.model.Creator> getByJobTitleFirstNameMiddleNameLastNameFullName(
 		java.lang.String jobTitle, java.lang.String firstName,
 		java.lang.String middleName, java.lang.String lastName,
 		java.lang.String fullName, boolean isAndOperator)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _creatorLocalService.getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(jobTitle,
+		return _creatorLocalService.getByJobTitleFirstNameMiddleNameLastNameFullName(jobTitle,
 			firstName, middleName, lastName, fullName, isAndOperator);
 	}
 
 	@Override
-	public java.util.List<de.uhh.l2g.plugins.model.Creator> getByKeyWords(
+	public java.util.List<de.uhh.l2g.plugins.model.Creator> getByJobTitleFirstNameMiddleNameLastNameFullNameAndCompanyId(
+		java.lang.String jobTitle, java.lang.String firstName,
+		java.lang.String middleName, java.lang.String lastName,
+		java.lang.String fullName, java.lang.Long companyId,
+		boolean isAndOperator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _creatorLocalService.getByJobTitleFirstNameMiddleNameLastNameFullNameAndCompanyId(jobTitle,
+			firstName, middleName, lastName, fullName, companyId, isAndOperator);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Creator> getByKeyWordsAnd(
 		java.lang.String keywords)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _creatorLocalService.getByKeyWords(keywords);
+		return _creatorLocalService.getByKeyWordsAnd(keywords);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Creator> getByKeyWordsAndCompanyId(
+		java.lang.String keywords, java.lang.Long companyId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _creatorLocalService.getByKeyWordsAndCompanyId(keywords,
+			companyId);
 	}
 
 	/**

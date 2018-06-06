@@ -105,7 +105,7 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		return super.updateCategory(category);
 	}
 	
-	public List<Category> getByIdTitleisAndOperatorAndGroupId(int cId, String cName, boolean isAndOperator, Long groupId) throws SystemException {
+	public List<Category> getByIdTitleisAndOperatorAndCompanyId(int cId, String cName, boolean isAndOperator, Long companyId) throws SystemException {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CategoryImpl.class, "cat");
 		//
 		final Junction disjunction = RestrictionsFactoryUtil.disjunction(); 
@@ -114,7 +114,7 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		//
 		Criterion equalsCategoryId = PropertyFactoryUtil.forName("cat.categoryId").eq(Long.valueOf(cId));  
 		Criterion likeName = PropertyFactoryUtil.forName("cat.name").like(StringPool.PERCENT + HtmlUtil.escape(cName) + StringPool.PERCENT);
-		Criterion equalsGroupId = PropertyFactoryUtil.forName("cat.groupId").eq(Long.valueOf(groupId));  
+		Criterion equalsGroupId = PropertyFactoryUtil.forName("cat.companyId").eq(Long.valueOf(companyId));  
 		//OR ->isAndOperator false
 		//AND ->isAndOperator true
 		if(isAndOperator){
@@ -134,7 +134,7 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		return categoriesList;
 	}
 	
-	public List<Category> getByKeyWordsAndGroupId(String keywords, Long groupId) throws SystemException {
+	public List<Category> getByKeyWordsAndCompanyId(String keywords, Long companyId) throws SystemException {
 		List<Category> categoriesList = Collections.emptyList();
 		//
 		final Junction disjunction = RestrictionsFactoryUtil.disjunction(); //OR
@@ -142,7 +142,7 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CategoryImpl.class, "cat");
 		//
 		if (Validator.isDigit(keywords)){
-			Criterion equalsCategoryId = PropertyFactoryUtil.forName("cat.groupId").eq(Long.valueOf(keywords));  
+			Criterion equalsCategoryId = PropertyFactoryUtil.forName("cat.companyId").eq(Long.valueOf(keywords));  
 			disjunction.add(equalsCategoryId);
 		}
 		else {
@@ -150,7 +150,7 @@ public class CategoryLocalServiceImpl extends CategoryLocalServiceBaseImpl {
 			disjunction.add(likeName);
 		}
 		//
-		Criterion equalsGroupId = PropertyFactoryUtil.forName("cat.groupId").eq(Long.valueOf(groupId));  
+		Criterion equalsGroupId = PropertyFactoryUtil.forName("cat.companyId").eq(Long.valueOf(companyId));  
 		conjunction.add(equalsGroupId);
 		//
 		dynamicQuery.add(conjunction);

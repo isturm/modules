@@ -16,8 +16,10 @@
 
 <%@include file="init.jsp"%>
 
-
 <%
+	Long companyId = company.getCompanyId();
+	Long groupId = company.getGroup().getGroupId();		
+
 	List<Video> tempVideosList = new ArrayList<Video>();
 	List<Coordinator> coordinators = new ArrayList<Coordinator>();
 	List<Producer> producers = new ArrayList<Producer>();
@@ -42,8 +44,8 @@
 			producers = ProducerLocalServiceUtil.getProducersByInstitutionId(institutionId);
 			if(producerId==0)tempVideosList = VideoLocalServiceUtil.getByRootInstitution(institutionId);
 			else {
-				lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId);
-				lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId);
+				lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+				lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, groupId, companyId);
 				if(lectureseriesId==0) tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
 				else tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
 			}
@@ -58,8 +60,8 @@
 			Long institutionId = CoordinatorLocalServiceUtil.getCoordinator(coordinatorId).getInstitutionId();
 			producers = ProducerLocalServiceUtil.getProducersByInstitutionId(institutionId);
 			if(producerId>0){
-				lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId);
-				lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId);
+				lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+				lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, groupId, companyId);
 				if(lectureseriesId==0)tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
 				else tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
 			}else{
@@ -70,8 +72,8 @@
 				producerId = remoteUser.getUserId();
 				if(lectureseriesId>0) tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
 				else tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
-				lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId);
-				lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId);
+				lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+				lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, groupId, companyId);
 			}
 		}
 	}

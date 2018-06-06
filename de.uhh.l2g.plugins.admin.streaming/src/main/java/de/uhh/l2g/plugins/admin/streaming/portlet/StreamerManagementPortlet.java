@@ -61,8 +61,8 @@ public class StreamerManagementPortlet extends MVCPortlet {
 		String backURL = ParamUtil.getString(renderRequest, "backURL");
 		//
 		Long hostId = new Long(0);
-		Host h = HostLocalServiceUtil.createHost(0);
 		try{
+			Host h = HostLocalServiceUtil.createHost(0);
 			try {
 				hostId = new Long(renderRequest.getParameter("hostId"));
 				h = HostLocalServiceUtil.getHost(hostId);

@@ -51,11 +51,11 @@
 					String keywords = displayTerms.getKeywords(); 
 					List<Category> categoriesList =  Collections.EMPTY_LIST;
 					if (displayTerms.isAdvancedSearch()) {//Advance Search
-						categoriesList = CategoryLocalServiceUtil.getByIdTitleisAndOperatorAndGroupId(cId, cName, displayTerms.isAndOperator(), groupId);
+						categoriesList = CategoryLocalServiceUtil.getByIdTitleisAndOperatorAndCompanyId(cId, cName, displayTerms.isAndOperator(), companyId);
 					} else if(!Validator.isBlank(keywords)){//Basic Search
-						categoriesList = CategoryLocalServiceUtil.getByKeyWordsAndGroupId(keywords, groupId); 
+						categoriesList = CategoryLocalServiceUtil.getByKeyWordsAndCompanyId(keywords, companyId); 
 					} else{//No Search
-						 categoriesList = CategoryLocalServiceUtil.getAllCategoriesByGroupId(groupId);
+						 categoriesList = CategoryLocalServiceUtil.getAllCategoriesByCompanyId(companyId);
 					}  
 				    searchContainer.setTotal(categoriesList.size());		 
 				    searchContainer.setResults(ListUtil.subList(categoriesList,searchContainer.getStart(),searchContainer.getEnd()));

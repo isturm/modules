@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Junction;
@@ -63,9 +64,21 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.CreatorLocalServiceUtil} to access the creator local service.
 	 */
 
-	public List<Creator> getAllCreators() throws SystemException{
+	public List<Creator> getAll() throws SystemException{
 		List<Creator> cl = new ArrayList<Creator>();
 		cl = creatorPersistence.findAll();
+		return cl;
+	}
+	
+	public List<Creator> getAllByCompany(Long companyId) throws SystemException{
+		List<Creator> cl = new ArrayList<Creator>();
+		cl = creatorPersistence.findByCompany(companyId);
+		return cl;
+	}
+	
+	public List<Creator> getAllByGroup(Long groupId) throws SystemException{
+		List<Creator> cl = new ArrayList<Creator>();
+		cl = creatorPersistence.findByCompany(groupId);
 		return cl;
 	}
 	
@@ -246,11 +259,16 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 		creatorPersistence.remove(id);
 	}
 
-	public List<Creator> getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(String jobTitle, String firstName, String middleName, String lastName, String fullName, boolean isAndOperator) throws SystemException {
+	public List<Creator> getByJobTitleFirstNameMiddleNameLastNameFullName(String jobTitle, String firstName, String middleName, String lastName, String fullName, boolean isAndOperator) throws SystemException {
+		return getByJobTitleFirstNameMiddleNameLastNameFullNameAndCompanyId( jobTitle,  firstName,  middleName,  lastName,  fullName,  new Long(0),  isAndOperator);
+	}
+
+	public List<Creator> getByJobTitleFirstNameMiddleNameLastNameFullNameAndCompanyId(String jobTitle, String firstName, String middleName, String lastName, String fullName, Long companyId, boolean isAndOperator) throws SystemException {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CreatorImpl.class, "creat");
 		Junction junction = null;
 		List<Creator> creatorList = Collections.emptyList();
-		//
+
+		// OR or AND junction 
 		if (isAndOperator) junction = RestrictionsFactoryUtil.conjunction();
 		else junction = RestrictionsFactoryUtil.disjunction();
 		//title search
@@ -265,6 +283,14 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 		if (!fullName.isEmpty()) junction.add(PropertyFactoryUtil.forName("creat.fullName").like(StringPool.PERCENT + HtmlUtil.escape(fullName) + StringPool.PERCENT));
 		//
 		dynamicQuery.add(junction);
+		
+		// AND junction
+		// for companyId
+		if (companyId>0){
+			Junction conjunction = RestrictionsFactoryUtil.conjunction();
+			conjunction.add(PropertyFactoryUtil.forName("creat.companyId").eq(companyId));
+			dynamicQuery.add(conjunction);
+		}
 		//
 		try {
 			creatorList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -273,10 +299,15 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 		return creatorList;
 	}
 	
-	public List<Creator> getByKeyWords(String keywords) throws SystemException {
+	public List<Creator> getByKeyWordsAnd(String keywords) throws SystemException {
+		return getByKeyWordsAndCompanyId(keywords, new Long(0));
+	}
+	
+	public List<Creator> getByKeyWordsAndCompanyId(String keywords, Long companyId) throws SystemException {
 		List<Creator> creatorList = Collections.emptyList();
 		final Junction junction = RestrictionsFactoryUtil.disjunction();
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.CreatorImpl.class, "creat");
+		Criterion criterion = null;
 		//title search
 		junction.add(PropertyFactoryUtil.forName("creat.jobTitle").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
 		//firstName search
@@ -289,6 +320,15 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 		junction.add(PropertyFactoryUtil.forName("creat.fullName").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
 		//
 		dynamicQuery.add(junction);
+		
+		// AND junction
+		// for companyId
+		if (companyId>0){
+			Junction conjunction = RestrictionsFactoryUtil.conjunction();
+			conjunction.add(PropertyFactoryUtil.forName("creat.companyId").eq(companyId));
+			dynamicQuery.add(conjunction);
+		}
+		//		
 		try {
 			creatorList = CategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
 		} catch (final SystemException e) {}

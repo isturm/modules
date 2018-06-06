@@ -216,13 +216,13 @@ public interface CategoryLocalService extends BaseLocalService,
 		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Category> getByIdTitleisAndOperatorAndGroupId(int cId,
-		java.lang.String cName, boolean isAndOperator, java.lang.Long groupId)
+	public List<Category> getByIdTitleisAndOperatorAndCompanyId(int cId,
+		java.lang.String cName, boolean isAndOperator, java.lang.Long companyId)
 		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Category> getByKeyWordsAndGroupId(java.lang.String keywords,
-		java.lang.Long groupId) throws SystemException;
+	public List<Category> getByKeyWordsAndCompanyId(java.lang.String keywords,
+		java.lang.Long companyId) throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Category> getByName(java.lang.String name)

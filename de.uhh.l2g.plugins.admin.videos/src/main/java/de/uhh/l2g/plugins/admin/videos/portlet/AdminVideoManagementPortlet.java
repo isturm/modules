@@ -172,10 +172,10 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		
 		// requested lecture series list
 		List<Lectureseries> reqLectureseriesList = new ArrayList<Lectureseries>();
-		try{
-			if(reqVideo.getVideoId()>0)reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, reqVideo.getProducerId());
-			else reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, reqPproducerId);
-		}catch(Exception e){}
+//		try{
+//			if(reqVideo.getVideoId()>0)reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, reqVideo.getProducerId());
+//			else reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, reqPproducerId);
+//		}catch(Exception e){}
 		request.setAttribute("reqLectureseriesList", reqLectureseriesList);
 
 		//requested sub institutions
@@ -265,9 +265,9 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		Video_LectureseriesLocalServiceUtil.addVideo_Lectureseries(vl);
 		
 		// requested lecture series list
-		List<Lectureseries> reqLectureseriesList = new ArrayList<Lectureseries>();
-		try{reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, producerId);}catch(Exception e){}
-		request.setAttribute("reqLectureseriesList", reqLectureseriesList);
+//		List<Lectureseries> reqLectureseriesList = new ArrayList<Lectureseries>();
+//		try{reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, producerId);}catch(Exception e){}
+//		request.setAttribute("reqLectureseriesList", reqLectureseriesList);
 
 		//requested sub institutions
 		List<Video_Institution> reqSubInstitutions = new ArrayList<Video_Institution>();

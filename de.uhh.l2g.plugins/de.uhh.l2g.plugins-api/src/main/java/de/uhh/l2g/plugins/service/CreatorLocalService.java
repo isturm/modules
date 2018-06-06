@@ -223,22 +223,41 @@ public interface CreatorLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Creator> getAllCreators() throws SystemException;
+	public List<Creator> getAll() throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getAllByCompany(java.lang.Long companyId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getAllByGroup(java.lang.Long groupId)
+		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Creator> getByFullName(java.lang.String fullName)
 		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Creator> getByJobTitleOrFirstNameOrMiddleNameOrLastNameOrFullName(
+	public List<Creator> getByJobTitleFirstNameMiddleNameLastNameFullName(
 		java.lang.String jobTitle, java.lang.String firstName,
 		java.lang.String middleName, java.lang.String lastName,
 		java.lang.String fullName, boolean isAndOperator)
 		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Creator> getByKeyWords(java.lang.String keywords)
+	public List<Creator> getByJobTitleFirstNameMiddleNameLastNameFullNameAndCompanyId(
+		java.lang.String jobTitle, java.lang.String firstName,
+		java.lang.String middleName, java.lang.String lastName,
+		java.lang.String fullName, java.lang.Long companyId,
+		boolean isAndOperator) throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getByKeyWordsAnd(java.lang.String keywords)
 		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Creator> getByKeyWordsAndCompanyId(java.lang.String keywords,
+		java.lang.Long companyId) throws SystemException;
 
 	/**
 	* Returns a range of all the creators.

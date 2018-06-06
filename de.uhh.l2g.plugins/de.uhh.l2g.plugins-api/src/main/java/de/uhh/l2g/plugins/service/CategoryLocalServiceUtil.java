@@ -242,19 +242,19 @@ public class CategoryLocalServiceUtil {
 		return getService().getAllCategoriesByGroupId(groupId);
 	}
 
-	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByIdTitleisAndOperatorAndGroupId(
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByIdTitleisAndOperatorAndCompanyId(
 		int cId, java.lang.String cName, boolean isAndOperator,
-		java.lang.Long groupId)
+		java.lang.Long companyId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .getByIdTitleisAndOperatorAndGroupId(cId, cName,
-			isAndOperator, groupId);
+				   .getByIdTitleisAndOperatorAndCompanyId(cId, cName,
+			isAndOperator, companyId);
 	}
 
-	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByKeyWordsAndGroupId(
-		java.lang.String keywords, java.lang.Long groupId)
+	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByKeyWordsAndCompanyId(
+		java.lang.String keywords, java.lang.Long companyId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getByKeyWordsAndGroupId(keywords, groupId);
+		return getService().getByKeyWordsAndCompanyId(keywords, companyId);
 	}
 
 	public static java.util.List<de.uhh.l2g.plugins.model.Category> getByName(
