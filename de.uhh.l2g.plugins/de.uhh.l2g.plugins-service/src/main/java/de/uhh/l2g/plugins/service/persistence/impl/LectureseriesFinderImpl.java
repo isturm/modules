@@ -438,7 +438,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			l.setGroupId((Long) lectser[16]);
 			l.setCompanyId((Long) lectser[17]);
 			l.setUserId((Long) lectser[18]);
-			l.setUserName((String) lectser[19]);
+			l.setUserName(lectser[19]+"");
 			l.setCreateDate((Date) lectser[20]);
 			l.setModifiedDate((Date) lectser[21]);
 			//additional parameter
