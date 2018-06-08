@@ -42,7 +42,7 @@
 					DisplayTerms displayTerms =searchContainer.getDisplayTerms();
 					String keywords = displayTerms.getKeywords(); 
 					List<Term> termsList =  Collections.EMPTY_LIST;
-					termsList = TermLocalServiceUtil.getByGroupId(groupId);
+					termsList = TermLocalServiceUtil.getByCompanyId(companyId);
 				    searchContainer.setTotal(termsList.size());		 
 				    searchContainer.setResults(ListUtil.subList(termsList, searchContainer.getStart(), searchContainer.getEnd()));
 				%>

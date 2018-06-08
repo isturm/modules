@@ -18,13 +18,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import de.uhh.l2g.plugins.admin.terms.constants.TermsManagementPortletKeys;
@@ -84,21 +81,18 @@ public class TermsManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
-		long companyId = new Long(0);
-		long groupId = new Long(0);
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
+		String languageId = user.getLanguageId();
+		//	
 		try {
 			Term term = TermLocalServiceUtil.createTerm(0);
 			term.setYear(y);
 			term.setPrefix(p);
-			term.setCreateDate(new Date());
+			//
+			term.setLanguageId(languageId);
 			term.setUserName(user.getScreenName());
 			term.setUserId(userId);
-			term.setLanguageId(LocaleUtil.getDefault().toString());
-			//
-			Company company = CompanyLocalServiceUtil.createCompany(0);
-			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-			company = CompanyLocalServiceUtil.getCompany(companyId); 
-			groupId = company.getGroup().getGroupId(); 
 			term.setCompanyId(companyId);
 			term.setGroupId(groupId);
 			//
@@ -124,13 +118,19 @@ public class TermsManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
+		//
 		try {
 			Term term = TermLocalServiceUtil.getTerm(reqTermId);
 			term.setYear(y);
 			term.setPrefix(p);
-			term.setUserId(userId);
+			//
 			term.setUserName(user.getScreenName());
-			term.setLanguageId(LocaleUtil.getDefault().toString());
+			term.setUserId(userId);
+			term.setCompanyId(companyId);
+			term.setGroupId(groupId);
+			term.setModifiedDate(new Date());
 			//
 			TermLocalServiceUtil.updateTerm(term);
 		} catch (Exception e) {

@@ -218,6 +218,11 @@ public class TermLocalServiceUtil {
 		return getService().getAllSemesters();
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Term> getByCompanyId(
+		java.lang.Long companyId) {
+		return getService().getByCompanyId(companyId);
+	}
+
 	public static java.util.List<de.uhh.l2g.plugins.model.Term> getByGroupId(
 		java.lang.Long groupId) {
 		return getService().getByGroupId(groupId);

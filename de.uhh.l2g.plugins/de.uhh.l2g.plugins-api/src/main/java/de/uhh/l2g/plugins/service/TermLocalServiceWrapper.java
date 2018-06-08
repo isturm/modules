@@ -229,6 +229,12 @@ public class TermLocalServiceWrapper implements TermLocalService,
 	}
 
 	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Term> getByCompanyId(
+		java.lang.Long companyId) {
+		return _termLocalService.getByCompanyId(companyId);
+	}
+
+	@Override
 	public java.util.List<de.uhh.l2g.plugins.model.Term> getByGroupId(
 		java.lang.Long groupId) {
 		return _termLocalService.getByGroupId(groupId);

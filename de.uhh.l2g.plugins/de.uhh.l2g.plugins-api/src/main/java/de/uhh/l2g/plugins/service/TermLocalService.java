@@ -202,6 +202,9 @@ public interface TermLocalService extends BaseLocalService,
 	public List<Term> getAllSemesters() throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Term> getByCompanyId(java.lang.Long companyId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Term> getByGroupId(java.lang.Long groupId);
 
 	/**

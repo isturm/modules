@@ -50,6 +50,12 @@ public class TermLocalServiceImpl extends TermLocalServiceBaseImpl {
 		return sl;
 	}
 	
+	public List<Term> getByCompanyId(Long companyId) {
+		List<Term> sl = new ArrayList<Term>();
+		sl = termPersistence.findByCompany(companyId);
+		return sl;
+	}
+	
 	public List<Term> getByGroupId(Long groupId) {
 		List<Term> sl = new ArrayList<Term>();
 		sl = termPersistence.findByGroup(groupId);
