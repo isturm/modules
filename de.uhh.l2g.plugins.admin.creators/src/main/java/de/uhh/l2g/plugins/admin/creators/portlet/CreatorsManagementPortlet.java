@@ -1,6 +1,7 @@
 package de.uhh.l2g.plugins.admin.creators.portlet;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -17,10 +18,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -63,8 +62,8 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
-		long companyId = new Long(0);
-		long groupId = new Long(0); 
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
 		//
 		if (isValid(fn, ln)) {
 			try {
@@ -75,14 +74,11 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 				creator.setJobTitle(t);
 				creator.setFullName(fullName(fn, mn, ln, t));
 				//
-				Company company = CompanyLocalServiceUtil.createCompany(0);
-				companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-				company = CompanyLocalServiceUtil.getCompany(companyId); 
-				groupId = company.getGroup().getGroupId(); 
 				creator.setCompanyId(companyId);
 				creator.setGroupId(groupId);
 				creator.setUserId(userId);
 				creator.setUserName(user.getScreenName());
+				//
 				CreatorLocalServiceUtil.addCreator(creator);
 			} catch (Exception e) {
 				_log.warn("Unable to add new creator entry!");
@@ -130,6 +126,8 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
 		//		
 		if (isValid(fn, ln)) {
 			try {
@@ -140,8 +138,12 @@ public class CreatorsManagementPortlet extends MVCPortlet {
 				creator.setJobTitle(t);
 				creator.setFullName(fullName(fn, mn, ln, t));
 				//
+				creator.setCompanyId(companyId);
+				creator.setGroupId(groupId);
 				creator.setUserId(userId);
 				creator.setUserName(user.getScreenName());
+				creator.setModifiedDate(new Date());
+				//
 				CreatorLocalServiceUtil.updateCreator(creator);
 			} catch (Exception e) {
 				_log.warn("Unable to update creator entry!");
