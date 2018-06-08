@@ -18,10 +18,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -84,21 +82,20 @@ public class CategoryManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
-		long companyId = new Long(0);
-		long groupId = new Long(0); 
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
+		String languageId = user.getLanguageId();
 		try {
 			Category category = CategoryLocalServiceUtil.createCategory(0);
 			category.setName(name);
-			category.setUserName(user.getScreenName());
-			category.setCreateDate(new Date());
-			category.setUserId(userId);
 			//
-			Company company = CompanyLocalServiceUtil.createCompany(0);
-			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-			company = CompanyLocalServiceUtil.getCompany(companyId); 
-			groupId = company.getGroup().getGroupId(); 
+			category.setUserName(user.getScreenName());
+			category.setUserId(userId);
 			category.setCompanyId(companyId);
 			category.setGroupId(groupId);
+			category.setUserName(user.getScreenName());
+			category.setLanguageId(languageId);
+			//
 			CategoryLocalServiceUtil.addCategory(category);
 		} catch (Exception e) {
 			_log.error("Unable to add new category entry!");
@@ -119,11 +116,19 @@ public class CategoryManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
 		try {
 			Category category = CategoryLocalServiceUtil.getCategory(reqCategoryId);
 			category.setName(name);
+			//
 			category.setUserName(user.getScreenName());
+			category.setModifiedDate(new Date());
 			category.setUserId(userId);
+			category.setCompanyId(companyId);
+			category.setGroupId(groupId);
+			category.setUserName(user.getScreenName());
+			//
 			CategoryLocalServiceUtil.updateCategory(category);
 		} catch (Exception e) {
 			_log.error("Unable to update category.");
