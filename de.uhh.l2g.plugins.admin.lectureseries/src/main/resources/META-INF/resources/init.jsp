@@ -42,9 +42,7 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@page import="de.uhh.l2g.plugins.util.Lecture2GoRoleChecker"%>
 
-
 <liferay-theme:defineObjects />
-
 <portlet:defineObjects />
 
 <%
