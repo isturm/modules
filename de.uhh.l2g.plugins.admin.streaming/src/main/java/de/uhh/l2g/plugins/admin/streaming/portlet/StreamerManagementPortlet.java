@@ -15,10 +15,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -86,13 +84,20 @@ public class StreamerManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
+		//
 		try {
 			Host host = HostLocalServiceUtil.getHost(reqHostId);
-			host.setUserName(user.getScreenName());
 			host.setProtocol(protocol);
 			host.setStreamer(streamer);
 			host.setPort(port);
+			//
 			host.setUserId(userId);
+			host.setUserName(user.getScreenName());
+			host.setCompanyId(companyId);
+			host.setGroupId(groupId);
+			//
 			HostLocalServiceUtil.updateHost(host);
 		} catch (Exception e) {
 			_log.error("Unable to update host.");
@@ -133,24 +138,20 @@ public class StreamerManagementPortlet extends MVCPortlet {
 		//
 		Long userId = new Long(request.getRemoteUser());
 		User user = UserLocalServiceUtil.getUser(userId);
-		long companyId = new Long(0);
-		long groupId = new Long(0); 
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
 		//
 		_log.info("Trying to add " + hostName + ": " + streamer);
 		try {
 			Host host = HostLocalServiceUtil.createHost(0);
-			host.setUserId(userId);
-			host.setUserName(user.getScreenName());
-			//
-			Company company = CompanyLocalServiceUtil.createCompany(0);
-			companyId = CompanyLocalServiceUtil.getCompanyIdByUserId(userId);
-			company = CompanyLocalServiceUtil.getCompany(companyId); 
-			groupId = company.getGroup().getGroupId();			
-			host.setCompanyId(companyId);
-			host.setGroupId(groupId);
 			host.setProtocol(protocol);
 			host.setPort(port);
 			host.setStreamer(streamer);
+			//
+			host.setUserId(userId);
+			host.setUserName(user.getScreenName());
+			host.setCompanyId(companyId);
+			host.setGroupId(groupId);
 			host = HostLocalServiceUtil.addHost(host);
 			// update server root
 			host.setServerRoot(RepositoryManager.prepareServerRoot(host.getHostId()));

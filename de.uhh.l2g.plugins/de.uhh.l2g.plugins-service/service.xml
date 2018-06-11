@@ -355,6 +355,10 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="institutionId"></finder-column>
         </finder>
+        <finder name="companyAndHost" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+            <finder-column name="hostId"></finder-column>
+        </finder>
     </entity>
     <entity name="Office" local-service="true" remote-service="false">
     	<column name="officeId" type="long" primary="true"

@@ -65,6 +65,10 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 		return hostPersistence.fetchByPrimaryKey(hostId);
 	}
 
+	public List<Host> getByCompanyId(long companyId) throws SystemException {
+		return hostPersistence.findByCompany(companyId);
+	}
+	
 	public List<Host> getByGroupId(long groupId) throws SystemException {
 		return hostPersistence.findByGroup(groupId);
 	}
@@ -97,10 +101,10 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 	}
 
 	/** Host is locked if it is linked to an institution */
-	public int getLockingElements(long groupId, long hostId) throws SystemException {
+	public int getLockingElements(long companyId, long hostId) throws SystemException {
 		int c = 0;
 		try {
-			c = Institution_HostLocalServiceUtil.getByGroupIdAndHostIdCount(groupId, hostId);
+			c = Institution_HostLocalServiceUtil.getByCompanyIdAndHostIdCount(companyId, hostId);
 		} catch (PortalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -3,11 +3,6 @@
 
 <%@include file="init.jsp"%>
 
-<portlet:actionURL name="addStreamingServer" var="addStreamingServerURL"></portlet:actionURL>
-<portlet:actionURL name="deleteStreamingServer" var="deletetreamingServerURL"></portlet:actionURL>
-<portlet:actionURL name="updateStreamingServer" var="updateStreamingServerURL"></portlet:actionURL>
-<portlet:actionURL name="updateTreeRoot" var="updateTreeRootURL"></portlet:actionURL>
-
 <portlet:renderURL var="viewURL"><portlet:param name="jspPage" value="/admin/institutionList.jsp" /></portlet:renderURL>
 <liferay-portlet:renderURL varImpl="outerURL"><portlet:param name="jspPage" value="/admin/institutionList.jsp" /></liferay-portlet:renderURL>
 <liferay-portlet:renderURL varImpl="innerURL"><portlet:param name="jspPage" value="/admin/institutionList.jsp" /></liferay-portlet:renderURL>
@@ -26,10 +21,6 @@
 	PortletURL backURL = portletURL;
 	backURL.setParameter("delta", delta);
 	backURL.setParameter("cur", cur);
-	String pageName = themeDisplay.getLayout().getName(themeDisplay.getLocale());
-	//	
-	String repDirectory = PropsUtil.get("lecture2go.media.repository");
-	Host defaultHost = HostLocalServiceUtil.getByDefault(companyId, groupId);
 %>
 
 <c:set var="backURL" value="<%=backURL%>"/>
@@ -54,14 +45,14 @@
 				DisplayTerms displayTerms =searchContainer.getDisplayTerms();
 				String keywords = displayTerms.getKeywords(); 
 				List<Host> hostsList =  Collections.EMPTY_LIST;
-				hostsList = HostLocalServiceUtil.getByGroupId(groupId);
+				hostsList = HostLocalServiceUtil.getByCompanyId(companyId);
 			    searchContainer.setTotal(hostsList.size());		 
 			    searchContainer.setResults(ListUtil.subList(hostsList, searchContainer.getStart(), searchContainer.getEnd()));
 			%>
 		</liferay-ui:search-container-results>	
 		<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Host" keyProperty="hostId" modelVar="host">
 			<%
-				int inst = HostLocalServiceUtil.getLockingElements(groupId, host.getHostId());
+				int inst = HostLocalServiceUtil.getLockingElements(companyId, host.getHostId());
 			%>
 			<c:set var="hostId" value="<%=host.getHostId()%>"/>
 			<c:set var="isAdmin" value="<%=permissionAdmin%>"/>
@@ -91,9 +82,9 @@
 				   <span class="icon-large icon-pencil"></span>
 				</a>
 				<c:if test="${inst==0}">						
-				<a href="${removeURL}" title="<liferay-ui:message key='delete'/>">
-					<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
-				</a>	
+					<a href="${removeURL}" title="<liferay-ui:message key='delete'/>">
+						<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
+					</a>	
 				</c:if>				
 			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>

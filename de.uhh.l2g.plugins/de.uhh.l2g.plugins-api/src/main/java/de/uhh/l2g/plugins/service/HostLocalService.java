@@ -182,7 +182,7 @@ public interface HostLocalService extends BaseLocalService,
 	* Host is locked if it is linked to an institution
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getLockingElements(long groupId, long hostId)
+	public int getLockingElements(long companyId, long hostId)
 		throws SystemException;
 
 	/**
@@ -230,6 +230,9 @@ public interface HostLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Host> getByCompanyId(long companyId) throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Host> getByCompanyIdAndGroupId(long companyId, long groupId)

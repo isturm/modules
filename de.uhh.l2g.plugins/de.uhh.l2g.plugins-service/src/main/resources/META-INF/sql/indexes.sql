@@ -32,6 +32,7 @@ create index IX_8A5E489D on LG_Institution (www[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_340684F2 on LG_Institution_Host (companyId, groupId, hostId);
 create index IX_9BE16328 on LG_Institution_Host (companyId, groupId, institutionId);
+create index IX_F9E381C6 on LG_Institution_Host (companyId, hostId);
 create index IX_4EF42608 on LG_Institution_Host (groupId, hostId);
 
 create index IX_F8346D23 on LG_Lastvideolist (companyId);

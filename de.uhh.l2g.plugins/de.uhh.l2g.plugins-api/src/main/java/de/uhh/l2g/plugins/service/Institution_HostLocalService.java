@@ -175,6 +175,10 @@ public interface Institution_HostLocalService extends BaseLocalService,
 		Institution_Host institution_Host);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getByCompanyIdAndHostIdCount(long companyId, long hostId)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getByGroupIdAndHostIdCount(long groupId, long hostId)
 		throws PortalException, SystemException;
 

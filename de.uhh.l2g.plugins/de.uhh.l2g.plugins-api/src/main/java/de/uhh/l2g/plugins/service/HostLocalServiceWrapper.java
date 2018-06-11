@@ -211,9 +211,9 @@ public class HostLocalServiceWrapper implements HostLocalService,
 	* Host is locked if it is linked to an institution
 	*/
 	@Override
-	public int getLockingElements(long groupId, long hostId)
+	public int getLockingElements(long companyId, long hostId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _hostLocalService.getLockingElements(groupId, hostId);
+		return _hostLocalService.getLockingElements(companyId, hostId);
 	}
 
 	/**
@@ -277,6 +277,13 @@ public class HostLocalServiceWrapper implements HostLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _hostLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Host> getByCompanyId(
+		long companyId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _hostLocalService.getByCompanyId(companyId);
 	}
 
 	@Override

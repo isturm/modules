@@ -65,7 +65,7 @@ public class Institution_HostLocalServiceImpl
 	public List<Institution_Host> getByGroupId(long groupId) throws SystemException, PortalException {
 		List<Institution_Host> institution_host = institution_HostPersistence.findByGroupId(groupId);
 		return institution_host;
-}
+	}
 
 	public Host getByInstitutionId(long institutionId) throws SystemException, PortalException {
 		    //Assumes there is at most one Host per Institution with uniqueId
@@ -112,6 +112,12 @@ public class Institution_HostLocalServiceImpl
 		List<Institution_Host> institution_host = institution_HostPersistence.findByG_H(groupId, hostId);
 		return institution_host;
 	}
+	
+	public int getByCompanyIdAndHostIdCount(long companyId, long hostId) throws SystemException, PortalException {
+		int institution_host = institution_HostPersistence.countBycompanyAndHost(companyId, hostId);
+		return institution_host;
+	}
+	
 	public int getByGroupIdAndHostIdCount(long groupId, long hostId) throws SystemException, PortalException {
 		int institution_host = institution_HostPersistence.countByG_H(groupId, hostId);
 		return institution_host;

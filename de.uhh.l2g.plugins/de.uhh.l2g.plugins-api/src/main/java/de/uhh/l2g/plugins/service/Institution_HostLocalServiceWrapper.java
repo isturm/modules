@@ -221,6 +221,14 @@ public class Institution_HostLocalServiceWrapper
 	}
 
 	@Override
+	public int getByCompanyIdAndHostIdCount(long companyId, long hostId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getByCompanyIdAndHostIdCount(companyId,
+			hostId);
+	}
+
+	@Override
 	public int getByGroupIdAndHostIdCount(long groupId, long hostId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {

@@ -950,6 +950,154 @@ public interface Institution_HostPersistence extends BasePersistence<Institution
 	public int countByC_G_I(long companyId, long groupId, long institutionId);
 
 	/**
+	* Returns all the institution_ hosts where companyId = &#63; and hostId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @return the matching institution_ hosts
+	*/
+	public java.util.List<Institution_Host> findBycompanyAndHost(
+		long companyId, long hostId);
+
+	/**
+	* Returns a range of all the institution_ hosts where companyId = &#63; and hostId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link Institution_HostModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @param start the lower bound of the range of institution_ hosts
+	* @param end the upper bound of the range of institution_ hosts (not inclusive)
+	* @return the range of matching institution_ hosts
+	*/
+	public java.util.List<Institution_Host> findBycompanyAndHost(
+		long companyId, long hostId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the institution_ hosts where companyId = &#63; and hostId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link Institution_HostModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @param start the lower bound of the range of institution_ hosts
+	* @param end the upper bound of the range of institution_ hosts (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching institution_ hosts
+	*/
+	public java.util.List<Institution_Host> findBycompanyAndHost(
+		long companyId, long hostId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Institution_Host> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the institution_ hosts where companyId = &#63; and hostId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link Institution_HostModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @param start the lower bound of the range of institution_ hosts
+	* @param end the upper bound of the range of institution_ hosts (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching institution_ hosts
+	*/
+	public java.util.List<Institution_Host> findBycompanyAndHost(
+		long companyId, long hostId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Institution_Host> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first institution_ host in the ordered set where companyId = &#63; and hostId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching institution_ host
+	* @throws NoSuchInstitution_HostException if a matching institution_ host could not be found
+	*/
+	public Institution_Host findBycompanyAndHost_First(long companyId,
+		long hostId,
+		com.liferay.portal.kernel.util.OrderByComparator<Institution_Host> orderByComparator)
+		throws NoSuchInstitution_HostException;
+
+	/**
+	* Returns the first institution_ host in the ordered set where companyId = &#63; and hostId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching institution_ host, or <code>null</code> if a matching institution_ host could not be found
+	*/
+	public Institution_Host fetchBycompanyAndHost_First(long companyId,
+		long hostId,
+		com.liferay.portal.kernel.util.OrderByComparator<Institution_Host> orderByComparator);
+
+	/**
+	* Returns the last institution_ host in the ordered set where companyId = &#63; and hostId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching institution_ host
+	* @throws NoSuchInstitution_HostException if a matching institution_ host could not be found
+	*/
+	public Institution_Host findBycompanyAndHost_Last(long companyId,
+		long hostId,
+		com.liferay.portal.kernel.util.OrderByComparator<Institution_Host> orderByComparator)
+		throws NoSuchInstitution_HostException;
+
+	/**
+	* Returns the last institution_ host in the ordered set where companyId = &#63; and hostId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching institution_ host, or <code>null</code> if a matching institution_ host could not be found
+	*/
+	public Institution_Host fetchBycompanyAndHost_Last(long companyId,
+		long hostId,
+		com.liferay.portal.kernel.util.OrderByComparator<Institution_Host> orderByComparator);
+
+	/**
+	* Returns the institution_ hosts before and after the current institution_ host in the ordered set where companyId = &#63; and hostId = &#63;.
+	*
+	* @param institutionHostId the primary key of the current institution_ host
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next institution_ host
+	* @throws NoSuchInstitution_HostException if a institution_ host with the primary key could not be found
+	*/
+	public Institution_Host[] findBycompanyAndHost_PrevAndNext(
+		long institutionHostId, long companyId, long hostId,
+		com.liferay.portal.kernel.util.OrderByComparator<Institution_Host> orderByComparator)
+		throws NoSuchInstitution_HostException;
+
+	/**
+	* Removes all the institution_ hosts where companyId = &#63; and hostId = &#63; from the database.
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	*/
+	public void removeBycompanyAndHost(long companyId, long hostId);
+
+	/**
+	* Returns the number of institution_ hosts where companyId = &#63; and hostId = &#63;.
+	*
+	* @param companyId the company ID
+	* @param hostId the host ID
+	* @return the number of matching institution_ hosts
+	*/
+	public int countBycompanyAndHost(long companyId, long hostId);
+
+	/**
 	* Caches the institution_ host in the entity cache if it is enabled.
 	*
 	* @param institution_Host the institution_ host

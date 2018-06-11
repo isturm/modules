@@ -207,6 +207,12 @@ public class Institution_HostLocalServiceUtil {
 		return getService().updateInstitution_Host(institution_Host);
 	}
 
+	public static int getByCompanyIdAndHostIdCount(long companyId, long hostId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCompanyIdAndHostIdCount(companyId, hostId);
+	}
+
 	public static int getByGroupIdAndHostIdCount(long groupId, long hostId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {

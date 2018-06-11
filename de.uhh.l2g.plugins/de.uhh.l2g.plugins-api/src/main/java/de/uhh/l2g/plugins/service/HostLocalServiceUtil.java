@@ -201,9 +201,9 @@ public class HostLocalServiceUtil {
 	/**
 	* Host is locked if it is linked to an institution
 	*/
-	public static int getLockingElements(long groupId, long hostId)
+	public static int getLockingElements(long companyId, long hostId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getLockingElements(groupId, hostId);
+		return getService().getLockingElements(companyId, hostId);
 	}
 
 	/**
@@ -263,6 +263,12 @@ public class HostLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	public static java.util.List<de.uhh.l2g.plugins.model.Host> getByCompanyId(
+		long companyId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCompanyId(companyId);
 	}
 
 	public static java.util.List<de.uhh.l2g.plugins.model.Host> getByCompanyIdAndGroupId(
