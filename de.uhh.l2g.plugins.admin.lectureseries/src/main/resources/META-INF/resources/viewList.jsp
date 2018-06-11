@@ -248,7 +248,7 @@
 							</a>						  </c:otherwise>
 						</c:choose>		
 											
-						<a href="<%=editURL.toString()%>">
+						<a href="${editURL}">
 					   		<span class="icon-large icon-pencil"></span>
 						</a>					
 					</div>
