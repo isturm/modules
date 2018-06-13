@@ -144,45 +144,85 @@
 </portlet:actionURL>
 
 <%
-	if(lId >0) {actionURL=editURL.toString();}
+	if (lId >0) {actionURL=editURL.toString();}
 	else {actionURL = addURL.toString();}
 
 	boolean readOnly = false;
 	try{if (permissionProducer && reqLectureseries.getApproved()==1){ readOnly=true;}}catch(Exception e){}
 %>
-<div class="noresponsive">
-<aui:form action="<%=actionURL%>" commandName="model">
-	<aui:fieldset column="true" label='<%=lName%>'>
-		<aui:row>
-			<div id="metadata-upload">
-			<%if(readOnly){%>
-				<aui:input name="number" label="lectureseries-number" required="false" helpMessage="number-help-text" value="<%=lNumber %>" readonly="<%=readOnly%>"/>
-			<%}else{%>
-				<aui:input name="number" label="lectureseries-number" required="false" helpMessage="number-help-text" value="<%=lNumber %>"/>
-			<%}%>
-			
-			<%if(readOnly){%>
-				<aui:input name="name" label="lectureseries-title" required="true" value="<%=lName%>" readonly="<%=readOnly%>"/>
-			<%}else{%>
-				<aui:input name="name" label="lectureseries-title" required="true" value="<%=lName%>"/>
-			<%}%>
 
-			<%if(!readOnly){%>
-				<aui:select size="1" name="categoryId" label="category" required="true">
-					<aui:option value=""><liferay-ui:message key="select-category"/></aui:option>
-					<%for (int i = 0; i < categories.size(); i++) {
-						if (categoryId==categories.get(i).getCategoryId()) {%>
-							<aui:option value='<%=categories.get(i).getCategoryId()%>' selected="true"><%=categories.get(i).getName()%></aui:option>
-						<%} else {%>
-							<aui:option value='<%=categories.get(i).getCategoryId()%>'><%=categories.get(i).getName()%></aui:option>
-						<%}
-					}%>
-				</aui:select>
-			<%}else{%>
-				<aui:input name="cat" label="category" required="true" value="<%=CategoryLocalServiceUtil.getById(categoryId).getName()%>" readonly="<%=readOnly%>"/>
-				<aui:input type="hidden" name="categoryId" value="<%=categoryId%>"/>
-			<%}%>
-			
+<c:set var="actionURL" value="<%=actionURL%>"/>
+<c:set var="permissionAdmin" value="<%=permissionAdmin%>"/>
+<c:set var="permissionCoordinator" value="<%=permissionCoordinator%>"/>
+<c:set var="lName" value="<%=lName%>"/>
+<c:set var="readOnly" value="<%=readOnly%>"/>
+<c:set var="lNumber" value="<%=lNumber%>"/>
+<c:set var="categories" value="<%=categories%>"/>
+<c:set var="institutions" value="<%=institutions%>"/>
+<c:set var="categoryId" value="<%=categoryId%>"/>
+
+<div class="noresponsive">
+<aui:form action="${actionURL}" commandName="model">
+		<aui:row>
+			<c:choose>
+				  <c:when test="${readOnly==true}">
+						<aui:input name="number" label="lectureseries-number" required="false" helpMessage="number-help-text" value="${lNumber}" readonly="${readOnly}"/>
+				  </c:when>
+				  <c:otherwise>
+						<aui:input name="number" label="lectureseries-number" required="false" helpMessage="number-help-text" value="${lNumber}"/>
+				  </c:otherwise>
+			</c:choose>	
+			<c:choose>
+				  <c:when test="${readOnly==true}">
+						<aui:input name="name" label="lectureseries-title" required="true" value="${lName}" readonly="${readOnly}"/>
+				  </c:when>
+				  <c:otherwise>
+				  		<aui:input name="name" label="lectureseries-title" required="true" value="${lName}"/>
+				  </c:otherwise>
+			</c:choose>	
+
+			<c:choose>
+				  <c:when test="${readOnly!=true}">
+						<aui:select size="1" name="categoryId" label="category" required="true">
+							<aui:option value=""><liferay-ui:message key="select-category"/></aui:option>
+							<c:forEach items="${categories}" var="item">
+								<aui:option value='${item.categoryId}' selected="true">${item.name}</aui:option>
+							</c:forEach>
+						</aui:select>
+				  </c:when>
+				  <c:otherwise>
+						<aui:input name="cat" label="category" required="true" value="${item.name}" readonly="${readOnly}"/>
+						<aui:input type="hidden" name="categoryId" value="${categoryId}"/>
+				  </c:otherwise>
+			</c:choose>	
+
+			<c:choose>
+				  <c:when test="${readOnly!=true}">
+						<c:set var="disabled" value="true"/>
+						<aui:select size="1" name="institutionId" label="institution" required="true">
+							<aui:option value=""><liferay-ui:message key="select-institution"/></aui:option>
+							<c:forEach items="${institutions}" var="item">
+								<c:if test="${fn:startsWith(item.value, '----') || permissionAdmin || permissionCoordinator}">
+									<c:set var="disabled" value="false"/>
+								</c:if>
+								<aui:option value='${item.key}' selected="true" disabled="${disabled}">${item.value} (${item.key} ${institutionId} ${disabled})</aui:option>
+							</c:forEach>
+						</aui:select>
+						<div class="facilCont">
+							<c:set var="institutionsByLectureseries" value="<%=InstitutionLocalServiceUtil.getByLectureseriesId(lId, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS)%>"/>
+							<c:forEach items="${institutionsByLectureseries}" var="item">
+								<div id='${item.institutionId}'> 
+									${item.name} &nbsp;&nbsp;&nbsp;
+									<a class="icon-large icon-remove" style='cursor:pointer;' onClick='document.getElementById("${item.institutionId}").remove(); resetInstitution();'></a>
+									<aui:input type="hidden" name="institutions" id="institutions" value="${item.institutionId}"/>
+								</div>							
+							</c:forEach>
+						</div>
+				  </c:when>
+				  <c:otherwise>
+						<aui:input type="hidden" name="institutionId" id="institutionId" value="${institutionId}"/>
+				  </c:otherwise>
+			</c:choose>									
 			<%if(!readOnly){%>
 				<aui:select size="1" name="institutionId" label="institution" required="true">
 					<aui:option value=""><liferay-ui:message key="select-institution"/></aui:option>
@@ -297,7 +337,6 @@
 			</aui:button-row>
 			</div>
 		</aui:row>
-	</aui:fieldset>
 </aui:form>
 </div>
 
