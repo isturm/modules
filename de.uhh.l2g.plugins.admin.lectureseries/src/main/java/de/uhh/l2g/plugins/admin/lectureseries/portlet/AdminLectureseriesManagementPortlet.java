@@ -1,5 +1,39 @@
 package de.uhh.l2g.plugins.admin.lectureseries.portlet;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.NoSuchElementException;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+
+import org.apache.commons.lang.RandomStringUtils;
+import org.osgi.service.component.annotations.Component;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
+
 import de.uhh.l2g.plugins.admin.lectureseries.constants.AdminLectureseriesManagementPortletKeys;
 import de.uhh.l2g.plugins.model.Category;
 import de.uhh.l2g.plugins.model.Coordinator;
@@ -36,39 +70,6 @@ import de.uhh.l2g.plugins.util.Htaccess;
 import de.uhh.l2g.plugins.util.Lecture2GoRoleChecker;
 import de.uhh.l2g.plugins.util.ProzessManager;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PropsUtil;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-
-import org.apache.commons.lang.RandomStringUtils;
-import org.osgi.service.component.annotations.Component;
-
 /**
  * @author isturm
  */
@@ -91,27 +92,92 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class AdminLectureseriesManagementPortlet extends MVCPortlet {
-	public void viewLectureseries(ActionRequest request, ActionResponse response) throws SystemException, PortalException {
-		// requested lectureseries
-		//TagcloudLocalServiceUtil.generateForAllLectureseries();
-		//LectureseriesLocalServiceUtil.updateUploadAndGenerationDate();
-		//generateRSSforAllLectureseriesWhithOpenaccessVideos();
+	private static final Log _log = LogFactoryUtil.getLog(AdminLectureseriesManagementPortlet.class);
+	
+	@Override
+	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+		//Remote user
+		User remoteUser = UserLocalServiceUtil.createUser(0);
+		try {
+			remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser()));
+		} catch (NumberFormatException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (PortalException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//
+		Lecture2GoRoleChecker l2goRole = new Lecture2GoRoleChecker(remoteUser);
 		
-		long reqLectureseriesId = new Long(request.getParameterMap().get("lectureseriesId")[0]);
-		String backURL = request.getParameter("backURL");
-		Lectureseries reqLectureseries = LectureseriesLocalServiceUtil.getLectureseries(reqLectureseriesId);
-		request.setAttribute("reqLectureseries", reqLectureseries);
-
-		Map<String,String> institutions = new LinkedHashMap<String, String>();
-		List<Producer> producers = new ArrayList<Producer>();
-		request.setAttribute("institutions", institutions);
-		request.setAttribute("producers", producers);
-		request.setAttribute("backURL", backURL);
-
-		response.setRenderParameter("jspPage", "/viewEdit.jsp");
+		String mvcPath = renderRequest.getParameter("mvcPath");
+		String backURL = renderRequest.getParameter("backURL");
+		
+		long reqLectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId");
+		try{
+			Lectureseries lectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
+			try {
+				//lecture series
+				lectureseries = LectureseriesLocalServiceUtil.getLectureseries(reqLectureseriesId);
+				//categories
+				List<Category> categories = new ArrayList<Category>();
+				try{
+					categories = CategoryLocalServiceUtil.getAllCategories(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+				}catch(Exception e){}
+				//terms 
+				List<Term> terms = new ArrayList<Term>(); 
+				try{
+					terms = TermLocalServiceUtil.getAllSemesters();
+				}catch(Exception e){}				
+				//term
+				Term term = TermLocalServiceUtil.getById(lectureseries.getTermId());
+				//institution id
+				Long institutionId=new Long(0);
+				try{
+					institutionId = InstitutionLocalServiceUtil.getByLectureseriesId(lectureseries.getLectureseriesId(), com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS).iterator().next().getInstitutionId();
+				}catch(Exception npe){}				
+				//institutions and producers
+				Map<String,String> institutions = new LinkedHashMap<String, String>();
+				List<Producer> producers = new ArrayList<Producer>();
+				if(l2goRole.isL2gAdmin()){
+					institutions = InstitutionLocalServiceUtil.getAllSortedAsTree(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+					producers = ProducerLocalServiceUtil.getAllProducers(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+				}	
+				if(l2goRole.isCoordinator()){
+					Coordinator c = CoordinatorLocalServiceUtil.getCoordinator(remoteUser.getUserId());
+					if(institutionId==0)institutionId = c.getInstitutionId();
+					institutions = InstitutionLocalServiceUtil.getByParent(c.getInstitutionId());
+					producers = ProducerLocalServiceUtil.getProducersByInstitutionId(c.getInstitutionId());
+				}
+				if(l2goRole.isProducer()){
+					Producer p = ProducerLocalServiceUtil.getProdUcer(remoteUser.getUserId());
+					if(institutionId==0)institutionId = p.getInstitutionId();
+					institutions = InstitutionLocalServiceUtil.getByParent(p.getInstitutionId());
+				}
+				renderRequest.setAttribute("categories", categories);
+				renderRequest.setAttribute("terms", terms);
+				renderRequest.setAttribute("term", term);
+				renderRequest.setAttribute("institutionId", institutionId);
+				renderRequest.setAttribute("lectureseries", lectureseries);
+				renderRequest.setAttribute("institutions", institutions);
+				renderRequest.setAttribute("producers", producers);				
+			} catch (PortalException e) {//show all
+				// TODO: handle exception
+			}
+			//permissions
+			renderRequest.setAttribute("permissionAdmin", l2goRole.isL2gAdmin());				
+			renderRequest.setAttribute("permissionProducer", l2goRole.isProducer());				
+			renderRequest.setAttribute("permissionCoordinator", l2goRole.isCoordinator());		
+			//
+			renderRequest.setAttribute("backURL", backURL);
+			renderResponse.setProperty("jspPage", mvcPath);
+		}catch (Exception e) {//show all
+			// TODO: handle exception
+		}
+		super.render(renderRequest, renderResponse);
 	}
 	
-	public void removeLectureseries(ActionRequest request, ActionResponse response) {
+	public void delete(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
 		Long lId = new Long(request.getParameter("lectureseriesId"));
 		String backURL = request.getParameter("backURL");
 		//remove lecture series
@@ -139,16 +205,7 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		//generate new JSON date for auto complete functionality
 	}
 
-	public void editLectureseries(ActionRequest request, ActionResponse response) throws NumberFormatException, PortalException, SystemException, UnsupportedEncodingException{
-//		List<Lectureseries> lll = LectureseriesLocalServiceUtil.getAll();
-//		java.util.ListIterator<Lectureseries> itttt = lll.listIterator();
-//		
-//		while (itttt.hasNext()){
-//			Lectureseries dfdf = itttt.next();
-//			dfdf.setUSID(RandomStringUtils.random(11, true, true));
-//			LectureseriesLocalServiceUtil.updateLectureseries(dfdf);
-//		}
-		
+	public void edit(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
 		User user = UserLocalServiceUtil.getUser(new Long(request.getRemoteUser()));
 		EmailManager em = new EmailManager();
 		//search tags
@@ -307,7 +364,7 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		}	
 	}
 
-	public void addLectureseries(ActionRequest request, ActionResponse response) throws SystemException, PortalException, UnsupportedEncodingException {
+	public void add(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
 		User user = UserLocalServiceUtil.getUser(new Long(request.getRemoteUser()));
 		EmailManager em = new EmailManager();
 		//search tags
