@@ -7,6 +7,9 @@
 <jsp:useBean id="backURL" type="java.lang.String" scope="request" />
 <jsp:useBean id="terms" type="java.util.List<de.uhh.l2g.plugins.model.Term>" scope="request" />
 <jsp:useBean id="term" type="de.uhh.l2g.plugins.model.Term" scope="request" />
+<jsp:useBean id="producerIds" type="java.util.List" scope="request" />
+<jsp:useBean id="allCreators" type="com.liferay.portal.kernel.json.JSONArray" scope="request" />
+<jsp:useBean id="assignedCreators" type="java.lang.String" scope="request" />
 
 <c:set var="lectureseriesId" value="${lectureseries.lectureseriesId}"/>
 <c:set var="readOnly" value="false"/>
@@ -34,6 +37,9 @@
 		</portlet:actionURL>
 	  </c:otherwise>
 </c:choose>
+
+<liferay-portlet:resourceURL id="getJSONCreator" var="getJSONCreatorURL" />
+<liferay-portlet:resourceURL id="updateCreators" var="updateCreatorsURL" />
 
 <div class="viewedit">
 	<aui:form action="${actionURL}" commandName="model">
@@ -110,7 +116,7 @@
 												<aui:option value=""><liferay-ui:message key="select-producer"/></aui:option>
 												<c:forEach items="${producers}" var="item">
 													<c:choose>
-														  <c:when test="${item.producerId == pIds.get(0)}">
+														  <c:when test="${item.producerId == producerIds.get(0)}">
 																<aui:option value='${item.producerId}' selected="true"> ${item.lastName},  ${item.firstName}</aui:option>
 														  </c:when>
 														  <c:otherwise>
@@ -121,7 +127,7 @@
 											</aui:select>	
 					
 											<div class="prodCont">
-												<c:forEach items="${pIds}" var="item">
+												<c:forEach items="${producerIds}" var="item">
 													<c:if test="${item > 0}">
 														<c:set var="p" value="<%=ProducerLocalServiceUtil.getProdUcer(new Long(pageContext.getAttribute("item")+""))%>"/>
 														<div id='${p.producerId}'> 
@@ -159,13 +165,6 @@
 										</aui:select>
 									</c:otherwise>
 								</c:choose>
-								
-								<c:if test="${!readOnly}">
-									<!-- do not show creators yet! 
-									<aui:input id="creator" name="creator" label="creators" required="false" />
-									<div id="creators"></div>
-									-->
-								</c:if>
 								
 								<aui:input name="password" label="password" helpMessage="password-help-text" value="${lPassword}"/>
 					
@@ -205,5 +204,103 @@
 		</aui:container>
 	</aui:form>
 </div>
+
+<script>
+	var c = 0;
+	/* these variables are set here but used in the external autocomplete-creator.js file, be sure to include this js AFTER the jsp is rendered*/
+	var allCreatorsInJQueryAutocompleteFormat = ${allCreators};
+	var getJSONCreatorURL = "${getJSONCreatorURL}";
+	var namespace = "<portlet:namespace/>";
+	<c:if test="${fn:length(assignedCreators)>0}">assignedCreators = ${assignedCreators} </c:if>
+	
+	function remb(c){
+		$("#"+c).remove();
+	}
+	$(function () {
+		autocompleteCreator($("#<portlet:namespace/>creator"));
+	});
+	
+	$('#<portlet:namespace></portlet:namespace>cancel').click(function(){
+		   window.location.href="${backURL}";
+	});
+	
+	AUI().use('aui-node',
+	  
+	function(A) {
+		// Select the node(s) using a css selector string
+	    var contProduc = A.one('.prodCont');
+	    var contFacil = A.one('.facilCont');
+	    var producerId = A.one('#<portlet:namespace/>producerId');
+	    var crId = A.one('#<portlet:namespace/>crId');
+	    var institutionId = A.one('#<portlet:namespace/>institutionId');
+	    var newSemester = A.one('#<portlet:namespace/>newSemester');
+	    var allSemesters = A.one('#<portlet:namespace/>allSemesters');
+	    
+	    producerId.on(
+	      	'change',
+	      	function(A) {
+	  			if(producerId.get('value')>0){
+	  	   	 		var n = producerId.get(producerId.get('selectedIndex')).get('value');
+	  	    		var t = producerId.get(producerId.get('selectedIndex')).get('text')+"&nbsp;&nbsp;&nbsp;";
+	  	  			contProduc.append("<div id='"+n+"'> "+t+" <a class='icon-large icon-remove' style='cursor:pointer;' onClick='document.getElementById(&quot;"+n+"&quot;).remove(); resetProducer();'></a><input id='<portlet:namespace></portlet:namespace>producers' name='<portlet:namespace></portlet:namespace>producers' value='"+n+"' type='hidden'/></div>");
+	  			}
+	      	}
+	    );
+	
+	    institutionId.on(
+	      	'change',
+	      	function(A) {
+	  			if(institutionId.get('value')>0){
+	  	   	 		var n = institutionId.get(institutionId.get('selectedIndex')).get('value');
+	  	    		var t = institutionId.get(institutionId.get('selectedIndex')).get('text')+"&nbsp;&nbsp;&nbsp;";
+	  	    		contFacil.append("<div id='"+n+"'> "+t+" <a class='icon-large icon-remove' style='cursor:pointer;' onClick='document.getElementById(&quot;"+n+"&quot;).remove(); resetInstitution();'></a><input id='<portlet:namespace></portlet:namespace>institutions' name='<portlet:namespace></portlet:namespace>institutions' value='"+n+"' type='hidden'/></div>");
+	  			}
+	      	}
+	    );
+	    
+	  }
+	);
+	
+	function updateCreatorOnServer(jsonArray) {
+		//set parameter to server for update 
+		$.ajax({
+			  type: "POST",
+			  url: "${updateCreatorsURL}",
+			  dataType: 'json',
+			  data: {
+			 	   	<portlet:namespace/>creator: JSON.stringify(jsonArray)
+			  },
+			  global: false,
+			  async:false,
+			  success: function(data) {
+			    //remove all creators 
+			    $( "#creators" ).empty();
+			    //and show new creators list
+			    showCreatorsList(data);    
+			  }
+		})
+	}
+	
+	function resetInstitution(){
+		var l = $(".facilCont div").length;
+	    if(l==0){
+	    	$('#<portlet:namespace/>institutionId').prop('selectedIndex',0);
+	    }
+	}
+	
+	function resetProducer(){
+		var l = $(".prodCont div").length;
+	    if(l==0){
+	    	$('#<portlet:namespace/>producerId').prop('selectedIndex',0);
+	    }
+	}
+	
+	function resetCreator(){
+		var l = $(".creators div").length;
+	    if(l==0){
+	    	$('#<portlet:namespace/>crId').prop('selectedIndex',0);
+	    }
+	}
+</script>
 
 <%@include file="includeCreatorTemplates.jsp" %>

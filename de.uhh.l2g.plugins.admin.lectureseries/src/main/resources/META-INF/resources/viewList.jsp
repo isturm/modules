@@ -1,5 +1,9 @@
 <%@include file="init.jsp"%>
 
+<jsp:useBean id="institutions" type="java.util.LinkedHashMap" scope="request" />
+<jsp:useBean id="producers" type="java.util.List<de.uhh.l2g.plugins.model.Producer>" scope="request" />
+<jsp:useBean id="terms" type="java.util.List<de.uhh.l2g.plugins.model.Term>" scope="request" />
+ 
 <%
 	Long companyId = company.getCompanyId();
 	Long groupId = company.getGroup().getGroupId();		
@@ -7,21 +11,17 @@
 	String name = User.class.getName();
 	User u = UserLocalServiceUtil.getUser(new Long (request.getRemoteUser()));
 
-	Map<String,String> institutions = new LinkedHashMap<String, String>();
-	List<Producer> producers = new ArrayList<Producer>();
-	
 	List<Lectureseries> tempLectureseriesList = new ArrayList();
-	List<Term> semesters = TermLocalServiceUtil.getAllSemesters();
-	
-	Long institutionId = ParamUtil.getLong(request, "institutionId");
+
 	Long producerId = ParamUtil.getLong(request, "producerId");
 	Long semesterId = ParamUtil.getLong(request, "semesterId");
 	Integer statusId = ParamUtil.getInteger(request, "statusId");
+	Long institutionId = ParamUtil.getLong(request, "institutionId");
+
 	//
 	String delta = request.getParameter("delta");
 	String cur = request.getParameter("cur");
 	//
-	
 	PortletURL portletURL = renderResponse.createRenderURL();
 	portletURL.setParameter("institutionId", institutionId+"");
 	portletURL.setParameter("producerId", producerId+"");
@@ -46,11 +46,6 @@
 <c:set var="semesterId" value="<%=semesterId%>"/>
 <c:set var="statusId" value="<%=statusId%>"/>
 <c:set var="institutionId" value="<%=institutionId%>"/>
-
-<c:set var="institutions" value="<%=institutions%>"/>
-<c:set var="producers" value="<%=producers%>"/>
-<c:set var="semesters" value="<%=semesters%>"/>
-
 
 <liferay-portlet:renderURL var="addURL">
 	<portlet:param name="backURL" value='${backURL}' />
@@ -98,7 +93,7 @@
 		<aui:form action="${sortBySemester}" method="post">
 			<aui:select name="semesterId" label="" onChange="submit();">
 				<aui:option value=""><liferay-ui:message key="select-semester"/></aui:option>
-					<c:forEach items="${semesters}" var="item">
+					<c:forEach items="${terms}" var="item">
 						<aui:option value='${item.termId}'>${item.prefix} ${item.year}</aui:option>
 					</c:forEach>
 			</aui:select>
@@ -166,13 +161,17 @@
 						<portlet:param name="lectureseriesId" value='${lectser.lectureseriesId}' />
 						<portlet:param name="backURL" value='${backURL}' />
 					</portlet:actionURL>	
-								
-					<c:set var="lTerm" value="<%=TermLocalServiceUtil.getById(lectser.getTermId()).getTermName()%>"/>
+					
+					<%
+						Term t = TermLocalServiceUtil.createTerm(0);
+						try{ t = TermLocalServiceUtil.getById(lectser.getTermId()); }catch(Exception e){}
+					%>			
+					<c:set var="lTerm" value="<%=t.getTermName()%>"/>
 					
 					<liferay-ui:search-container-column-text name="name">
 						<div class="adminrow wide">
 							<div class="admintile wide">
-								<strong>${lectser.name} (${lTerm})</strong><br/>
+								<strong>${lectser.name} <c:if test="${fn:length(lTerm)>0}">(${lTerm})</c:if></strong><br/>
 								<p><a href="${lectser.closedAccessURI}" target="blank"><liferay-ui:message key="lecture-series-closed-access-uri"/></a>&nbsp;|&nbsp;<a href="${lectser.closedAccessURI}" target="blank"><liferay-ui:message key="lecture-series-open-access-uri"/></a></p>
 								<br/>
 								<%
