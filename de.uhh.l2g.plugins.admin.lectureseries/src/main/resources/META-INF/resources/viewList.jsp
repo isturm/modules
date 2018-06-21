@@ -143,7 +143,7 @@
 					} else if(!Validator.isBlank(keywords)){//Basic Search
 						//lectureseriesList = LectureseriesLocalServiceUtil.getByKeyWords(keywords);
 					} else{//No Search
-						lectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(statusId, semesterId, new Long(institutionId), new Long(producerId), groupId, companyId);
+						lectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(statusId, semesterId, new Long(institutionId), new Long(producerId), new Long(0), companyId);
 					}  
 				    searchContainer.setTotal(lectureseriesList.size());		 
 				    searchContainer.setResults(ListUtil.subList(lectureseriesList, searchContainer.getStart(), searchContainer.getEnd()));

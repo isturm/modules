@@ -66,13 +66,15 @@ public class CategoryManagementPortlet extends MVCPortlet {
 			try {
 				catId = ParamUtil.getLong(renderRequest, "categoryId");
 				c = CategoryLocalServiceUtil.getCategory(catId);
-			}catch (Exception e) {}
-			renderRequest.setAttribute("category", c);
+				renderRequest.setAttribute("category", c);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
 			renderRequest.setAttribute("backURL", backURL);
 			renderResponse.setProperty("jspPage", mvcPath);
+		}catch (Exception e) {//show all
+			// TODO: handle exception
 		}
-		//show all
-		catch (Exception e) {}
 		super.render(renderRequest, renderResponse);
 	}
 	

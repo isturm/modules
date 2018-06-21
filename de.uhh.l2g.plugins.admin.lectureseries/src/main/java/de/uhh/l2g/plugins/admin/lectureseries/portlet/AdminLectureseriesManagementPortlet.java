@@ -2,6 +2,7 @@ package de.uhh.l2g.plugins.admin.lectureseries.portlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -97,104 +98,109 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 	
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+		//get view
+		String mvcPath = renderRequest.getParameter("mvcPath");
+		String backURL = renderRequest.getParameter("backURL");
+		//
 		//Remote user
 		User remoteUser = UserLocalServiceUtil.createUser(0);
-		try {
-			remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser()));
-		} catch (NumberFormatException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (PortalException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		try { remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser())); } catch (Exception e1) {
+			_log.error("user can't be fatched!");
+		} 
 		//
+		long reqLectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId");
 		Lecture2GoRoleChecker l2goRole = new Lecture2GoRoleChecker(remoteUser);
 		Long institutionId=new Long(0);
 		Map<String,String> institutions = new LinkedHashMap<String, String>();
 		List<Producer> producers = new ArrayList<Producer>();
+		List<Long> pIds = new ArrayList<Long>();
+		List<Category> categories = new ArrayList<Category>();
+		Term term = TermLocalServiceUtil.createTerm(0);
+		JSONArray allCreatorsJSON = JSONFactoryUtil.createJSONArray();
+		List<Creator> creators = new ArrayList<Creator>();
+		String assignedCreators = "";
+		Lectureseries lectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
 		
-		String mvcPath = renderRequest.getParameter("mvcPath");
-		String backURL = renderRequest.getParameter("backURL");
-		
-		long reqLectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId");
-		try{
-			Lectureseries lectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
-			try {//try to show the detail view
-				_log.info("prepare detail view");
-				//lecture series
-				lectureseries = LectureseriesLocalServiceUtil.getLectureseries(reqLectureseriesId);
-				//categories
-				List<Category> categories = new ArrayList<Category>();
-				try{ categories = CategoryLocalServiceUtil.getAllCategories(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS); }catch(Exception e){}
-				Term term = TermLocalServiceUtil.getById(lectureseries.getTermId());
-				//institution id
-				try{ institutionId = InstitutionLocalServiceUtil.getByLectureseriesId(lectureseries.getLectureseriesId(), com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS).iterator().next().getInstitutionId();}catch(Exception npe){}				
-				//producer ids
-				List<Long> pIds = new ArrayList<Long>();
-				try{ pIds = ProducerLocalServiceUtil.getAllProducerIds(lectureseries.getLectureseriesId()); }catch (NullPointerException e){}
-				//
-				//creators list as json array
-				List<Creator> creators = new ArrayList<Creator>();
-				try{ creators = CreatorLocalServiceUtil.getCreators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS); }catch (NullPointerException e){}
-				//all
-				JSONArray allCreatorsJSON = JSONFactoryUtil.createJSONArray();
-				for (Creator creator: creators) {
-					JSONObject c = JSONFactoryUtil.createJSONObject();
-					//
-					c.put("id", creator.getCreatorId());
-					c.put("value", creator.getFullName());
-					c.put("label", creator.getFullName());
-					allCreatorsJSON.put(c);
-				}
-				//assigned
-				String assignedCreators = CreatorLocalServiceUtil.getJSONCreatorsByLectureseriesId(lectureseries.getLectureseriesId()).toString();
-				renderRequest.setAttribute("producerIds", pIds);
-				renderRequest.setAttribute("categories", categories);
-				renderRequest.setAttribute("term", term);
-				renderRequest.setAttribute("institutionId", institutionId);
-				renderRequest.setAttribute("lectureseries", lectureseries);
-				renderRequest.setAttribute("allCreators", allCreatorsJSON);
-				renderRequest.setAttribute("assignedCreators", assignedCreators);
-			} catch (PortalException e) {//show list view
-				_log.info("prepare list view");
-			}
-			//terms 
-			List<Term> terms = new ArrayList<Term>(); 
-			try{ terms = TermLocalServiceUtil.getAllSemesters(); }catch(Exception e){}				
-			renderRequest.setAttribute("terms", terms);
+		//lecture series  and depending objects
+		switch (reqLectureseriesId+"") {
+		case "0":
+			pIds.add(new Long(0));
+			break;
+		default:
+			//lecture series
+			try { lectureseries = LectureseriesLocalServiceUtil.getLectureseries(reqLectureseriesId); } catch (Exception e) { _log.info("can not instatiate lecture series with id "+ reqLectureseriesId); }
+			try { term = TermLocalServiceUtil.getById(lectureseries.getTermId()); }catch (Exception e){ _log.info("can not instatiate term with lecture series id " + reqLectureseriesId); }
+			//institution id
+			try{ institutionId = InstitutionLocalServiceUtil.getByLectureseriesId(lectureseries.getLectureseriesId(), com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS).iterator().next().getInstitutionId();}catch(Exception npe){ _log.info("can not instatiate institution with lecture series id " + reqLectureseriesId);}				
+			//assigned creators
+			assignedCreators = CreatorLocalServiceUtil.getJSONCreatorsByLectureseriesId(lectureseries.getLectureseriesId()).toString();
+			//producer ids
+			pIds = ProducerLocalServiceUtil.getAllProducerIds(reqLectureseriesId);
+			break;
+		}
+		//
+		// creators list as json array
+		creators = CreatorLocalServiceUtil.getCreators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+		for (Creator creator : creators) {
+			JSONObject c = JSONFactoryUtil.createJSONObject();
 			//
-			//institutions and producers
-			if(l2goRole.isL2gAdmin()){
-				institutions = InstitutionLocalServiceUtil.getAllSortedAsTree(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
-				producers = ProducerLocalServiceUtil.getAllProducers(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
-			}	
-			//
-			if(l2goRole.isCoordinator()){
-				Coordinator c = CoordinatorLocalServiceUtil.getCoordinator(remoteUser.getUserId());
-				if(institutionId==0)institutionId = c.getInstitutionId();
+			c.put("id", creator.getCreatorId());
+			c.put("value", creator.getFullName());
+			c.put("label", creator.getFullName());
+			allCreatorsJSON.put(c);
+		}
+		// categories
+		categories = CategoryLocalServiceUtil.getAllCategories(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+		// terms
+		List<Term> terms = new ArrayList<Term>();
+		terms = TermLocalServiceUtil.getAllSemesters(); 
+		renderRequest.setAttribute("terms", terms);
+		// institutions and producers
+		if (l2goRole.isL2gAdmin()) {
+			institutions = InstitutionLocalServiceUtil.getAllSortedAsTree(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+			producers = ProducerLocalServiceUtil.getAllProducers(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+		}
+		//
+		if (l2goRole.isCoordinator()) {
+			Coordinator c;
+			try {
+				c = CoordinatorLocalServiceUtil.getCoordinator(remoteUser.getUserId());
+				if (institutionId == 0) institutionId = c.getInstitutionId();
 				institutions = InstitutionLocalServiceUtil.getByParent(c.getInstitutionId());
 				producers = ProducerLocalServiceUtil.getProducersByInstitutionId(c.getInstitutionId());
-			}	
-			//
-			if(l2goRole.isProducer()){
-				Producer p = ProducerLocalServiceUtil.getProdUcer(remoteUser.getUserId());
-				if(institutionId==0)institutionId = p.getInstitutionId();
-				institutions = InstitutionLocalServiceUtil.getByParent(p.getInstitutionId());
+			} catch (Exception e) {
+				_log.info("can not instatiate coordinator from remote user with id " + remoteUser.getUserId());
 			}
-			//
-			renderRequest.setAttribute("institutions", institutions);
-			renderRequest.setAttribute("producers", producers);
-			renderRequest.setAttribute("backURL", backURL);
-			//permissions
-			renderRequest.setAttribute("permissionAdmin", l2goRole.isL2gAdmin());				
-			renderRequest.setAttribute("permissionProducer", l2goRole.isProducer());				
-			renderRequest.setAttribute("permissionCoordinator", l2goRole.isCoordinator());		
-			//
-			renderResponse.setProperty("jspPage", mvcPath);
-		}catch (Exception e) {//show all
-			// TODO: handle exception
 		}
+		//
+		if (l2goRole.isProducer()) {
+			Producer p;
+			try {
+				p = ProducerLocalServiceUtil.getProdUcer(remoteUser.getUserId());
+				if (institutionId == 0) institutionId = p.getInstitutionId();
+				institutions = InstitutionLocalServiceUtil.getByParent(p.getInstitutionId());
+			} catch (Exception e) {
+				_log.info("can not instatiate producer from remote user with id " + remoteUser.getUserId());
+			}
+		}
+		//
+		renderRequest.setAttribute("producerIds", pIds);
+		renderRequest.setAttribute("categories", categories);
+		renderRequest.setAttribute("term", term);
+		renderRequest.setAttribute("institutionId", institutionId);
+		renderRequest.setAttribute("lectureseries", lectureseries);
+		renderRequest.setAttribute("allCreators", allCreatorsJSON);
+		renderRequest.setAttribute("assignedCreators", assignedCreators);
+		//
+		renderRequest.setAttribute("institutions", institutions);
+		renderRequest.setAttribute("producers", producers);
+		renderRequest.setAttribute("backURL", backURL);
+		//permissions
+		renderRequest.setAttribute("permissionAdmin", l2goRole.isL2gAdmin());				
+		renderRequest.setAttribute("permissionProducer", l2goRole.isProducer());				
+		renderRequest.setAttribute("permissionCoordinator", l2goRole.isCoordinator());		
+		//
+		renderResponse.setProperty("jspPage", mvcPath);
 		super.render(renderRequest, renderResponse);
 	}
 	
@@ -226,7 +232,12 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 	}
 
 	public void edit(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		User user = UserLocalServiceUtil.getUser(new Long(request.getRemoteUser()));
+		//
+		Long userId = new Long(request.getRemoteUser());
+		User user = UserLocalServiceUtil.getUser(userId);
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
+		//	
 		EmailManager em = new EmailManager();
 		//search tags
 		ArrayList<String> tagCloudArrayString = new ArrayList<String>();
@@ -255,7 +266,6 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 			videoSort = "1".equals(request.getParameter("videoSort")) ? new Integer(1) : videoSort;
 		}catch(Exception e){}
 
-		
 		Locale locale = request.getLocale(); 
 
 		//update object
@@ -278,7 +288,13 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		lectureseries.setPassword(request.getParameter("password"));
 		lectureseries.setLongDesc(s);	
 		lectureseries.setVideoSort(videoSort);
-		
+		//
+		lectureseries.setCompanyId(companyId);
+		lectureseries.setGroupId(groupId);
+		lectureseries.setUserId(userId);
+		lectureseries.setUserName(user.getScreenName());
+		lectureseries.setModifiedDate(new Date());
+		//		
 		//update database
 		LectureseriesLocalServiceUtil.updateLectureseries(lectureseries);
 		//update previewVideoId
@@ -381,7 +397,11 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 	}
 
 	public void add(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		User user = UserLocalServiceUtil.getUser(new Long(request.getRemoteUser()));
+		Long userId = new Long(request.getRemoteUser());
+		User user = UserLocalServiceUtil.getUser(userId);
+		long companyId = user.getCompanyId();
+		long groupId = user.getGroupId();
+		//		
 		EmailManager em = new EmailManager();
 		//search tags
 		String tagCloudString = "";
@@ -426,7 +446,12 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		
 		//add an USID
 		lectureseries.setUSID(RandomStringUtils.random(11, true, true));
-		
+		//
+		lectureseries.setCompanyId(companyId);
+		lectureseries.setGroupId(groupId);
+		lectureseries.setUserId(userId);
+		lectureseries.setUserName(user.getScreenName());
+		//		
 		//save object to database
 		Lectureseries newlect = LectureseriesLocalServiceUtil.addLectureseries(lectureseries);
 		//add to Lectureseries_Category table

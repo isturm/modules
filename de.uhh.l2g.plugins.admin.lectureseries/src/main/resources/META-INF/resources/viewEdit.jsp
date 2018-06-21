@@ -15,7 +15,7 @@
 <c:set var="readOnly" value="false"/>
 
 <c:choose>
-	  <c:when test="${(permissionProducer  || permissionAdmin || permissionCoordinator) && lectureseries.approved==1}">
+	  <c:when test="${(permissionProducer && lectureseries.approved==1) || permissionAdmin || permissionCoordinator }">
 			<c:set var="readOnly" value="<%=false%>"/>
 	  </c:when>
 	  <c:otherwise>
@@ -166,11 +166,19 @@
 									</c:otherwise>
 								</c:choose>
 								
-								<aui:input name="password" label="password" helpMessage="password-help-text" value="${lPassword}"/>
-					
+								<aui:input name="password" label="password" helpMessage="password-help-text" value="${lectureseries.password}"/>
+								
 								<aui:select id="videosort" size="1" name="videoSort" label="sortvideo">
-									<aui:option value="1" selected="${isSortVideosASC}" label="sortvideoAsc"></aui:option>		
-									<aui:option value="0" selected="${!isSortVideosASC}" label="sortvideoDesc"></aui:option>		
+									<c:choose>
+										  <c:when test="${lectureseries.videoSort==1}">
+										  		<c:set var="selected" value="true"/>
+										  </c:when>
+										  <c:otherwise>
+										  		<c:set var="selected" value="false"/>
+										  </c:otherwise>
+									</c:choose>			
+									<aui:option value="1" selected="${selected}" label="sortvideoAsc"></aui:option>		
+									<aui:option value="0" selected="${!selected}" label="sortvideoDesc"></aui:option>		
 								</aui:select>
 				
 								<c:choose>
@@ -178,13 +186,13 @@
 											<aui:field-wrapper label="description">
 											    <liferay-ui:input-editor name="longDesc" toolbarSet="simple" initMethod="initEditor" cssClass="ta"/>
 											    <script type="text/javascript">
-											        function <portlet:namespace />initEditor() { return "${lLongDesc}";}
+											        function <portlet:namespace />initEditor() { return "${lectureseries.longDesc}";}
 											    </script>
 											</aui:field-wrapper>
 									  </c:when>
 									  <c:otherwise>
-									  		<c:if test="${fn:length(lLongDesc)>0}">
-									  			<aui:input type="textarea" name="longDesc" value="${lLongDesc}" label="description" readonly="true"/>
+									  		<c:if test="${fn:length(lectureseries.longDesc)>0}">
+									  			<aui:input type="textarea" name="longDesc" value="${lectureseries.longDesc}" label="description" readonly="true"/>
 									  		</c:if>
 									  </c:otherwise>
 								</c:choose>		                    

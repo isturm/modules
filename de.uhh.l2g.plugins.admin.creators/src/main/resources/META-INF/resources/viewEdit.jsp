@@ -5,17 +5,18 @@
 <jsp:useBean id="backURL" type="java.lang.String" scope="request" />
 
 <c:choose>
-  <c:when test="${creator.creatorId>0}">
-	<portlet:actionURL name="edit" var="actionURL">
-		<portlet:param name="creatorId" value='${creator.creatorId}' />
-		<portlet:param name="backURL" value='${backURL}' />
-	</portlet:actionURL>
-  </c:when>
-  <c:otherwise>
-	<portlet:actionURL name="add" var="actionURL">
-		<portlet:param name="backURL" value='${backURL}' />
-	</portlet:actionURL>
-  </c:otherwise>
+	  <c:when test="${creator.creatorId>0}">
+		<portlet:actionURL name="edit" var="actionURL">
+			<portlet:param name="creatorId" value='${creator.creatorId}' />
+			<portlet:param name="backURL" value='${backURL}' />
+		</portlet:actionURL>
+	  </c:when>
+	  
+	  <c:otherwise>
+		<portlet:actionURL name="add" var="actionURL">
+			<portlet:param name="backURL" value='${backURL}' />
+		</portlet:actionURL>
+	  </c:otherwise>
 </c:choose>
 
 <div class="viewedit">
