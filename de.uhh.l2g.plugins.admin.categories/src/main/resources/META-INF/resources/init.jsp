@@ -52,8 +52,6 @@
 	boolean permissionCoordinator = false;
 	//l2go producer is logged in
 	boolean permissionProducer = false;
-	//l2go student is logged in
-	boolean permissionStudent = false;
 
 try{
 	Lecture2GoRoleChecker rcheck = new Lecture2GoRoleChecker();
@@ -61,19 +59,12 @@ try{
 	permissionAdmin = rcheck.isL2gAdmin(remoteUser);
 	permissionCoordinator = rcheck.isCoordinator(remoteUser);
 	permissionProducer = rcheck.isProducer(remoteUser);
-	permissionStudent = rcheck.isStudent(remoteUser);
 	if(permissionAdmin){
 		permissionCoordinator=false;
 		permissionProducer=false;
-		permissionStudent=false;
 	}else{
 		if(permissionCoordinator){
 			permissionProducer=false;
-			permissionStudent=false;		
-		}else{
-			if(permissionProducer){
-				permissionStudent=false;
-			}
 		}
 	}
 }catch(Exception e){
