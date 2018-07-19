@@ -6,9 +6,13 @@
 	SearchContainer searchContainer = (SearchContainer)request.getAttribute("liferay-ui:search:searchContainer");
 	DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 %>
-<liferay-ui:search-toggle buttonLabel="lectureseries-search" displayTerms="<%= displayTerms %>" id="toggle_id_lectureseries_search">
-	<aui:input label="id" name="lId" value='<%= lId==0 ? " ":lId %>'/> <!-- If Id = 0 then set blank in field -->
-	<aui:input label="name" name="lName" value='<%= lName %>'/>
-</liferay-ui:search-toggle>
+<c:set var="lId" value="<%= lId==0 ? " ":lId %>"/>
+<c:set var="lName" value="<%=ParamUtil.getString(request, "lName")%>"/>
+<c:set var="displayTerms" value="<%=displayTerms%>"/>
 
-<br/>
+<!-- 
+<liferay-ui:search-toggle buttonLabel="lectureseries-search" displayTerms="${displayTerms}" id="toggle_id_lectureseries_search">
+	<aui:input label="id" name="lId" value='${lId}'/> 
+	<aui:input label="name" name="lName" value='${lName}'/>
+</liferay-ui:search-toggle>
+-->

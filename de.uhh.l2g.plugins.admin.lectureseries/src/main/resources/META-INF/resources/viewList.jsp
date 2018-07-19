@@ -36,6 +36,11 @@
 %>
 
 <c:set var="backURL" value="<%=backURL%>"/>
+
+<liferay-portlet:renderURL varImpl="lectureseriesSearchURL">
+    <portlet:param name="mvcPath" value="/viewList.jsp" />
+</liferay-portlet:renderURL>
+
 <c:set var="pageName" value="<%=pageName%>"/>
 
 <c:set var="portletURL" value="<%=portletURL%>"/>
@@ -128,98 +133,101 @@
 		</aui:form>
 
 	<a href="${addURL}" class="add link">
-	    <liferay-ui:message key="add-new-lectureseries"/> <span class="icon-large icon-plus-sign"/>
+    	<liferay-ui:message key="add-new-lectureseries"/> <span class="icon-large icon-plus-sign"/>
 	</a>
-	
-	<liferay-ui:search-container emptyResultsMessage="no-lectureseries-found" delta="10" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
-	<liferay-ui:search-form page="/viewSearch.jsp" servletContext="${application}" />
-			<liferay-ui:search-container-results>
-				<%
-					DisplayTerms displayTerms =searchContainer.getDisplayTerms();
-					String keywords = displayTerms.getKeywords(); 
-					List<Lectureseries> lectureseriesList =  Collections.EMPTY_LIST;
-					if (displayTerms.isAdvancedSearch()) {
-						//Advance Search
-					} else if(!Validator.isBlank(keywords)){//Basic Search
-						//lectureseriesList = LectureseriesLocalServiceUtil.getByKeyWords(keywords);
-					} else{//No Search
-						lectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(statusId, semesterId, new Long(institutionId), new Long(producerId), new Long(0), companyId);
-					}  
-				    searchContainer.setTotal(lectureseriesList.size());		 
-				    searchContainer.setResults(ListUtil.subList(lectureseriesList, searchContainer.getStart(), searchContainer.getEnd()));
-				%>				
-			</liferay-ui:search-container-results>
-		
-			<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Lectureseries" keyProperty="lectureseriesId" modelVar="lectser">
-					<portlet:renderURL var="editURL">
-						<portlet:param name="lectureseriesId" value="${lectser.lectureseriesId}" />
-						<portlet:param name="backURL" value="${backURL}" />
-						<portlet:param name="mvcPath" value="/viewEdit.jsp" />
-					</portlet:renderURL>
-					
-					<portlet:actionURL name="delete" var="removeURL">
-						<portlet:param name="lectureseriesId" value='${lectser.lectureseriesId}' />
-						<portlet:param name="backURL" value='${backURL}' />
-					</portlet:actionURL>	
-					
+
+	<aui:form action="${lectureseriesSearchURL}" method="post" name="fm">
+		<liferay-ui:search-container emptyResultsMessage="no-lectureseries-found" delta="10" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
+		<liferay-ui:search-form page="/viewSearch.jsp" servletContext="${application}" />
+				<liferay-ui:search-container-results>
 					<%
-						Term t = TermLocalServiceUtil.createTerm(0);
-						try{ t = TermLocalServiceUtil.getById(lectser.getTermId()); }catch(Exception e){}
-					%>			
-					<c:set var="lTerm" value="<%=t.getTermName()%>"/>
-					
-					<liferay-ui:search-container-column-text name="name">
-						<div class="adminrow wide">
-							<div class="admintile wide">
-								<strong>${lectser.name} <c:if test="${fn:length(lTerm)>0}">(${lTerm})</c:if></strong><br/>
-								<p><a href="${lectser.closedAccessURI}" target="blank"><liferay-ui:message key="lecture-series-closed-access-uri"/></a>&nbsp;|&nbsp;<a href="${lectser.closedAccessURI}" target="blank"><liferay-ui:message key="lecture-series-open-access-uri"/></a></p>
-								<br/>
-								<%
-								List<Long> pIds = new ArrayList<Long>();
-								String prds = "";
-									try{
-										pIds = ProducerLocalServiceUtil.getAllProducerIds(lectser.getLectureseriesId());
-										for (int i = 0; i < pIds.size(); i++) {
-											Long pLid = new Long(pIds.get(i)+"");
-											Producer p = ProducerLocalServiceUtil.createProducer(0);
-											p=ProducerLocalServiceUtil.getProdUcer(pLid);
-											prds+=p.getLastName()+", "+ p.getFirstName()+"<br/>";
-										}
-									}catch(Exception e){}
-					 			%>
-					 			<%=prds %>
-					 			<br />
-					 			<c:if test="${lectser.numberOfVideos > 0}">
-					 				<p>
-						 				${lectser.numberOfVideos}
-						 				<c:if test="${lectser.numberOfVideos > 1}"><liferay-ui:message key="video-datasets"/></c:if>
-						 				<c:if test="${lectser.numberOfVideos == 1}"><liferay-ui:message key="video-dataset"/></c:if>
-					 				</p>
-					 			</c:if>
-					 			<c:if test="${lectser.numberOfVideos == 0}">
-					 				<p><liferay-ui:message key="no-videos-uploaded"/></p>
-					 			</c:if>			 			
-					 		</div>
-					 		<div class="admintile wide icons">
-								
-								<c:choose>
-									  <c:when test="${lectser.numberOfVideos > 0 || (permissionProducer && lectser.approved==1)}">
-									  		<!-- nothing -->
-									  </c:when>
-									  <c:otherwise>
-											<a href="${removeURL}">
-												<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
-											</a>						  
-									 </c:otherwise>
-								</c:choose>		
-													
-								<a href="${editURL}">
-							   		<span class="icon-large icon-pencil"></span>
-								</a>					
+						DisplayTerms displayTerms =searchContainer.getDisplayTerms();
+						String keywords = displayTerms.getKeywords(); 
+						List<Lectureseries> lectureseriesList =  Collections.EMPTY_LIST;
+						if (displayTerms.isAdvancedSearch()) {
+							//Advance Search
+							//lectureseriesList = LectureseriesLocalServiceUtil.getByIdTitleisAndOperatorAndCompanyId(cId, cName, displayTerms.isAndOperator(), companyId);
+						} else if(!Validator.isBlank(keywords)){//Basic Search
+							lectureseriesList = LectureseriesLocalServiceUtil.getByKeyWordsAndCompanyId(keywords, companyId);
+						} else{//No Search
+							lectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(statusId, semesterId, new Long(institutionId), new Long(producerId), new Long(0), companyId);
+						}
+					    searchContainer.setTotal(lectureseriesList.size());		 
+					    searchContainer.setResults(ListUtil.subList(lectureseriesList, searchContainer.getStart(), searchContainer.getEnd()));
+					%>				
+				</liferay-ui:search-container-results>
+			
+				<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Lectureseries" keyProperty="lectureseriesId" modelVar="lectser">
+						<portlet:renderURL var="editURL">
+							<portlet:param name="lectureseriesId" value="${lectser.lectureseriesId}" />
+							<portlet:param name="backURL" value="${backURL}" />
+							<portlet:param name="mvcPath" value="/viewEdit.jsp" />
+						</portlet:renderURL>
+						
+						<portlet:actionURL name="delete" var="removeURL">
+							<portlet:param name="lectureseriesId" value='${lectser.lectureseriesId}' />
+							<portlet:param name="backURL" value='${backURL}' />
+						</portlet:actionURL>	
+						
+						<%
+							Term t = TermLocalServiceUtil.createTerm(0);
+							try{ t = TermLocalServiceUtil.getById(lectser.getTermId()); }catch(Exception e){}
+						%>			
+						<c:set var="lTerm" value="<%=t.getTermName()%>"/>
+						
+						<liferay-ui:search-container-column-text name="name">
+							<div class="adminrow wide">
+								<div class="admintile wide">
+									<strong>${lectser.name} <c:if test="${fn:length(lTerm)>0}">(${lTerm})</c:if></strong><br/>
+									<p><a href="${lectser.closedAccessURI}" target="blank"><liferay-ui:message key="lecture-series-closed-access-uri"/></a>&nbsp;|&nbsp;<a href="${lectser.closedAccessURI}" target="blank"><liferay-ui:message key="lecture-series-open-access-uri"/></a></p>
+									<br/>
+									<%
+									List<Long> pIds = new ArrayList<Long>();
+									String prds = "";
+										try{
+											pIds = ProducerLocalServiceUtil.getAllProducerIds(lectser.getLectureseriesId());
+											for (int i = 0; i < pIds.size(); i++) {
+												Long pLid = new Long(pIds.get(i)+"");
+												Producer p = ProducerLocalServiceUtil.createProducer(0);
+												p=ProducerLocalServiceUtil.getProdUcer(pLid);
+												prds+=p.getLastName()+", "+ p.getFirstName()+"<br/>";
+											}
+										}catch(Exception e){}
+						 			%>
+						 			<%=prds %>
+						 			<br />
+						 			<c:if test="${lectser.numberOfVideos > 0}">
+						 				<p>
+							 				${lectser.numberOfVideos}
+							 				<c:if test="${lectser.numberOfVideos > 1}"><liferay-ui:message key="video-datasets"/></c:if>
+							 				<c:if test="${lectser.numberOfVideos == 1}"><liferay-ui:message key="video-dataset"/></c:if>
+						 				</p>
+						 			</c:if>
+						 			<c:if test="${lectser.numberOfVideos == 0}">
+						 				<p><liferay-ui:message key="no-videos-uploaded"/></p>
+						 			</c:if>			 			
+						 		</div>
+						 		<div class="admintile wide icons">
+									
+									<c:choose>
+										  <c:when test="${lectser.numberOfVideos > 0 || (permissionProducer && lectser.approved==1)}">
+										  		<!-- nothing -->
+										  </c:when>
+										  <c:otherwise>
+												<a href="${removeURL}">
+													<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
+												</a>						  
+										 </c:otherwise>
+									</c:choose>		
+														
+									<a href="${editURL}">
+								   		<span class="icon-large icon-pencil"></span>
+									</a>					
+								</div>
 							</div>
-						</div>
-					</liferay-ui:search-container-column-text>
-			</liferay-ui:search-container-row>
-		<liferay-ui:search-iterator />
-	</liferay-ui:search-container>
+						</liferay-ui:search-container-column-text>
+				</liferay-ui:search-container-row>
+			<liferay-ui:search-iterator />
+		</liferay-ui:search-container>
+	</aui:form>
 </div>
