@@ -11,6 +11,10 @@
 <jsp:useBean id="allCreators" type="com.liferay.portal.kernel.json.JSONArray" scope="request" />
 <jsp:useBean id="assignedCreators" type="java.lang.String" scope="request" />
 
+<jsp:useBean id="permissionAdmin" type="java.lang.Boolean" scope="request" />
+<jsp:useBean id="permissionProducer" type="java.lang.Boolean" scope="request" />
+<jsp:useBean id="permissionCoordinator" type="java.lang.Boolean" scope="request" />
+
 <c:set var="lectureseriesId" value="${lectureseries.lectureseriesId}"/>
 <c:set var="readOnly" value="false"/>
 

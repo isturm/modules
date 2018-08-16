@@ -4,6 +4,10 @@
 <jsp:useBean id="producers" type="java.util.List<de.uhh.l2g.plugins.model.Producer>" scope="request" />
 <jsp:useBean id="terms" type="java.util.List<de.uhh.l2g.plugins.model.Term>" scope="request" />
  
+<jsp:useBean id="permissionAdmin" type="java.lang.Boolean" scope="request" />
+<jsp:useBean id="permissionProducer" type="java.lang.Boolean" scope="request" />
+<jsp:useBean id="permissionCoordinator" type="java.lang.Boolean" scope="request" />
+
 <%
 	Long companyId = company.getCompanyId();
 	Long groupId = company.getGroup().getGroupId();		

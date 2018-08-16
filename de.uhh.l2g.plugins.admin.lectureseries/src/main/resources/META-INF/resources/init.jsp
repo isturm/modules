@@ -80,8 +80,5 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <liferay-theme:defineObjects />
 <portlet:defineObjects />
 
-<jsp:useBean id="permissionAdmin" type="java.lang.Boolean" scope="request" />
-<jsp:useBean id="permissionProducer" type="java.lang.Boolean" scope="request" />
-<jsp:useBean id="permissionCoordinator" type="java.lang.Boolean" scope="request" />
 
 

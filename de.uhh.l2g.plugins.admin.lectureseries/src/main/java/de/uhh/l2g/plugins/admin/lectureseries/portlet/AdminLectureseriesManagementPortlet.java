@@ -180,7 +180,7 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 				if (institutionId == 0) institutionId = p.getInstitutionId();
 				institutions = InstitutionLocalServiceUtil.getByParent(p.getInstitutionId());
 			} catch (Exception e) {
-				_log.info("can not instatiate producer from remote user with id " + remoteUser.getUserId());
+				_log.info("can not instantiate producer from remote user with id " + remoteUser.getUserId());
 			}
 		}
 		//
