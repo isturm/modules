@@ -143,7 +143,7 @@ public class Security {
 			return s;
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+//			//e.printStackTrace();
 			return null;
 		}
 	}

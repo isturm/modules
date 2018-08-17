@@ -53,7 +53,7 @@ public class Video_LectureseriesLocalServiceImpl
 			Video_LectureseriesUtil.removeByLectureseries(lectureseriesId);
 		} catch (SystemException e) {
 			ret = true;
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return ret;
 	}
@@ -64,7 +64,7 @@ public class Video_LectureseriesLocalServiceImpl
 				Video_LectureseriesUtil.removeByVideo(videoId);
 				ret = true;
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		return ret;
 	}

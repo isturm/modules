@@ -70,7 +70,7 @@ public class Htaccess {
 				secFileDir.mkdirs();
 				new File(HTUSERS_FILE).createNewFile(); 
 			} catch (IOException e) {
-				e.printStackTrace();
+//				//e.printStackTrace();
 			}
 		
 		try {
@@ -88,9 +88,9 @@ public class Htaccess {
 			}
 
 		} catch (FileNotFoundException ex) {
-			ex.printStackTrace();
+//			ex.printStackTrace();
 		} catch (IOException ex) {
-			ex.printStackTrace();
+//			ex.printStackTrace();
 		} finally {
 			// Close the BufferedWriter
 			try {
@@ -99,7 +99,7 @@ public class Htaccess {
 					bufferedWriter.close();
 				}
 			} catch (IOException ex) {
-				ex.printStackTrace();
+//				ex.printStackTrace();
 			}
 		}
 	}
@@ -164,7 +164,7 @@ public class Htaccess {
 			bw.flush();
 			bw.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+//			//e.printStackTrace();
 		}
 
 	}

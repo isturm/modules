@@ -214,6 +214,11 @@ public interface LectureseriesLocalService extends BaseLocalService,
 	public List<Lectureseries> getAllLectureseriesWhithPassword();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Lectureseries> getByKeyWordsAndCompanyId(
+		java.lang.String keywords, java.lang.Long companyId)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Lectureseries> getByLatestVideoId(java.lang.Long latestVideoId)
 		throws SystemException;
 

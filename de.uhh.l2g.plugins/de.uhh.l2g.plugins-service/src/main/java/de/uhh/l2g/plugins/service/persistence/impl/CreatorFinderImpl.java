@@ -46,7 +46,7 @@ public class CreatorFinderImpl extends CreatorFinderBaseImpl implements CreatorF
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				se.printStackTrace();
+				//se.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
@@ -77,7 +77,7 @@ public class CreatorFinderImpl extends CreatorFinderBaseImpl implements CreatorF
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				se.printStackTrace();
+				//se.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
@@ -108,7 +108,7 @@ public class CreatorFinderImpl extends CreatorFinderBaseImpl implements CreatorF
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				se.printStackTrace();
+				//se.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
@@ -137,7 +137,7 @@ public class CreatorFinderImpl extends CreatorFinderBaseImpl implements CreatorF
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				se.printStackTrace();
+				//se.printStackTrace();
 			}
 		} finally {
 			closeSession(session);

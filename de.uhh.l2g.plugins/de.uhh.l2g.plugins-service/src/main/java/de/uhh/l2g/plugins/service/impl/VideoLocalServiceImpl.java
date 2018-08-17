@@ -208,15 +208,15 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		// set thumbnail
 		// if no file
 		if (objectVideo.getContainerFormat().equals("") && objectVideo.getFilename().equals("")) {
-			objectVideo.setImage("/lecture2go-portlet/img/nomedia.png");
-			objectVideo.setImageSmall("/lecture2go-portlet/img/nomedia.png");
-			objectVideo.setImageMedium("/lecture2go-portlet/img/nomedia.png");
+			objectVideo.setImage("/img/nomedia.png");
+			objectVideo.setImageSmall("/img/nomedia.png");
+			objectVideo.setImageMedium("/img/nomedia.png");
 		}		
 		// if audio file
 		if (objectVideo.getContainerFormat().equals("mp3")) {
-			objectVideo.setImage("/lecture2go-portlet/img/audio_only_big.png");
-			objectVideo.setImageSmall("/lecture2go-portlet/img/audio_only_small.png");
-			objectVideo.setImageMedium("/lecture2go-portlet/img/audio_only_medium.png");
+			objectVideo.setImage("/img/audio_only_big.png");
+			objectVideo.setImageSmall("/img/audio_only_small.png");
+			objectVideo.setImageMedium("/img/audio_only_medium.png");
 		}
 		// is video
 		if (objectVideo.getContainerFormat().equals("mp4")) {
@@ -231,7 +231,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 				objectVideo.setImageSmall(PropsUtil.get("lecture2go.web.root") + "/images/" + imageSmall);
 				objectVideo.setImageMedium(PropsUtil.get("lecture2go.web.root") + "/images/" + imageMedium);
 			} else {
-				String img = "/lecture2go-portlet/img/noimage.png";
+				String img = "/img/noimage.png";
 				objectVideo.setImage(img);
 				objectVideo.setImageSmall(img);
 				objectVideo.setImageMedium(img);
@@ -295,9 +295,9 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		try {
 			institution = institutionPersistence.findByPrimaryKey(objectVideo.getRootInstitutionId());
 		} catch (NoSuchInstitutionException e) {
-//			e.printStackTrace();
+//			//e.printStackTrace();
 		} catch (SystemException e) {
-//			e.printStackTrace();
+//			//e.printStackTrace();
 		}
 		try {
 			if (webhome.contains("localhost"))
@@ -384,7 +384,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		}
 		
 		//embed iframe
-		String embedIframe="<iframe src='"+PropsUtil.get("lecture2go.web.root")+"/lecture2go-portlet/player/iframe/?v="+objectVideo.getVideoId()+"' frameborder='0' width='647' height='373' allowfullscreen></iframe>";
+		String embedIframe="<iframe src='"+PropsUtil.get("lecture2go.web.root")+"/player/iframe/?v="+objectVideo.getVideoId()+"' frameborder='0' width='647' height='373' allowfullscreen></iframe>";
 		objectVideo.setEmbedIframe(embedIframe);
 		
 		//embed html5
@@ -630,7 +630,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			try {
 				v=super.updateVideo(video);
 			} catch (SystemException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		return v;
 	}
@@ -653,7 +653,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			Lectureseries lectureseriesObject = lectureseriesPersistence.findByPrimaryKey(lectureseriesId);
 			sortVideo = lectureseriesObject.getVideoSort();
 		} catch (NoSuchModelException e) {
-			//e.printStackTrace();
+			////e.printStackTrace();
 		}
 		
 		// Sort by generation date
@@ -678,7 +678,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		try {
 			vl = getByLectureseriesAndOpenaccess(lectureseriesId,0);
 		} catch (SystemException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return vl.get(0).getVideoId();
 	}

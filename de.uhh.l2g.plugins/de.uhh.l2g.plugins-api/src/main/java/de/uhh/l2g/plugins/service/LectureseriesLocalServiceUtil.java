@@ -234,6 +234,12 @@ public class LectureseriesLocalServiceUtil {
 		return getService().getAllLectureseriesWhithPassword();
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getByKeyWordsAndCompanyId(
+		java.lang.String keywords, java.lang.Long companyId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByKeyWordsAndCompanyId(keywords, companyId);
+	}
+
 	public static java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getByLatestVideoId(
 		java.lang.Long latestVideoId)
 		throws com.liferay.portal.kernel.exception.SystemException {

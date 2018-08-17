@@ -234,33 +234,33 @@ public class ProzessManager {
 		try {
 			lectureseries = LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId());
 		} catch (Exception e3) {
-			e3.printStackTrace();
+//			e3.printStackTrace();
 		}
 
 		try {
 			host = HostLocalServiceUtil.getHost(video.getHostId());
 		} catch (PortalException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		} catch (SystemException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		
 		Producer producer = ProducerLocalServiceUtil.createProducer(0);
 		try {
 			producer = ProducerLocalServiceUtil.getProducer(video.getProducerId());
 		} catch (PortalException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		} catch (SystemException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		
 		Metadata metadata = MetadataLocalServiceUtil.createMetadata(0);
 		try {
 			metadata = MetadataLocalServiceUtil.getMetadata(video.getMetadataId());
 		} catch (PortalException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		} catch (SystemException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 
 		// delete video_lectureseries
@@ -274,18 +274,18 @@ public class ProzessManager {
 			List<Segment> segmentList = SegmentLocalServiceUtil.getSegmentsByVideoId(video.getVideoId());
 			SegmentLocalServiceUtil.deleteThumbhailsFromSegments(segmentList);
 		}catch (PortalException e) {
-			e.printStackTrace();
+//			//e.printStackTrace();
 		} catch (SystemException e) {
-			e.printStackTrace();
+//			//e.printStackTrace();
 		} catch (NullPointerException e){
-			e.printStackTrace();
+//			//e.printStackTrace();
 		}
 		
 		//and all segments
 		try {
 			SegmentLocalServiceUtil.deleteByVideoId(video.getVideoId());
 		} catch (SystemException e2) {
-			e2.printStackTrace();
+//			e2.printStackTrace();
 		}
 		
 		LicenseLocalServiceUtil.deleteByVideoId(video.getVideoId());
@@ -294,21 +294,21 @@ public class ProzessManager {
 		try {
 			VideohitlistLocalServiceUtil.deleteByVideoId(video.getVideoId());
 		} catch (SystemException e2) {
-			e2.printStackTrace();
+//			e2.printStackTrace();
 		}
 		
 		// delete meta data which belongs to video 
 		try {
 			MetadataLocalServiceUtil.deleteMetadata(metadata);
 		} catch (SystemException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		
 		// delete video itself
 		try {
 			VideoLocalServiceUtil.deleteVideo(video);
 		} catch (SystemException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		
 		//delete physical files 
@@ -377,9 +377,9 @@ public class ProzessManager {
 		try {
 			host = HostLocalServiceUtil.getHost(video.getHostId());
 		} catch (PortalException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		} catch (SystemException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		
 		Producer producer = ProducerLocalServiceUtil.createProducer(0);
@@ -397,17 +397,17 @@ public class ProzessManager {
 			SegmentLocalServiceUtil.deleteThumbhailsFromSegments(segmentList);
 			
 		}catch (PortalException e) {
-			e.printStackTrace();
+//			//e.printStackTrace();
 		} catch (SystemException e) {
-			e.printStackTrace();
+//			//e.printStackTrace();
 		} catch (NullPointerException e){
-			e.printStackTrace();
+//			//e.printStackTrace();
 		}
 		//and all segments
 		try {
 			SegmentLocalServiceUtil.deleteByVideoId(video.getVideoId());
 		} catch (SystemException e2) {
-			e2.printStackTrace();
+//			e2.printStackTrace();
 		}
 		
 		//delete physical files 
@@ -436,7 +436,7 @@ public class ProzessManager {
 		try {
 			HTACCESS.makeHtaccess(url, VideoLocalServiceUtil.getByProducerAndDownloadLink(producer.getProducerId(), 0));
 		} catch (SystemException e) {
-			e.printStackTrace();
+//			//e.printStackTrace();
 		}
 		
 		// set empty parameter to video itself
@@ -454,7 +454,7 @@ public class ProzessManager {
 			video.setFileSize("");
 			VideoLocalServiceUtil.updateVideo(video);
 		} catch (SystemException e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
 		}
 		return true;
 	}
@@ -478,7 +478,7 @@ public class ProzessManager {
 					try {
 						rssMan.createRssFile(videoList, f);
 					} catch (IOException e) {
-						e.printStackTrace();
+//						//e.printStackTrace();
 					}
 				}
 			}
@@ -515,9 +515,9 @@ public class ProzessManager {
 			objectProducer = ProducerLocalServiceUtil.getProducer(v.getProducerId());
 
 		} catch (SystemException e) {
-			e.printStackTrace();
+//			//e.printStackTrace();
 		} catch (PortalException e) {
-			e.printStackTrace();
+//			//e.printStackTrace();
 		}
 		Runtime runCmd = Runtime.getRuntime();
 		
@@ -535,7 +535,7 @@ public class ProzessManager {
 					runCmd.exec(command);
 					ret = true;
 				} catch (IOException e) {
-					e.printStackTrace();
+//					//e.printStackTrace();
 				}				
 			}
 		}

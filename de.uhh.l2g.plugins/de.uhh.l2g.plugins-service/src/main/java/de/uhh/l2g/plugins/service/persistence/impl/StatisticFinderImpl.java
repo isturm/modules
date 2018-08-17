@@ -29,7 +29,7 @@ public class StatisticFinderImpl extends StatisticFinderBaseImpl implements Stat
 //			try {
 //				throw new SystemException(e);
 //			} catch (SystemException se) {
-//				se.printStackTrace();
+//				//se.printStackTrace();
 //			}
 //		} finally {
 //			closeSession(session);
@@ -56,7 +56,7 @@ public class StatisticFinderImpl extends StatisticFinderBaseImpl implements Stat
 //			try {
 //				throw new SystemException(e);
 //			} catch (SystemException se) {
-//				se.printStackTrace();
+//				//se.printStackTrace();
 //			}
 //		} finally {
 //			closeSession(session);

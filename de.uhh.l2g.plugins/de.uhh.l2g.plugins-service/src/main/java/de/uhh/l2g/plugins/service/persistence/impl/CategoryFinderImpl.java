@@ -35,7 +35,7 @@ public class CategoryFinderImpl extends CategoryFinderBaseImpl implements Catego
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				se.printStackTrace();
+				//se.printStackTrace();
 			}
 		} finally {
 			closeSession(session);

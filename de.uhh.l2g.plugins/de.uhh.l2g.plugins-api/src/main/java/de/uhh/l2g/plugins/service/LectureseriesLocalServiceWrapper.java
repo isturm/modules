@@ -250,6 +250,14 @@ public class LectureseriesLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getByKeyWordsAndCompanyId(
+		java.lang.String keywords, java.lang.Long companyId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _lectureseriesLocalService.getByKeyWordsAndCompanyId(keywords,
+			companyId);
+	}
+
+	@Override
 	public java.util.List<de.uhh.l2g.plugins.model.Lectureseries> getByLatestVideoId(
 		java.lang.Long latestVideoId)
 		throws com.liferay.portal.kernel.exception.SystemException {

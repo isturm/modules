@@ -56,7 +56,7 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 		try {
 			h = Institution_HostLocalServiceUtil.getByInstitutionId(institutionId);
 		} catch (PortalException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return h;
 	}
@@ -107,7 +107,7 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 			c = Institution_HostLocalServiceUtil.getByCompanyIdAndHostIdCount(companyId, hostId);
 		} catch (PortalException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return c;
 	}
