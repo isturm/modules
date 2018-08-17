@@ -28,6 +28,12 @@
 <jsp:useBean id="reqMetadata" type="de.uhh.l2g.plugins.model.Metadata" scope="request" />
 <jsp:useBean id="reqSubInstitutions" type="java.util.List<de.uhh.l2g.plugins.model.Video_Institution>" scope="request" />
 
+<jsp:useBean id="permissionAdmin" type="java.lang.Boolean" scope="request" />
+<jsp:useBean id="permissionProducer" type="java.lang.Boolean" scope="request" />
+<jsp:useBean id="permissionCoordinator" type="java.lang.Boolean" scope="request" />
+
+<jsp:useBean id="remoteUser" type="com.liferay.portal.kernel.model.User" scope="request" />
+
 <liferay-portlet:resourceURL id="updateMetadata" var="updateURL" />
 <liferay-portlet:resourceURL id="updateDescription" var="updateDescriptionURL" />
 <liferay-portlet:resourceURL id="updateLicense" var="updateLicenseURL" />

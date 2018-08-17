@@ -1,13 +1,5 @@
 package de.uhh.l2g.plugins.admin.videos.portlet;
 
-import de.uhh.l2g.plugins.admin.videos.constants.AdminVideoManagementPortletKeys;
-import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-
-import javax.portlet.Portlet;
-
-import org.osgi.service.component.annotations.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,13 +8,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.logging.Logger;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+
+import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -30,10 +29,18 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
+import de.uhh.l2g.plugins.admin.videos.constants.AdminVideoManagementPortletKeys;
+import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
 import de.uhh.l2g.plugins.model.Category;
+import de.uhh.l2g.plugins.model.Coordinator;
 import de.uhh.l2g.plugins.model.Creator;
 import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.model.Lectureseries;
@@ -49,6 +56,7 @@ import de.uhh.l2g.plugins.model.Video_Creator;
 import de.uhh.l2g.plugins.model.Video_Institution;
 import de.uhh.l2g.plugins.model.Video_Lectureseries;
 import de.uhh.l2g.plugins.service.CategoryLocalServiceUtil;
+import de.uhh.l2g.plugins.service.CoordinatorLocalServiceUtil;
 import de.uhh.l2g.plugins.service.CreatorLocalServiceUtil;
 import de.uhh.l2g.plugins.service.HostLocalServiceUtil;
 import de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil;
@@ -67,6 +75,7 @@ import de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
 import de.uhh.l2g.plugins.util.FFmpegManager;
 import de.uhh.l2g.plugins.util.FileManager;
+import de.uhh.l2g.plugins.util.Lecture2GoRoleChecker;
 import de.uhh.l2g.plugins.util.ProzessManager;
 import de.uhh.l2g.plugins.util.Security;
 
@@ -99,10 +108,10 @@ import de.uhh.l2g.plugins.util.Security;
 	service = Portlet.class
 )
 public class AdminVideoManagementPortlet extends MVCPortlet {
-private final static Logger logger = Logger.getLogger(AdminVideoManagementPortlet.class.getName());
+	protected static Log _log = LogFactoryUtil.getLog(AdminVideoManagementPortletKeys.class.getName());
 	
 	public void addSegment(ActionRequest request, ActionResponse response){
-		Video reqVideo = new VideoLocalServiceUtil().createVideo(0);
+		Video reqVideo = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
 		reqVideo = VideoLocalServiceUtil.getFullVideo(reqVideoId);
@@ -111,6 +120,113 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		String backURL = request.getParameter("backURL");
 		request.setAttribute("backURL", backURL);
 		response.setRenderParameter("jspPage", "/admin/segments.jsp");
+	}
+
+	@Override
+	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		//Remote user
+		Long userId = new Long(renderRequest.getRemoteUser());
+		User user = UserLocalServiceUtil.createUser(0);
+		long companyId = new Long(0);
+		long groupId = new Long(0);
+		//
+		User remoteUser = UserLocalServiceUtil.createUser(0);
+		try {
+			remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser())); 
+			user = UserLocalServiceUtil.getUser(userId);
+			companyId = user.getCompanyId();
+			groupId = user.getGroupId();
+		} catch (Exception e1) {
+			_log.error("user can't be fatched!");
+		} 
+		//
+		Lecture2GoRoleChecker l2goRole = new Lecture2GoRoleChecker(remoteUser);		
+		//permissions
+		boolean permissionAdmin = l2goRole.isL2gAdmin();
+		boolean permissionCoordinator = l2goRole.isCoordinator();
+		boolean permissionProducer = l2goRole.isProducer();
+		//
+		List<Coordinator> coordinators = new ArrayList<Coordinator>();
+		List<Producer> producers = new ArrayList<Producer>();
+		List<Lectureseries> lectureseries = new ArrayList<Lectureseries>();
+		List<Video> tempVideosList = new ArrayList<Video>();
+		Map<Term, List<Lectureseries>> lectureseriesAsTreeList = new TreeMap<Term, List<Lectureseries>>();
+
+		//
+		Long coordinatorId = new Long(0);
+		Long producerId = new Long(0);
+		Long lectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId", 0);
+		//
+		if(permissionAdmin){
+			coordinators = CoordinatorLocalServiceUtil.getAllCoordinators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+			
+			coordinatorId = ParamUtil.getLong(renderRequest, "coordinatorId", 0);
+			producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
+			if(coordinatorId>0){
+				try{
+					Long institutionId = CoordinatorLocalServiceUtil.getCoordinator(coordinatorId).getInstitutionId();
+					producers = ProducerLocalServiceUtil.getProducersByInstitutionId(institutionId);
+					if(producerId==0)tempVideosList = VideoLocalServiceUtil.getByRootInstitution(institutionId);
+					else {
+						lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+						lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
+						if(lectureseriesId==0) tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
+						else tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
+					}
+				}catch(Exception e){}
+			}else{ 
+				producerId = new Long(0);
+				tempVideosList = VideoLocalServiceUtil.getVideos(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+			}
+		}else{
+			if(permissionCoordinator){
+				try{
+					coordinatorId = remoteUser.getUserId();
+					producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
+					Long institutionId = CoordinatorLocalServiceUtil.getCoordinator(coordinatorId).getInstitutionId();
+					producers = ProducerLocalServiceUtil.getProducersByInstitutionId(institutionId);
+					if(producerId>0){
+						lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+						lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
+						if(lectureseriesId==0)tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
+						else tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
+					}else{
+						tempVideosList = VideoLocalServiceUtil.getByRootInstitution(institutionId);
+					}
+				}catch(Exception e){}
+			}else{
+				if(permissionProducer){
+					producerId = remoteUser.getUserId();
+					if(lectureseriesId>0) tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
+					else tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
+					lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+					lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
+				}
+			}
+		}		
+		//
+		PortletURL portletURL = renderResponse.createRenderURL();
+		//
+		renderRequest.setAttribute("permissionAdmin", permissionAdmin);				
+		renderRequest.setAttribute("permissionProducer", permissionProducer);				
+		renderRequest.setAttribute("permissionCoordinator", permissionCoordinator);	
+		//
+		renderRequest.setAttribute("producerId", producerId);	
+		renderRequest.setAttribute("lectureseriesId", lectureseriesId);	
+		renderRequest.setAttribute("coordinators", coordinators);	
+		renderRequest.setAttribute("coordinatorId", coordinatorId);	
+		renderRequest.setAttribute("producers", producers);	
+		renderRequest.setAttribute("producerId", producerId);	
+		renderRequest.setAttribute("lectureseriesAsTreeList", lectureseriesAsTreeList);	
+		renderRequest.setAttribute("tempVideosList", tempVideosList);	
+		renderRequest.setAttribute("portletURL", portletURL);	
+		renderRequest.setAttribute("backURL", backURL);
+		renderRequest.setAttribute("remoteUser", remoteUser);	
+		//
+		renderResponse.setProperty("jspPage", mvcPath);
+		super.render(renderRequest, renderResponse);
 	}
 	
 	public void viewVideo(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
@@ -126,7 +242,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 			
 		// requested video
 		Long reqVideoId = new Long(0);
-		Video reqVideo = new VideoLocalServiceUtil().createVideo(0); 
+		Video reqVideo = VideoLocalServiceUtil.createVideo(0); 
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
 		try{reqVideo = VideoLocalServiceUtil.getFullVideo(reqVideoId);}catch(Exception e){}
 		
@@ -225,7 +341,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 		request.setAttribute("reqProducer", reqProducer);
 		
 		//video
-		Video newVideo = new VideoLocalServiceUtil().createVideo(0);
+		Video newVideo =  VideoLocalServiceUtil.createVideo(0);
 		//long newVideoId = counterLocalServiceUtil.increment(Video.class.getName());
 		//Video newVideo = videoPersistence.create(newVideoId);
 		//newVideo = VideoLocalServiceUtil.createVideo(videoId);
@@ -736,10 +852,10 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 			}
 			try {
 				LicenseLocalServiceUtil.updateLicense(license);
-				logger.info("LICENSE_UPDATE_SUCCESS");
+				_log.info("LICENSE_UPDATE_SUCCESS");
 			} catch (SystemException e) {
 //				//e.printStackTrace();
-				logger.info("LICENSE_UPDATE_FAILED");
+				_log.info("LICENSE_UPDATE_FAILED");
 			}
 			JSONObject json = JSONFactoryUtil.createJSONObject();
 			writeJSON(resourceRequest, resourceResponse, json);
@@ -750,10 +866,10 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 			metadata.setDescription(description);
 			try {
 				MetadataLocalServiceUtil.updateMetadata(metadata);
-				logger.info("DESCRIPTION_UPDATE_SUCCESS");
+				_log.info("DESCRIPTION_UPDATE_SUCCESS");
 			} catch (SystemException e) {
 //				//e.printStackTrace();
-				logger.info("DESCRIPTION_UPDATE_FAILED");
+				_log.info("DESCRIPTION_UPDATE_FAILED");
 			}
 			JSONObject json = JSONFactoryUtil.createJSONObject();
 			writeJSON(resourceRequest, resourceResponse, json);
@@ -1091,7 +1207,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 	}
 	
 	public void removeVideo(ActionRequest request, ActionResponse response) throws PortalException, SystemException{
-		Video video = new VideoLocalServiceUtil().createVideo(0);
+		Video video = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
 		video = VideoLocalServiceUtil.getFullVideo(reqVideoId);
@@ -1106,7 +1222,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 	}
 	
 	public void lockVideo(ActionRequest request, ActionResponse response){
-		Video video = new VideoLocalServiceUtil().createVideo(0);
+		Video video = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
 		video = VideoLocalServiceUtil.getFullVideo(reqVideoId);
@@ -1127,7 +1243,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 	}
 	
 	public void unlockVideo(ActionRequest request, ActionResponse response){
-		Video video = new VideoLocalServiceUtil().createVideo(0);
+		Video video = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
 		video = VideoLocalServiceUtil.getFullVideo(reqVideoId);
@@ -1148,7 +1264,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 	}
 	
 	public void activateDownload(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		Video video = new VideoLocalServiceUtil().createVideo(0);
+		Video video = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
 		video = VideoLocalServiceUtil.getVideo(reqVideoId);
@@ -1163,7 +1279,7 @@ private final static Logger logger = Logger.getLogger(AdminVideoManagementPortle
 	}
 	
 	public void deactivateDownload(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		Video video = new VideoLocalServiceUtil().createVideo(0);
+		Video video = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
 		video = VideoLocalServiceUtil.getVideo(reqVideoId);
