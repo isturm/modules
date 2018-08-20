@@ -41,6 +41,14 @@ public class VideoLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link de.uhh.l2g.plugins.service.impl.VideoLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* Checks if the video has a related smil-file in the file system
+	*/
+	public static boolean checkSmilFile(de.uhh.l2g.plugins.model.Video video) {
+		return getService().checkSmilFile(video);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}

@@ -32,6 +32,14 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 		_videoLocalService = videoLocalService;
 	}
 
+	/**
+	* Checks if the video has a related smil-file in the file system
+	*/
+	@Override
+	public boolean checkSmilFile(de.uhh.l2g.plugins.model.Video video) {
+		return _videoLocalService.checkSmilFile(video);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _videoLocalService.getActionableDynamicQuery();

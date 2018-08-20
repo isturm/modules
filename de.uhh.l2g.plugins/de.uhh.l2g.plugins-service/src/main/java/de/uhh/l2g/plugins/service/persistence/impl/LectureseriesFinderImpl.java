@@ -96,7 +96,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			q.addScalar("groupId", Type.LONG);
 			q.addScalar("companyId", Type.LONG);
 			q.addScalar("userId", Type.LONG);
-			q.addScalar("userName", Type.LONG);
+			q.addScalar("userName", Type.STRING);
 			q.addScalar("createDate", Type.DATE);
 			q.addScalar("modifiedDate", Type.DATE);			
 			QueryPos qPos = QueryPos.getInstance(q);
@@ -142,7 +142,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			q.addScalar("groupId", Type.LONG);
 			q.addScalar("companyId", Type.LONG);
 			q.addScalar("userId", Type.LONG);
-			q.addScalar("userName", Type.LONG);
+			q.addScalar("userName", Type.STRING);
 			q.addScalar("createDate", Type.DATE);
 			q.addScalar("modifiedDate", Type.DATE);			
 			q.setCacheable(false);			
@@ -153,7 +153,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				//se.printStackTrace();
+//				se.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
@@ -209,7 +209,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			q.addScalar("groupId", Type.LONG);
 			q.addScalar("companyId", Type.LONG);
 			q.addScalar("userId", Type.LONG);
-			q.addScalar("userName", Type.LONG);
+			q.addScalar("userName", Type.STRING);
 			q.addScalar("createDate", Type.DATE);
 			q.addScalar("modifiedDate", Type.DATE);			
 			//additional parameter

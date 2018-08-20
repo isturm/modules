@@ -544,7 +544,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	**/
 	public void addPlayerUris2Video(Host host, Video video, Producer producer){
 		ArrayList<String> playerUris = new ArrayList<String>();
-		String  mediaRep = PropsUtil.get("lecture2go.media.repository") + "/" + host.getServerRoot() + "/" + producer.getHomeDir();
+		JSONArray playerUrisSortedJSON = JSONFactoryUtil.createJSONArray();
 		
 		String l2go_path = video.getRootInstitutionId() + "l2g" + producer.getHomeDir();
 		
@@ -561,18 +561,15 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			String playerUri = "";
 			playerUri += uris.get(i);
 			if(video.getOpenAccess()==1){
-				//check for smil file
-				String smilPath = mediaRep + "/" + video.getPreffix()+".smil";
-				File smilFile = new File(smilPath);
-				if(smilFile.isFile()) playerUri = playerUri.replace("[smilfile]", video.getPreffix()+".smil");
+				if (checkSmilFile(video)) {
+					playerUri = playerUri.replace("[smilfile]", video.getPreffix()+".smil");
+				}
 				playerUri = playerUri.replace("[filename]", video.getFilename());
 			}else{
-				//check for smil file
-				String smilPath = mediaRep + "/" + video.getSPreffix()+".smil";
-				File smilFile = new File(smilPath);				
-				if(smilFile.isFile()) playerUri = playerUri.replace("[smilfile]", video.getSPreffix()+".smil");
+				if (checkSmilFile(video)) {
+					playerUri = playerUri.replace("[smilfile]", video.getSPreffix()+".smil");
+				}
 				playerUri = playerUri.replace("[filename]", video.getSecureFilename());
-				
 			}
 			//
 			playerUri = playerUri.replace("[host]", host.getStreamer());
@@ -582,13 +579,37 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			playerUri = playerUri.replace("[port]", host.getPort()+"");
 			//
 			if( playerUri.length()>0 && !playerUri.contains("[") && !playerUri.contains("]") )playerUris.add(playerUri);
-			else playerUris.add("null");
+			
 		}
-		//sort player uris 
+		//sort player with priority set in the portal-ext.properties
 		for(int i=0; i<playerUris.size();i++){
-			if(playerUris.get(i).contains("null"))playerUris.set(i, playerUris.get(i+1));
+			String uri = playerUris.get(i);
+			//json object
+			JSONObject o =  JSONFactoryUtil.createJSONObject();
+			//container
+			String container ="";
+			int l = uri.trim().split("\\.").length;
+			container = uri.trim().split("\\.")[l-1];
+			String downloadServ = PropsUtil.get("lecture2go.downloadserver.web.root");
+
+			//check player files!
+			boolean smilFileAllowed = (uri.contains("vod/_definst/smil") && checkSmilFile(video) && container.contains("m3u8"));
+			boolean hlsStreamingAllowed = ((uri.contains("vod/_definst/mp4") || uri.contains("vod/_definst/mp3"))  && !checkSmilFile(video));
+			boolean downloadAllowed = (uri.contains(downloadServ) && video.getDownloadLink()==1);
+			boolean rtspAllowed = (uri.contains("rtsp"));
+
+			if(smilFileAllowed || hlsStreamingAllowed || downloadAllowed || rtspAllowed){
+				//custom case for download allowed 
+				//and oper or closed case
+				if(downloadAllowed && video.getOpenAccess()==0){
+					uri=downloadServ+"/down/"+l2go_path+"/"+video.getSecureFilename();
+				}
+				o.put("file", uri);
+				playerUrisSortedJSON.put(o);
+			}
 		}
-		video.setPlayerUris(playerUris);
+		//
+		video.setJsonPlayerUris(playerUrisSortedJSON);
 	}
 	
 	public Video getBySecureUrl(String surl) throws NoSuchVideoException, SystemException{
@@ -722,6 +743,35 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		} catch (final SystemException e) {
 		}
 		return videoList;
+	}
+	
+	/**
+	 * Checks if the video has a related smil-file in the file system
+	 */
+	public boolean checkSmilFile(Video video) {
+		Host host = new HostImpl();
+		try {
+			host = HostLocalServiceUtil.getHost(video.getHostId());
+		} catch (PortalException e1) {
+//			e1.printStackTrace();
+		} catch (SystemException e1) {
+//			e1.printStackTrace();
+		}
+		Producer producer = new ProducerImpl();
+		try {
+			producer = producerPersistence.findByPrimaryKey(video.getProducerId());
+		} catch (NoSuchProducerException e1) {
+//			e1.printStackTrace();
+		} catch (SystemException e1) {
+//			e1.printStackTrace();
+		}
+		String  mediaRep = PropsUtil.get("lecture2go.media.repository") + "/" + host.getServerRoot() + "/" + producer.getHomeDir();
+
+		// set prefix according to openaccess filename or secured
+		String prefix = video.getOpenAccess()==1 ? video.getPreffix() : video.getSPreffix();
+		String smilPath = mediaRep + "/" + prefix +".smil";
+		File smilFile = new File(smilPath);
+		return smilFile.isFile();
 	}
 	
 }

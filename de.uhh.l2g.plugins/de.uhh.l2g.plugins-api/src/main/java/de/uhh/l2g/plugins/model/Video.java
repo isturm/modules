@@ -54,6 +54,11 @@ public interface Video extends VideoModel, PersistedModel {
 			}
 		};
 
+	public com.liferay.portal.kernel.json.JSONArray getJsonPlayerUris();
+
+	public void setJsonPlayerUris(
+		com.liferay.portal.kernel.json.JSONArray jsonPlayerUris);
+
 	public java.lang.String getLectureseriesName();
 
 	public void setLectureseriesName(java.lang.String lectureseriesName);

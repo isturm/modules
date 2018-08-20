@@ -299,6 +299,11 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getJsonPlayerUris() {
+		return _video.getJsonPlayerUris();
+	}
+
+	@Override
 	public com.liferay.portal.kernel.model.CacheModel<de.uhh.l2g.plugins.model.Video> toCacheModel() {
 		return _video.toCacheModel();
 	}
@@ -1117,6 +1122,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setImageSmall(java.lang.String imageSmall) {
 		_video.setImageSmall(imageSmall);
+	}
+
+	@Override
+	public void setJsonPlayerUris(
+		com.liferay.portal.kernel.json.JSONArray jsonPlayerUris) {
+		_video.setJsonPlayerUris(jsonPlayerUris);
 	}
 
 	/**

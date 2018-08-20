@@ -17,6 +17,8 @@ package de.uhh.l2g.plugins.model.impl;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.liferay.portal.kernel.json.JSONArray;
+
 /**
  * The extended model implementation for the Video service. Represents a row in the &quot;LG_Video&quot; database table, with each column mapped to a property of this class.
  *
@@ -36,6 +38,16 @@ public class VideoImpl extends VideoBaseImpl {
 	private String lectureseriesNumber;
 	private String creatorFullName;
 	
+	private JSONArray jsonPlayerUris;
+	
+	public JSONArray getJsonPlayerUris() {
+		return jsonPlayerUris;
+	}
+
+	public void setJsonPlayerUris(JSONArray jsonPlayerUris) {
+		this.jsonPlayerUris = jsonPlayerUris;
+	}
+
 	public String getLectureseriesName() {
 		return lectureseriesName;
 	}
