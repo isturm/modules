@@ -138,13 +138,14 @@
 								</c:if>		
 								
 								<div class="video-image-wrapper" onClick="${onClick}">
-								    <img class="video-image-big" src="${contextPath}/${vid.imageMedium}"/>
+								    <img class="video-image-big" src="${contextPath}${vid.imageMedium}"/>
 								</div>
 								
 								<div class="admintile wide video-content-wrapper">
 									<div class="admin-videolist-video-title" onClick="${onClick}">
 										${vName}
 									</div>
+									
 									<div class="admin-videolist-creator-title">
 										${creators}
 									</div>
@@ -210,10 +211,11 @@
 										<portlet:param name="backURL" value="${portletURL}"/>	
 									</portlet:actionURL>
 									
-									<portlet:actionURL name="addSegment" var="segmentURL">
+									<portlet:renderURL var="segmentURL">
 										<portlet:param name="videoId" value="${primKey}" />
 										<portlet:param name="backURL" value="${portletURL}"/>		
-									</portlet:actionURL>
+										<portlet:param name="mvcPath" value="/viewSegment.jsp" />
+									</portlet:renderURL>
 				
 									<portlet:actionURL name="removeVideo" var="removeURL">
 										<portlet:param name="videoId" value="${primKey}" />
@@ -230,11 +232,12 @@
 											   <span class="icon-large icon-unlock" onclick="return confirm('<liferay-ui:message key="really-lock-question"/>')"></span>
 											</a>
 										</c:if>
+										
 										<c:if test="${vid.openAccess==0}">
 											<a href="${lockURL}" title="<liferay-ui:message key='unlock-help'/>" alt="<liferay-ui:message key='unlock-help'/>">
 											    <span class="icon-large icon-lock" onclick="return confirm('<liferay-ui:message key="really-unlock-question"/>')"></span>
 											 </a>
-										</c:if>		
+										</c:if>
 										
 										<c:if test="${vid.downloadLink==1}">
 											 <a href="${deactivateDowonloadURL}" title="<liferay-ui:message key='deaktivate-download-help'/>" alt="<liferay-ui:message key='deaktivate-download-help'/>">
@@ -254,6 +257,7 @@
 											    <span class="icon-large icon-comment"></span>
 											 </a>	
 										</c:if>
+										
 										<c:if test="${segments.size()==0}">
 											<a href="${segmentURL}" title="<liferay-ui:message key='comment-video-help'/>" alt="<liferay-ui:message key='comment-video-help'/>">
 											   <span class="icon-large icon-align-justify"></span>

@@ -1,112 +1,100 @@
+<script type="text/javascript">jwplayer.key="qKvU61clkb6v98R2Yoc/cL6x7dFfJ3we+r6nxD6iB0Q=";</script>
+
 <script>
-    $(function() {
+	$(function() {
         // herausfinden ob es ein tablet/smartphone ist
         var isTouchDevice = 'ontouchstart' in document.documentElement;
 
-        // Die Adresse des Web- und Videoservers ermitteln
-        var server = "#";
+        // Diese Funktion wird genutzt um die Url Parameter auszulesen
+        var getUrlParameter = function(sParam){
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++){
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam){
+                    return sParameterName[1];
+                }
+            }
+        };
 
         // Start- und Endzeit der Zitatfunktion ermitteln (Durch die URL Parameter)
         var frameStart = getUrlParameter('start');
         var frameEnd = getUrlParameter('end');
-        var fs = <%=timeStart%>;
-        var fe = <%=timeEnd%>;
-        var citationAllowed = <%=video.getCitation2go()%>;
+        var containerFormat = "${reqVideo.containerFormat}";
         
-		if(citationAllowed==1 && fs>0 && fe>fs){
-	        frameStart = <%=timeStart%>;
-	        frameEnd = <%=timeEnd%>;		
-		}
-		
-        var playerUri1 ="${video.playerUris.get(0)}";
-        var playerUri2 ="${video.playerUris.get(1)}";
-        var playerUri3 ="${video.playerUris.get(2)}";
-        var playerUri4 ="${video.playerUris.get(3)}";
-        var playerUri5 ="${video.playerUris.get(4)}";
-        
-
-        //hack for HLS in firefox and mp3
-        var containerFormat = "${video.containerFormat}";
-        var isFirefox = typeof InstallTrigger !== 'undefined';
-        var downloadAllowed = "${video.downloadLink}";
-        if(containerFormat.indexOf("mp3") !== -1 && isFirefox && downloadAllowed.indexOf("1")!==-1){
-        	var playerUri = playerUri1;
-        	playerUri1 = playerUri3;
-        	playerUri3 = playerUri;
-        }
-        //
-        
-		var vttFile ="${video.vttChapterFile}";
+        // Hier wird der JW-Player initialisiert
+        // Interessant ist hierbei, dass es mehrere Quellen geben kann
+        // Hier wird der JW-Player initialisiert
+        // Interessant ist hierbei, dass es mehrere Quellen geben kann
+		var vttFile ="${reqVideo.vttChapterFile}";
 		
         // Hier wird der JW-Player initialisiert
         // Interessant ist hierbei, dass es mehrere Quellen geben kann
-        jwplayer('player1').setup({
+        var pla = jwplayer('player1').setup({
             width: "100%",
             aspectratio: "16:9",
-            image: "${video.image}",
-            sources: [
-            	{ file: playerUri1 },
-            	{ file: playerUri2 },
-            	{ file: playerUri3 },
-            	{ file: playerUri4 },
-            	{ file: playerUri5 }
-            ],
+            playbackRateControls: [0.75, 1, 1.25, 1.5],
+            image: "${reqVideo.image}",
+            cast: {},
+            sources: ${reqVideo.jsonPlayerUris},
             tracks: [{
                 file: vttFile,
                 kind:'chapters'
             }],
             hlshtml: true,
             androidhls: true
-        }).onReady(function() {
-
-         	// Inputfelder fÃ¼r Start und Ende der Zitate / Kapitel speichern 
+        });
+        
+        pla.on('ready', function(){
+			
+         	// Inputfelder für Start und Ende der Zitate / Kapitel speichern 
             var $inputTimeStart = $("#<portlet:namespace></portlet:namespace>timeStart").val("");
             var $inputTimeEnd = $("#<portlet:namespace></portlet:namespace>timeEnd").val("");
-            var $citation = $("#<portlet:namespace></portlet:namespace>citation").val("");
-            var $citationiframe = $("#<portlet:namespace></portlet:namespace>citationiframe").val("");
+            var $buttonAddSegment = $(".btn-primary");
+            $("#<portlet:namespace></portlet:namespace>chortTitle").val("");
+
 
             var $chapters = $('#chapters');
-            var $chapterDivs = $chapters.find("div.chaptertile");
+            var $chapterDivs = $chapters.find("li.chaptertile");
             
-            // Chapter ids und Zeiten in Object fÃ¼r spÃ¤tere Abfragen speichern
+            // Chapter ids und Zeiten in Object für spätere Abfragen speichern
             var chapters = [];
             for (var i = 0; i < $chapterDivs.length; i++) {
-            	// Array chapters enthÃ¤lt Triple aus id, Anfangs- und Endzeit der Kapitel
+            	// Array chapters enthält Triple aus id, Anfangs- und Endzeit der Kapitel
             	var chapter = {
             			id : $chapterDivs.eq(i).attr("id"),
             			begin : timeToSeconds($chapterDivs.eq(i).attr("begin")),
                     	end : timeToSeconds($chapterDivs.eq(i).attr("end"))
-            	};
+            	}
             	chapters[i] = chapter;
             }
 
             if (frameStart && frameEnd) {
                 // Sollten sich die Start- und Endzeit in den URL Parametern befinden
-                // wird in diesen Abschnitt dafÃ¼r gesorgt das man auch nur das Entsprechende
+                // wird in diesen Abschnitt dafür gesorgt das man auch nur das Entsprechende
                 // Videomaterial zu sehen bekommt
 
 
-                // iOS und Android unterstÃ¼tzen seek nur wenn der Nutzer
+                // iOS und Android unterstützen seek nur wenn der Nutzer
                 // selbst manuell das vide gestartet hat. Wir werden den start des Zitates
-                // spÃ¤ter anders lÃ¶sen
+                // später anders lösen
                 if (!isTouchDevice) {
-                	jwplayer().on('firstFrame', function() { 
-                		jwplayer().play();
-                		jwplayer().seek(frameStart);
-                	});
+                    jwplayer().seek(frameStart);
+                    jwplayer().pause();
                 }
             }
 
                 
-            // Event listener alle 100 ms wÃ¤hrend playback
-            jwplayer().onTime( function(event){
-
-                // Sicher stellen, dass der gewÃ¤hlte Zeitraum eingehalten wird
+            // Event listener alle 100 ms während playback
+			pla.on('time', function(event) {
+            
+				// Sicher stellen, dass der gewählte Zeitraum eingehalten wird
 
                 var pos =  Math.floor(event.position);
+                console.log(pos);
 
                 if (pos < frameStart && isTouchDevice) {
-                    // Nur unter iOS und Android nÃ¶tig,
+                    // Nur unter iOS und Android nötig,
                     jwplayer().seek(frameStart);
                 } else if (pos > frameEnd) {
                     jwplayer().seek(frameStart);
@@ -114,6 +102,7 @@
                 }
             
                 // Falls neues Kapitel beginnt, zu Kapitel scrollen und hervorheben
+
                 for (var i = 0; i < chapters.length; i++) {
                     // Falls Player in ein Kapitel eintritt, Kapitel Klasse 'active' setzen
                     var $cur = $("#" + chapters[i].id);
@@ -133,11 +122,14 @@
                 }
             });
 
-            // Diese Stelle ist wiederum nur auf PC nÃ¶tig.
+         
+
+            // Diese Stelle ist wiederum nur auf PC nötig.
             // Hiermit wird verhindert, dass der Nutzer per Tastatur
             // aus den Zitatsbereich herausspult
             if (!isTouchDevice) {
-                jwplayer().onSeek( function(event){
+            	
+                pla.on('seek', function(event) {
                     var pos =  event.position;
 
                     if (Math.ceil(pos) < Math.ceil(frameStart) || Math.ceil(pos) > Math.ceil(frameEnd)) {
@@ -149,10 +141,12 @@
 
             $('#fullVideo').show();
         
+
+        
         	// Sollte der Nutzer auf die Kapitel klicken,
             // wird zur entsprechenden Stelle gesprungen
-            $chapters.find('div.chaptertile').on('click', function(event) {
-                
+            $chapters.on('click', 'li.chaptertile', function(event) {
+                console.log($(this).text());
             	$(this).addClass("active").siblings().removeClass("active");
             	var sec = $(this).attr("begin");
             	sec = timeToSeconds(sec);
@@ -163,33 +157,37 @@
             	event.stopPropagation();
             });
 
-            // Im nachfolgenden Abschnitt wird den Nutzer ermÃ¶glicht
+
+
+            // Im nachfolgenden Abschnitt wird den Nutzer ermöglicht
             // eigene Zitate zu erstellen und zu teilen
             var player = jwplayer();
 
             var startFrameTime = undefined;
             var endFrameTime = undefined;
             var startTimeStr = undefined;
-            var endTimeStr = undefined;
+            var entTimeStr = undefined;
+            
 
             // Benutzer setzt Start des Clips
             $inputTimeStart.click(function() {
-                	startFrameTime = Math.round(player.getPosition());
-                    startTimeStr = secondsToTime(Math.floor(startFrameTime));
+            	startFrameTime = player.getPosition();
+                startTimeStr = secondsToTime(Math.floor(startFrameTime));
 
-                    $inputTimeStart.val(startTimeStr);
-                    
-                    if (startFrameTime && endFrameTime) {
-                    	// Falls Startzeit nach Endzeit liegt, Zeiten angleichen
-                    	if (startFrameTime > endFrameTime) {
-                    		endFrameTime = startFrameTime;
-                    		endTimeStr = secondsToTime(Math.floor(endFrameTime));
-                    		$inputTimeEnd.val(endTimeStr);
-                    		
-                    	}
-                    	generateClipLink (Math.round(startFrameTime), Math.round(endFrameTime));
-                    	console.log("start: " + startFrameTime + ", end: " + endFrameTime);
-                    }
+                $inputTimeStart.val(startTimeStr);
+                
+                if (startFrameTime && endFrameTime) {
+                	// Falls Startzeit nach Endzeit liegt, Zeiten angleichen
+                	if (startFrameTime > endFrameTime) {
+                		endFrameTime = startFrameTime;
+                		endTimeStr = secondsToTime(Math.floor(endFrameTime));
+                		$inputTimeEnd.val(endTimeStr);
+                		
+                	}
+                	//generateClipLink (startFrameTime, endFrameTime);
+                	console.log("start: " + startFrameTime + ", end: " + endFrameTime);
+                }
+                validateClipTime();
             });
 
             // Benutzer setzt Ende des Clips
@@ -199,7 +197,7 @@
 
                 $inputTimeEnd.val(EndTimeStr);
 
-                if (startFrameTime && endFrameTime && startFrameTime<endFrameTime) {
+                if (startFrameTime && endFrameTime) {
                 	// Falls Startzeit nach Endzeit liegt, Zeiten angleichen
                 	if (startFrameTime > endFrameTime) {
                 		startFrameTime = endFrameTime;
@@ -207,25 +205,37 @@
                 		$inputTimeStart.val(startTimeStr);
                 		
                 	}
-                	generateClipLink (Math.round(startFrameTime), Math.round(endFrameTime));
-                	console.log("start: " + startFrameTime + ", end: " + endFrameTime);
+                	//generateClipLink (startFrameTime, endFrameTime);
+                	//console.log("start: " + startFrameTime + ", end: " + endFrameTime);
                 }
                 validateClipTime();
             });
             
             function generateClipLink (firstFrame, lastFrame) {
-            	$citation.val("${video.url}"+"/"+firstFrame+"/"+lastFrame);
-            	var vid = <%=video.getVideoId()%>;
-            	var host ='<%=PropsUtil.get("lecture2go.web.root")%>';
-            	
-            	var iframe="<iframe src='"+host+"/lecture2go-portlet/player/iframe/?v="+vid+"/"+firstFrame+"/"+lastFrame+"' frameborder='0' width='647' height='373' allowfullscreen></iframe>";
-            	$citationiframe.val(iframe);
+            	var href = location.href + "?start="  + firstFrame + "&end=" + lastFrame;
+                $('#clipLink').val(href).fadeIn(600);
+                $('#clipLink2').show();
+                $('#clipLink2 a').attr('href', href);
             }
+            
+            function validateClipTime () {
+            	// Button addSegment disablen, falls Zeiten leer oder gleich sind
+            	if ( ( $inputTimeStart.val() != "" )
+            		&& ( $inputTimeEnd.val() != "" )
+            		&& ( $inputTimeStart.val() != $inputTimeEnd.val() )) {
+            		console.log("enable");
+            		$buttonAddSegment.prop('disabled', false);
+            	}else{
+            		console.log("disabled");
+            		$buttonAddSegment.prop('disabled', true);
+            	}
+            }
+
         });
     });
 
 </script>
 
-<div id="player1"></div>
 
+<div id="player1"></div>
 

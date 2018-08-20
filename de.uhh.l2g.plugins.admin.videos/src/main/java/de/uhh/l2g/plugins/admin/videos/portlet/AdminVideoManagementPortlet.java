@@ -98,6 +98,7 @@ import de.uhh.l2g.plugins.util.Security;
 		"com.liferay.portlet.header-portlet-javascript=https://content.jwplatform.com/libraries/meCDJ4WV.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",
 		"com.liferay.portlet.footer-portlet-javascript=/js/autocomplete-creator.js",		
+		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1.js",		
 		"javax.portlet.display-name=Admin Videos",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",
@@ -158,6 +159,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Long coordinatorId = new Long(0);
 		Long producerId = new Long(0);
 		Long lectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId", 0);
+		Long videoId = ParamUtil.getLong(renderRequest, "videoId", 0);
+		Video reqVideo = VideoLocalServiceUtil.getFullVideo(videoId);
+		
 		//
 		if(permissionAdmin){
 			coordinators = CoordinatorLocalServiceUtil.getAllCoordinators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
@@ -224,6 +228,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		renderRequest.setAttribute("portletURL", portletURL);	
 		renderRequest.setAttribute("backURL", backURL);
 		renderRequest.setAttribute("remoteUser", remoteUser);	
+		renderRequest.setAttribute("reqVideo", reqVideo);	
 		//
 		renderResponse.setProperty("jspPage", mvcPath);
 		super.render(renderRequest, renderResponse);
