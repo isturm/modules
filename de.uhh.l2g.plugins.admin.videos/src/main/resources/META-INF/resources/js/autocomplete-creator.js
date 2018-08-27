@@ -1,3 +1,5 @@
+var assignedCreators="";
+
 $( function() {
 	if(!assignedCreators) assignedCreators="";
 	showCreatorsList(assignedCreators);

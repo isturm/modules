@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -95,10 +97,8 @@ import de.uhh.l2g.plugins.util.Security;
 		"com.liferay.portlet.header-portlet-javascript=/js/upload/jquery.fileupload.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/upload/jquery.iframe-transport.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.datetimepicker.js",
-		"com.liferay.portlet.header-portlet-javascript=https://content.jwplatform.com/libraries/meCDJ4WV.js",
-		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",
-		"com.liferay.portlet.footer-portlet-javascript=/js/autocomplete-creator.js",		
-		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1.js",		
+		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1/jwplayer.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
 		"javax.portlet.display-name=Admin Videos",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",
@@ -459,7 +459,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		String resourceID = resourceRequest.getResourceID();
 		Long videoId = ParamUtil.getLong(resourceRequest, "videoId");
 		Video video = VideoLocalServiceUtil.getFullVideo(videoId);
-		
 		Metadata metadata = MetadataLocalServiceUtil.createMetadata(0);
 		try {
 			Long metadataId = video.getMetadataId();
@@ -901,12 +900,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			String timeStart = ParamUtil.getString(resourceRequest, "timeStart");
 			String timeEnd = ParamUtil.getString(resourceRequest, "timeEnd");
 			String text = ParamUtil.getString(resourceRequest, "text");
-			String chapter = ParamUtil.getString(resourceRequest, "chapter");
-			String comment = ParamUtil.getString(resourceRequest, "comment");
-
-			int chap = 0;
-			if (chapter.equals("1") && comment.equals("0"))
-				chap = 1;
+			JSONObject jo = JSONFactoryUtil.createJSONObject();
 
 			if (!shortTitle.trim().equals("") && !timeStart.trim().equals("") && !timeEnd.trim().equals("")) {
 				Segment segment = SegmentLocalServiceUtil.createSegment(0);
@@ -914,14 +908,13 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				segment.setTitle(shortTitle);
 				segment.setStart(timeStart);
 				segment.setEnd(timeEnd);
-				segment.setChapter(chap);
+				segment.setChapter(1);
 				segment.setDescription(text);
 				segment.setUserId(userId);
+				//
 				try {
-					// save
+					//add and save to json object
 					Segment s = SegmentLocalServiceUtil.createSegment(segment);
-					
-					JSONObject jo = JSONFactoryUtil.createJSONObject();
 					jo.put("chapter", s.getChapter());
 					jo.put("description", s.getDescription());
 					jo.put("end", s.getEnd());
@@ -934,9 +927,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 					jo.put("userId", s.getUserId());
 					jo.put("videoId", s.getVideoId());
 					jo.put("previousSegmentId", SegmentLocalServiceUtil.getPreviusSegmentId(s.getSegmentId()));
-					
-					// and return response
-					writeJSON(resourceRequest, resourceResponse, jo);
 				} catch (SystemException e) {
 					//e.printStackTrace();
 				} catch (PortalException e) {
@@ -945,12 +935,18 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			}
 			//update chapter file (vtt)
 			updateVttChapterFile(video);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);				
 		}
 
 		if(resourceID.equals("showSegments")){
 			String vId = ParamUtil.getString(resourceRequest, "videoId");
 			Long vID = new Long(vId);
-			com.liferay.portal.kernel.json.JSONArray ja = JSONFactoryUtil.createJSONArray();
+			JSONArray ja = JSONFactoryUtil.createJSONArray();
 			//get segments for video and convert to json array
 			try {
 				List<Segment> sl= SegmentLocalServiceUtil.getSegmentsByVideoId(vID);
@@ -978,8 +974,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			} catch (SystemException e) {
 				//e.printStackTrace();
 			}
-			
-			writeJSON(resourceRequest, resourceResponse, ja);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(ja.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);			
 		}
 		
 		if(resourceID.equals("deleteSegment")){

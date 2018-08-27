@@ -12,7 +12,7 @@
 <jsp:useBean id="tempVideosList" type="java.util.List<Video>" scope="request" />
 <jsp:useBean id="portletURL" type="javax.portlet.PortletURL" scope="request" />
 <jsp:useBean id="remoteUser" type="com.liferay.portal.kernel.model.User" scope="request" />
-
+ 
 <c:set var="pageName" value="<%=themeDisplay.getLayout().getName(themeDisplay.getLocale())%>"/>
 <c:set var="contextPath" value="<%=config.getServletContext().getContextPath() %>"/>			
 

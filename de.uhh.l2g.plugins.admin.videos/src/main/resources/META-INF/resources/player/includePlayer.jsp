@@ -1,8 +1,6 @@
 <script type="text/javascript">jwplayer.key="qKvU61clkb6v98R2Yoc/cL6x7dFfJ3we+r6nxD6iB0Q=";</script>
 
 <script>
-	$(function() {
-        // herausfinden ob es ein tablet/smartphone ist
         var isTouchDevice = 'ontouchstart' in document.documentElement;
 
         // Diese Funktion wird genutzt um die Url Parameter auszulesen
@@ -232,7 +230,6 @@
             }
 
         });
-    });
 
 </script>
 
