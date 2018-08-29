@@ -12,7 +12,7 @@
 <jsp:useBean id="tempVideosList" type="java.util.List<Video>" scope="request" />
 <jsp:useBean id="portletURL" type="javax.portlet.PortletURL" scope="request" />
 <jsp:useBean id="remoteUser" type="com.liferay.portal.kernel.model.User" scope="request" />
- 
+
 <c:set var="pageName" value="<%=themeDisplay.getLayout().getName(themeDisplay.getLocale())%>"/>
 <c:set var="contextPath" value="<%=config.getServletContext().getContextPath() %>"/>			
 
@@ -185,10 +185,11 @@
 									
 									<c:set var="primKey" value="<%=String.valueOf(video.getPrimaryKey())%>" />
 					
-									<portlet:actionURL name="viewVideo" var="editURL">
+									<portlet:renderURL var="editURL">
 										<portlet:param name="videoId" value="${primKey}" />
 										<portlet:param name="backURL" value="${portletURL}"/>
-									</portlet:actionURL>
+										<portlet:param name="mvcPath" value="/viewEdit.jsp" />
+									</portlet:renderURL>
 									
 									
 									<portlet:actionURL name="lockVideo" var="lockURL">

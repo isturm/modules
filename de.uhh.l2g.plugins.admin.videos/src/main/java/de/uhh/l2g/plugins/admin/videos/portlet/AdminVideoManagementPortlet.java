@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -44,6 +43,7 @@ import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
 import de.uhh.l2g.plugins.model.Category;
 import de.uhh.l2g.plugins.model.Coordinator;
 import de.uhh.l2g.plugins.model.Creator;
+import de.uhh.l2g.plugins.model.Host;
 import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.model.Lectureseries;
 import de.uhh.l2g.plugins.model.Lectureseries_Institution;
@@ -123,6 +123,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		response.setRenderParameter("jspPage", "/admin/segments.jsp");
 	}
 
+	
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
@@ -132,7 +133,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		User user = UserLocalServiceUtil.createUser(0);
 		long companyId = new Long(0);
 		long groupId = new Long(0);
-		//
+		PortletURL portletURL = renderResponse.createRenderURL();
 		User remoteUser = UserLocalServiceUtil.createUser(0);
 		try {
 			remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser())); 
@@ -148,75 +149,183 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		boolean permissionAdmin = l2goRole.isL2gAdmin();
 		boolean permissionCoordinator = l2goRole.isCoordinator();
 		boolean permissionProducer = l2goRole.isProducer();
-		//
+		//initialize all view variables
 		List<Coordinator> coordinators = new ArrayList<Coordinator>();
 		List<Producer> producers = new ArrayList<Producer>();
 		List<Lectureseries> lectureseries = new ArrayList<Lectureseries>();
 		List<Video> tempVideosList = new ArrayList<Video>();
 		Map<Term, List<Lectureseries>> lectureseriesAsTreeList = new TreeMap<Term, List<Lectureseries>>();
-
-		//
 		Long coordinatorId = new Long(0);
 		Long producerId = new Long(0);
 		Long lectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId", 0);
+		//detail all possible view variables
 		Long videoId = ParamUtil.getLong(renderRequest, "videoId", 0);
 		Video reqVideo = VideoLocalServiceUtil.getFullVideo(videoId);
+		List<Lectureseries> reqLectureseriesList = new ArrayList<Lectureseries>();
+		Lectureseries reqLectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
+		License reqLicense = LicenseLocalServiceUtil.createLicense(0);
+		Producer reqProducer = ProducerLocalServiceUtil.createProducer(0);
+		Long reqPproducerId = ParamUtil.getLong(renderRequest, "pproducerId", 0);
+		Long reqLectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId", 0);
+		Metadata reqMetadata = MetadataLocalServiceUtil.createMetadata(0);
+		List<Video_Institution> reqSubInstitutions = new ArrayList<Video_Institution>();	
+		JSONArray allCreatorsJSON = JSONFactoryUtil.createJSONArray();
+		List<Term> terms = new ArrayList<Term>(); 
+		List<Category> categories = new ArrayList<Category>();
+		List<Institution> producersSubInstitutions = new ArrayList<Institution>();
+		Host host = HostLocalServiceUtil.createHost(0);
+		String uploadRepository = "";
+		//
 		
-		//
-		if(permissionAdmin){
-			coordinators = CoordinatorLocalServiceUtil.getAllCoordinators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
-			
-			coordinatorId = ParamUtil.getLong(renderRequest, "coordinatorId", 0);
-			producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
-			if(coordinatorId>0){
-				try{
-					Long institutionId = CoordinatorLocalServiceUtil.getCoordinator(coordinatorId).getInstitutionId();
-					producers = ProducerLocalServiceUtil.getProducersByInstitutionId(institutionId);
-					if(producerId==0)tempVideosList = VideoLocalServiceUtil.getByRootInstitution(institutionId);
-					else {
-						lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
-						lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
-						if(lectureseriesId==0) tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
-						else tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
-					}
-				}catch(Exception e){}
-			}else{ 
-				producerId = new Long(0);
-				tempVideosList = VideoLocalServiceUtil.getVideos(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
-			}
-		}else{
-			if(permissionCoordinator){
-				try{
-					coordinatorId = remoteUser.getUserId();
-					producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
-					Long institutionId = CoordinatorLocalServiceUtil.getCoordinator(coordinatorId).getInstitutionId();
-					producers = ProducerLocalServiceUtil.getProducersByInstitutionId(institutionId);
-					if(producerId>0){
-						lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
-						lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
-						if(lectureseriesId==0)tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
-						else tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
-					}else{
-						tempVideosList = VideoLocalServiceUtil.getByRootInstitution(institutionId);
-					}
-				}catch(Exception e){}
-			}else{
-				if(permissionProducer){
-					producerId = remoteUser.getUserId();
-					if(lectureseriesId>0) tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
-					else tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
-					lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
-					lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
+		//DIFFERENT VIES HERE
+		
+		//list view
+		if(mvcPath.contains("viewList") || mvcPath.isEmpty()){
+			if(permissionAdmin){
+				coordinators = CoordinatorLocalServiceUtil.getAllCoordinators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
+				coordinatorId = ParamUtil.getLong(renderRequest, "coordinatorId", 0);
+				producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
+				if(coordinatorId>0){
+					try{
+						Long institutionId = CoordinatorLocalServiceUtil.getCoordinator(coordinatorId).getInstitutionId();
+						producers = ProducerLocalServiceUtil.getProducersByInstitutionId(institutionId);
+						if(producerId==0)tempVideosList = VideoLocalServiceUtil.getByRootInstitution(institutionId);
+						else {
+							lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+							lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
+							if(lectureseriesId==0) tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
+							else tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
+						}
+					}catch(Exception e){}
+				}else{ 
+					producerId = new Long(0);
+					tempVideosList = VideoLocalServiceUtil.getVideos(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
 				}
+			}else{
+				if(permissionCoordinator){
+					try{
+						coordinatorId = remoteUser.getUserId();
+						producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
+						Long institutionId = CoordinatorLocalServiceUtil.getCoordinator(coordinatorId).getInstitutionId();
+						producers = ProducerLocalServiceUtil.getProducersByInstitutionId(institutionId);
+						if(producerId>0){
+							lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+							lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
+							if(lectureseriesId==0)tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
+							else tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
+						}else{
+							tempVideosList = VideoLocalServiceUtil.getByRootInstitution(institutionId);
+						}
+					}catch(Exception e){}
+				}else{
+					if(permissionProducer){
+						producerId = remoteUser.getUserId();
+						if(lectureseriesId>0) tempVideosList = VideoLocalServiceUtil.getByProducerAndLectureseries(producerId, lectureseriesId);
+						else tempVideosList = VideoLocalServiceUtil.getByProducer(producerId);
+						lectureseries = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, new Long(0), new Long(0), producerId, groupId, companyId);
+						lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, new Long(0), new Long(0), producerId, new Long(0), companyId);
+					}
+				}
+			}	
+		}
+		//edit view
+		if(mvcPath.contains("viewEdit")){
+			//prepare details view
+			if(reqVideo.getVideoId()>0){
+				//hack for empty secure filename on the first upload
+				if(reqVideo.getFilename().length()==0 && reqVideo.getSecureFilename().length()==0){
+					reqVideo.setSecureFilename(Security.createSecureFileName()+".xx");
+					VideoLocalServiceUtil.updateVideo(reqVideo);
+				}
+				
+				//requested producer
+				try{
+					if(reqVideo.getVideoId()>0)reqProducer = ProducerLocalServiceUtil.getProdUcer(reqVideo.getProducerId());
+					else {
+						reqProducer = ProducerLocalServiceUtil.getProdUcer(reqPproducerId);
+						reqVideo.setProducerId(reqPproducerId);
+					}
+				}catch(Exception e){}
+				
+				// requested lecture series object
+				try{
+					if(reqVideo.getVideoId()>0)reqLectureseries = LectureseriesLocalServiceUtil.getLectureseries(reqVideo.getLectureseriesId());
+					else{
+						reqLectureseries = LectureseriesLocalServiceUtil.getLectureseries(reqLectureseriesId);
+						reqVideo.setLectureseriesId(reqLectureseriesId);
+					}
+				}catch(Exception e){}
+				
+				// requested metadata
+				try{
+					if(reqVideo.getVideoId()>0)reqMetadata = (Metadata)MetadataLocalServiceUtil.getMetadata(reqVideo.getMetadataId());
+					else{
+						reqMetadata.setDescription(reqLectureseries.getLongDesc());
+						reqMetadata.setPublisher(reqProducer.getFirstName()+" "+reqProducer.getLastName());
+						reqMetadata.setLanguage(reqLectureseries.getLanguage());
+					}
+				}catch(Exception e){}
+				
+				// requested lecture series list
+				try{
+					if(reqVideo.getVideoId()>0)reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, reqVideo.getProducerId(), groupId, companyId);
+					else reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, reqPproducerId, groupId, companyId);
+				}catch(Exception e){}
+				
+				//requested sub institutions
+				reqSubInstitutions = Video_InstitutionLocalServiceUtil.getByVideo(reqVideo.getVideoId());
+				
+				//requested license
+				try{reqLicense = LicenseLocalServiceUtil.getByVideoId(reqVideo.getVideoId());}catch(Exception e){}
+			}	
+
+			//all creator to json
+			List<Creator> creators = new ArrayList<Creator>();
+			try{creators = CreatorLocalServiceUtil.getCreators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);}catch (NullPointerException e){}
+			for (Creator creator: creators) {
+				JSONObject c = JSONFactoryUtil.createJSONObject();
+				c.put("id", creator.getCreatorId());
+				c.put("value", creator.getFullName());
+				c.put("label", creator.getFullName());
+				allCreatorsJSON.put(c);
 			}
-		}		
-		//
-		PortletURL portletURL = renderResponse.createRenderURL();
-		//
+			
+			//terms 
+			try{terms = TermLocalServiceUtil.getAllSemesters();}catch(Exception e){}
+			
+			//categories
+			try{categories = CategoryLocalServiceUtil.getAllCategories(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);}catch(Exception e){}
+
+			//sub institutions for producer
+			producersSubInstitutions = InstitutionLocalServiceUtil.getByParentId(reqProducer.getInstitutionId());
+			
+			//host 
+			host = HostLocalServiceUtil.getByHostId(reqVideo.getHostId());	
+			
+			//repo
+			uploadRepository = PropsUtil.get("lecture2go.media.repository")+"/"+host.getServerRoot()+"/"+reqProducer.getIdNum();
+
+			//lecture series
+			if(reqVideo.getVideoId()>0)lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, (long) 0, (long) 0, reqVideo.getProducerId(),groupId, companyId);
+			else lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, (long) 0, (long) 0, reqProducer.getProducerId(),groupId, companyId);
+
+		}
+		
+		//assign to render request and response finally
+		renderRequest.setAttribute("uploadRepository", uploadRepository);	
+		renderRequest.setAttribute("reqHost", host);	
+		renderRequest.setAttribute("terms", terms);	
+		renderRequest.setAttribute("categories", categories);	
+		renderRequest.setAttribute("allCreatorsJSON", allCreatorsJSON);	
+		renderRequest.setAttribute("reqMetadata", reqMetadata);	
+		renderRequest.setAttribute("reqProducer", reqProducer);	
+		renderRequest.setAttribute("reqLectureseries", reqLectureseries);
+		renderRequest.setAttribute("reqLectureseriesList", reqLectureseriesList);
+		renderRequest.setAttribute("reqSubInstitutions", reqSubInstitutions);
+		renderRequest.setAttribute("reqLicense", reqLicense);
 		renderRequest.setAttribute("permissionAdmin", permissionAdmin);				
 		renderRequest.setAttribute("permissionProducer", permissionProducer);				
 		renderRequest.setAttribute("permissionCoordinator", permissionCoordinator);	
-		//
 		renderRequest.setAttribute("producerId", producerId);	
 		renderRequest.setAttribute("lectureseriesId", lectureseriesId);	
 		renderRequest.setAttribute("coordinators", coordinators);	
@@ -228,93 +337,10 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		renderRequest.setAttribute("portletURL", portletURL);	
 		renderRequest.setAttribute("backURL", backURL);
 		renderRequest.setAttribute("remoteUser", remoteUser);	
-		renderRequest.setAttribute("reqVideo", reqVideo);	
+		renderRequest.setAttribute("reqVideo", reqVideo);
 		//
 		renderResponse.setProperty("jspPage", mvcPath);
 		super.render(renderRequest, renderResponse);
-	}
-	
-	public void viewVideo(ActionRequest request, ActionResponse response) throws PortalException, SystemException {
-		//TagcloudLocalServiceUtil.generateForAllVideos();
-		//updateSegmentsForVideos();
-		// requested producer id
-		Long reqPproducerId = (long)0;
-		try{reqPproducerId = new Long(request.getParameterMap().get("producerId")[0]);}catch(Exception e){}
-		
-		// requested lecture series id
-		Long reqLectureseriesId = (long)0;
-		try{reqLectureseriesId = new Long(request.getParameterMap().get("lectureseriesId")[0]);}catch(Exception e){}
-			
-		// requested video
-		Long reqVideoId = new Long(0);
-		Video reqVideo = VideoLocalServiceUtil.createVideo(0); 
-		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
-		try{reqVideo = VideoLocalServiceUtil.getFullVideo(reqVideoId);}catch(Exception e){}
-		
-		//hack for empty secure filename on the first upload
-		if(reqVideo.getFilename().length()==0 && reqVideo.getSecureFilename().length()==0){
-			reqVideo.setSecureFilename(Security.createSecureFileName()+".xx");
-			VideoLocalServiceUtil.updateVideo(reqVideo);
-		}
-		
-		//requested producer
-		Producer reqProducer = ProducerLocalServiceUtil.createProducer(0);
-		try{
-			if(reqVideo.getVideoId()>0)reqProducer = ProducerLocalServiceUtil.getProdUcer(reqVideo.getProducerId());
-			else {
-				reqProducer = ProducerLocalServiceUtil.getProdUcer(reqPproducerId);
-				reqVideo.setProducerId(reqPproducerId);
-			}
-		}catch(Exception e){}
-		request.setAttribute("reqProducer", reqProducer);
-		
-		// requested lecture series object
-		Lectureseries reqLectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
-		try{
-			if(reqVideo.getVideoId()>0)reqLectureseries = LectureseriesLocalServiceUtil.getLectureseries(reqVideo.getLectureseriesId());
-			else{
-				reqLectureseries = LectureseriesLocalServiceUtil.getLectureseries(reqLectureseriesId);
-				reqVideo.setLectureseriesId(reqLectureseriesId);
-			}
-		}catch(Exception e){}
-		request.setAttribute("reqLectureseries", reqLectureseries);
-		
-		// requested metadata
-		Metadata reqMetadata = MetadataLocalServiceUtil.createMetadata(0);
-		try{
-			if(reqVideo.getVideoId()>0)reqMetadata = (Metadata)MetadataLocalServiceUtil.getMetadata(reqVideo.getMetadataId());
-			else{
-				reqMetadata.setDescription(reqLectureseries.getLongDesc());
-				reqMetadata.setPublisher(reqProducer.getFirstName()+" "+reqProducer.getLastName());
-				reqMetadata.setLanguage(reqLectureseries.getLanguage());
-			}
-		}catch(Exception e){}
-		request.setAttribute("reqMetadata", reqMetadata);
-		
-		// requested lecture series list
-		List<Lectureseries> reqLectureseriesList = new ArrayList<Lectureseries>();
-//		try{
-//			if(reqVideo.getVideoId()>0)reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, reqVideo.getProducerId());
-//			else reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, reqPproducerId);
-//		}catch(Exception e){}
-		request.setAttribute("reqLectureseriesList", reqLectureseriesList);
-
-		//requested sub institutions
-		List<Video_Institution> reqSubInstitutions = new ArrayList<Video_Institution>();
-		reqSubInstitutions = Video_InstitutionLocalServiceUtil.getByVideo(reqVideo.getVideoId());
-		request.setAttribute("reqSubInstitutions", reqSubInstitutions);
-		
-		//requested license
-		License reqLicense = LicenseLocalServiceUtil.createLicense(0);
-		try{reqLicense = LicenseLocalServiceUtil.getByVideoId(reqVideo.getVideoId());}catch(Exception e){}
-		request.setAttribute("reqLicense", reqLicense);
-		
-		String backURL = request.getParameter("backURL");
-		request.setAttribute("backURL", backURL);
-
-		request.setAttribute("reqVideo", reqVideo);
-		request.setAttribute("video", reqVideo);
-		response.setRenderParameter("jspPage", "/viewEdit.jsp");
 	}
 	
 	public void addVideo(ActionRequest request, ActionResponse response) throws SystemException, PortalException {

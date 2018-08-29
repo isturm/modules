@@ -1,38 +1,25 @@
-<%@page import="de.uhh.l2g.plugins.model.Creator" %>
-<%@page import="de.uhh.l2g.plugins.model.Term" %>
-<%@page import="de.uhh.l2g.plugins.model.Category" %>
-<%@page import="de.uhh.l2g.plugins.model.Institution" %>
-<%@page import="de.uhh.l2g.plugins.model.Host" %>
-<%@page import="de.uhh.l2g.plugins.model.Lectureseries" %>
-
-<%@page import="de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.CoordinatorLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.CreatorLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.TermLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.CategoryLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.HostLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.LectureseriesLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.VideoLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.Video_CategoryLocalServiceUtil" %>
-
 <%@include file="init.jsp"%>
 
 <jsp:useBean id="reqLectureseriesList" type="java.util.List<de.uhh.l2g.plugins.model.Lectureseries>" scope="request" />
 <jsp:useBean id="reqLectureseries" type="de.uhh.l2g.plugins.model.Lectureseries" scope="request" />
 <jsp:useBean id="reqLicense" type="de.uhh.l2g.plugins.model.License" scope="request" />
 <jsp:useBean id="reqProducer" type="de.uhh.l2g.plugins.model.Producer" scope="request" />
-<jsp:useBean id="video" type="de.uhh.l2g.plugins.model.Video" scope="request" />
 <jsp:useBean id="reqVideo" type="de.uhh.l2g.plugins.model.Video" scope="request" />
 <jsp:useBean id="reqMetadata" type="de.uhh.l2g.plugins.model.Metadata" scope="request" />
 <jsp:useBean id="reqSubInstitutions" type="java.util.List<de.uhh.l2g.plugins.model.Video_Institution>" scope="request" />
+<jsp:useBean id="reqHost" type="de.uhh.l2g.plugins.model.Host" scope="request" />
+
+<jsp:useBean id="lectureseriesAsTreeList" type="java.util.Map<Term, List<Lectureseries>>" scope="request" />
 
 <jsp:useBean id="permissionAdmin" type="java.lang.Boolean" scope="request" />
 <jsp:useBean id="permissionProducer" type="java.lang.Boolean" scope="request" />
 <jsp:useBean id="permissionCoordinator" type="java.lang.Boolean" scope="request" />
 
 <jsp:useBean id="remoteUser" type="com.liferay.portal.kernel.model.User" scope="request" />
+<jsp:useBean id="allCreatorsJSON" type="com.liferay.portal.kernel.json.JSONArray" scope="request" />
+<jsp:useBean id="terms" type="java.util.List<de.uhh.l2g.plugins.model.Term>" scope="request" />
+<jsp:useBean id="categories" type="java.util.List<de.uhh.l2g.plugins.model.Category>"  scope="request" />
+<jsp:useBean id="uploadRepository" type="java.lang.String"  scope="request" />
 
 <liferay-portlet:resourceURL id="updateMetadata" var="updateURL" />
 <liferay-portlet:resourceURL id="updateDescription" var="updateDescriptionURL" />
@@ -56,91 +43,14 @@
 <liferay-portlet:resourceURL id="updateThumbnail" var="updateThumbnailURL" />
 <liferay-portlet:resourceURL id="getJSONVideo" var="getJSONVideoURL" />
 
-<%
-	String actionURL = "";
-	
-	Map<String,String> institutions = new LinkedHashMap<String, String>();
-	if(permissionAdmin){
-		institutions = InstitutionLocalServiceUtil.getAllSortedAsTree(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
-		permissionCoordinator = false;
-	}
-	if(permissionCoordinator)institutions = InstitutionLocalServiceUtil.getByParent(CoordinatorLocalServiceUtil.getCoordinator(remoteUser.getUserId()).getInstitutionId());
-
-	String[] languages = LanguageUtil.get(request, "languages-for-select").split(",");
-	String languageId="";
-
-	String uploadProgressId = PwdGenerator.getPassword(PwdGenerator.KEY3, 4);
-	String backURL = request.getAttribute("backURL").toString();
-	List<Creator> creators = new ArrayList<Creator>();
-	try{creators = CreatorLocalServiceUtil.getCreators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);}catch (NullPointerException e){}
-	JSONArray allCreatorsJSON = JSONFactoryUtil.createJSONArray();
-	for (Creator creator: creators) {
-		JSONObject c = JSONFactoryUtil.createJSONObject();
-		c.put("id", creator.getCreatorId());
-		c.put("value", creator.getFullName());
-		c.put("label", creator.getFullName());
-		allCreatorsJSON.put(c);
-	}
-	
-	List<Term> semesters = new ArrayList<Term>(); 
-	try{semesters = TermLocalServiceUtil.getAllSemesters();}catch(Exception e){}
-	List<Category> categories = new ArrayList<Category>();
-	try{categories = CategoryLocalServiceUtil.getAllCategories(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);}catch(Exception e){}
-
-	Map<String,String> subInstitutions = new LinkedHashMap<String, String>();
-	subInstitutions = InstitutionLocalServiceUtil.getByParent(reqVideo.getRootInstitutionId());
-	List<Institution> producersSubInstitutions = InstitutionLocalServiceUtil.getByParentId(reqProducer.getInstitutionId());
-	ListIterator<Institution> itPSI = producersSubInstitutions.listIterator();
-	//video upload path
-	//is first upload:
-	String uploadRepository="";
-
-	Host host = HostLocalServiceUtil.createHost(0);
-	host = HostLocalServiceUtil.getByHostId(reqVideo.getHostId());
-	uploadRepository=PropsUtil.get("lecture2go.media.repository")+"/"+host.getServerRoot()+"/"+reqProducer.getIdNum();
-
-	Map<Term, List<Lectureseries>> lectureseriesAsTreeList = new TreeMap<Term, List<Lectureseries>>();
-	if(reqVideo.getVideoId()>0)lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, (long) 0, (long) 0, reqVideo.getProducerId());
-	else lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, (long) 0, (long) 0, reqProducer.getProducerId());
-%>
+<c:set var="languages" value="<%=LanguageUtil.get(request, "languages-for-select").split(",")%>"/>
+<c:set var="uploadProgressId" value="<%=PwdGenerator.getPassword(PwdGenerator.KEY3, 4)%>"/>
+<c:set var="backURL" value="<%=request.getAttribute("backURL").toString()%>"/>
 
 <script id="htmlTitle" type="text/x-tmpl">
-    <%=reqVideo.getTitle()%>
+	${reqVideo.title}
 </script>
 
-<script type="text/javascript">
-  $(function(){
-	var vidtitle = $('#htmlTitle').text();
-    if(isFirstUpload()==1 && getDateTime().length==0){
-   	  	$("#date-time-form").fadeIn(1000);
-    	$("#upload-form").hide();
-    	$("#l2gdate").hide();
-    	if(vidtitle.trim()>""){
-    		$("#first-title").hide();
-    		$("#date-time").show();
-    	}else{
-    		$("#date-time").hide();
-    	}
-    	$("#<portlet:namespace/>meta-ebene").hide();
-    }else{
-  	  $("#date-time-form").hide();
-	  $("#upload-form").fadeIn(1000); 	
-	  $("#<portlet:namespace/>lecture2go-date").val(getDateTime());
-	  $("#<portlet:namespace/>meta-ebene").show();
-    }
-    //
-    $('#<portlet:namespace/>datetimepicker').datetimepicker({
-    	format:'Y-m-d_H-i',
-    	dayOfWeekStart : 1,
-    	lang:'en',
-    	startDate:	new Date(),
-    	value: new Date(),
-    	maxDate: '+1970/01/30',
-    	minDate: false,
-    	step:10
-    });
-  });
-</script>
 
 <div class="noresponsive">
 	<div id="upload">
@@ -148,7 +58,7 @@
 		<div id="date-time-form">
 			<aui:fieldset column="true">
 					<div id="first-title">
-						<aui:input id="firsttitle" name="firsttitle" label="first-title" value="<%=reqVideo.getTitle()%>" />
+						<aui:input id="firsttitle" name="firsttitle" label="first-title" value="${reqVideo.title}" />
 						<aui:button-row>
 							<aui:button id="apply-first-title" name="apply-first-title" value="apply-first-title" onClick="applyFirstTitle();"/>
 						</aui:button-row>
@@ -177,7 +87,7 @@
 	</div>
 	
 	<aui:fieldset column="false" label="" id="meta-ebene" style="display:none;">
-			<aui:form action="<%=actionURL%>" commandName="model" name="metadata">
+			<aui:form action="" commandName="model" name="metadata">
 				<label class="edit-video-lable" id="edit-video-lable-1">
 					<i id="l1" class="aui icon-chevron-down thumb"></i>
 					<liferay-ui:message key="metadata"/>
@@ -185,7 +95,7 @@
 				<div id="metadata-upload">
 					<aui:input id="stayhere" name="stayhere" label="" required="true" value="" type="hidden"/>
 					
-					<div id="titledefault"><aui:input id="title" name="title" label="title" required="true" value="<%=reqVideo.getTitle()%>" /></div>
+					<div id="titledefault"><aui:input id="title" name="title" label="title" required="true" value="${reqVideo.title}" /></div>
 					
 					<div id="creators-custom">
 						<aui:input id="creator" name="creator" label="creators-required" helpMessage="creator-explanation"/>
@@ -211,71 +121,45 @@
 					<div id="options">
 						<aui:select id="subInstitutionId" size="1" name="subInstitutionId" label="sub-institution">
 							<aui:option value="" selected="true"><liferay-ui:message key="select-sub-institution"/></aui:option>
-						<%
-						Long subInstitutionId = new Long(0);
-						try{subInstitutionId = Video_InstitutionLocalServiceUtil.getByVideo(reqVideo.getVideoId()).get(0).getInstitutionId();}catch (Exception e){}
-						
-						while(itPSI.hasNext()){
-							Institution i = itPSI.next();
-							%><aui:option value='<%=i.getInstitutionId()%>'><%=i.getName()%></aui:option><%
-						}
-						%>
+							<c:forEach items="${reqSubInstitutions}" var="item">
+								<aui:option value='${item.institutionId}'>${item.name}</aui:option>
+							</c:forEach>
 						</aui:select>
 						
 						<div class="subInstitutions" >
-							<%
-							try{
-								//
-								for (int i = 0; i < reqSubInstitutions.size(); i++) {
-									Institution inst = InstitutionLocalServiceUtil.getById(reqSubInstitutions.get(i).getInstitutionId());
-									%>
-									<div id='<%=inst.getInstitutionId()%>'> 
-										<%=inst.getName()+"&nbsp;&nbsp;&nbsp;" %> 
-										<a class="icon-large icon-remove" style='cursor:pointer;' onClick='document.getElementById("<%=inst.getInstitutionId()%>").remove();'></a>
-										<aui:input type="hidden" name="institutions" id="institutions" value="<%=inst.getInstitutionId()%>"/>
+							<c:forEach items="${reqSubInstitutions}" var="item">
+									<div id='${item.institutionId}'> 
+										${item.name} &nbsp;&nbsp;&nbsp; 
+										<a class="icon-large icon-remove" style='cursor:pointer;' onClick='document.getElementById("${item.institutionId}").remove();'></a>
+										<aui:input type="hidden" name="institutions" id="institutions" value="${item.institutionId}"/>
 									</div>
-									<%
-								}					
-							}catch(Exception e){}
-							%>				
+							</c:forEach>							
 						</div>	
 									
 						<aui:select id="termId" size="1" name="termId" label="term" required="true">
-							<%for (int i = 0; i < semesters.size(); i++) {
-								if (reqVideo.getTermId()==semesters.get(i).getTermId()) {%>
-									<aui:option value='<%=semesters.get(i).getTermId()%>' selected="true"><%=semesters.get(i).getPrefix()+"&nbsp;"+semesters.get(i).getYear()%></aui:option>
-								<%} else {%>
-									<aui:option value='<%=semesters.get(i).getTermId()%>'><%=semesters.get(i).getPrefix()+"&nbsp;"+semesters.get(i).getYear()%></aui:option>
-								<%}
-							}%>
+							<c:forEach items="${terms}" var="item">
+								<aui:option value='${term.termId}'>${item.prefix} &nbsp; ${item.year}</aui:option>
+							</c:forEach>						
 						</aui:select>
 		
 						<aui:select size="1" id="categoryId" name="categoryId" label="category" required="true">
-							<%
-							Long cId = new Long(0);
-							try{cId = Video_CategoryLocalServiceUtil.getByVideo(reqVideo.getVideoId()).get(0).getCategoryId();}catch(Exception e){}
-							
-							for (int i = 0; i < categories.size(); i++) {
-								if (cId==categories.get(i).getCategoryId()) {%>
-									<aui:option value='<%=categories.get(i).getCategoryId()%>' selected="true"><%=categories.get(i).getName()%></aui:option>
-								<%} else {%>
-									<aui:option value='<%=categories.get(i).getCategoryId()%>'><%=categories.get(i).getName()%></aui:option>
-								<%}
-							}%>
+							<c:forEach items="${categories}" var="item">
+								<aui:option value='${item.categoryId}'>${item.name}</aui:option>
+							</c:forEach>	
 						</aui:select>
 					</div>
 		
 					<aui:select size="1" name="language" label="language" required="true">
-						<%for (int i=0; i<languages.length; i++){%>
-								<aui:option value='<%=languages[i]%>' selected="<%=reqMetadata.getLanguage().contains(languages[i]) %>"><%=languages[i]%></aui:option>
-						<%}%>				
+						<c:forEach items="${languages}" var="item">
+							<aui:option value='${item}'>${item}</aui:option>
+						</c:forEach>					
 					</aui:select>
 					
 					<div id="l2gdate"><aui:input id="lecture2go-date" name="lecture2go-date" label="lecture2go-date" required="false" value="" disabled="true"/></div>
 		
-					<aui:input name="tags" label="tags" required="false" value="<%=reqVideo.getTags()%>"/>
+					<aui:input name="tags" label="tags" required="false" value="${reqVideo.tags}"/>
 		
-					<aui:input name="publisher" label="publisher" required="false" value="<%=reqMetadata.getPublisher()%>"/>
+					<aui:input name="publisher" label="publisher" required="false" value="${reqMetadata.publisher}"/>
 					
 					<aui:field-wrapper label="description">
 					    <liferay-ui:input-editor  name="longDesc" toolbarSet="simple" initMethod="initEditor" onChangeMethod="setDescriptionData" cssClass="ta"/>
@@ -297,19 +181,21 @@
 						<liferay-ui:message key="permissions"/>
 					</label>
 					<div id="permissions-content">
-						<%if(reqVideo.getOpenAccess()==0){%>
+						<c:if test="${reqVideo.getOpenAccess()==0}">
 							<div>
-								<aui:input id="password" name="password" label="password" required="false" value="<%=reqVideo.getPassword()%>" />
+								<aui:input id="password" name="password" label="password" required="false" value="${reqVideo.password}" />
 							</div>
-						<%}else{%>
-							<aui:input name="password" id="password" type="hidden" value="<%=reqVideo.getPassword()%>"/>
-						<%}%>
+						</c:if>
+						<c:if test="${reqVideo.getOpenAccess()==1}">
+							<aui:input name="password" id="password" type="hidden" value="${reqVideo.password}"/>
+						</c:if>
 						<div id="c2g">
-							<%if(reqVideo.getCitation2go()==0){%>
+							<c:if test="${reqVideo.citation2go==0}">
 						  		<aui:input name="citationAllowed" type="checkbox" label="citation-allowed" id="citationAllowed"></aui:input>
-						   	<%}else{%>
-							  <aui:input name="citationAllowed" type="checkbox" label="citation-allowed" id="citationAllowed" checked="true"></aui:input>
-						    <%}%>
+							</c:if>
+							<c:if test="${reqVideo.citation2go==1}">
+							  	<aui:input name="citationAllowed" type="checkbox" label="citation-allowed" id="citationAllowed" checked="true"></aui:input>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -327,13 +213,13 @@
 					</label>
 					<div id="license-content">
 						<div>
-							<%if(reqLicense.getL2go()==1){%><aui:input name="license"  id="uhhl2go" label="" value="uhhl2go" checked="true" type="radio"/><%}%>
-							<%if(reqLicense.getL2go()==0){%><aui:input name="license" id="uhhl2go" label="" value="uhhl2go" type="radio"/><%}%>
+							<c:if test="${reqLicense.l2go==1}"><aui:input name="license"  id="uhhl2go" label="" value="uhhl2go" checked="true" type="radio"/></c:if>
+							<c:if test="${reqLicense.l2go==0}"><aui:input name="license" id="uhhl2go" label="" value="uhhl2go" type="radio"/></c:if>
 							<a href="/web/vod/licence-l2go" target="_blank"><liferay-ui:message key="lecture2go-licence"/> </a>	 	      	      
 						</div>	
-						<div>		
-							<%if(reqLicense.getCcbyncsa()==1){%><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" checked="true" type="radio" /><%}%>
-							<%if(reqLicense.getCcbyncsa()==0){%><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" type="radio"/><%}%>
+						<div>
+							<c:if test="${reqLicense.l2go==1}"><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" checked="true" type="radio" /></c:if>
+							<c:if test="${reqLicense.l2go==0}"><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" type="radio"/></c:if>
 							<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank"> <liferay-ui:message key="cc-license-click-for-info"/> </a>
 						</div>
 					</div>
@@ -1116,13 +1002,44 @@ AUI().use('aui-node',
 <script type="text/javascript">
     $(function () {
     	$('#<portlet:namespace></portlet:namespace>cancel').click(function(){
-    		   window.location.href="<%=backURL.toString()%>";
+    		   window.location.href="${backURL}";
     	})
     	var vars = <%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toString()%>;
         console.log(vars);
         $.template( "filesTemplate", $("#template") );
         $.tmpl( "filesTemplate", vars ).appendTo( ".table" );
+
+	var vidtitle = $('#htmlTitle').text();
+    if(isFirstUpload()==1 && getDateTime().length==0){
+   	  	$("#date-time-form").fadeIn(1000);
+    	$("#upload-form").hide();
+    	$("#l2gdate").hide();
+    	if(vidtitle.trim()>""){
+    		$("#first-title").hide();
+    		$("#date-time").show();
+    	}else{
+    		$("#date-time").hide();
+    	}
+    	$("#<portlet:namespace/>meta-ebene").hide();
+    }else{
+  	  $("#date-time-form").hide();
+	  $("#upload-form").fadeIn(1000); 	
+	  $("#<portlet:namespace/>lecture2go-date").val(getDateTime());
+	  $("#<portlet:namespace/>meta-ebene").show();
+    }
+    //
+    $('#<portlet:namespace/>datetimepicker').datetimepicker({
+    	format:'Y-m-d_H-i',
+    	dayOfWeekStart : 1,
+    	lang:'en',
+    	startDate:	new Date(),
+    	value: new Date(),
+    	maxDate: '+1970/01/30',
+    	minDate: false,
+    	step:10
     });
+  });
 </script>
+
 
 <%@include file="includeCreatorTemplates.jsp" %>

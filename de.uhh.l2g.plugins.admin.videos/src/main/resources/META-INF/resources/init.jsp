@@ -27,8 +27,9 @@
 <%@page import="com.liferay.portal.kernel.json.JSONException"%>
 <%@page import="com.liferay.portal.kernel.json.JSONFactoryUtil"%>
 
-<%@page import="java.util.LinkedHashMap"%>
 <%@page import="javax.portlet.PortletURL"%>
+
+<%@page import="java.util.LinkedHashMap"%>
 <%@page import="java.util.ListIterator"%>
 <%@page import="java.util.List" %>
 <%@page import="java.util.ArrayList" %>
@@ -41,6 +42,9 @@
 <%@page import="de.uhh.l2g.plugins.util.Lecture2GoRoleChecker"%>
 <%@page import="de.uhh.l2g.plugins.model.Term" %>
 <%@page import="de.uhh.l2g.plugins.model.Video" %>
+<%@page import="de.uhh.l2g.plugins.model.Creator" %>
+<%@page import="de.uhh.l2g.plugins.model.Category" %>
+<%@page import="de.uhh.l2g.plugins.model.Host" %>
 <%@page import="de.uhh.l2g.plugins.model.Lectureseries" %>
 <%@page import="de.uhh.l2g.plugins.model.Institution" %>
 <%@page import="de.uhh.l2g.plugins.model.Coordinator" %>
@@ -53,7 +57,19 @@
 <%@page import="de.uhh.l2g.plugins.service.CoordinatorLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.service.ProducerLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.service.SegmentLocalServiceUtil" %>
+<%@page import="de.uhh.l2g.plugins.service.CategoryLocalServiceUtil" %>
+<%@page import="de.uhh.l2g.plugins.service.HostLocalServiceUtil" %>
+<%@page import="de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil" %>
+<%@page import="de.uhh.l2g.plugins.service.Video_CategoryLocalServiceUtil" %>
 
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<c:set var="companyId" value="<%=company.getCompanyId()%>"/>
+<c:set var="groupId" value="<%=company.getGroup().getGroupId()%>"/>
+
+<%
+	Long companyId = company.getCompanyId();
+	Long groupId = company.getGroup().getGroupId();		
+%>
