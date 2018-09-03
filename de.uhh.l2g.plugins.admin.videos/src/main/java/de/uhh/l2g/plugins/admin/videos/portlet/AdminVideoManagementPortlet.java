@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
 
 import javax.portlet.ActionRequest;
@@ -22,6 +24,7 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import org.apache.axis.i18n.Messages;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,6 +33,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -37,6 +41,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
 import de.uhh.l2g.plugins.admin.videos.constants.AdminVideoManagementPortletKeys;
 import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
@@ -99,6 +104,7 @@ import de.uhh.l2g.plugins.util.Security;
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.datetimepicker.js",
 		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1/jwplayer.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
+		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.admin.video.viewEdit.js",		
 		"javax.portlet.display-name=Admin Videos",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",
@@ -139,7 +145,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser())); 
 			user = UserLocalServiceUtil.getUser(userId);
 			companyId = user.getCompanyId();
-			groupId = user.getGroupId();
+			//groupId = user.getGroupId();
 		} catch (Exception e1) {
 			_log.error("user can't be fatched!");
 		} 
@@ -175,10 +181,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		List<Institution> producersSubInstitutions = new ArrayList<Institution>();
 		Host host = HostLocalServiceUtil.createHost(0);
 		String uploadRepository = "";
-		//
+	        
+		Locale locale = renderRequest.getLocale();
+		ResourceBundle resourceBundle = ResourceBundleUtil. getBundle("content.Language", locale, getClass());
+		String languages = LanguageUtil.get(resourceBundle, "de.uhh.l2g.plugins.admin.videos.languages");
 		
-		//DIFFERENT VIES HERE
-		
+		//DIFFERENT VIEWS HERE
 		//list view
 		if(mvcPath.contains("viewList") || mvcPath.isEmpty()){
 			if(permissionAdmin){
@@ -338,6 +346,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		renderRequest.setAttribute("backURL", backURL);
 		renderRequest.setAttribute("remoteUser", remoteUser);	
 		renderRequest.setAttribute("reqVideo", reqVideo);
+		renderRequest.setAttribute("languages", languages);
 		//
 		renderResponse.setProperty("jspPage", mvcPath);
 		super.render(renderRequest, renderResponse);
@@ -554,7 +563,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			}
 			
 			JSONObject json = JSONFactoryUtil.createJSONObject();
-			writeJSON(resourceRequest, resourceResponse, json);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(json.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);	
 		}
 		
 		if(resourceID.equals("updateThumbnail")){
@@ -761,7 +775,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			}			
 			JSONObject json = JSONFactoryUtil.createJSONObject();
 			//generate new JSON date for auto complete functionality
-			writeJSON(resourceRequest, resourceResponse, json);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(json.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);	
 		}
 
 		if(resourceID.equals("videoUpdateGenerationDate")){
@@ -771,10 +790,15 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			try {
 				VideoLocalServiceUtil.updateVideo(video);
 				jo.put("generationDate", generationDate);
-				writeJSON(resourceRequest, resourceResponse, jo);
 			} catch (SystemException e) {
-				////e.printStackTrace();
+				//e.printStackTrace();
 			}
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);	
 		}
 		
 		if(resourceID.equals("getJSONVideo")){
@@ -786,7 +810,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			jo.put("title", video.getTitle());
 			jo.put("playerUris", uris);
 			jo.put("thumbnail", video.getImage());
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 
 		if(resourceID.equals("updateNumberOfProductions")){
@@ -803,7 +832,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			} catch (Exception e1) {
 				jo.put("numberOfProductions", "-1");
 			} 
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 
 		if(resourceID.equals("videoUpdateFirstTitle")){
@@ -813,16 +847,26 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			try {
 				VideoLocalServiceUtil.updateVideo(video);
 				jo.put("firsttitle", firsttitle);
-				writeJSON(resourceRequest, resourceResponse, jo);
 			} catch (SystemException e) {
-				////e.printStackTrace();
+				//e.printStackTrace();
 			}
-		}
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);	
+	    }
 		
 		if(resourceID.equals("getGenerationDate")){
 			JSONObject jo = JSONFactoryUtil.createJSONObject();
 			jo.put("generationDate", video.getGenerationDate());
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 
 		if(resourceID.equals("getFileName")){
@@ -830,7 +874,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			String fileName="";
 			if(video.getFilename().length()>0)fileName=video.getFilename();
 			jo.put("fileName", fileName);
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 		
 		if(resourceID.equals("getSecureFileName")){
@@ -838,7 +887,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			String secureFileName="";
 			if(video.getSecureFilename().length()>0)secureFileName=video.getSecureFilename();
 			jo.put("secureFileName", secureFileName);
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 
 		if(resourceID.equals("getShare")){
@@ -850,7 +904,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			jo.put("html5Embed", video.getEmbedHtml5());
 			jo.put("iframeEmbed", video.getEmbedIframe());
 			jo.put("url", url);
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}		
 		
 		if(resourceID.equals("videoFileNameExists")){
@@ -861,10 +920,15 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				if(vl.size()>0)jo.put("exist", "1");
 				else jo.put("exist", "0");
 			} catch (SystemException e) {
-//				//e.printStackTrace();
+//				e.printStackTrace();
 				jo.put("exist", "0");
 			}
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 		
 		if(resourceID.equals("updateLicense")){
@@ -888,7 +952,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				_log.info("LICENSE_UPDATE_FAILED");
 			}
 			JSONObject json = JSONFactoryUtil.createJSONObject();
-			writeJSON(resourceRequest, resourceResponse, json);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(json.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 		
 		if(resourceID.equals("updateDescription")){
@@ -902,7 +971,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				_log.info("DESCRIPTION_UPDATE_FAILED");
 			}
 			JSONObject json = JSONFactoryUtil.createJSONObject();
-			writeJSON(resourceRequest, resourceResponse, json);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(json.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);					
 		}
 		
 		if(resourceID.equals("toggleSegmentation")){
@@ -918,7 +992,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			}
 			
 			JSONObject json = JSONFactoryUtil.createJSONObject();
-			writeJSON(resourceRequest, resourceResponse, json);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(json.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);				
 		}
 		
 		if (resourceID.equals("addSegment")) {
@@ -1040,13 +1119,23 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			JSONObject jo = JSONFactoryUtil.createJSONObject();
 			if(video.getFilename().isEmpty())jo.put("firstUpload", "1");
 			else jo.put("firstUpload", "0");
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 		
 		if(resourceID.equals("defaultContainer")){
 			JSONObject jo = JSONFactoryUtil.createJSONObject();
 			jo.put("containerFormat", video.getContainerFormat());
-			writeJSON(resourceRequest, resourceResponse, jo);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jo.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 		
 		if(resourceID.equals("deleteFile")){
@@ -1097,7 +1186,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 					}
 					jarr.put(o);
 			}
-			writeJSON(resourceRequest, resourceResponse, jarr);
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(jarr.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 		
 		if(resourceID.equals("getJSONCreator")){
@@ -1116,7 +1210,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			} catch (SystemException e) {
 				//e.printStackTrace();
 			}
-			writeJSON(resourceRequest, resourceResponse, json);			
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(json.toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);				
 		}
 		
 		if(resourceID.equals("updateCreators")){
@@ -1176,7 +1275,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			} catch (JSONException e) {
 				//e.printStackTrace();
 			}
-			writeJSON(resourceRequest, resourceResponse, CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId));			
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId).toString());
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);					
 		}
 		
 		if(resourceID.equals("updateSubInstitutions")){
@@ -1215,7 +1319,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			} catch (JSONException e) {
 				//e.printStackTrace();
 			}
-			writeJSON(resourceRequest, resourceResponse, CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId));			
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId));
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);				
 		}
 		
 		if(resourceID.equals("updateupdateOpenAccessForLectureseries")){
@@ -1232,7 +1341,12 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			} catch (SystemException e) {
 				//e.printStackTrace();
 			}
-			writeJSON(resourceRequest, resourceResponse, CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId));			
+			//
+			PrintWriter writer = resourceResponse.getWriter();
+	        writer.print(CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId));
+	        writer.flush();
+	        writer.close();
+	        super.serveResource(resourceRequest, resourceResponse);	
 		}
 		
 	}
