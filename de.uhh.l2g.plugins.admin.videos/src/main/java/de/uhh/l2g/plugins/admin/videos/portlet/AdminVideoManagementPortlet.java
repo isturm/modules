@@ -96,15 +96,13 @@ import de.uhh.l2g.plugins.util.Security;
 		"com.liferay.portlet.display-category=lecture2go.plugins",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.header-portlet-css=/js/jquery.datetimepicker.css",
-		"com.liferay.portlet.header-portlet-javascript=/js/jquery.tmpl.min.js",
-		"com.liferay.portlet.header-portlet-javascript=/js/jquery-ui-1.11.1.js",
-		"com.liferay.portlet.header-portlet-javascript=/js/upload/vendor/jquery.ui.widget.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery.loadTemplate.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/upload/jquery.fileupload.js",
-		"com.liferay.portlet.header-portlet-javascript=/js/upload/jquery.iframe-transport.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.datetimepicker.js",
 		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1/jwplayer.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
 		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.admin.video.viewEdit.js",		
+		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.creators.js",		
 		"javax.portlet.display-name=Admin Videos",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",
@@ -181,7 +179,8 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		List<Institution> producersSubInstitutions = new ArrayList<Institution>();
 		Host host = HostLocalServiceUtil.createHost(0);
 		String uploadRepository = "";
-	        
+		JSONArray assignedCreators = JSONFactoryUtil.createJSONArray();
+    
 		Locale locale = renderRequest.getLocale();
 		ResourceBundle resourceBundle = ResourceBundleUtil. getBundle("content.Language", locale, getClass());
 		String languages = LanguageUtil.get(resourceBundle, "de.uhh.l2g.plugins.admin.videos.languages");
@@ -317,6 +316,8 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			if(reqVideo.getVideoId()>0)lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, (long) 0, (long) 0, reqVideo.getProducerId(),groupId, companyId);
 			else lectureseriesAsTreeList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducerAsTreeMapSortedByTerm(1, (long) 0, (long) 0, reqProducer.getProducerId(),groupId, companyId);
 
+			//creators
+			assignedCreators = CreatorLocalServiceUtil.getJSONCreatorsByVideoId(reqVideo.getVideoId());
 		}
 		
 		//assign to render request and response finally
@@ -347,6 +348,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		renderRequest.setAttribute("remoteUser", remoteUser);	
 		renderRequest.setAttribute("reqVideo", reqVideo);
 		renderRequest.setAttribute("languages", languages);
+		renderRequest.setAttribute("assignedCreators", assignedCreators);
 		//
 		renderResponse.setProperty("jspPage", mvcPath);
 		super.render(renderRequest, renderResponse);
@@ -866,7 +868,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	        writer.print(jo.toString());
 	        writer.flush();
 	        writer.close();
-	        super.serveResource(resourceRequest, resourceResponse);		
+ 	        super.serveResource(resourceRequest, resourceResponse);		
 		}
 
 		if(resourceID.equals("getFileName")){

@@ -1,16 +1,3 @@
-var assignedCreators="";
-
-$( function() {
-	if(!assignedCreators) assignedCreators="";
-	showCreatorsList(assignedCreators);
-});
-
-function showCreatorsList(data) {
-	$.template( "filesTemplate", $("#created") );
-	$.tmpl( "filesTemplate", data ).appendTo( "#creators" );
-}
-
-
 function autocompleteCreator($creatorInputObject) {
 	$creatorInputObject.autocomplete({
 	    source: function(request, response) {
@@ -82,7 +69,6 @@ function getJSONCreator (data){
 	})
 	return ret;
 }
-
 
 function updateCreators(){
 	var jsonArray = [];

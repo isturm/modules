@@ -20,6 +20,7 @@
 <jsp:useBean id="categories" type="java.util.List<de.uhh.l2g.plugins.model.Category>"  scope="request" />
 <jsp:useBean id="uploadRepository" type="java.lang.String"  scope="request" />
 <jsp:useBean id="backURL" type="java.lang.String"  scope="request" />
+<jsp:useBean id="assignedCreators" type="com.liferay.portal.json.JSONArrayImpl"  scope="request" />
 
 <liferay-portlet:resourceURL id="updateMetadata" var="updateURL" />
 <liferay-portlet:resourceURL id="updateDescription" var="updateDescriptionURL" />
@@ -44,14 +45,13 @@
 <liferay-portlet:resourceURL id="getJSONVideo" var="getJSONVideoURL" />
 
 <c:set var="uploadProgressId" value="<%=PwdGenerator.getPassword(PwdGenerator.KEY3, 4)%>"/>
-<c:if test="${reqVideo.openAccess==0}">
+<c:if test="${reqVideo.openAccess==1}">
 	<c:set var="vurl" value="${reqVideo.url}"/>
 </c:if>
-<c:if test="${reqVideo.openAccess==1}">
+<c:if test="${reqVideo.openAccess==0}">
 	<c:set var="vurl" value="${reqVideo.secureUrl}"/>
 </c:if>
-<c:set var="assignedCreators" value="<%=CreatorLocalServiceUtil.getJSONCreatorsByVideoId(reqVideo.getVideoId()).toString()%>"/>
-<c:set var="jsonReqVideo" value="<%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toString()%>"/>
+<c:set var="jsonReqVideo" value="<%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toJSONString()%>"/>
 
 <script id="htmlTitle" type="text/x-tmpl">
 	${reqVideo.title}
@@ -59,38 +59,43 @@
 
 <div class="noresponsive">
 	<div id="upload">
-		<label class="edit-video-lable"><liferay-ui:message key="upload"/></label>
-		<div id="date-time-form">
-			<aui:fieldset column="true">
-					<div id="first-title">
-						<aui:input id="firsttitle" name="firsttitle" label="first-title" value="${reqVideo.title}" />
-						<aui:button-row>
-							<aui:button id="apply-first-title" name="apply-first-title" value="apply-first-title" onClick="applyFirstTitle();"/>
-						</aui:button-row>
-					</div>
-					<div id="date-time">
-						<aui:input id="datetimepicker" name="datetimepicker" label="select-date-time-bevor-upload"/>
-						<aui:button-row>
-							<aui:button id="apply-date-time" name="apply-date-time" value="apply-date-time" onClick="applyDateTime();"/>
-						</aui:button-row>
-					</div>
-			</aui:fieldset>
-		</div>
-		<div id="upload-form">
-			<aui:fieldset column="true">
-					<div>
-						<input id="fileupload" type="file" name="files[]" data-url="/servlet-file-upload/upload" multiple/>
-						<input type="hidden" id="l2gDateTime" value=""/>
-						<br/>
-						<div id="progress" class="progress">
-					    	<div class="bar" style="width: 0%;"></div>
+		<aui:container>
+			<aui:row>
+				<aui:col>
+						<label class="edit-video-lable"><liferay-ui:message key="upload"/></label>
+						<div id="date-time-form">
+							<aui:fieldset column="true">
+									<div id="first-title">
+										<aui:input id="firsttitle" name="firsttitle" label="first-title" value="${reqVideo.title}" />
+										<aui:button-row>
+											<aui:button id="apply-first-title" name="apply-first-title" value="apply-first-title" onClick="applyFirstTitle();"/>
+										</aui:button-row>
+									</div>
+									<div id="date-time">
+										<aui:input id="datetimepicker" name="datetimepicker" label="select-date-time-bevor-upload"/>
+										<aui:button-row>
+											<aui:button id="apply-date-time" name="apply-date-time" value="apply-date-time" onClick="applyDateTime();"/>
+										</aui:button-row>
+									</div>
+							</aui:fieldset>
 						</div>
-						<table id="uploaded-files" class="table"></table>
-					</div>
-			</aui:fieldset>
-		</div>
+						<div id="upload-form">
+							<aui:fieldset column="true">
+									<div>
+										<input id="fileupload" type="file" name="files[]" data-url="/servlet-file-upload/upload" multiple/>
+										<input type="hidden" id="l2gDateTime" value=""/>
+										<br/>
+										<div id="progress" class="progress">
+									    	<div class="bar" style="width: 0%;"></div>
+										</div>
+										<table id="uploaded-files" class="table"></table>
+									</div>
+							</aui:fieldset>
+						</div>
+				</aui:col>
+			</aui:row>
+		</aui:container>
 	</div>
-	
 	<div class="viewedit">
 			<aui:form action="" commandName="model">
 					<aui:container>
@@ -177,7 +182,7 @@
 											<script>
 												$( "#edit-video-lable-1" ).click(function() {
 												  $( "#metadata-upload" ).slideToggle( "slow" );
-												  $("#l1", this).toggleClass("thumb thumb-90");
+												  $("#l1", this).toggleClass("icon-chevron-down icon-chevron-right");
 												});
 											</script>
 											
@@ -208,7 +213,7 @@
 											<script>
 												$( "#edit-video-lable-2" ).click( function() {
 												  	$( "#permissions-content" ).slideToggle( "slow" );
-												  	$("#l2", this).toggleClass("thumb thumb-90");
+												  	$("#l2", this).toggleClass("icon-chevron-down icon-chevron-right");
 												});
 											</script>
 											
@@ -233,13 +238,13 @@
 											<script>
 												$( "#edit-video-lable-3" ).click( function() {
 												  	$( "#license-content" ).slideToggle( "slow" );
-												  	$( "#l3", this ).toggleClass("thumb thumb-90");
+												  	$( "#l3", this ).toggleClass("icon-chevron-down icon-chevron-right");
 												});
 											</script>
 							
 											<div id="embed">
 												<label class="edit-video-lable" id="edit-video-lable-4">
-													<i id="l4" class="aui icon-chevron-down thumb"></i>
+													<i id="l4" class="aui icon-chevron-down"></i>
 													<liferay-ui:message key="share"/>
 												</label>
 												<div id="embed-content">
@@ -256,13 +261,13 @@
 											<script>
 												$( "#edit-video-lable-4" ).click( function() {
 												  	$( "#embed-content" ).slideToggle( "slow" );
-												  	$( "#l4", this).toggleClass("thumb thumb-90");
+												  	$( "#l4", this).toggleClass("icon-chevron-down icon-chevron-right");
 												});
 											</script>
 							
 											<div id="video-thumbnail">
 												<label class="edit-video-lable" id="edit-video-lable-5">
-													<i id="l5" class="aui icon-chevron-down thumb-90"></i>
+													<i id="l5" class="aui icon-chevron-right"></i>
 													<liferay-ui:message key="video-thumbnail" />
 												</label>
 												
@@ -276,7 +281,7 @@
 												$(function(){ $( "#thumbnail-content" ).hide(); });
 												$( "#edit-video-lable-5" ).click( function() {
 												  	$( "#thumbnail-content" ).slideToggle( "slow" );
-												  	$( "#l5", this).toggleClass("thumb-90 thumb");
+												  	$( "#l5", this).toggleClass("icon-chevron-down icon-chevron-right");
 												});
 											</script>
 									</aui:col>
@@ -291,12 +296,18 @@
 	</div>
 </div>
 
-<script id="htmlTemplate" type="text/x-tmpl">
-    ${reqMetadata.description} 
-</script>
-
 <script>
-    $(function(){
+	/* these variables are set here but used in the external autocomplete-creator.js 
+	file, be sure to include this js AFTER the jsp is rendered */
+	var videoId ="${reqVideo.videoId}";
+	var $options = $( "#options" );
+	var getGenerationDateURL = "${getGenerationDateURL}";
+	var isFirstUploadURL = "${isFirstUploadURL}";
+	var assignedCreators = ${assignedCreators};
+	var c = 0;
+	/*variables end*/
+	
+	$(function(){
 		var vidtitle = $('#htmlTitle').text();
 	    if(isFirstUpload()==1 && getDateTime().length==0){
 	   	  	$("#date-time-form").fadeIn(1000);
@@ -312,10 +323,10 @@
 	    }else{
 	  	  $("#date-time-form").hide();
 		  $("#upload-form").fadeIn(1000); 	
-		  $("#<portlet:namespace/>lecture2go-date").val(getDateTime());
+		  setLecture2GoDateTime("#<portlet:namespace/>lecture2go-date");
 		  $("#<portlet:namespace/>meta-ebene").show();
 	    }
-	    //
+	    //load date time picker
 	    $('#<portlet:namespace/>datetimepicker').datetimepicker({
 	    	format:'Y-m-d_H-i',
 	    	dayOfWeekStart : 1,
@@ -326,6 +337,12 @@
 	    	minDate: false,
 	    	step:10
 	    });
+	    //load creators
+    	if(assignedCreators) {
+    		console.log(assignedCreators);
+	    	/* load creators template */
+    		$("#creators").loadTemplate("#created", assignedCreators, {error: function(e) { console.log(e); }});
+    	}
 	});
   
 	var descData=$('#htmlTemplate').text();
@@ -333,17 +350,43 @@
 		descData = data;
 	}
 	
+	function remb(c){
+		//TODO remove sub ids
+		$("#"+c).remove();
+	}	
 </script>
 
+<!-- Template -->
+<script id="htmlTemplate" type="text/html">
+    ${reqMetadata.description} 
+</script>
 
 <!-- Template -->
-<script type="text/x-jquery-tmpl" id="template">
-   	<tr id="<%="${id}"%>">
-    	<td><%="${name}"%></td>
+<script type="text/html" id="template">
+   	<tr data-id="id">
+    	<td data-content="name"></td>
     	<td>
-			<a class="icon-large icon-remove" onclick="deleteFile('<%="${name}"%>');"></a>
+			<a class="icon-large icon-remove" onclick="deleteFile('#');"></a>
 		</td>
    	</tr>
 </script>
 
-<%@include file="includeCreatorTemplates.jsp" %>
+<!-- Template -->
+<script type="text/html"  id="newCreator">
+	<div data-id="id">
+	<aui:input type="hidden" name="gender"/>
+	<aui:input name="jobTitle" type="text" helpMessage="job-title-help-text"/>
+	<aui:input name="firstName" type="text"/>
+	<aui:input name="middleName" type="text"/>
+	<aui:input name="lastName" type="text"/>
+	<aui:input name="creatorId" value="0" type="hidden"/>
+	<a class="icon-large icon-remove" onclick="remb('#');"></a>
+	</div>
+</script>
+
+<!-- Template -->
+<script type="text/html" id="created">
+   	<div data-id="creatorId">
+    	<div data-content="fullName"/> <a class="icon-large icon-remove" onclick="remb($(this).closest('div').attr('id'))"></a>
+	</div>
+</script>

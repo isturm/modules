@@ -1,3 +1,12 @@
+function toggleLectureseries(){
+	var $lId = $( "#<portlet:namespace/>lectureseriesId option:selected" ).val();
+	//
+	if($lId==0){
+		$options.fadeIn( 500 ); 	
+	}else{
+		$options.hide();
+	}
+}
 
 function updateNumberOfProductions(){
 	var ret="";
@@ -6,7 +15,7 @@ function updateNumberOfProductions(){
             method: 'post',
             dataType: 'json',
 	  		data: {
-			   	"<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			   	"<portlet:namespace/>videoId": videoId
 			},
             on: {
                  success: function() {
@@ -38,7 +47,7 @@ function defaultContainer(){
             method: 'post',
             dataType: 'json',
 	  		data: {
-			   	"<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			   	"<portlet:namespace/>videoId": videoId
 			},
             on: {
                  success: function() {
@@ -55,16 +64,16 @@ function defaultContainer(){
 function isFirstUpload(){
 	var ret = 0;
 	AUI().use('aui-io-request', function(A){
-		A.io.request('${isFirstUploadURL}', {
+		A.io.request(isFirstUploadURL, {
             method: 'post',
             dataType: 'json',
 	  		data: {
-			   	"<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			   	"<portlet:namespace/>videoId": videoId
 			},
             on: {
                  success: function() {
                 	 //json object
-                	 var ret =  this.get('responseData');
+                	 var data =  this.get('responseData');
                 	 ret = data.containerFormat;
                  }
             }
@@ -265,7 +274,7 @@ function deleteFile(fileName){
 	            dataType: 'json',
 	            data: {
 			 	   	"<portlet:namespace/>fileName": fileName,
-			 	   	"<portlet:namespace/>videoId": "${reqVideo.videoId}",
+			 	   	"<portlet:namespace/>videoId": videoId,
 			    },
 	            on: {
 	                 success: function() {
@@ -307,7 +316,7 @@ function updateCreatorOnServer(jsonArray){
             dataType: 'json',
 	  		data: {
 			   	"<portlet:namespace/>creator": JSON.stringify(jsonArray),
-			   	"<portlet:namespace/>videoId": "${reqVideo.videoId}",
+			   	"<portlet:namespace/>videoId": videoId,
 			},
 	 		async:true,
             on: {
@@ -331,7 +340,7 @@ function applyDateTime(){
             dataType: 'json',
 			data: {
 			  	"<portlet:namespace/>generationDate": genDate,
-			  	"<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			  	"<portlet:namespace/>videoId": videoId
 			},
 			global: false,
 			async:false,
@@ -358,7 +367,7 @@ function applyFirstTitle(){
             dataType: 'json',
             data: {
 				  "<portlet:namespace/>firsttitle": title,
-			 	  "<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			 	  "<portlet:namespace/>videoId": videoId
 			},
 			global: false,
 			async:false,
@@ -385,7 +394,7 @@ function getDBFilename(){
             method: 'post',
             dataType: 'json',
             data: {
-			 	  "<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			 	  "<portlet:namespace/>videoId": videoId
 			},
 			global: false,
 			async:false,
@@ -407,7 +416,7 @@ function getSecureFilename(){
             method: 'post',
             dataType: 'json',
             data: {
-			 	  "<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			 	  "<portlet:namespace/>videoId": videoId
 			},
 			global: false,
 			async:false,
@@ -429,7 +438,7 @@ function getShare(){
             method: 'post',
             dataType: 'json',
             data: {
-			 	  "<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			 	  "<portlet:namespace/>videoId": videoId
 			},
 			global: false,
 			async:false,
@@ -458,26 +467,25 @@ function toggleShare(){
 	}
 }
 
-function getDateTime(){
-	var ret = "";
-	AUI().use('aui-io-request', function(A){
-		A.io.request('${getGenerationDateURL}', {
-            method: 'post',
-            dataType: 'json',
-            data: {
-			 	  "<portlet:namespace/>videoId": "${reqVideo.videoId}"
+function setLecture2GoDateTime(token){
+	return AUI().use('aui-io-request', function(A){
+		A.io.request(getGenerationDateURL, {
+			method: 'post',
+			dataType: 'json',
+			data: {
+				"<portlet:namespace/>videoId": videoId
 			},
 			global: false,
 			async:false,
-            on: {
-	      		  success: function() {
-	      			var data =  this.get('responseData');
-	      			ret=data;  
-	      		  }
-            }
-         });
+			on: {
+				success: function() {
+					var dat = this.get('responseData').generationDate;
+					console.log("log 1 --> "+dat);
+					 $(token).val(dat);
+				}
+			}
+		});
 	});
-	return ret;
 }
 
 function updateSubInstitutions(){
@@ -497,7 +505,7 @@ function updateSubInstitutions(){
             dataType: 'json',
   		  	data: {
 		 	   	"<portlet:namespace/>subInstitution": JSON.stringify(jsonArray),
-		 	   	"<portlet:namespace/>videoId": "${reqVideo.videoId}"
+		 	   	"<portlet:namespace/>videoId": videoId
 		  	},
 			global: false,
 			async:false,
@@ -517,7 +525,7 @@ function updateThumbnail(){
             dataType: 'json',
   		  	data: {
 		 	   		"<portlet:namespace/>inputTime": Math.floor(player.getPosition()),
-		 	   		"<portlet:namespace/>videoId": "${reqVideo.videoId}",
+		 	   		"<portlet:namespace/>videoId": videoId,
 		  	},
 			global: false,
 			async:false,
@@ -530,7 +538,6 @@ function updateThumbnail(){
 	});
 }
 
-var c = 0;
 function remb(c){
 	$("#"+c).remove();
 }
