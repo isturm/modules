@@ -229,8 +229,8 @@
 														<a href="/web/vod/licence-l2go" target="_blank"><liferay-ui:message key="lecture2go-licence"/> </a>	 	      	      
 													</div>	
 													<div>
-														<c:if test="${reqLicense.l2go==1}"><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" checked="true" type="radio" /></c:if>
-														<c:if test="${reqLicense.l2go==0}"><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" type="radio"/></c:if>
+														<c:if test="${reqLicense.ccbyncsa==1}"><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" checked="true" type="radio" /></c:if>
+														<c:if test="${reqLicense.ccbyncsa==0}"><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" type="radio"/></c:if>
 														<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank"> <liferay-ui:message key="cc-license-click-for-info"/> </a>
 													</div>
 												</div>
@@ -274,6 +274,7 @@
 												<div id="thumbnail-content">
 													<!-- thumbnail start --> 
 														<liferay-ui:message key="video-thumbnail-about"/>
+														<%@include file="/player/includePlayerForThumbnail.jsp"%>
 													<!-- thumbnail end -->	      	      
 												</div>
 											</div>
@@ -339,7 +340,6 @@
 	    });
 	    //load creators
     	if(assignedCreators) {
-    		console.log(assignedCreators);
 	    	/* load creators template */
     		$("#creators").loadTemplate("#created", assignedCreators, {error: function(e) { console.log(e); }});
     	}
