@@ -96,8 +96,11 @@ import de.uhh.l2g.plugins.util.Security;
 		"com.liferay.portlet.display-category=lecture2go.plugins",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.header-portlet-css=/js/jquery.datetimepicker.css",
-		"com.liferay.portlet.header-portlet-javascript=/js/jquery.loadTemplate.min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery-ui-1.11.1.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/upload/vendor/jquery.ui.widget.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/upload/jquery.fileupload.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/upload/jquery.iframe-transport.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/jquery.loadTemplate.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.datetimepicker.js",
 		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1/jwplayer.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
@@ -120,7 +123,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
 		reqVideo = VideoLocalServiceUtil.getFullVideo(reqVideoId);
-
+		
 		request.setAttribute("reqVideo", reqVideo);
 		String backURL = request.getParameter("backURL");
 		request.setAttribute("backURL", backURL);

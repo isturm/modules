@@ -480,7 +480,6 @@ function setLecture2GoDateTime(token){
 			on: {
 				success: function() {
 					var dat = this.get('responseData').generationDate;
-					console.log("log 1 --> "+dat);
 					 $(token).val(dat);
 				}
 			}

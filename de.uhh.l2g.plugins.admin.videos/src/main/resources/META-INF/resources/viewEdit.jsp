@@ -172,7 +172,7 @@
 									
 												<aui:input name="publisher" label="publisher" required="false" value="${reqMetadata.publisher}"/>
 												
-												<aui:field-wrapper label="description">
+												<aui:field-wrapper label="description" name="description">
 												    <liferay-ui:input-editor  name="longDesc" toolbarSet="simple" initMethod="initEditor" onChangeMethod="setDescriptionData" cssClass="ta"/>
 												    <script type="text/javascript">
 												        function <portlet:namespace />initEditor() { return "<%= UnicodeFormatter.toString(reqMetadata.getDescription()) %>"; }
@@ -274,7 +274,6 @@
 												<div id="thumbnail-content">
 													<!-- thumbnail start --> 
 														<liferay-ui:message key="video-thumbnail-about"/>
-														<%@include file="/player/includePlayerForThumbnail.jsp"%>
 													<!-- thumbnail end -->	      	      
 												</div>
 											</div>
@@ -338,11 +337,122 @@
 	    	minDate: false,
 	    	step:10
 	    });
+	    
 	    //load creators
     	if(assignedCreators) {
 	    	/* load creators template */
     		$("#creators").loadTemplate("#created", assignedCreators, {error: function(e) { console.log(e); }});
     	}
+	    
+	    //file upload 
+    	$('#fileupload').fileupload({
+            dataType: 'json',
+            add: function(e, data) {
+                var uploadErrors = [];
+    			var acceptFileTypes = /(mp4|m4v|m4a|audio\/mp3|audio\/mpeg|audio|pdf)$/i;//file types
+    			
+    			for(i=0;i<data.originalFiles.length; i++){
+    	            if (data.originalFiles[i]['type'].length && !acceptFileTypes.test(data.originalFiles[i]['type'])) {
+    	                uploadErrors.push('<liferay-ui:message key="not-an-accepted-file-type"/>');
+    	            }
+    	            if ( data.originalFiles[i]['size'] > 5368709120) { //5 GB
+    	                uploadErrors.push('<liferay-ui:message key="max-file-size"/>');
+    	            }
+    			}
+
+              	//check for first upload
+            	if (isFirstUpload()==1) {
+            		if (!fileUploadAllowed(data.originalFiles)){
+            			uploadErrors.push('<liferay-ui:message key="first-upload-requirements"/>');   
+            		} else {
+            			if(videoFileNameExistsInDatabase(data.originalFiles[0]['name'])==1) uploadErrors.push('<liferay-ui:message key="file-exists-in-database"/>');  
+            		}
+            	}
+                if (uploadErrors.length > 0) {
+                    alert(uploadErrors.join("\n"));
+                } else {
+                    data.submit();
+                }
+            },
+            done: function (e, data) {
+               var vars = data.jqXHR.responseJSON;
+               $.template( "filesTemplate", $("#template") );
+               $("#"+vars[0].id).remove();   
+               $.tmpl( "filesTemplate", vars ).appendTo( ".table" );
+               if(isFirstUpload()==1){//update
+            	   	var f1 = "mp4";
+               		var f2 = "mp3";
+               		var f3 = vars[0].fileName;
+               		//mp4 file
+               		if(f3.indexOf(f1) > -1){
+    	           		updateVideoFileName(vars[0]);
+    	           		validate();
+               		}
+               		//mp3 file, do not trigger the post processing
+               		if(f3.indexOf(f2) > -1){
+    	           		updateVideoFileName(vars[0]);
+    	           		validate();
+               		}
+               }else{
+    				//update only for mp3 and mp4, but without changing the container
+    				var f1 = vars[0].fileName;
+    				var f2 = defaultContainer();
+    				var f3 = "mp4";
+    				//for mp3 and mp4 files
+    				if(f1.indexOf(f2) > -1 || f1.indexOf(f3) > -1){
+    	           		updateVideoFileName(vars[0]);
+    	           		validate();
+    				}
+               }
+               
+               //htaccess update function for physical file protectiom
+               updateHtaccess();
+           	   var st = false;
+               
+           	   jwplayer().remove();
+               //initialize and show player
+                setTimeout(
+    	           function(){
+    	        	   initializePlayer();
+    	        	   jwplayer().seek(0);
+    	        	   jwplayer().on('play',function(){
+    	            		  if(st==false){
+    	            			  jwplayer().pause();
+    	            			   st=true;
+    	            		  }
+    	     		   });	        	   
+    	           }, 2000
+               );
+               
+           	   
+            },
+            progressall: function (e, data) {
+    	        var progress = parseInt(data.loaded / data.total * 100, 10);
+    	        if (progress==100){
+    	        	setTimeout(function(){$('#progress .bar').css('width',0 + '%')}, 2000);
+    	        }else{
+    		        $('#progress .bar').css('width',progress + '%');
+    		        if($('#<portlet:namespace></portlet:namespace>cancel').is(":visible")){
+    		        	$('#<portlet:namespace></portlet:namespace>cancel').hide();	
+    		        }
+    	        }
+       		},
+    		dropZone: $('#dropzone')
+        }).bind('fileuploadsubmit', function (e, data) {
+            // The example input, doesn't have to be part of the upload form:
+            	var fileName = getDBFilename();
+            	var secureFileName = getSecureFilename();
+            	data.formData = {
+            		//p.setHomeDir(PropsUtil.get("lecture2go.media.repository")+"/"+HostLocalServiceUtil.getByHostId(p.getHostId()).getServerRoot()+"/"+p.getHomeDir());
+            	    repository: "${uploadRepository}",
+            		openaccess: "${reqVideo.openAccess}",
+            		lectureseriesNumber: "${reqLectureseries.number}",
+            		fileName: fileName,
+            		secureFileName: secureFileName,
+            		l2gDateTime: $("#<portlet:namespace></portlet:namespace>lecture2go-date").val(),
+            		videoId: "${reqVideo.videoId}"
+            };        
+        });	    
 	});
   
 	var descData=$('#htmlTemplate').text();
@@ -372,7 +482,7 @@
 </script>
 
 <!-- Template -->
-<script type="text/html"  id="newCreator">
+<script type="text/html" id="newCreator">
 	<div data-id="id">
 	<aui:input type="hidden" name="gender"/>
 	<aui:input name="jobTitle" type="text" helpMessage="job-title-help-text"/>
