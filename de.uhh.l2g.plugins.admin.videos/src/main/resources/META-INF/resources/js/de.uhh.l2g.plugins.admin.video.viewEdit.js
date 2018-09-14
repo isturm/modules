@@ -1,5 +1,6 @@
 function toggleLectureseries(){
-	var $lId = $( "#<portlet:namespace/>lectureseriesId option:selected" ).val();
+	var selector = "#"+nameSpace+"lectureseriesId option:selected";
+	var $lId = $( selector ).val();
 	//
 	if($lId==0){
 		$options.fadeIn( 500 ); 	
@@ -228,6 +229,7 @@ function validate(){
 	AUI().use(
 			'aui-node',
 			function(A) {
+				var selector = "#"+nameSpace+"cancel";
 				if($("#creators > div").length==0){
 				    //update creator class
 				    $("#creators-custom").css({"background-color": "#b50303", "color": "white"});
@@ -235,12 +237,12 @@ function validate(){
 					$('html, body').animate({
 		                   scrollTop: $("#creators-custom").offset().top
 		               }, 1000);
-			        if($('#<portlet:namespace></portlet:namespace>cancel').is(":visible")){
-			        	$('#<portlet:namespace></portlet:namespace>cancel').hide();	
+			        if($(selector).is(":visible")){
+			        	$(selector).hide();	
 			        }	
 					//alert("<liferay-ui:message key='please-add-creators'/>");
 				}else{
-					$('#<portlet:namespace></portlet:namespace>cancel').show();
+					$(selector).show();
 				}
 			}
 	);
@@ -248,12 +250,14 @@ function validate(){
 
 function updateDescription(data){
 	AUI().use('aui-io-request', function(A){
+		var selectorD = "#"+nameSpace+"description";
+		var selectorV = "#"+nameSpace+"videoId";
 		A.io.request('${updateDescriptionURL}', {
             method: 'post',
             dataType: 'json',
             data: {
-		 	   	"<portlet:namespace/>description": data,
-		 	   	"<portlet:namespace/>videoId": A.one('#"<portlet:namespace/>videoId"').get('value'),
+            	selectorD: data,
+            	selectorV: A.one(selectorV).get('value'),
 	 		},
 	 		async:true,
             on: {
@@ -281,7 +285,6 @@ function deleteFile(fileName){
 	                	 //json object
 	                	 var data =  this.get('responseData');
 	     		         //since we are using jQuery, you don't need to parse response
-	     		         console.log(data);
 	     		         for (var i = 0; i < data.length; i++) {
 	     		             var obj = data[i];
 	     			         var id = "#"+obj.fileId;
@@ -387,24 +390,157 @@ function applyFirstTitle(){
 	});
 }
 
+function lecture2goFileUpload(){
+	    //file upload 
+    	$('#fileupload').fileupload({
+            dataType: 'json',
+            add: function(e, data) {
+                var uploadErrors = [];
+    			var acceptFileTypes = /(mp4|m4v|m4a|audio\/mp3|audio\/mpeg|audio|pdf)$/i;//file types
+    			//
+    			for(i=0;i<data.originalFiles.length; i++){
+    	            if (data.originalFiles[i]['type'].length && !acceptFileTypes.test(data.originalFiles[i]['type'])) {
+    	                uploadErrors.push('<liferay-ui:message key="not-an-accepted-file-type"/>');
+    	            }
+    	            if ( data.originalFiles[i]['size'] > 5368709120) { //5 GB
+    	                uploadErrors.push('<liferay-ui:message key="max-file-size"/>');
+    	            }
+    			}
+              	//check for first upload
+            	if (isFirstUpload()==1) {
+            		if (!fileUploadAllowed(data.originalFiles)){
+            			uploadErrors.push('<liferay-ui:message key="first-upload-requirements"/>');   
+            		} else {
+            			if(videoFileNameExistsInDatabase(data.originalFiles[0]['name'])==1) uploadErrors.push('<liferay-ui:message key="file-exists-in-database"/>');  
+            		}
+            	}
+              	//
+                if (uploadErrors.length > 0) {
+                    alert(uploadErrors.join("\n"));
+                } else {
+                    data.submit();
+                }
+            },
+            done: function (e, data) {
+               var vars = data.jqXHR.responseJSON;
+               //$.template( "filesTemplate", $("#template") );
+               //$("#"+vars[0].id).remove();
+               //$.tmpl( "filesTemplate", vars ).appendTo( ".table" );
+               if(isFirstUpload()==1){//update
+            	   	var f1 = "mp4";
+               		var f2 = "mp3";
+               		var f3 = vars[0].fileName;
+               		//mp4 file
+               		if(f3.indexOf(f1) > -1){
+    	           		updateVideoFileName(vars[0]);
+    	           		validate();
+               		}
+               		//mp3 file, do not trigger the post processing
+               		if(f3.indexOf(f2) > -1){
+    	           		updateVideoFileName(vars[0]);
+    	           		validate();
+               		}
+               }else{
+            	   	/*
+    				//update only for mp3 and mp4, but without changing the container
+    				var f1 = vars[0].fileName;
+    				var f2 = defaultContainer();
+    				var f3 = "mp4";
+    				//for mp3 and mp4 files
+    				if(f1.indexOf(f2) > -1 || f1.indexOf(f3) > -1){
+    	           		updateVideoFileName(vars[0]);
+    	           		validate();
+    				}
+    				*/
+               }
+               
+               //htaccess update function for physical file protectiom
+               updateHtaccess();
+           	   var st = false;
+               
+           	   /*
+           	   jwplayer().remove();
+               //initialize and show player
+                setTimeout(
+    	           function(){
+    	        	   initializePlayer();
+    	        	   jwplayer().seek(0);
+    	        	   jwplayer().on('play',function(){
+    	            		  if(st==false){
+    	            			  jwplayer().pause();
+    	            			   st=true;
+    	            		  }
+    	     		   });	        	   
+    	           }, 2000
+               );
+               */
+           	   
+            },
+            progressall: function (e, data) {
+    	        var progress = parseInt(data.loaded / data.total * 100, 10);
+    	        if (progress==100){
+    	        	setTimeout(function(){$('#progress .bar').css('width',0 + '%')}, 2000);
+    	        }else{
+    		        $('#progress .bar').css('width',progress + '%');
+    		        var selector = "#"+nameSpace+"cancel";
+    		        if($(selector).is(":visible")){
+    		        	$(selector).hide();	
+    		        }
+    	        }
+       		},
+    		dropZone: $('#dropzone')
+        }).bind('fileuploadsubmit', function (e, data) {
+            	// The example input, doesn't have to be part of the upload form:
+            	var selectorDate = "#"+nameSpace+"lecture2go-date";
+            	var selectorFileName = "#"+nameSpace+"fileName";
+            	var selectorSecureFileName = "#"+nameSpace+"secureFileName";
+            	//
+            	data.formData = {
+            		//p.setHomeDir(PropsUtil.get("lecture2go.media.repository")+"/"+HostLocalServiceUtil.getByHostId(p.getHostId()).getServerRoot()+"/"+p.getHomeDir());
+            	    repository: uploadRepository,
+            		openaccess: videoOpenAccess,
+            		lectureseriesNumber: lectureSeriesNumber,
+            		fileName: $(selectorFileName).val(),
+            		secureFileName: $(selectorSecureFileName).val(),
+            		l2gDateTime: $(selectorDate).val(),
+            		videoId: videoId
+            };        
+        });	    
+}
+
 function getDBFilename(){
-	var ret = "";
-	AUI().use('aui-io-request', function(A){
-		A.io.request('${getFileNameURL}', {
+	return AUI().use('aui-io-request', function(A){
+		A.io.request(getFileNameURL, {
             method: 'post',
             dataType: 'json',
             data: {
 			 	  "<portlet:namespace/>videoId": videoId
 			},
-			global: false,
-			async:false,
             on: {
 	      		  success: function() {
 	      			var data =  this.get('responseData');
 	      			ret=data.fileName;   
+	      			return ret;
 	      		  }
             }
          });
+	});
+}
+
+function updateHtaccess (){
+	var ret = 0;
+	$.ajax({
+		  type: "POST",
+		  url: updateHtaccessURL,
+		  dataType: 'json',
+		  data: {
+			  "<portlet:namespace/>videoId": videoId
+		  },
+		  global: false,
+		  async: false,
+		  success: function(data) {
+		    ret = 1;
+		  }
 	});
 	return ret;
 }
@@ -412,7 +548,7 @@ function getDBFilename(){
 function getSecureFilename(){
 	var ret = "";
 	AUI().use('aui-io-request', function(A){
-		A.io.request('${getSecureFileNameURL}', {
+		A.io.request(getSecureFileNameURL, {
             method: 'post',
             dataType: 'json',
             data: {

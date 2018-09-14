@@ -43,6 +43,7 @@
 <liferay-portlet:resourceURL id="updateNumberOfProductions" var="updateNumberOfProductionsURL" />
 <liferay-portlet:resourceURL id="updateThumbnail" var="updateThumbnailURL" />
 <liferay-portlet:resourceURL id="getJSONVideo" var="getJSONVideoURL" />
+<liferay-portlet:resourceURL id="updateHtaccess" var="updateHtaccessURL" />
 
 <c:set var="uploadProgressId" value="<%=PwdGenerator.getPassword(PwdGenerator.KEY3, 4)%>"/>
 <c:if test="${reqVideo.openAccess==1}">
@@ -97,7 +98,7 @@
 		</aui:container>
 	</div>
 	<div class="viewedit">
-			<aui:form action="" commandName="model">
+			<aui:form action="" commandName="model" name="metadata">
 					<aui:container>
 					        <aui:row>
 					                <aui:col>
@@ -289,6 +290,8 @@
 										<aui:button type="submit" value="apply-changes" onclick="applyAllMetadataChanges()" cssClass="btn-primary"/>	
 										<aui:button type="cancel" value="cancel" href="${backURL}"/>
 										<aui:input name="videoId" type="hidden" value="${reqVideo.videoId}"/>
+										<aui:input name="fileName" type="hidden" value="${reqVideo.filename}"/>
+										<aui:input name="secureFileName" type="hidden" value="${reqVideo.secureFilename}"/>
 									</aui:col>
 					        </aui:row>
 					</aui:container>		
@@ -299,171 +302,77 @@
 <script>
 	/* these variables are set here but used in the external autocomplete-creator.js 
 	file, be sure to include this js AFTER the jsp is rendered */
+	var nameSpace = "<portlet:namespace></portlet:namespace>";
 	var videoId ="${reqVideo.videoId}";
 	var $options = $( "#options" );
 	var getGenerationDateURL = "${getGenerationDateURL}";
 	var isFirstUploadURL = "${isFirstUploadURL}";
+	var getFileNameURL = "${getFileNameURL}";
+	var getSecureFileNameURL = "${getSecureFileNameURL}";
+	var getSecureFileNameURL = "${getSecureFileNameURL}";
+	var updateHtaccessURL = "${updateHtaccessURL}";
 	var assignedCreators = ${assignedCreators};
+	var uploadRepository = "${uploadRepository}";
 	var c = 0;
+	var vidtitle = $('#htmlTitle').text();
+	var videoOpenAccess = "${reqVideo.openAccess}";
+	var lectureSeriesNumber = "${reqLectureseries.number}";
 	/*variables end*/
 	
-	$(function(){
-		var vidtitle = $('#htmlTitle').text();
-	    if(isFirstUpload()==1 && getDateTime().length==0){
-	   	  	$("#date-time-form").fadeIn(1000);
-	    	$("#upload-form").hide();
-	    	$("#l2gdate").hide();
-	    	if(vidtitle.trim()>""){
-	    		$("#first-title").hide();
-	    		$("#date-time").show();
-	    	}else{
-	    		$("#date-time").hide();
-	    	}
-	    	$("#<portlet:namespace/>meta-ebene").hide();
-	    }else{
-	  	  $("#date-time-form").hide();
+	$(function () {
+	  
+		if(isFirstUpload()==1 && getDateTime().length==0){
+		 	$("#date-time-form").fadeIn(1000);
+		    $("#upload-form").hide();
+		    $("#l2gdate").hide();
+		  if(vidtitle.trim()>""){
+		    	$("#first-title").hide();
+		    	$("#date-time").show();
+		  }else{
+		    	$("#date-time").hide();
+		  }
+		    $("#<portlet:namespace/>meta-ebene").hide();
+		}else{
+		  $("#date-time-form").hide();
 		  $("#upload-form").fadeIn(1000); 	
 		  setLecture2GoDateTime("#<portlet:namespace/>lecture2go-date");
 		  $("#<portlet:namespace/>meta-ebene").show();
-	    }
-	    //load date time picker
-	    $('#<portlet:namespace/>datetimepicker').datetimepicker({
-	    	format:'Y-m-d_H-i',
-	    	dayOfWeekStart : 1,
-	    	lang:'en',
-	    	startDate:	new Date(),
-	    	value: new Date(),
-	    	maxDate: '+1970/01/30',
-	    	minDate: false,
-	    	step:10
-	    });
-	    
-	    //load creators
-    	if(assignedCreators) {
-	    	/* load creators template */
-    		$("#creators").loadTemplate("#created", assignedCreators, {error: function(e) { console.log(e); }});
-    	}
-	    
-	    //file upload 
-    	$('#fileupload').fileupload({
-            dataType: 'json',
-            add: function(e, data) {
-                var uploadErrors = [];
-    			var acceptFileTypes = /(mp4|m4v|m4a|audio\/mp3|audio\/mpeg|audio|pdf)$/i;//file types
-    			
-    			for(i=0;i<data.originalFiles.length; i++){
-    	            if (data.originalFiles[i]['type'].length && !acceptFileTypes.test(data.originalFiles[i]['type'])) {
-    	                uploadErrors.push('<liferay-ui:message key="not-an-accepted-file-type"/>');
-    	            }
-    	            if ( data.originalFiles[i]['size'] > 5368709120) { //5 GB
-    	                uploadErrors.push('<liferay-ui:message key="max-file-size"/>');
-    	            }
-    			}
-
-              	//check for first upload
-            	if (isFirstUpload()==1) {
-            		if (!fileUploadAllowed(data.originalFiles)){
-            			uploadErrors.push('<liferay-ui:message key="first-upload-requirements"/>');   
-            		} else {
-            			if(videoFileNameExistsInDatabase(data.originalFiles[0]['name'])==1) uploadErrors.push('<liferay-ui:message key="file-exists-in-database"/>');  
-            		}
-            	}
-                if (uploadErrors.length > 0) {
-                    alert(uploadErrors.join("\n"));
-                } else {
-                    data.submit();
-                }
-            },
-            done: function (e, data) {
-               var vars = data.jqXHR.responseJSON;
-               $.template( "filesTemplate", $("#template") );
-               $("#"+vars[0].id).remove();   
-               $.tmpl( "filesTemplate", vars ).appendTo( ".table" );
-               if(isFirstUpload()==1){//update
-            	   	var f1 = "mp4";
-               		var f2 = "mp3";
-               		var f3 = vars[0].fileName;
-               		//mp4 file
-               		if(f3.indexOf(f1) > -1){
-    	           		updateVideoFileName(vars[0]);
-    	           		validate();
-               		}
-               		//mp3 file, do not trigger the post processing
-               		if(f3.indexOf(f2) > -1){
-    	           		updateVideoFileName(vars[0]);
-    	           		validate();
-               		}
-               }else{
-    				//update only for mp3 and mp4, but without changing the container
-    				var f1 = vars[0].fileName;
-    				var f2 = defaultContainer();
-    				var f3 = "mp4";
-    				//for mp3 and mp4 files
-    				if(f1.indexOf(f2) > -1 || f1.indexOf(f3) > -1){
-    	           		updateVideoFileName(vars[0]);
-    	           		validate();
-    				}
-               }
-               
-               //htaccess update function for physical file protectiom
-               updateHtaccess();
-           	   var st = false;
-               
-           	   jwplayer().remove();
-               //initialize and show player
-                setTimeout(
-    	           function(){
-    	        	   initializePlayer();
-    	        	   jwplayer().seek(0);
-    	        	   jwplayer().on('play',function(){
-    	            		  if(st==false){
-    	            			  jwplayer().pause();
-    	            			   st=true;
-    	            		  }
-    	     		   });	        	   
-    	           }, 2000
-               );
-               
-           	   
-            },
-            progressall: function (e, data) {
-    	        var progress = parseInt(data.loaded / data.total * 100, 10);
-    	        if (progress==100){
-    	        	setTimeout(function(){$('#progress .bar').css('width',0 + '%')}, 2000);
-    	        }else{
-    		        $('#progress .bar').css('width',progress + '%');
-    		        if($('#<portlet:namespace></portlet:namespace>cancel').is(":visible")){
-    		        	$('#<portlet:namespace></portlet:namespace>cancel').hide();	
-    		        }
-    	        }
-       		},
-    		dropZone: $('#dropzone')
-        }).bind('fileuploadsubmit', function (e, data) {
-            // The example input, doesn't have to be part of the upload form:
-            	var fileName = getDBFilename();
-            	var secureFileName = getSecureFilename();
-            	data.formData = {
-            		//p.setHomeDir(PropsUtil.get("lecture2go.media.repository")+"/"+HostLocalServiceUtil.getByHostId(p.getHostId()).getServerRoot()+"/"+p.getHomeDir());
-            	    repository: "${uploadRepository}",
-            		openaccess: "${reqVideo.openAccess}",
-            		lectureseriesNumber: "${reqLectureseries.number}",
-            		fileName: fileName,
-            		secureFileName: secureFileName,
-            		l2gDateTime: $("#<portlet:namespace></portlet:namespace>lecture2go-date").val(),
-            		videoId: "${reqVideo.videoId}"
-            };        
-        });	    
-	});
-  
-	var descData=$('#htmlTemplate').text();
-	function <portlet:namespace/>setDescriptionData(data){
-		descData = data;
-	}
+		}
+		    
+		//load upload function 
+		lecture2goFileUpload();
+		
+		//load file name variables
+	 	fName = getDBFilename();
+		sName = getSecureFilename();
 	
-	function remb(c){
-		//TODO remove sub ids
-		$("#"+c).remove();
-	}	
+		//load date time picker
+		$('#<portlet:namespace/>datetimepicker').datetimepicker({
+		   	format:'Y-m-d_H-i',
+		   	dayOfWeekStart : 1,
+		   	lang:'en',
+		   	startDate:	new Date(),
+		   	value: new Date(),
+		   	maxDate: '+1970/01/30',
+		   	minDate: false,
+		   	step:10
+		});
+		    
+		//load creators
+	    if(assignedCreators) {
+			$("#creators").loadTemplate("#created", assignedCreators, {error: function(e) { console.log(e); }});
+	    }
+		    
+		var descData=$('#htmlTemplate').text();
+		function <portlet:namespace/>setDescriptionData(data){
+			descData = data;
+		}
+		
+		function remb(c){
+			//TODO remove sub ids
+			$("#"+c).remove();
+		}	
+	});
 </script>
 
 <!-- Template -->
