@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -23,6 +24,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.axis.i18n.Messages;
 import org.osgi.service.component.annotations.Component;
@@ -40,6 +42,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
@@ -104,7 +107,6 @@ import de.uhh.l2g.plugins.util.Security;
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.datetimepicker.js",
 		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1/jwplayer.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
-		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.admin.video.viewEdit.js",		
 		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.creators.js",		
 		"javax.portlet.display-name=Admin Videos",
 		"javax.portlet.init-param.template-path=/",
@@ -512,15 +514,16 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		try {
 			license = LicenseLocalServiceUtil.getByVideoId(video.getVideoId());
 		} catch (NoSuchLicenseException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 		} catch (SystemException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 		}
 		
 		if(resourceID.equals("updateVideoFileName")){
 			String fileName = ParamUtil.getString(resourceRequest, "fileName");
 			String secureFileName = ParamUtil.getString(resourceRequest, "secureFileName");
 			String generationDate = ParamUtil.getString(resourceRequest, "generationDate");
+
 			String containerFormat = fileName.split("\\.")[fileName.split("\\.").length-1];
 			//update data base
 			try {
@@ -529,8 +532,10 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				video.setContainerFormat(containerFormat);
 				video.setGenerationDate(generationDate);
 				video.setUploadDate(new Date());
+				//--- Database start
 				VideoLocalServiceUtil.updateVideo(video);
 				FFmpegManager.updateFfmpegMetadata(video);
+				//--- Database end
 				//update thumbs
 				String image="";
 				String fileLocation="";

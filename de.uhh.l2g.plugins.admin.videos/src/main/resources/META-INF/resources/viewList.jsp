@@ -138,7 +138,7 @@
 								</c:if>		
 								
 								<div class="video-image-wrapper" onClick="${onClick}">
-								    <img class="video-image-big" src="${contextPath}${vid.imageMedium}"/>
+								    <img class="video-image-big" src="${vid.imageMedium}"/>
 								</div>
 								
 								<div class="admintile wide video-content-wrapper">
