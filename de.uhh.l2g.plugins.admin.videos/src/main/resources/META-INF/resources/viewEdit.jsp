@@ -89,7 +89,7 @@
 									    	<div class="bar" style="width:0%;"></div>
 											<div id="percent" style="float:right;"></div>
 										</div>
-										<table id="uploaded-files" class="table"></table>
+										<div id="uploaded-files"></div>
 									</div>
 							</aui:fieldset>
 						</div>
@@ -770,8 +770,14 @@
 	}
 
 	function lecture2goFileUpload(){
-		    //file upload 
-	    	$('#fileupload').fileupload({
+		//load files
+		var vars = <%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toString()%>;
+	    if(vars) {
+			$("#uploaded-files").loadTemplate("#remove-video-file", vars, {error: function(e) { console.log(e); }});
+	    }
+		
+		//file upload 
+	    $('#fileupload').fileupload({
 	            dataType: 'json',
 	            add: function(e, data) {
 	                var uploadErrors = [];
@@ -808,6 +814,7 @@
 	               //$.template( "filesTemplate", $("#template") );
 	               //$("#"+vars[0].id).remove();
 	               //$.tmpl( "filesTemplate", vars ).appendTo( ".table" );
+	               
 	               if(isFirstUpload()==1){//update
 	            	   	var f1 = "mp4";
 	               		var f2 = "mp3";
@@ -856,7 +863,13 @@
 	               */
 			        //hide progress bar
 			        $('#percent').text("0%");
-	   		        $('#progress').css("width", "0%"); 	
+	   		        $('#progress').css("width", "0%"); 
+	   		        
+	   		        // 
+	   		        var vars = <%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toString()%>;
+	   		        if(vars) {
+						$("#uploaded-files").loadTemplate("#remove-video-file", vars, {error: function(e) { console.log(e); }});
+				    }
 	            },
 	            progressall: function (e, data) {
 	    	        var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -1069,16 +1082,6 @@
 </script>
 
 <!-- Template -->
-<script type="text/html" id="template">
-   	<tr data-id="id">
-    	<td data-content="name"></td>
-    	<td>
-			<a class="icon-large icon-remove" onclick="deleteFile('#');"></a>
-		</td>
-   	</tr>
-</script>
-
-<!-- Template -->
 <script type="text/html" id="newCreator">
 	<div data-id="id">
 	<aui:input type="hidden" name="gender"/>
@@ -1095,5 +1098,12 @@
 <script type="text/html" id="created">
    	<div data-id="creatorId">
     	<div data-content="fullName"/> <a class="icon-large icon-remove" onclick="remb($(this).closest('div').attr('id'))"></a>
+	</div>
+</script>
+
+<!-- Template -->
+<script type="text/html" id="remove-video-file">
+   	<div data-id="id">
+    	<div data-content="name"/> <a class="icon-large icon-remove" onclick="deleteFile($(this).closest('div').text())"></a>
 	</div>
 </script>
