@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -24,9 +23,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.axis.i18n.Messages;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -42,7 +39,6 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
@@ -812,13 +808,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		}
 		
 		if(resourceID.equals("getJSONVideo")){
-			JSONObject uris = JSONFactoryUtil.createJSONObject();
-			for(int i=0; i<video.getPlayerUris().size(); i++){
-				uris.put("url"+i, video.getPlayerUris().get(i));
-			}
 			JSONObject jo = JSONFactoryUtil.createJSONObject();
 			jo.put("title", video.getTitle());
-			jo.put("playerUris", uris);
+			jo.put("playerUris", video.getJsonPlayerUris());
 			jo.put("thumbnail", video.getImage());
 			//
 			PrintWriter writer = resourceResponse.getWriter();

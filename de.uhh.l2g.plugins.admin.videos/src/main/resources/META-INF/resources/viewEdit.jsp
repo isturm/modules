@@ -203,10 +203,10 @@
 													</c:if>
 													<div id="c2g">
 														<c:if test="${reqVideo.citation2go==0}">
-													  		<aui:input name="citationAllowed" type="checkbox" label="citation-allowed" id="citationAllowed"></aui:input>
+													  		<aui:input name="citationAllowedCheckbox" type="checkbox" label="citation-allowed" id="citationAllowedCheckbox"></aui:input>
 														</c:if>
 														<c:if test="${reqVideo.citation2go==1}">
-														  	<aui:input name="citationAllowed" type="checkbox" label="citation-allowed" id="citationAllowed" checked="true"></aui:input>
+														  	<aui:input name="citationAllowedCheckbox" type="checkbox" label="citation-allowed" id="citationAllowedCheckbox" checked="true"></aui:input>
 														</c:if>
 													</div>
 												</div>
@@ -250,12 +250,12 @@
 												</label>
 												<div id="embed-content">
 													<!-- embed start -->
-													<aui:input name="embed_code3" label="video-url" helpMessage="about-video-url" required="false" id="embed_code3" readonly="true" value="${vurl}" onclick="document.embed-content._lgadminvideomanagement_WAR_lecture2goportlet_embed_code3.focus();document.embed-content._lgadminvideomanagement_WAR_lecture2goportlet_embed_code3.select();"/>
-													<aui:input name="embed_code" label="embed-iframe" helpMessage="about-iframe-embed" required="false" id="embed_code" readonly="true" value="${reqVideo.embedIframe}" onclick="document.embed-content._lgadminvideomanagement_WAR_lecture2goportlet_embed_code.focus();document.embed-content._lgadminvideomanagement_WAR_lecture2goportlet_embed_code.select();"/>
+													<aui:input name="embed_code3" label="video-url" helpMessage="about-video-url" required="false" id="embed_code3" readonly="true" value="${vurl}" onclick="selectEmbed()"/>
+													<aui:input name="embed_code" label="embed-iframe" helpMessage="about-iframe-embed" required="false" id="embed_code" readonly="true" value="${reqVideo.embedIframe}" onclick="selectEmbed()"/>
 													<c:if test="${reqVideo.downloadLink==1}">
-														<aui:input name="embed_code1" label="embed-html5" helpMessage="about-html5-embed" required="false" id="embed_code1" readonly="true" value="${reqVideo.embedHtml5}" onclick="document.embed-content._lgadminvideomanagement_WAR_lecture2goportlet_embed_code1.focus();document.embed-content._lgadminvideomanagement_WAR_lecture2goportlet_embed_code1.select();"/>							
+														<aui:input name="embed_code1" label="embed-html5" helpMessage="about-html5-embed" required="false" id="embed_code1" readonly="true" value="${reqVideo.embedHtml5}" onclick="selectEmbed()"/>							
 													</c:if>
-													<aui:input name="embed_code4" label="embed-commsy" helpMessage="about-commsy-embed" required="false" id="embed_code4" readonly="true" value="${reqVideo.embedCommsy}" onclick="document.embed-content._lgadminvideomanagement_WAR_lecture2goportlet_embed_code4.focus();document.embed-content._lgadminvideomanagement_WAR_lecture2goportlet_embed_code4.select();"/>
+													<aui:input name="embed_code4" label="embed-commsy" helpMessage="about-commsy-embed" required="false" id="embed_code4" readonly="true" value="${reqVideo.embedCommsy}" onclick="selectEmbed()"/>
 													<!-- embed end -->	      	      
 												</div>
 											</div>
@@ -275,6 +275,7 @@
 												<div id="thumbnail-content">
 													<!-- thumbnail start --> 
 														<liferay-ui:message key="video-thumbnail-about"/>
+														<%@include file="/player/includePlayerForThumbnail.jsp"%>
 													<!-- thumbnail end -->	      	      
 												</div>
 											</div>
@@ -300,8 +301,6 @@
 </div>
 
 <script>
-	/* these variables are set here but used in the external autocomplete-creator.js 
-	file, be sure to include this js AFTER the jsp is rendered */
 	var nameSpace = "<portlet:namespace></portlet:namespace>";
 	var videoId ="${reqVideo.videoId}";
 	var $options = $( "#options" );
@@ -319,6 +318,9 @@
 	var videoOpenAccess = "${reqVideo.openAccess}";
 	var lectureSeriesNumber = "${reqLectureseries.number}";
 	var getShareURL = "${getShareURL}";
+	var allCreatorsInJQueryAutocompleteFormat = ${allCreatorsJSON.toString()};
+	var getJSONCreatorURL = "${getJSONCreatorURL}";	
+	var getJSONVideoURL = "${getJSONVideoURL}";	
 	
 	$(function () {
 	  
@@ -343,6 +345,9 @@
 		//load upload function 
 		lecture2goFileUpload();
 		
+		//load uploaded files
+		loadUploadedFiles()
+		
 		//load date time picker
 		$('#<portlet:namespace/>datetimepicker').datetimepicker({
 		   	format:'Y-m-d_H-i',
@@ -356,6 +361,7 @@
 		});
 		    
 		//load creators
+		autocompleteCreator($("#<portlet:namespace/>creator"));
 	    if(assignedCreators) {
 			$("#creators").loadTemplate("#created", assignedCreators, {error: function(e) { console.log(e); }});
 	    }
@@ -415,6 +421,12 @@
 	    return ret;
 	}
 
+	function selectEmbed(){
+		$("input[type='text']").on("click", function () {
+			   $(this).select();
+		});		
+	}
+	
 	function defaultContainer(){
 		var ret = "";
 		AUI().use('aui-io-request', function(A){
@@ -437,7 +449,7 @@
 		console.log(ret);
 		return ret;
 	}
-
+	
 	function isFirstUpload(){
 		var ret = 0;
 		AUI().use('aui-io-request', function(A){
@@ -677,7 +689,7 @@
 		     		    	  	 $("#first-title").show();
 		     		    	  	 $("#<portlet:namespace/>meta-ebene").hide();
 		     		         }
-		     		         player.remove();
+		     		         //player.remove();
 		     		         //initialize and show player
 		     			     initializePlayer();
 		     		         //hide date fild
@@ -769,12 +781,21 @@
 		});
 	}
 
-	function lecture2goFileUpload(){
+	function loadUploadedFiles(){
 		//load files
 		var vars = <%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toString()%>;
-	    if(vars) {
+	    
+		//remove the current files
+		//$( "#uploaded-files" ).remove( "div" );
+		if(vars) {
 			$("#uploaded-files").loadTemplate("#remove-video-file", vars, {error: function(e) { console.log(e); }});
 	    }
+	    
+	}
+	
+	
+	function lecture2goFileUpload(){
+		
 		
 		//file upload 
 	    $('#fileupload').fileupload({
@@ -845,10 +866,10 @@
 	               updateHtaccess();
 	           	   var st = false;
 	               
-	           	   /*
+	           	   //
 	           	   jwplayer().remove();
 	               //initialize and show player
-	                setTimeout(
+	               setTimeout(
 	    	           function(){
 	    	        	   initializePlayer();
 	    	        	   jwplayer().seek(0);
@@ -860,16 +881,13 @@
 	    	     		   });	        	   
 	    	           }, 2000
 	               );
-	               */
-			        //hide progress bar
-			        $('#percent').text("0%");
-	   		        $('#progress').css("width", "0%"); 
+	               
+			       //hide progress bar
+			       $('#percent').text("0%");
+	   		       $('#progress').css("width", "0%"); 
 	   		        
-	   		        // 
-	   		        var vars = <%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toString()%>;
-	   		        if(vars) {
-						$("#uploaded-files").loadTemplate("#remove-video-file", vars, {error: function(e) { console.log(e); }});
-				    }
+	   		       //load uploaded files
+	   		       loadUploadedFiles()
 	            },
 	            progressall: function (e, data) {
 	    	        var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -1071,9 +1089,31 @@
 	}
 
 	function remb(c){
+		console.log(c);
 		$("#"+c).remove();
 	}
 
+	//load subinstitution 
+	AUI().use('aui-node',
+			  function(A){
+				// Select the node(s) using a css selector string
+			    var subInstitutionId = A.one('#<portlet:namespace/>subInstitutionId');
+			    var subInstitutions = A.one('.subInstitutions');
+			    
+			    subInstitutionId.on(
+			          'change',
+			          function(A) {
+			      			if(subInstitutionId.get('value')>0){
+			      	   	 		var n = subInstitutionId.get(subInstitutionId.get('selectedIndex')).get('value');
+			      	    		var t = subInstitutionId.get(subInstitutionId.get('selectedIndex')).get('text')+"&nbsp;&nbsp;&nbsp;";
+			      	    		subInstitutions.append("<div id='"+n+"'> "+t+" <a class='icon-large icon-remove style='cursor:pointer;' onClick='document.getElementById(&quot;"+n+"&quot;).remove();'/><input id='<portlet:namespace></portlet:namespace>institutions' name='<portlet:namespace></portlet:namespace>institutions' value='"+n+"' type='hidden'/></div>");
+			      			}
+			          }
+			     );
+			 
+			  }
+	);
+	
 </script>
 
 <!-- Template -->
@@ -1083,14 +1123,14 @@
 
 <!-- Template -->
 <script type="text/html" id="newCreator">
-	<div data-id="id">
-	<aui:input type="hidden" name="gender"/>
-	<aui:input name="jobTitle" type="text" helpMessage="job-title-help-text"/>
-	<aui:input name="firstName" type="text"/>
-	<aui:input name="middleName" type="text"/>
-	<aui:input name="lastName" type="text"/>
-	<aui:input name="creatorId" value="0" type="hidden"/>
-	<a class="icon-large icon-remove" onclick="remb('#');"></a>
+	<div id="0">
+		<aui:input type="hidden" name="gender"/>
+		<aui:input name="jobTitle" type="text" helpMessage="job-title-help-text"/>
+		<aui:input name="firstName" type="text"/>
+		<aui:input name="middleName" type="text"/>
+		<aui:input name="lastName" type="text"/>
+		<aui:input name="creatorId" value="0" type="hidden"/>
+		<a class="icon-large icon-remove" onclick="remb($(this).closest('div').attr('id'))"></a>
 	</div>
 </script>
 

@@ -14,8 +14,7 @@ function autocompleteCreator($creatorInputObject) {
 			$( "#addNewCreator" ).on( "click", function() {
 				/* empty the creator input field */
 				$creatorInputObject.val('');
-				c++;
-				appendCreator(c);
+				$("#creators").loadTemplate("#newCreator", "", { append: true, elemPerPage: 20 });
 				$creatorInputObject.autocomplete('close');
 			});
 		},
@@ -34,25 +33,17 @@ function autocompleteCreator($creatorInputObject) {
 		select: function (event, ui) {
 			if(ui.item.id>0){
   		        var vars = getJSONCreator(ui.item.id);
-  		        $.template( "filesTemplate", $("#created") );
-  		        $.tmpl( "filesTemplate", vars ).appendTo( "#creators" );
+  		        //$("#creators").loadTemplate("#created", vars, {error: function(e) { console.log(e); }});
+  		        $("#creators").loadTemplate("#created", vars, { append: true, elemPerPage: 20 });
   			}
 		}
 	});
 }
 
-function appendCreator(c){
-	$(function () {
-    	var vars = {'counter':c};
-    	$.template( "filesTemplate", $("#newCreator") );
-    	$.tmpl( "filesTemplate", vars ).appendTo( "#creators" );
-	});
-};
-
 function getJSONCreator (data){
 	var ret;
-	/* we can not access the portlet namespace from the external js file directly so we need to build the variable property name this way: */
-	var creatorId = namespace + "creatorId";
+	/* we can not access the portlet nameSpace from the external js file directly so we need to build the variable property name this way: */
+	var creatorId = nameSpace + "creatorId";
 	var dataJSON = {};
 	dataJSON[creatorId] = data;
 	
@@ -70,6 +61,7 @@ function getJSONCreator (data){
 	return ret;
 }
 
+
 function updateCreators(){
 	var jsonArray = [];
 	$('#creators').children().each(function(n){
@@ -77,19 +69,19 @@ function updateCreators(){
 		var $div = $(this);
 		var id = $div.attr('id');
 		if(id.indexOf("nc")==-1){
-			parameters['creatorId'] = $div.find('input[name = '+namespace+'creatorId]').val();
-			parameters['firstName'] = $div.find('input[name = '+namespace+'firstName]').val();
-			parameters['lastName'] = $div.find('input[name = '+namespace+'lastName]').val();
-			parameters['middleName'] = $div.find('input[name = '+namespace+'middleName]').val();
-			parameters['jobTitle'] = $div.find('input[name = '+namespace+'jobTitle]').val();
+			parameters['creatorId'] = $div.find('input[name = '+nameSpace+'creatorId]').val();
+			parameters['firstName'] = $div.find('input[name = '+nameSpace+'firstName]').val();
+			parameters['lastName'] = $div.find('input[name = '+nameSpace+'lastName]').val();
+			parameters['middleName'] = $div.find('input[name = '+nameSpace+'middleName]').val();
+			parameters['jobTitle'] = $div.find('input[name = '+nameSpace+'jobTitle]').val();
 			parameters['gender'] = "";
-			parameters['fullName'] = $div.find('input[name = '+namespace+'fullName]').val();
+			parameters['fullName'] = (parameters['jobTitle'].trim()+" "+(parameters['firstName'].trim()+" "+parameters['middleName'].trim()).trim()+" "+parameters['lastName'].trim()).trim();		
 		}else{
 			parameters['creatorId'] = "0";
-			parameters['firstName'] = $div.find('input[name = '+namespace+'firstName]').val().trim();
-			parameters['lastName'] = $div.find('input[name = '+namespace+'lastName]').val().trim();
-			parameters['middleName'] = $div.find('input[name = '+namespace+'middleName]').val().trim();
-			parameters['jobTitle'] = $div.find('input[name = '+namespace+'jobTitle]').val().trim();
+			parameters['firstName'] = $div.find('input[name = '+nameSpace+'firstName]').val().trim();
+			parameters['lastName'] = $div.find('input[name = '+nameSpace+'lastName]').val().trim();
+			parameters['middleName'] = $div.find('input[name = '+nameSpace+'middleName]').val().trim();
+			parameters['jobTitle'] = $div.find('input[name = '+nameSpace+'jobTitle]').val().trim();
 			parameters['gender'] = "";
 			parameters['fullName'] = (parameters['jobTitle'].trim()+" "+(parameters['firstName'].trim()+" "+parameters['middleName'].trim()).trim()+" "+parameters['lastName'].trim()).trim();		
 		}
