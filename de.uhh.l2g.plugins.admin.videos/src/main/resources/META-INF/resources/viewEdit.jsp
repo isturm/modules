@@ -365,12 +365,7 @@
 	    if(assignedCreators) {
 			$("#creators").loadTemplate("#created", assignedCreators, {error: function(e) { console.log(e); }});
 	    }
-		    
-		var descData=$('#htmlTemplate').text();
-		function <portlet:namespace/>setDescriptionData(data){
-			descData = data;
-		}
-		
+		    		
 		function remb(c){
 			//TODO remove sub ids
 			$("#"+c).remove();
@@ -589,6 +584,34 @@
 		});
 	}
 
+	function updateAll(){
+		AUI().use('aui-io-request', function(A){
+			var license = A.one("input[name=<portlet:namespace/>license]:checked").get("value");
+			var jsonCreatorsArray = JSON.stringify(getJsonCreatorsArray());
+			var jsonSubInstitutionsArray = JSON.stringify(getJsonSubInstitutionsArray());
+			
+			A.io.request('${updateAllURL}', {
+	            method: 'post',
+	            dataType: 'json',
+	            data: {
+	            	"<portlet:namespace/>videoId": videoId,
+	            	"<portlet:namespace/>description": data,
+	            	"<portlet:namespace/>license": license,
+	            	"<portlet:namespace/>creator": jsonCreatorsArray, 
+	            	"<portlet:namespace/>subInstitution": jsonSubInstitutionsArray,
+		 		},
+		 		async:true,
+	            on: {
+	                 success: function() {
+	                	 //json object
+	                	 var data =  this.get('responseData');
+	                	 return data;
+	                 }
+	            }
+	         });
+		});		
+	}
+	
 	function applyAllMetadataChanges(){
 		AUI().use(
 				'aui-node',
@@ -597,24 +620,27 @@
 					if($("#<portlet:namespace/>title").val() && $("#creators > div").length>0){
 						// Select the node(s) using a css selector string
 					    var license = A.one("input[name=<portlet:namespace/>license]:checked").get("value");
-					    //alert(license2.get('value'));
 					    updateDescription(descData);
-					    updateLicense(license);
-					    updateCreators();
-					    updateSubInstitutions();
-					    updateMetadata();//last place, important!
+					    //updateLicense(license);
+					    //updateCreators();
+					    //updateSubInstitutions();
+					    //updateMetadata();//last place, important!
 					 	//reset creator class
-					    $("#creators-custom").css({"background-color": "white", "color": "#555555"});
-					    $("#creators-custom .control-label").css({"color": "#488f06"});
-					    $("#metadata-upload #creators").css({"color": "#488f06"});
-						updateThumbnail();
+					    //$("#creators-custom").css({"background-color": "white", "color": "#555555"});
+					    //$("#creators-custom .control-label").css({"color": "#488f06"});
+					    //$("#metadata-upload #creators").css({"color": "#488f06"});
+						//updateThumbnail();
 					    alert("<liferay-ui:message key='changes-applied'/>");					
 					}
 				}
 		);
 	}
 
-
+	var descData=$('#htmlTemplate').text();
+	function <portlet:namespace/>setDescriptionData(data){
+		descData = data;
+	}
+	
 	function validate(){
 		AUI().use(
 				'aui-node',
@@ -640,21 +666,19 @@
 
 	function updateDescription(data){
 		AUI().use('aui-io-request', function(A){
-			var selectorD = "#"+nameSpace+"description";
-			var selectorV = "#"+nameSpace+"videoId";
 			A.io.request('${updateDescriptionURL}', {
 	            method: 'post',
 	            dataType: 'json',
 	            data: {
 	            	"<portlet:namespace/>videoId": videoId,
-	            	selectorD: data,
-	            	selectorV: A.one(selectorV).get('value'),
+	            	"<portlet:namespace/>description": data
 		 		},
 		 		async:true,
 	            on: {
 	                 success: function() {
 	                	 //json object
 	                	 var data =  this.get('responseData');
+	                	 return data;
 	                 }
 	            }
 	         });
@@ -1036,6 +1060,19 @@
 				}
 			});
 		});
+	}
+
+	function getJsonSubInstitutionsArray(){
+		var namespace="<portlet:namespace/>";
+		var jsonArray = [];
+		$('.subInstitutions').children().each(function(n){
+			var parameters = {};
+			var $div = $(this);
+			var id = $div.attr('id');
+			parameters['institutionId'] = id;
+			jsonArray[n]=parameters;
+		});
+		return jsonArray;
 	}
 
 	function updateSubInstitutions(){

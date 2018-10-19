@@ -62,8 +62,8 @@ function getJSONCreator (data){
 }
 
 
-function updateCreators(){
-	var jsonArray = [];
+function getJsonCreatorsArray(){
+	var jsonCreatorsArray = [];
 	$('#creators').children().each(function(n){
 		var parameters = {};
 		var $div = $(this);
@@ -87,8 +87,8 @@ function updateCreators(){
 		}
 		console.log(parameters);
 		if(parameters['firstName'].length>0 && parameters['lastName'].length>0){
-			jsonArray[n]=parameters;
+			jsonCreatorsArray[n]=parameters;
 		}
 	});
-	updateCreatorOnServer(jsonArray);
+	return jsonCreatorsArray;
 }

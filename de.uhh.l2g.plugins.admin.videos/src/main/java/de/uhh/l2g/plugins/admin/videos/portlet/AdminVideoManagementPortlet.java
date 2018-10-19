@@ -965,14 +965,16 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		if(resourceID.equals("updateDescription")){
 			String description = ParamUtil.getString(resourceRequest, "description");
 			metadata.setDescription(description);
+			JSONObject json = JSONFactoryUtil.createJSONObject();
+			//
 			try {
 				MetadataLocalServiceUtil.updateMetadata(metadata);
 				_log.info("DESCRIPTION_UPDATE_SUCCESS");
+				json.put("access", 1);
 			} catch (SystemException e) {
-//				//e.printStackTrace();
 				_log.info("DESCRIPTION_UPDATE_FAILED");
+				json.put("access", 0);
 			}
-			JSONObject json = JSONFactoryUtil.createJSONObject();
 			//
 			PrintWriter writer = resourceResponse.getWriter();
 	        writer.print(json.toString());
