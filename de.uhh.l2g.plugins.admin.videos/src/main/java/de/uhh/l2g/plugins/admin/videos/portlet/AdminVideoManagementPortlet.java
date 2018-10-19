@@ -101,7 +101,7 @@ import de.uhh.l2g.plugins.util.Security;
 		"com.liferay.portlet.header-portlet-javascript=/js/upload/jquery.iframe-transport.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.loadTemplate.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.datetimepicker.js",
-		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1/jwplayer.js",
+		"com.liferay.portlet.header-portlet-javascript=https://cdn.jwplayer.com/libraries/aVr2lJgW.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
 		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.creators.js",		
 		"javax.portlet.display-name=Admin Videos",

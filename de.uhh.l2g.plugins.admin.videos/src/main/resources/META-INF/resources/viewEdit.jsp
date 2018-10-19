@@ -321,7 +321,7 @@
 	var allCreatorsInJQueryAutocompleteFormat = ${allCreatorsJSON.toString()};
 	var getJSONCreatorURL = "${getJSONCreatorURL}";	
 	var getJSONVideoURL = "${getJSONVideoURL}";	
-	
+	 
 	$(function () {
 	  
 		if(isFirstUpload()==1 && getDateTime().length==0){
