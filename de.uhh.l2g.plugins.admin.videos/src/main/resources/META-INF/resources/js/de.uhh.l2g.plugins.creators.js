@@ -33,7 +33,6 @@ function autocompleteCreator($creatorInputObject) {
 		select: function (event, ui) {
 			if(ui.item.id>0){
   		        var vars = getJSONCreator(ui.item.id);
-  		        //$("#creators").loadTemplate("#created", vars, {error: function(e) { console.log(e); }});
   		        $("#creators").loadTemplate("#created", vars, { append: true, elemPerPage: 20 });
   			}
 		}
@@ -64,28 +63,34 @@ function getJSONCreator (data){
 
 function getJsonCreatorsArray(){
 	var jsonCreatorsArray = [];
+	var n = 0;
 	$('#creators').children().each(function(n){
 		var parameters = {};
 		var $div = $(this);
-		var id = $div.attr('id');
-		if(id.indexOf("nc")==-1){
-			parameters['creatorId'] = $div.find('input[name = '+nameSpace+'creatorId]').val();
-			parameters['firstName'] = $div.find('input[name = '+nameSpace+'firstName]').val();
-			parameters['lastName'] = $div.find('input[name = '+nameSpace+'lastName]').val();
-			parameters['middleName'] = $div.find('input[name = '+nameSpace+'middleName]').val();
-			parameters['jobTitle'] = $div.find('input[name = '+nameSpace+'jobTitle]').val();
-			parameters['gender'] = "";
-			parameters['fullName'] = (parameters['jobTitle'].trim()+" "+(parameters['firstName'].trim()+" "+parameters['middleName'].trim()).trim()+" "+parameters['lastName'].trim()).trim();		
-		}else{
-			parameters['creatorId'] = "0";
-			parameters['firstName'] = $div.find('input[name = '+nameSpace+'firstName]').val().trim();
-			parameters['lastName'] = $div.find('input[name = '+nameSpace+'lastName]').val().trim();
-			parameters['middleName'] = $div.find('input[name = '+nameSpace+'middleName]').val().trim();
-			parameters['jobTitle'] = $div.find('input[name = '+nameSpace+'jobTitle]').val().trim();
-			parameters['gender'] = "";
-			parameters['fullName'] = (parameters['jobTitle'].trim()+" "+(parameters['firstName'].trim()+" "+parameters['middleName'].trim()).trim()+" "+parameters['lastName'].trim()).trim();		
-		}
-		console.log(parameters);
+		//get inputs for this div
+		
+		var cId ="#"+nameSpace+"creatorId";
+		//
+		$div.children(cId).each(function(index){
+			$creator = $(this);
+			$creatorId = $(this).attr("value");
+			
+			if ($creatorId > 0){ 
+				//creator exists
+				parameters = getJSONCreator($creatorId);
+			}else{ 
+				//create new creator
+				parameters['creatorId'] = "0";
+				parameters['firstName'] = $div.find('input[name = '+nameSpace+'firstName]').val().trim();
+				parameters['lastName'] = $div.find('input[name = '+nameSpace+'lastName]').val().trim();
+				parameters['middleName'] = $div.find('input[name = '+nameSpace+'middleName]').val().trim();
+				parameters['jobTitle'] = $div.find('input[name = '+nameSpace+'jobTitle]').val().trim();
+				parameters['gender'] = "";
+				parameters['fullName'] = (parameters['jobTitle'].trim()+" "+(parameters['firstName'].trim()+" "+parameters['middleName'].trim()).trim()+" "+parameters['lastName'].trim()).trim();						
+			}
+		});
+		//
+			
 		if(parameters['firstName'].length>0 && parameters['lastName'].length>0){
 			jsonCreatorsArray[n]=parameters;
 		}

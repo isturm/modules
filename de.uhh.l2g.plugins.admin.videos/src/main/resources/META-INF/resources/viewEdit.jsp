@@ -43,6 +43,9 @@
 <liferay-portlet:resourceURL id="getJSONVideo" var="getJSONVideoURL" />
 <liferay-portlet:resourceURL id="updateHtaccess" var="updateHtaccessURL" />
 <liferay-portlet:resourceURL id="defaultContainer" var="defaultContainerURL" />
+<liferay-portlet:resourceURL id="updateAll" var="updateAllURL" />
+<liferay-portlet:resourceURL id="firstStepUpload" var="firstStepUploadURL" />
+<liferay-portlet:resourceURL id="secondStepUpload" var="secondStepUploadURL" />
 
 <c:set var="uploadProgressId" value="<%=PwdGenerator.getPassword(PwdGenerator.KEY3, 4)%>"/>
 <c:if test="${reqVideo.openAccess==1}">
@@ -288,7 +291,7 @@
 											</script>
 									</aui:col>
 									<aui:col>
-										<aui:button type="submit" value="apply-changes" onclick="applyAllMetadataChanges()" cssClass="btn-primary"/>	
+										<aui:button type="submit" value="apply-changes" onclick="updateAll()" cssClass="btn-primary"/>	
 										<aui:button type="cancel" value="cancel" href="${backURL}" id="cancel"/>
 										<aui:input name="videoId" type="hidden" value="${reqVideo.videoId}"/>
 										<aui:input name="fileName" type="hidden" value="${reqVideo.filename}"/>
@@ -321,11 +324,13 @@
 	var allCreatorsInJQueryAutocompleteFormat = ${allCreatorsJSON.toString()};
 	var getJSONCreatorURL = "${getJSONCreatorURL}";	
 	var getJSONVideoURL = "${getJSONVideoURL}";	
-	 
 	$(function () {
-	  
-		if(isFirstUpload()==1 && getDateTime().length==0){
-		 	$("#date-time-form").fadeIn(1000);
+	  	//
+		var videoTitle = "${reqVideo.filename}";
+		var videoGenerationDate = "${reqVideo.generationDate}";
+		//
+		if(videoTitle && videoGenerationDate.length==0){
+		 	$("#date-time-form").show();
 		    $("#upload-form").hide();
 		    $("#l2gdate").hide();
 		  if(vidtitle.trim()>""){
@@ -337,7 +342,7 @@
 		    $("#<portlet:namespace/>meta-ebene").hide();
 		}else{
 		  $("#date-time-form").hide();
-		  $("#upload-form").fadeIn(1000); 	
+		  $("#upload-form").show(); 	
 		  setLecture2GoDateTime("#<portlet:namespace/>lecture2go-date");
 		  $("#<portlet:namespace/>meta-ebene").show();
 		}
@@ -372,6 +377,27 @@
 		}	
 	});
 
+	function getDateTime(){
+		var ret = "";
+		AUI().use('aui-io-request', function(A){
+			A.io.request('${getGenerationDateURL}', {
+	            method: 'post',
+	            async: false,
+	            dataType: 'json',
+		  		data: {
+				   	"<portlet:namespace/>videoId": videoId
+				},
+	            on: {
+	                 success: function() {
+	                	 //json object
+	                	 var data =  this.get('responseData');
+	                	 ret = data.generationDate;
+	                 }
+	            }
+	         });
+		});
+		return ret;
+	}
 	
 	function toggleLectureseries(){
 		var selector = "#"+nameSpace+"lectureseriesId option:selected";
@@ -397,7 +423,7 @@
 	                 success: function() {
 	                	 //json object
 	                	 var data =  this.get('responseData');
-	                	 ret = data.containerFormat;
+	                	 ret = data.numberOfProductions;
 	                 }
 	            }
 	         });
@@ -441,17 +467,15 @@
 		            }
 		     });
 		});
-		console.log(ret);
 		return ret;
 	}
 	
 	function isFirstUpload(){
-		var ret = 0;
-		AUI().use('aui-io-request', function(A){
+		return AUI().use('aui-io-request', function(A){
 			A.io.request(isFirstUploadURL, {
 	            method: 'post',
+	            async: false,
 	            dataType: 'json',
-	            sync: true,
 		  		data: {
 		  			"<portlet:namespace/>videoId": videoId
 		  		},
@@ -459,12 +483,11 @@
 	                 success: function() {
 	                	 //json object
 	                	 var data =  this.get('responseData');
-	                	 ret = data.firstUpload;
+	                	 return data.firstUpload;
 	                 }
 	            }
 	         });
 		});
-		return ret;
 	}
 
 	function videoFileNameExistsInDatabase(fileName){
@@ -587,29 +610,54 @@
 	function updateAll(){
 		AUI().use('aui-io-request', function(A){
 			var license = A.one("input[name=<portlet:namespace/>license]:checked").get("value");
-			var jsonCreatorsArray = JSON.stringify(getJsonCreatorsArray());
+			var creatorsJsonArray = JSON.stringify(getJsonCreatorsArray());
 			var jsonSubInstitutionsArray = JSON.stringify(getJsonSubInstitutionsArray());
-			
+        	var termId=0;
+    		var categoryId=0;
+    		if (!$("#options").is(':hidden')) {
+    			   termId = A.one('#<portlet:namespace/>termId').get('value');
+    			   categoryId = A.one('#<portlet:namespace/>categoryId').get('value');
+    		}
+    		//action
 			A.io.request('${updateAllURL}', {
 	            method: 'post',
 	            dataType: 'json',
 	            data: {
 	            	"<portlet:namespace/>videoId": videoId,
-	            	"<portlet:namespace/>description": data,
+	            	"<portlet:namespace/>description": descData,
 	            	"<portlet:namespace/>license": license,
-	            	"<portlet:namespace/>creator": jsonCreatorsArray, 
-	            	"<portlet:namespace/>subInstitution": jsonSubInstitutionsArray,
+	            	"<portlet:namespace/>creatorsJsonArray": creatorsJsonArray, 
+	            	"<portlet:namespace/>subInstitutions": jsonSubInstitutionsArray,
+	            	//metadata start
+			 	   	"<portlet:namespace/>lectureseriesId": A.one('#<portlet:namespace/>lectureseriesId').get('value'),
+			 	   	"<portlet:namespace/>language": A.one('#<portlet:namespace/>language').get('value'),
+			 	   	"<portlet:namespace/>title": A.one('#<portlet:namespace/>title').get('value'),
+			 	   	"<portlet:namespace/>tags": A.one('#<portlet:namespace/>tags').get('value'),
+			 	   	"<portlet:namespace/>publisher": A.one('#<portlet:namespace/>publisher').get('value'),
+			 	   	"<portlet:namespace/>citationAllowedCheckbox": A.one('#<portlet:namespace/>citationAllowedCheckbox').get('checked'),
+			 	   	"<portlet:namespace/>categoryId": categoryId,
+			 	   	"<portlet:namespace/>termId": termId,
+			 	   	"<portlet:namespace/>password": A.one('#<portlet:namespace/>password').get('value')
+			 	   	//metadata end
 		 		},
 		 		async:true,
 	            on: {
 	                 success: function() {
+	                	 //update the thumb nail
+	                	 updateThumbnail();
+	                	 
 	                	 //json object
 	                	 var data =  this.get('responseData');
-	                	 return data;
+	                	 if(data.errorsCount==0){
+	                		 alert("<liferay-ui:message key='changes-applied'/>");	                		 
+	                	 }else{
+	                		 alert("<liferay-ui:message key='changes-applied-with-warnings'/>");
+	                	 }
 	                 }
 	            }
 	         });
-		});		
+		});	
+		
 	}
 	
 	function applyAllMetadataChanges(){
@@ -809,18 +857,13 @@
 		//load files
 		var vars = <%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toString()%>;
 	    
-		//remove the current files
-		//$( "#uploaded-files" ).remove( "div" );
+		//
 		if(vars) {
 			$("#uploaded-files").loadTemplate("#remove-video-file", vars, {error: function(e) { console.log(e); }});
 	    }
-	    
 	}
 	
-	
 	function lecture2goFileUpload(){
-		
-		
 		//file upload 
 	    $('#fileupload').fileupload({
 	            dataType: 'json',
@@ -828,7 +871,6 @@
 	                var uploadErrors = [];
 	    			var acceptFileTypes = /(mp4|mp3|pdf)$/i;//file types
 	    			//
-    				console.log(data);
 	    			for(i=0;i<data.originalFiles.length; i++){
 	    				var file = data.originalFiles[i]['name'];
 	    				var extension = file.substr( (file.lastIndexOf('.') +1) );
@@ -1112,10 +1154,10 @@
 	            dataType: 'json',
 	  		  	data: {
 			 	   		"<portlet:namespace/>videoId": videoId,
-			 	   		"<portlet:namespace/>inputTime": Math.floor(player.getPosition())
+			 	   		"<portlet:namespace/>inputTime": Math.floor(jwplayer().getPosition())
 			  	},
 				global: false,
-				async:false,
+				async:true,
 	            on: {
 		      		  success: function() {
 		      			var data =  this.get('responseData');
@@ -1126,8 +1168,7 @@
 	}
 
 	function remb(c){
-		console.log(c);
-		$("#"+c).remove();
+		$("#"+nameSpace+c).remove();
 	}
 
 	//load subinstitution 
@@ -1160,21 +1201,26 @@
 
 <!-- Template -->
 <script type="text/html" id="newCreator">
-	<div id="0">
-		<aui:input type="hidden" name="gender"/>
+	<div class="<portlet:namespace/>creatorId">
+		<input type="hidden" id="<portlet:namespace/>creatorId" value="0"/>
 		<aui:input name="jobTitle" type="text" helpMessage="job-title-help-text"/>
 		<aui:input name="firstName" type="text"/>
 		<aui:input name="middleName" type="text"/>
 		<aui:input name="lastName" type="text"/>
-		<aui:input name="creatorId" value="0" type="hidden"/>
-		<a class="icon-large icon-remove" onclick="remb($(this).closest('div').attr('id'))"></a>
+		<a class="icon-large icon-remove" onclick="remb($(this).closest('.<portlet:namespace/>creatorId').remove())"></a>
 	</div>
 </script>
 
 <!-- Template -->
 <script type="text/html" id="created">
-   	<div data-id="creatorId">
-    	<div data-content="fullName"/> <a class="icon-large icon-remove" onclick="remb($(this).closest('div').attr('id'))"></a>
+   	<div class="<portlet:namespace/>creatorId" data-value="creatorId">
+		<input type="hidden" id="<portlet:namespace/>creatorId" data-value="creatorId"/>
+		<input type="hidden" id="<portlet:namespace/>jobTitle" data-value="jobTitle"/>
+		<input type="hidden" id="<portlet:namespace/>firstName" data-value="firstName"/>
+		<input type="hidden" id="<portlet:namespace/>middleName" data-value="middleName"/>
+		<input type="hidden" id="<portlet:namespace/>lastName" data-value="lastName"/>
+		<input type="hidden" id="<portlet:namespace/>fullName" data-value="fullName"/>
+    	<div data-content="fullName"/> <a class="icon-large icon-remove" onclick="remb($(this).closest('.<portlet:namespace/>creatorId').remove())"></a>
 	</div>
 </script>
 
