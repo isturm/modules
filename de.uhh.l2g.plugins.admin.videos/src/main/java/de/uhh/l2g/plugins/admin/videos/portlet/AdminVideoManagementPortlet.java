@@ -133,6 +133,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		
 		//Remote user
 		Long userId = new Long(renderRequest.getRemoteUser());
 		User user = UserLocalServiceUtil.createUser(0);
@@ -362,7 +363,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		//first metadata
 		Metadata reqMetadata = MetadataLocalServiceUtil.createMetadata(0);
 		reqMetadata = MetadataLocalServiceUtil.addMetadata(reqMetadata);
-		request.setAttribute("reqMetadata", reqMetadata);
 
 		//lecture series
 		Long lectureseriesId = new Long(request.getParameter("lectureseriesId"));
@@ -375,19 +375,14 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			tagCloudArrayString.add(reqLectureseries.getName());
 			tagCloudArrayString.add(reqLectureseries.getNumber());
 		}catch(Exception e){}
-		request.setAttribute("reqLectureseries", reqLectureseries);
 		
 		//producer
 		Long producerId = new Long(request.getParameter("producerId"));
 		Producer reqProducer = ProducerLocalServiceUtil.createProducer(0);
 		reqProducer = (Producer)ProducerLocalServiceUtil.getProdUcer(producerId);
-		request.setAttribute("reqProducer", reqProducer);
 		
 		//video
 		Video newVideo =  VideoLocalServiceUtil.createVideo(0);
-		//long newVideoId = counterLocalServiceUtil.increment(Video.class.getName());
-		//Video newVideo = videoPersistence.create(newVideoId);
-		//newVideo = VideoLocalServiceUtil.createVideo(videoId);
 		newVideo.setProducerId(producerId);
 		if(lectureseriesId>0)newVideo.setLectureseriesId(lectureseriesId);
 		else {
@@ -402,15 +397,11 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		newVideo.setCitation2go(1);
 		//save it
 		Video video = VideoLocalServiceUtil.addVideo(newVideo);
-		request.setAttribute("reqVideo", newVideo);
-		request.setAttribute("video", newVideo);
 		tagCloudArrayString.add(video.getTitle());
 
 		// update uploads for producer
 		Producer p = ProducerLocalServiceUtil.createProducer(0);
-		p = (Producer
-				
-				)ProducerLocalServiceUtil.getProducer(producerId);
+		p = (Producer)ProducerLocalServiceUtil.getProducer(producerId);
 		int n = 0;
 		n = VideoLocalServiceUtil.getByProducer(p.getProducerId()).size();
 		p.setNumberOfProductions(n);
@@ -423,15 +414,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		vl.setOpenAccess(newVideo.getOpenAccess()); 
 		Video_LectureseriesLocalServiceUtil.addVideo_Lectureseries(vl);
 		
-		// requested lecture series list
-//		List<Lectureseries> reqLectureseriesList = new ArrayList<Lectureseries>();
-//		try{reqLectureseriesList = LectureseriesLocalServiceUtil.getFilteredByApprovedSemesterFacultyProducer(1, (long) 0, (long) 0, producerId);}catch(Exception e){}
-//		request.setAttribute("reqLectureseriesList", reqLectureseriesList);
-
 		//requested sub institutions
 		List<Video_Institution> reqSubInstitutions = new ArrayList<Video_Institution>();
 		reqSubInstitutions = Video_InstitutionLocalServiceUtil.getByVideo(video.getVideoId());
-		request.setAttribute("reqSubInstitutions", reqSubInstitutions);
 
 		//licence
 		License license = LicenseLocalServiceUtil.createLicense(0);
@@ -439,7 +424,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		license.setCcbyncsa(0);
 		license.setL2go(1);
 		LicenseLocalServiceUtil.addLicense(license);
-		request.setAttribute("reqLicense", license);
 
 		//update lg_video_institution table and update previewVideoId in lg_lecturseries table
 		if(lectureseriesId>0){
@@ -455,7 +439,8 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				Video_InstitutionLocalServiceUtil.addVideo_Institution(vi);
 				tagCloudArrayString.add(ins.getName());
 			}
-		}else{//no lecture series 
+		}else{
+			//no lecture series 
 			Institution ins = InstitutionLocalServiceUtil.getInstitution(video.getRootInstitutionId());
 			Video_Institution vi = Video_InstitutionLocalServiceUtil.createVideo_Institution(0);
 			vi.setVideoId(video.getVideoId());
@@ -485,9 +470,10 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		
 		//add tags to tag cloud
 		TagcloudLocalServiceUtil.add(tagCloudArrayString, video.getClass().getName(), video.getVideoId());
+		
 		//
 		String backURL = request.getParameter("backURL");
-		request.setAttribute("backURL", backURL);
+		response.setRenderParameter("videoId", video.getVideoId()+"");
 		response.setRenderParameter("jspPage", "/viewEdit.jsp");
 	}
 	

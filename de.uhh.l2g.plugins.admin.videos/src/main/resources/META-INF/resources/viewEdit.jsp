@@ -101,7 +101,7 @@
 		</aui:container>
 	</div>
 	<div class="viewedit">
-			<aui:form action="" commandName="model" name="metadata">
+			<aui:form action="" commandName="model" name="metadata" id="metadata">
 					<aui:container>
 					        <aui:row>
 					                <aui:col>
@@ -278,7 +278,7 @@
 												<div id="thumbnail-content">
 													<!-- thumbnail start --> 
 														<liferay-ui:message key="video-thumbnail-about"/>
-														<%@include file="/player/includePlayerForThumbnail.jsp"%>
+														<div id="player1"></div>
 													<!-- thumbnail end -->	      	      
 												</div>
 											</div>
@@ -308,6 +308,7 @@
 	var videoId ="${reqVideo.videoId}";
 	var $options = $( "#options" );
 	var getGenerationDateURL = "${getGenerationDateURL}";
+	var getJSONVideoURL = "${getJSONVideoURL}";	
 	var isFirstUploadURL = "${isFirstUploadURL}";
 	var getFileNameURL = "${getFileNameURL}";
 	var getSecureFileNameURL = "${getSecureFileNameURL}";
@@ -323,35 +324,43 @@
 	var getShareURL = "${getShareURL}";
 	var allCreatorsInJQueryAutocompleteFormat = ${allCreatorsJSON.toString()};
 	var getJSONCreatorURL = "${getJSONCreatorURL}";	
-	var getJSONVideoURL = "${getJSONVideoURL}";	
+	//
 	$(function () {
-	  	//
-		var videoTitle = "${reqVideo.filename}";
+		var videoFilename = "${reqVideo.filename}";
 		var videoGenerationDate = "${reqVideo.generationDate}";
 		//
-		if(videoTitle && videoGenerationDate.length==0){
-		 	$("#date-time-form").show();
+		console.log(videoId + "###" + videoFilename +" ### "+videoGenerationDate.length + " ### " + "${backURL}");
+		//
+		if(videoFilename.length==0 && videoGenerationDate.length==0){
+			$("#date-time-form").show();
 		    $("#upload-form").hide();
 		    $("#l2gdate").hide();
-		  if(vidtitle.trim()>""){
-		    	$("#first-title").hide();
-		    	$("#date-time").show();
-		  }else{
-		    	$("#date-time").hide();
-		  }
-		    $("#<portlet:namespace/>meta-ebene").hide();
+		    $("#<portlet:namespace/>metadata").hide();
+			//
+		    if(vidtitle.trim()>""){
+			   	$("#first-title").hide();
+			   	$("#date-time").show();
+			}else{
+				$("#date-time").hide();
+		  	}
 		}else{
-		  $("#date-time-form").hide();
-		  $("#upload-form").show(); 	
-		  setLecture2GoDateTime("#<portlet:namespace/>lecture2go-date");
-		  $("#<portlet:namespace/>meta-ebene").show();
+			$("#date-time-form").hide();
+			$("#upload-form").show(); 	
+			$("#<portlet:namespace/>metadata").show();
+			if(videoFilename.length > 0){
+				//load player
+				initializePlayer();
+				//load uploaded files
+				loadUploadedFiles();
+			}
+			if(videoGenerationDate.length > 0){
+				$("#<portlet:namespace/>lecture2go-date").val(videoGenerationDate);
+			}
 		}
-		    
+		  
 		//load upload function 
 		lecture2goFileUpload();
 		
-		//load uploaded files
-		loadUploadedFiles()
 		
 		//load date time picker
 		$('#<portlet:namespace/>datetimepicker').datetimepicker({
@@ -376,7 +385,40 @@
 			$("#"+c).remove();
 		}	
 	});
-
+	
+	function showPlayer(vidJ){
+		jwplayer('player1').setup({
+            width: "100%",
+            aspectratio: "16:9",
+            playbackRateControls: [0.75, 1, 1.25, 1.5],
+            image: vidJ.thumbnail,
+            sources: vidJ.playerUris,
+            hlshtml: true,
+            androidhls: true
+        });
+	} 
+	
+	function initializePlayer(){
+		AUI().use('aui-io-request', function(A){
+			A.io.request(getJSONVideoURL, {
+		            method: 'post',
+		            dataType: 'json',
+		            sync: true,
+			  		data: {
+			  			"<portlet:namespace/>videoId": videoId
+			  		},
+		            on: {
+		                 success: function() {
+		                	 //json object
+		                	 var data =  this.get('responseData');
+		                	 ret = data;
+		                	 showPlayer(ret)
+		                 }
+		            }
+		     });
+		});
+	}
+	
 	function getDateTime(){
 		var ret = "";
 		AUI().use('aui-io-request', function(A){
@@ -645,7 +687,6 @@
 	                 success: function() {
 	                	 //update the thumb nail
 	                	 updateThumbnail();
-	                	 
 	                	 //json object
 	                	 var data =  this.get('responseData');
 	                	 if(data.errorsCount==0){
@@ -759,7 +800,7 @@
 		     		    	  	 $("#upload-form").hide(); 
 		     		    	  	 $("#date-time").hide();
 		     		    	  	 $("#first-title").show();
-		     		    	  	 $("#<portlet:namespace/>meta-ebene").hide();
+		     		    	  	 $("#<portlet:namespace/>metadata").hide();
 		     		         }
 		     		         //player.remove();
 		     		         //initialize and show player
@@ -818,7 +859,7 @@
 						$("#tm").text(getDateTime());
 						$("#<portlet:namespace/>lecture2go-date").val(genDate);
 						$("#l2gdate").fadeIn(1000);
-						$("#<portlet:namespace/>meta-ebene").show();   
+						$("#<portlet:namespace/>metadata").show();   
 		      		  }
 	            }
 	         });
@@ -836,7 +877,7 @@
 					  "<portlet:namespace/>firsttitle": title
 				},
 				global: false,
-				async:false,
+				async: true,
 	            on: {
 		      		success: function() {
 		      			var data =  this.get('responseData');
