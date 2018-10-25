@@ -34,6 +34,7 @@ package de.uhh.l2g.plugins.util;
  ***************************************************************************/
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigInteger;
 import java.util.Base64;
 
 /**
@@ -119,33 +120,10 @@ public class Security {
 	 * @return the string
 	 */
 	public static String createSecureFileName() {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try {
-			long msec = System.currentTimeMillis();
-			String time = msec + "";
-			ReadWriteDES.encode(time.getBytes(), out, "11091980");
-			
-			String s = Base64.getEncoder().encode(out.toByteArray()).toString();
-			// replace bad characters!
-			s = s.replace('/', 'a');
-			s = s.replace('\\', 'b');
-			s = s.replace('\'', 'n');
-			s = s.replace('+', 'm');
-			s = s.replace('-', 'r');
-			s = s.replace('#', 't');
-			s = s.replace('(', 'k');
-			s = s.replace(')', 'l');
-			s = s.replace('.', 'i');
-			s = s.replace(',', 'n');
-			s = s.replace('_', 'e');
-			s = s.replace('"', 'v');
-			s = s.replace('=', 'x');
-			return s;
-		} catch (Exception e) {
-			
-//			//e.printStackTrace();
-			return null;
-		}
+		BaseX baseX = new BaseX();
+		BigInteger mseC = BigInteger.valueOf(System.currentTimeMillis());
+		String ret = baseX.encode(mseC).toString();
+		return ret;
 	}
 
 	/**

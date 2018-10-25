@@ -48,11 +48,11 @@ public class CreatorLocalServiceWrapper implements CreatorLocalService,
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getJSONCreator(
+	public com.liferay.portal.kernel.json.JSONArray getJSONCreatorArray(
 		java.lang.Long creatorId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return _creatorLocalService.getJSONCreator(creatorId);
+		return _creatorLocalService.getJSONCreatorArray(creatorId);
 	}
 
 	@Override
@@ -65,6 +65,14 @@ public class CreatorLocalServiceWrapper implements CreatorLocalService,
 	public com.liferay.portal.kernel.json.JSONArray getJSONCreatorsByVideoId(
 		java.lang.Long videoId) {
 		return _creatorLocalService.getJSONCreatorsByVideoId(videoId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getJSONCreatorObject(
+		java.lang.Long creatorId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _creatorLocalService.getJSONCreatorObject(creatorId);
 	}
 
 	/**

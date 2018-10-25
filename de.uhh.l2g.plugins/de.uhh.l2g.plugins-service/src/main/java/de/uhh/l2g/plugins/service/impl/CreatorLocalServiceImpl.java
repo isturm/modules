@@ -230,7 +230,7 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 		return json;
 	}
 	
-	public com.liferay.portal.kernel.json.JSONArray getJSONCreator(Long creatorId) throws PortalException, SystemException{
+	public com.liferay.portal.kernel.json.JSONArray getJSONCreatorArray(Long creatorId) throws PortalException, SystemException{
 		Creator cr = getCreator(creatorId);
 		JSONArray json = JSONFactoryUtil.createJSONArray();
 		JSONObject c = JSONFactoryUtil.createJSONObject();
@@ -243,6 +243,19 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 		c.put("fullName", cr.getFullName());
 		json.put(c);
 		return json;
+	}
+	
+	public com.liferay.portal.kernel.json.JSONObject getJSONCreatorObject(Long creatorId) throws PortalException, SystemException{
+		Creator cr = getCreator(creatorId);
+		JSONObject c = JSONFactoryUtil.createJSONObject();
+		c.put("creatorId", cr.getCreatorId());
+		c.put("firstName", cr.getFirstName());
+		c.put("lastName", cr.getLastName());
+		c.put("middleName", cr.getMiddleName());
+		c.put("jobTitle", cr.getJobTitle());
+		c.put("gender", cr.getGender());
+		c.put("fullName", cr.getFullName());
+		return c;
 	}
 	
 	public List<Creator> getByFullName(String fullName) throws SystemException{
