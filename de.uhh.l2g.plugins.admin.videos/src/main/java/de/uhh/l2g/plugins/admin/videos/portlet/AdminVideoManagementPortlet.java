@@ -133,7 +133,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		String backURL = ParamUtil.getString(renderRequest, "backURL");
-		
+
 		//Remote user
 		Long userId = new Long(renderRequest.getRemoteUser());
 		User user = UserLocalServiceUtil.createUser(0);
@@ -162,7 +162,8 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		List<Video> tempVideosList = new ArrayList<Video>();
 		Map<Term, List<Lectureseries>> lectureseriesAsTreeList = new TreeMap<Term, List<Lectureseries>>();
 		Long coordinatorId = new Long(0);
-		Long producerId = new Long(0);
+		coordinatorId = ParamUtil.getLong(renderRequest, "coordinatorId", 0);
+		Long producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
 		Long lectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId", 0);
 		//detail all possible view variables
 		Long videoId = ParamUtil.getLong(renderRequest, "videoId", 0);
@@ -192,8 +193,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		if(mvcPath.contains("viewList") || mvcPath.isEmpty()){
 			if(permissionAdmin){
 				coordinators = CoordinatorLocalServiceUtil.getAllCoordinators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
-				coordinatorId = ParamUtil.getLong(renderRequest, "coordinatorId", 0);
-				producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
 				if(coordinatorId>0){
 					try{
 						Long institutionId = CoordinatorLocalServiceUtil.getCoordinator(coordinatorId).getInstitutionId();
@@ -337,7 +336,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		renderRequest.setAttribute("permissionAdmin", permissionAdmin);				
 		renderRequest.setAttribute("permissionProducer", permissionProducer);				
 		renderRequest.setAttribute("permissionCoordinator", permissionCoordinator);	
-		renderRequest.setAttribute("producerId", producerId);	
 		renderRequest.setAttribute("lectureseriesId", lectureseriesId);	
 		renderRequest.setAttribute("coordinators", coordinators);	
 		renderRequest.setAttribute("coordinatorId", coordinatorId);	
@@ -366,6 +364,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 
 		//lecture series
 		Long lectureseriesId = new Long(request.getParameter("lectureseriesId"));
+		//forward to the render method
+		response.setRenderParameter("lectureseriesId", lectureseriesId+"");
+		//
 		Lectureseries reqLectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
 		try{
 			reqLectureseries = (Lectureseries) LectureseriesLocalServiceUtil.getLectureseries(lectureseriesId); 
@@ -380,7 +381,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Long producerId = new Long(request.getParameter("producerId"));
 		Producer reqProducer = ProducerLocalServiceUtil.createProducer(0);
 		reqProducer = (Producer)ProducerLocalServiceUtil.getProdUcer(producerId);
-		
+		//forward to the render method
+		response.setRenderParameter("producerId", producerId+"");
+		//		
 		//video
 		Video newVideo =  VideoLocalServiceUtil.createVideo(0);
 		newVideo.setProducerId(producerId);
@@ -397,6 +400,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		newVideo.setCitation2go(1);
 		//save it
 		Video video = VideoLocalServiceUtil.addVideo(newVideo);
+		//forward to the render method
+		response.setRenderParameter("videoId", video.getVideoId()+"");
+		//
 		tagCloudArrayString.add(video.getTitle());
 
 		// update uploads for producer
@@ -473,8 +479,8 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		
 		//
 		String backURL = request.getParameter("backURL");
-		response.setRenderParameter("videoId", video.getVideoId()+"");
-		response.setRenderParameter("jspPage", "/viewEdit.jsp");
+		response.setRenderParameter("backURL", backURL);
+		response.setRenderParameter("mvcPath", "/viewEdit.jsp");
 	}
 	
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws PortletException, IOException {
@@ -903,7 +909,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	        writer.print(jo.toString());
 	        writer.flush();
 	        writer.close();
-	        super.serveResource(resourceRequest, resourceResponse);	
 		}
 		
 		if(resourceID.equals("updateMetadata")){
@@ -1152,7 +1157,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	        writer.print(jo.toString());
 	        writer.flush();
 	        writer.close();
-	        super.serveResource(resourceRequest, resourceResponse);	
+	        //super.serveResource(resourceRequest, resourceResponse);	
 	    }
 		
 		if(resourceID.equals("getGenerationDate")){
@@ -1514,7 +1519,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	        writer.print(json.toString());
 	        writer.flush();
 	        writer.close();
-	        super.serveResource(resourceRequest, resourceResponse);				
 		}
 		
 		if(resourceID.equals("updateCreators")){

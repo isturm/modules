@@ -325,11 +325,13 @@
 	var allCreatorsInJQueryAutocompleteFormat = ${allCreatorsJSON.toString()};
 	var getJSONCreatorURL = "${getJSONCreatorURL}";	
 	//
+	
+	//load upload function 
+		lecture2goFileUpload();
+	
 	$(function () {
 		var videoFilename = "${reqVideo.filename}";
 		var videoGenerationDate = "${reqVideo.generationDate}";
-		//
-		console.log(videoId + "###" + videoFilename +" ### "+videoGenerationDate.length + " ### " + "${backURL}");
 		//
 		if(videoFilename.length==0 && videoGenerationDate.length==0){
 			$("#date-time-form").show();
@@ -358,10 +360,6 @@
 			}
 		}
 		  
-		//load upload function 
-		lecture2goFileUpload();
-		
-		
 		//load date time picker
 		$('#<portlet:namespace/>datetimepicker').datetimepicker({
 		   	format:'Y-m-d_H-i',
@@ -939,9 +937,6 @@
 	            },
 	            done: function (e, data) {
 	               var vars = data.jqXHR.responseJSON;
-	               //$.template( "filesTemplate", $("#template") );
-	               //$("#"+vars[0].id).remove();
-	               //$.tmpl( "filesTemplate", vars ).appendTo( ".table" );
 	               
 	               if(isFirstUpload()==1){//update
 	            	   	var f1 = "mp4";
@@ -994,7 +989,9 @@
 	   		       $('#progress').css("width", "0%"); 
 	   		        
 	   		       //load uploaded files
-	   		       loadUploadedFiles()
+	   		       loadUploadedFiles();
+	   		  	   //load uploaded files
+	               console.log(vars);
 	            },
 	            progressall: function (e, data) {
 	    	        var progress = parseInt(data.loaded / data.total * 100, 10);
