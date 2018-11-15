@@ -21,24 +21,17 @@
 <jsp:useBean id="backURL" type="java.lang.String"  scope="request" />
 <jsp:useBean id="assignedCreators" type="com.liferay.portal.json.JSONArrayImpl"  scope="request" />
 
-<liferay-portlet:resourceURL id="updateMetadata" var="updateURL" />
-<liferay-portlet:resourceURL id="updateDescription" var="updateDescriptionURL" />
-<liferay-portlet:resourceURL id="updateLicense" var="updateLicenseURL" />
 <liferay-portlet:resourceURL id="updateVideoFileName" var="updateVideoFileNameURL" />
 <liferay-portlet:resourceURL id="videoFileNameExists" var="videoFileNameExistsURL" />
 <liferay-portlet:resourceURL id="deleteFile" var="deleteFileURL" />
 <liferay-portlet:resourceURL id="isFirstUpload" var="isFirstUploadURL" />
 <liferay-portlet:resourceURL id="updateCreators" var="updateCreatorsURL" />
-<liferay-portlet:resourceURL id="updateSubInstitutions" var="updateSubInstitutionsURL" />
 <liferay-portlet:resourceURL id="getJSONCreator" var="getJSONCreatorURL" />
-<liferay-portlet:resourceURL id="updateupdateOpenAccessForLectureseries" var="updateupdateOpenAccessForLectureseriesURL" />
 <liferay-portlet:resourceURL id="videoUpdateGenerationDate" var="videoUpdateGenerationDateURL" />
 <liferay-portlet:resourceURL id="getGenerationDate" var="getGenerationDateURL" />
 <liferay-portlet:resourceURL id="videoUpdateFirstTitle" var="videoUpdateFirstTitleURL" />
 <liferay-portlet:resourceURL id="getFileName" var="getFileNameURL" />
-<liferay-portlet:resourceURL id="getSecureFileName" var="getSecureFileNameURL" />
 <liferay-portlet:resourceURL id="getShare" var="getShareURL" />
-<liferay-portlet:resourceURL id="updateNumberOfProductions" var="updateNumberOfProductionsURL" />
 <liferay-portlet:resourceURL id="updateThumbnail" var="updateThumbnailURL" />
 <liferay-portlet:resourceURL id="getJSONVideo" var="getJSONVideoURL" />
 <liferay-portlet:resourceURL id="updateHtaccess" var="updateHtaccessURL" />
@@ -46,6 +39,8 @@
 <liferay-portlet:resourceURL id="updateAll" var="updateAllURL" />
 <liferay-portlet:resourceURL id="firstStepUpload" var="firstStepUploadURL" />
 <liferay-portlet:resourceURL id="secondStepUpload" var="secondStepUploadURL" />
+<liferay-portlet:resourceURL id="getJSONVideo" var="getJSONVideoURL" />
+<liferay-portlet:resourceURL id="getJSONUploadedVideos" var="getJSONUploadedVideosURL" />
 
 <c:set var="uploadProgressId" value="<%=PwdGenerator.getPassword(PwdGenerator.KEY3, 4)%>"/>
 <c:if test="${reqVideo.openAccess==1}">
@@ -59,6 +54,8 @@
 <script id="htmlTitle" type="text/x-tmpl">
 	${reqVideo.title}
 </script>
+
+<aui:input name="ajresult" id="ajresult" type="hidden"></aui:input>
 
 <div class="noresponsive">
 	<div id="upload">
@@ -93,6 +90,7 @@
 											<div id="percent" style="float:right;"></div>
 										</div>
 										<div id="uploaded-files"></div>
+										<div id="new-files"></div>
 									</div>
 							</aui:fieldset>
 						</div>
@@ -151,9 +149,9 @@
 														</c:forEach>							
 													</div>	
 																
-													<aui:select id="termId" size="1" name="termId" label="term" required="true">
+													<aui:select size="1" id="termId" name="termId" label="term" required="true">
 														<c:forEach items="${terms}" var="item">
-															<aui:option value='${term.termId}'>${item.prefix} &nbsp; ${item.year}</aui:option>
+															<aui:option value='${item.termId}'>${item.prefix} &nbsp; ${item.year}</aui:option>
 														</c:forEach>						
 													</aui:select>
 									
@@ -308,15 +306,12 @@
 	var videoId ="${reqVideo.videoId}";
 	var $options = $( "#options" );
 	var getGenerationDateURL = "${getGenerationDateURL}";
-	var getJSONVideoURL = "${getJSONVideoURL}";	
-	var isFirstUploadURL = "${isFirstUploadURL}";
+	var getShareURL = "${getShareURL}";
 	var getFileNameURL = "${getFileNameURL}";
-	var getSecureFileNameURL = "${getSecureFileNameURL}";
 	var updateHtaccessURL = "${updateHtaccessURL}";
 	var assignedCreators = ${assignedCreators};
 	var uploadRepository = "${uploadRepository}";
-	var updateVideoFileNameURL = "${updateVideoFileNameURL}";
-	var defaultContainerURL = "${defaultContainerURL}";
+	var videoFileNameExistsURL = "${videoFileNameExistsURL}";
 	var c = 0;
 	var vidtitle = $('#htmlTitle').text();
 	var videoOpenAccess = "${reqVideo.openAccess}";
@@ -324,15 +319,18 @@
 	var getShareURL = "${getShareURL}";
 	var allCreatorsInJQueryAutocompleteFormat = ${allCreatorsJSON.toString()};
 	var getJSONCreatorURL = "${getJSONCreatorURL}";	
-	//
+	var videoUpdateGenerationDateURL = "${videoUpdateGenerationDateURL}";	
+	var videoUpdateFirstTitleURL = "${videoUpdateFirstTitleURL}";	
+	var $nameSpaceFirstTitle = "<portlet:namespace/>firsttitle";	
 	
-	//load upload function 
-		lecture2goFileUpload();
+    //load upload function 
+	lecture2goFileUpload();
 	
 	$(function () {
 		var videoFilename = "${reqVideo.filename}";
 		var videoGenerationDate = "${reqVideo.generationDate}";
 		//
+		
 		if(videoFilename.length==0 && videoGenerationDate.length==0){
 			$("#date-time-form").show();
 		    $("#upload-form").hide();
@@ -384,63 +382,108 @@
 		}	
 	});
 	
-	function showPlayer(vidJ){
-		jwplayer('player1').setup({
-            width: "100%",
-            aspectratio: "16:9",
-            playbackRateControls: [0.75, 1, 1.25, 1.5],
-            image: vidJ.thumbnail,
-            sources: vidJ.playerUris,
-            hlshtml: true,
-            androidhls: true
-        });
-	} 
+	//AJAX
+	var checkFirstUpload = $.ajax({
+		url: "${isFirstUploadURL}",
+		method: "POST",
+		dataType: 'json',
+	});
 	
-	function initializePlayer(){
-		AUI().use('aui-io-request', function(A){
-			A.io.request(getJSONVideoURL, {
-		            method: 'post',
-		            dataType: 'json',
-		            sync: true,
-			  		data: {
-			  			"<portlet:namespace/>videoId": videoId
-			  		},
-		            on: {
-		                 success: function() {
-		                	 //json object
-		                	 var data =  this.get('responseData');
-		                	 ret = data;
-		                	 showPlayer(ret)
-		                 }
-		            }
-		     });
+	var getDBFilename = $.ajax({
+		url: "${getFileNameURL}",
+		method: "POST",
+		dataType: 'json',
+	});
+	
+	var getShare = $.ajax({
+		url: "${getShareURL}",
+		method: "POST",
+		dataType: 'json',
+	});
+	
+	var getDateTime = $.ajax({
+		url: "${getGenerationDateURL}",
+		method: "POST",
+		dataType: 'json',
+	});
+	
+	function applyDateTime(){
+		var genDate = $('#'+nameSpace+'datetimepicker').val();
+		$.ajax({
+			url: "${videoUpdateGenerationDateURL}",
+			method: "POST",
+			dataType: 'json',
+			data: {
+				"<portlet:namespace/>generationDate": genDate
+			},
+			success: function(res) {
+	  			$('#date-time-form').hide();
+				$("#upload-form").fadeIn(500); 	
+				$("#<portlet:namespace/>lecture2go-date").val(genDate);
+				$("#l2gdate").fadeIn(1000);
+				$("#<portlet:namespace/>metadata").show(); 
+				//
+				getDateTime.done(function( res ) {
+	     		    $("#tm").text(res.generationDate);
+				});
+			}
 		});
 	}
 	
-	function getDateTime(){
-		var ret = "";
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${getGenerationDateURL}', {
-	            method: 'post',
-	            async: false,
-	            dataType: 'json',
-		  		data: {
-				   	"<portlet:namespace/>videoId": videoId
-				},
-	            on: {
-	                 success: function() {
-	                	 //json object
-	                	 var data =  this.get('responseData');
-	                	 ret = data.generationDate;
-	                 }
-	            }
-	         });
+	function toggleShare(){
+		getDBFilename.done(function( res ) {
+		    var mediaFilename = res.fileName;
+		    getShare.done(function( res ) {
+			    var data = res;
+				if(mediaFilename.length>0){
+					 $("#embed").show();
+					 $("#<portlet:namespace/>embed_code").val(data.iframeEmbed);//iframe
+					 $("#<portlet:namespace/>embed_code1").val(data.html5Embed);//html5
+					 $("#<portlet:namespace/>embed_code3").val(data.url);//url
+					 $("#<portlet:namespace/>embed_code4").val(data.commsyEmbed);//commsy
+				}else{
+					 $("#embed").hide();
+				}
+			});
 		});
-		return ret;
+	}
+	
+	function loadUploadedFiles(){
+		$.ajax({
+			url: "${getJSONUploadedVideosURL}",
+			method: "POST",
+			dataType: 'json',
+			data:{"<portlet:namespace/>videoId" : videoId},
+			success: function(vars) {
+				$("#uploaded-files").loadTemplate("#remove-video-file", vars, {error: function(e) { console.log(e); }});  
+			}
+		});
+	}
+	
+	function applyFirstTitle(){
+		var title = $("#<portlet:namespace/>firsttitle").val(); 
+		//
+		$.ajax({
+			url: "${videoUpdateFirstTitleURL}",
+			method: "POST",
+			dataType: "json",
+			data: {
+				"<portlet:namespace/>firsttitle" : title 
+			},
+			success: function(res) {
+				if(!res.firsttitle){
+					alert('<liferay-ui:message key="please-enter-a-title"/>');
+				}else{
+					$('#first-title').hide();
+					$("#date-time").show();	
+					$("#<portlet:namespace/>title").val(res.firsttitle);
+				} 
+			}
+		});
 	}
 	
 	function toggleLectureseries(){
-		var selector = "#"+nameSpace+"lectureseriesId option:selected";
+		var selector = "#<portlet:namespace/>lectureseriesId option:selected";
 		var $lId = $( selector ).val();
 		//
 		if($lId==0){
@@ -449,28 +492,7 @@
 			$options.hide();
 		}
 	}
-
-	function updateNumberOfProductions(){
-		var ret="";
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${updateNumberOfProductionsURL}', {
-	            method: 'post',
-	            dataType: 'json',
-		  		data: {
-				   	"<portlet:namespace/>videoId": videoId
-				},
-	            on: {
-	                 success: function() {
-	                	 //json object
-	                	 var data =  this.get('responseData');
-	                	 ret = data.numberOfProductions;
-	                 }
-	            }
-	         });
-		});
-		return ret;
-	}
-
+	
 	function fileUploadAllowed(data){
 		var ret = false;
 	    var acceptFileTypes = /(mp4|audio\/mp3|audio\/mpeg|audio)$/i;//allowed file types
@@ -488,241 +510,87 @@
 		});		
 	}
 	
-	function defaultContainer(){
-		var ret = "";
-		AUI().use('aui-io-request', function(A){
-			A.io.request(defaultContainerURL, {
-		            method: 'post',
-		            dataType: 'json',
-		            sync: true,
-			  		data: {
-			  			"<portlet:namespace/>videoId": videoId
-			  		},
-		            on: {
-		                 success: function() {
-		                	 //json object
-		                	 var data =  this.get('responseData');
-		                	 ret = data.containerFormat;
-		                 }
-		            }
-		     });
-		});
-		return ret;
+	function getDefaultContainer(){
+		$.ajax({
+			url: "${updateVideoFileNameURL}",
+			method: "POST",
+			dataType: "json",
+			data: {
+		 		"<portlet:namespace/>videoId": videoId,
+	  			"<portlet:namespace/>fileName": file.fileName, 
+	  			"<portlet:namespace/>secureFileName": file.secureFileName, 
+	  			"<portlet:namespace/>generationDate": file.generationDate 
+	 		}
+		});		
 	}
 	
-	function isFirstUpload(){
-		return AUI().use('aui-io-request', function(A){
-			A.io.request(isFirstUploadURL, {
-	            method: 'post',
-	            async: false,
-	            dataType: 'json',
-		  		data: {
-		  			"<portlet:namespace/>videoId": videoId
-		  		},
-	            on: {
-	                 success: function() {
-	                	 //json object
-	                	 var data =  this.get('responseData');
-	                	 return data.firstUpload;
-	                 }
-	            }
-	         });
-		});
-	}
-
-	function videoFileNameExistsInDatabase(fileName){
-		var ret = 0;
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${videoFileNameExistsURL}', {
-	            method: 'post',
-	            dataType: 'json',
-		  		data: {
-		  			"<portlet:namespace/>fileName": fileName,
-		  			"<portlet:namespace/>videoId": videoId
-				},
-	            on: {
-	                 success: function() {
-	                	 //json object
-	                	 var data =  this.get('responseData');
-	                	 ret = data.exist;
-	                 }
-	            }
-	         });
-		});
-		return ret;
-	}
-
 	function updateVideoFileName(file){
-		AUI().use('aui-base','aui-io-request', function(A){			
-			A.io.request(updateVideoFileNameURL, {
-	            method: 'post',
-	            dataType: 'json', 
-			 	data: {
-			 		"<portlet:namespace/>videoId": videoId,
-		  			"<portlet:namespace/>fileName": file.fileName, 
-		  			"<portlet:namespace/>secureFileName": file.secureFileName, 
-		  			"<portlet:namespace/>generationDate": file.generationDate 
-		 		},
-	            on: {
-	                 success: function() { 
-	                	 //json object 
-	                	 var data =  this.get('responseData');
-	                	 //toggleShare();
-	                 }
-	            }
-	         }); 
+		$.ajax({
+			url: "${updateVideoFileNameURL}",
+			method: "POST",
+			dataType: "json",
+			data: {
+		 		"<portlet:namespace/>videoId": videoId,
+	  			"<portlet:namespace/>fileName": file.fileName, 
+	  			"<portlet:namespace/>secureFileName": file.secureFileName, 
+	  			"<portlet:namespace/>generationDate": file.generationDate 
+	 		},
+			success: function(res) {
+           	 	toggleShare();
+			}
 		});
 	}	
 
-	function updateupdateOpenAccessForLectureseries(){
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${updateupdateOpenAccessForLectureseriesURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
-			 	   	"<portlet:namespace/>videoId": A.one('#<portlet:namespace/>videoId').get('value'),
-			 	},
-	            on: {
-	                 success: function() {
-	                	 //json object
-	                	 var data =  this.get('responseData');
-	                 }
-	            }
-	         });
-		});
-	}
-
-	function updateMetadata(){
-		var termId=0;
-		var categoryId=0;
-		if (!$("#options").is(':hidden')) {
-			   termId = A.one('#<portlet:namespace/>termId').get('value');
-			   categoryId = A.one('#<portlet:namespace/>categoryId').get('value');
-		}
-		//
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${updateupdateOpenAccessForLectureseriesURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
-			 	    "<portlet:namespace/>videoId": videoId,
-			 	   	"<portlet:namespace/>lectureseriesId": A.one('#<portlet:namespace/>lectureseriesId').get('value'),
-			 	   	"<portlet:namespace/>language": A.one('#<portlet:namespace/>language').get('value'),
-			 	   	"<portlet:namespace/>title": A.one('#<portlet:namespace/>title').get('value'),
-			 	   	"<portlet:namespace/>tags": A.one('#<portlet:namespace/>tags').get('value'),
-			 	   	"<portlet:namespace/>publisher": A.one('#<portlet:namespace/>publisher').get('value'),
-			 	   	"<portlet:namespace/>citationAllowedCheckbox": A.one('#<portlet:namespace/>citationAllowedCheckbox').get('checked'),
-			 	   	"<portlet:namespace/>categoryId": categoryId,
-			 	   	"<portlet:namespace/>termId": termId,
-			 	   	"<portlet:namespace/>password": A.one('#<portlet:namespace/>password').get('value')
-			 	},
-			 	async:true,
-		        on: {
-		             success: function() {
-		               	//json object
-		                var data =  this.get('responseData');
-		             }
-		        }
-	       });
-		});
-	}
-
-	function updateLicense(data){
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${updateLicenseURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
-	            	"<portlet:namespace/>videoId": videoId,
-			 	   	"<portlet:namespace/>license": data
-		 		},
-		 		async:true,
-	            on: {
-	                 success: function() {
-	                	 //json object
-	                	 var data =  this.get('responseData');
-	                 }
-	            }
-	         });
-		});
-	}
-
 	function updateAll(){
-		AUI().use('aui-io-request', function(A){
-			var license = A.one("input[name=<portlet:namespace/>license]:checked").get("value");
-			var creatorsJsonArray = JSON.stringify(getJsonCreatorsArray());
-			var jsonSubInstitutionsArray = JSON.stringify(getJsonSubInstitutionsArray());
-        	var termId=0;
-    		var categoryId=0;
-    		if (!$("#options").is(':hidden')) {
-    			   termId = A.one('#<portlet:namespace/>termId').get('value');
-    			   categoryId = A.one('#<portlet:namespace/>categoryId').get('value');
-    		}
-    		//action
-			A.io.request('${updateAllURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
+		var license = $("input[name=<portlet:namespace/>license]:checked").val();
+		var creatorsJsonArray = JSON.stringify(getJsonCreatorsArray());
+		var jsonSubInstitutionsArray = JSON.stringify(getJsonSubInstitutionsArray());
+    	var termId=0;
+		var categoryId=0;
+		var chebox;
+		//
+		$('#<portlet:namespace/>citationAllowedCheckbox').prop("checked") ? chebox=1 : chebox=0;
+		
+		if (!$("#options").is(':hidden')) {
+			   termId = $('#<portlet:namespace/>termId').val();
+			   categoryId = $('#<portlet:namespace/>categoryId').val();
+		}
+		//action
+		$.ajax({
+			url: "${updateAllURL}",
+			method: "POST",
+			dataType: "json",
+			data: {
 	            	"<portlet:namespace/>videoId": videoId,
 	            	"<portlet:namespace/>description": descData,
 	            	"<portlet:namespace/>license": license,
 	            	"<portlet:namespace/>creatorsJsonArray": creatorsJsonArray, 
 	            	"<portlet:namespace/>subInstitutions": jsonSubInstitutionsArray,
 	            	//metadata start
-			 	   	"<portlet:namespace/>lectureseriesId": A.one('#<portlet:namespace/>lectureseriesId').get('value'),
-			 	   	"<portlet:namespace/>language": A.one('#<portlet:namespace/>language').get('value'),
-			 	   	"<portlet:namespace/>title": A.one('#<portlet:namespace/>title').get('value'),
-			 	   	"<portlet:namespace/>tags": A.one('#<portlet:namespace/>tags').get('value'),
-			 	   	"<portlet:namespace/>publisher": A.one('#<portlet:namespace/>publisher').get('value'),
-			 	   	"<portlet:namespace/>citationAllowedCheckbox": A.one('#<portlet:namespace/>citationAllowedCheckbox').get('checked'),
+			 	   	"<portlet:namespace/>lectureseriesId": $('#<portlet:namespace/>lectureseriesId').val(),
+			 	   	"<portlet:namespace/>language": $('#<portlet:namespace/>language').val(),
+			 	   	"<portlet:namespace/>title": $('#<portlet:namespace/>title').val(),
+			 	   	"<portlet:namespace/>tags": $('#<portlet:namespace/>tags').val(),
+			 	   	"<portlet:namespace/>publisher": $('#<portlet:namespace/>publisher').val(),
+			 	   	"<portlet:namespace/>citationAllowedCheckbox": chebox,
 			 	   	"<portlet:namespace/>categoryId": categoryId,
 			 	   	"<portlet:namespace/>termId": termId,
-			 	   	"<portlet:namespace/>password": A.one('#<portlet:namespace/>password').get('value')
+			 	   	"<portlet:namespace/>password": $('#<portlet:namespace/>password').val()
 			 	   	//metadata end
-		 		},
-		 		async:true,
-	            on: {
-	                 success: function() {
-	                	 //update the thumb nail
-	                	 updateThumbnail();
-	                	 //json object
-	                	 var data =  this.get('responseData');
-	                	 if(data.errorsCount==0){
-	                		 alert("<liferay-ui:message key='changes-applied'/>");	                		 
-	                	 }else{
-	                		 alert("<liferay-ui:message key='changes-applied-with-warnings'/>");
-	                	 }
-	                 }
-	            }
-	         });
-		});	
-		
-	}
+	 		},
+			success: function(res) {
+	           	 //update the thumb nail
+	           	 updateThumbnail();
+	           	 //json object
+	           	 if(res.errorsCount==0){
+	           		 alert("<liferay-ui:message key='changes-applied'/>");	                		 
+	           	 }else{
+	           		 alert("<liferay-ui:message key='changes-applied-with-warnings'/>");
+	           	 }
+			}
+		});
+	} 
 	
-	function applyAllMetadataChanges(){
-		AUI().use(
-				'aui-node',
-				function(A) {
-					validate();//inpul correct?
-					if($("#<portlet:namespace/>title").val() && $("#creators > div").length>0){
-						// Select the node(s) using a css selector string
-					    var license = A.one("input[name=<portlet:namespace/>license]:checked").get("value");
-					    updateDescription(descData);
-					    //updateLicense(license);
-					    //updateCreators();
-					    //updateSubInstitutions();
-					    //updateMetadata();//last place, important!
-					 	//reset creator class
-					    //$("#creators-custom").css({"background-color": "white", "color": "#555555"});
-					    //$("#creators-custom .control-label").css({"color": "#488f06"});
-					    //$("#metadata-upload #creators").css({"color": "#488f06"});
-						//updateThumbnail();
-					    alert("<liferay-ui:message key='changes-applied'/>");					
-					}
-				}
-		);
-	}
-
 	var descData=$('#htmlTemplate').text();
 	function <portlet:namespace/>setDescriptionData(data){
 		descData = data;
@@ -751,157 +619,48 @@
 		);
 	}
 
-	function updateDescription(data){
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${updateDescriptionURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
-	            	"<portlet:namespace/>videoId": videoId,
-	            	"<portlet:namespace/>description": data
-		 		},
-		 		async:true,
-	            on: {
-	                 success: function() {
-	                	 //json object
-	                	 var data =  this.get('responseData');
-	                	 return data;
-	                 }
-	            }
-	         });
-		});
-	}
-
 	function deleteFile(fileName){
 		if(confirm('<liferay-ui:message key="really-delete-question"/>')){
-			AUI().use('aui-io-request', function(A){
-				A.io.request('${deleteFileURL}', {
-		            method: 'post',
-		            dataType: 'json',
-		            data: {
-				 	   	"<portlet:namespace/>videoId": videoId,
-				 	   	"<portlet:namespace/>fileName": fileName
-				    },
-		            on: {
-		                 success: function() {
-		                	 //json object
-		                	 var data =  this.get('responseData');
-		     		         //since we are using jQuery, you don't need to parse response
-		     		         for (var i = 0; i < data.length; i++) {
-		     		             var obj = data[i];
-		     			         var id = "#"+obj.fileId;
-		     			         $(id).remove();
-		     		         }
-		     		         //update view
-		     		         if (isFirstUpload()==1){
-		     		      	   	 $('#date-time-form').fadeIn( 500 );
-		     		    	  	 $("#upload-form").hide(); 
-		     		    	  	 $("#date-time").hide();
-		     		    	  	 $("#first-title").show();
-		     		    	  	 $("#<portlet:namespace/>metadata").hide();
-		     		         }
-		     		         //player.remove();
-		     		         //initialize and show player
-		     			     initializePlayer();
-		     		         //hide date fild
-		     		         $("#l2gdate").hide();
-		     		         //toggle share
-		     		         toggleShare();	                	 
-		                 }
-		            }
-		         });
+			$.ajax({
+				url: "${deleteFileURL}",
+				method: "POST",
+				dataType: "json",
+				data: {
+			 	   	"<portlet:namespace/>videoId": videoId,
+			 	   	"<portlet:namespace/>fileName": fileName
+			    },
+				success: function(res) {
+    		         //since we are using jQuery, you don't need to parse response
+    		         for (var i = 0; i < res.length; i++) {
+    		             var obj = res[i];
+    			         var id = "#"+obj.fileId;
+    			         $(id).remove();
+    		         }
+    		         //
+    		         //update view
+    		         checkFirstUpload.done(function( res ) {
+    		        	 var isFirstUpload=res.firstUpload;
+	     		         if (isFirstUpload==1){
+	     		      	   	 $('#date-time-form').fadeIn( 500 );
+	     		    	  	 $("#upload-form").hide(); 
+	     		    	  	 $("#date-time").hide();
+	     		    	  	 $("#first-title").show();
+	     		    	  	 $("#<portlet:namespace/>metadata").hide();
+	     		         }
+    		         });
+    		         
+    		         //player.remove();
+    		         //initialize and show player
+    			     initializePlayer();
+    		         //hide date fild
+    		         $("#l2gdate").hide();
+    		         //toggle share
+    		         toggleShare();	 
+		        }
 			});
 		}
 	}
 
-	function updateCreatorOnServer(jsonArray){
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${updateCreatorsURL}', {
-	            method: 'post',
-	            dataType: 'json',
-		  		data: {
-				   	"<portlet:namespace/>videoId": videoId,
-				   	"<portlet:namespace/>creator": JSON.stringify(jsonArray)
-				},
-		 		async:true,
-	            on: {
-		      		  success: function() {
-		      			var data =  this.get('responseData');
-		      		    //remove all creators 
-		      		    $( "#creators" ).empty();
-		      		    //and show new creators list
-		      		    showCreatorsList(data);    
-		      		  }
-	            }
-	         });
-		});
-	}
-
-	function applyDateTime(){
-		var genDate = $('#<portlet:namespace/>datetimepicker').val();
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${videoUpdateGenerationDateURL}', {
-	            method: 'post',
-	            dataType: 'json',
-				data: {
-				  	"<portlet:namespace/>videoId": videoId,
-				  	"<portlet:namespace/>generationDate": genDate
-				},
-				global: false,
-				async:false,
-	            on: {
-		      		  success: function() {
-		      			var data =  this.get('responseData');
-		      			$('#date-time-form').hide();
-						$("#upload-form").fadeIn(500); 	
-						$("#tm").text(getDateTime());
-						$("#<portlet:namespace/>lecture2go-date").val(genDate);
-						$("#l2gdate").fadeIn(1000);
-						$("#<portlet:namespace/>metadata").show();   
-		      		  }
-	            }
-	         });
-		});
-	}
-
-	function applyFirstTitle(){
-		var title = $('#<portlet:namespace/>firsttitle').val();
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${videoUpdateFirstTitleURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
-				 	  "<portlet:namespace/>videoId": videoId,
-					  "<portlet:namespace/>firsttitle": title
-				},
-				global: false,
-				async: true,
-	            on: {
-		      		success: function() {
-		      			var data =  this.get('responseData');
-						if(!data.firsttitle){
-							alert('<liferay-ui:message key="please-enter-a-title"/>');
-						}else{
-							$('#first-title').hide();
-							$("#date-time").show();	
-							$("#<portlet:namespace/>title").val(data.firsttitle);
-						}
-					}
-	            }
-	         });
-		});
-	}
-
-	function loadUploadedFiles(){
-		//load files
-		var vars = <%=VideoLocalServiceUtil.getJSONVideo(reqVideo.getVideoId()).toString()%>;
-	    
-		//
-		if(vars) {
-			$("#uploaded-files").loadTemplate("#remove-video-file", vars, {error: function(e) { console.log(e); }});
-	    }
-	}
-	
 	function lecture2goFileUpload(){
 		//file upload 
 	    $('#fileupload').fileupload({
@@ -921,13 +680,28 @@
 	    	            }
 	    			}
 	              	//check for first upload
-	            	if (isFirstUpload()==1) {
-	            		if (!fileUploadAllowed(data.originalFiles)){
-	            			uploadErrors.push('<liferay-ui:message key="first-upload-requirements"/>');   
-	            		} else {
-	            			if(videoFileNameExistsInDatabase(data.originalFiles[0]['name'])==1) uploadErrors.push('<liferay-ui:message key="file-exists-in-database"/>');  
-	            		}
-	            	}
+	              	checkFirstUpload.done(function( dat ) {
+		     		    var isFirstUpload=dat.firstUpload;
+		     	        if (isFirstUpload==1) {
+			    	        if (!fileUploadAllowed(data.originalFiles)){
+			    	        	uploadErrors.push('<liferay-ui:message key="first-upload-requirements"/>');   
+			    	        } else {
+			    	        	//check file name exists in the database
+			    	        	$.ajax({
+			    	        		url: videoFileNameExistsURL,
+			    	        		method: 'post',
+			    	                dataType: 'json',
+			    	          		data: {
+			    	          			"<portlet:namespace/>fileName": data.originalFiles[0]['name']
+			    	        		}, 
+			    	        		success: function(res) {
+			    	        			var fileNameExistsInTheDataBase=res.exist; 
+			    	        			if(fileNameExistsInTheDataBase==1) uploadErrors.push('<liferay-ui:message key="file-exists-in-database"/>');
+			    	        		}
+			    	        	});
+			    	        }
+		    	        }
+		     		});
 	              	//
 	                if (uploadErrors.length > 0) {
 	                    alert(uploadErrors.join("\n"));
@@ -937,39 +711,43 @@
 	            },
 	            done: function (e, data) {
 	               var vars = data.jqXHR.responseJSON;
-	               
-	               if(isFirstUpload()==1){//update
-	            	   	var f1 = "mp4";
-	               		var f2 = "mp3";
-	               		var f3 = vars[0].fileName;
-	               		//mp4 file
-	               		if(f3.indexOf(f1) > -1){
-	    	           		updateVideoFileName(vars[0]);
-	    	           		validate();
-	               		}
-	               		//mp3 file, do not trigger the post processing
-	               		if(f3.indexOf(f2) > -1){
-	    	           		updateVideoFileName(vars[0]);
-	    	           		validate();
-	               		}
-	               }else{ 
-	    				//update only for mp3 and mp4, but without changing the container
-	    				var f1 = vars[0].fileName;
-	    				var f2 = defaultContainer();
-	    				var f3 = "mp4";
-	    				//for mp3 and mp4 files
-	    				if(f1.indexOf(f2) > -1 || f1.indexOf(f3) > -1){
-	    	           		updateVideoFileName(vars[0]);
-	    	           		validate();
-	    				}
-	               }
+	               checkFirstUpload.done(function( data ) {
+		     		   var isFirstUpload=data.firstUpload;
+		               if(isFirstUpload==1){//update
+		            	   	var f1 = "mp4";
+		               		var f2 = "mp3";
+		               		var f3 = vars[0].fileName;
+		               		//mp4 file
+		               		if(f3.indexOf(f1) > -1){
+		    	           		updateVideoFileName(vars[0]);
+		    	           		validate();
+		               		}
+		               		//mp3 file, do not trigger the post processing
+		               		if(f3.indexOf(f2) > -1){
+		    	           		updateVideoFileName(vars[0]);
+		    	           		validate();
+		               		}
+		               }else{ 
+		    				//update only for mp3 and mp4, but without changing the container
+		    				getDefaultContainer.done(function( res ) {
+			    				var f1 = vars[0].fileName;
+			    				var f2 = res.defaultContainer;
+			    				var f3 = "mp4";
+			    				//for mp3 and mp4 files
+			    				if(f1.indexOf(f2) > -1 || f1.indexOf(f3) > -1){
+			    	           		updateVideoFileName(vars[0]);
+			    	           		validate();
+			    				}
+							});
+		               }
+		     	   });
 	               
 	               //htaccess update function for physical file protectiom
 	               updateHtaccess();
 	           	   var st = false;
 	               
 	           	   //
-	           	   jwplayer().remove();
+	           	   //jwplayer().remove();
 	               //initialize and show player
 	               setTimeout(
 	    	           function(){
@@ -990,8 +768,6 @@
 	   		        
 	   		       //load uploaded files
 	   		       loadUploadedFiles();
-	   		  	   //load uploaded files
-	               console.log(vars);
 	            },
 	            progressall: function (e, data) {
 	    	        var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -1027,118 +803,14 @@
 	        });	    
 	}
 
-	function getDBFilename(){
-		return AUI().use('aui-io-request', function(A){
-			A.io.request(getFileNameURL, {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
-				 	  "<portlet:namespace/>videoId": videoId
-				},
-	            on: {
-		      		  success: function() {
-		      			var data =  this.get('responseData');
-		      			var ret=data.fileName;   
-		      			return ret;
-		      		  }
-	            }
-	         });
-		});
-	}
-
 	function updateHtaccess (){
-		var ret = 0;
 		$.ajax({
 			  type: "POST",
 			  url: updateHtaccessURL,
 			  dataType: 'json',
 			  data: {
 				  "<portlet:namespace/>videoId": videoId
-			  },
-			  global: false,
-			  async: false,
-			  success: function(data) {
-			    ret = 1;
 			  }
-		});
-		return ret;
-	}
-
-	function getSecureFilename(){
-		var ret = "";
-		AUI().use('aui-io-request', function(A){
-			A.io.request(getSecureFileNameURL, {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
-				 	  "<portlet:namespace/>videoId": videoId
-				},
-				global: false,
-				async:false,
-	            on: {
-		      		  success: function() {
-		      			var data =  this.get('responseData');
-		      			ret=data.secureFileName;  
-		      		  }
-	            }
-	         });
-		});
-		return ret;
-	}
-
-	function getShare(){
-		var ret = "";
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${getShareURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	            data: {
-				 	  "<portlet:namespace/>videoId": videoId
-				},
-				global: false,
-				async:false,
-	            on: {
-		      		  success: function() {
-		      			var data =  this.get('responseData');
-		      			ret=data;  
-		      		  }
-	            }
-	         });
-		});
-		return ret;
-	}
-
-	function toggleShare(){
-		var mediaFilename = getDBFilename();
-		var data = getShare();
-		if(mediaFilename.length>0){
-			 $("#embed").show();
-			  $("#<portlet:namespace/>embed_code").val(data.iframeEmbed);//iframe
-			  $("#<portlet:namespace/>embed_code1").val(data.html5Embed);//html5
-			  $("#<portlet:namespace/>embed_code3").val(data.url);//url
-			  $("#<portlet:namespace/>embed_code4").val(data.commsyEmbed);//commsy
-		}else{
-			 $("#embed").hide();
-		}
-	}
-
-	function setLecture2GoDateTime(token){
-		return AUI().use('aui-io-request', function(A){
-			A.io.request(getGenerationDateURL, {
-				method: 'post',
-				dataType: 'json',
-				data: {
-					"<portlet:namespace/>videoId": videoId
-				},
-				global: false,
-				async:false,
-				on: {
-					success: function() {
-						var dat = this.get('responseData').generationDate;
-						 $(token).val(dat);
-					}
-				}
-			});
 		});
 	}
 
@@ -1155,53 +827,15 @@
 		return jsonArray;
 	}
 
-	function updateSubInstitutions(){
-		var namespace="<portlet:namespace/>";
-		var jsonArray = [];
-		$('.subInstitutions').children().each(function(n){
-			var parameters = {};
-			var $div = $(this);
-			var id = $div.attr('id');
-			parameters['institutionId'] = id;
-			jsonArray[n]=parameters;
-		});
-		//set parameter to server for update 
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${updateSubInstitutionsURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	  		  	data: {
-			 	   	"<portlet:namespace/>videoId": videoId,
-			 	   	"<portlet:namespace/>subInstitution": JSON.stringify(jsonArray)
-			  	},
-				global: false,
-				async:false,
-	            on: {
-		      		  success: function() {
-		      			var data =  this.get('responseData');
-		      		  }
-	            }
-	         });
-		});
-	}
-
 	function updateThumbnail(){
-		AUI().use('aui-io-request', function(A){
-			A.io.request('${updateThumbnailURL}', {
-	            method: 'post',
-	            dataType: 'json',
-	  		  	data: {
-			 	   		"<portlet:namespace/>videoId": videoId,
-			 	   		"<portlet:namespace/>inputTime": Math.floor(jwplayer().getPosition())
-			  	},
-				global: false,
-				async:true,
-	            on: {
-		      		  success: function() {
-		      			var data =  this.get('responseData');
-		      		  }
-	            }
-	         });
+		$.ajax({
+			url: "${updateThumbnailURL}",
+			method: "POST",
+			dataType: "json",
+			data: {
+	 	   		"<portlet:namespace/>videoId": videoId,
+	 	   		"<portlet:namespace/>inputTime": Math.floor(jwplayer().getPosition())
+	  		}
 		});
 	}
 
@@ -1229,6 +863,38 @@
 			 
 			  }
 	);
+	
+	function loadPlayer(vidJ){
+		jwplayer('player1').setup({
+	        width: "100%",
+	        aspectratio: "16:9",
+	        playbackRateControls: [0.75, 1, 1.25, 1.5],
+	        image: vidJ.thumbnail,
+	        sources: vidJ.playerUris,
+	        hlshtml: true,
+	        androidhls: true
+	    });
+	} 
+
+	function initializePlayer(){
+		AUI().use('aui-io-request', function(A){
+			A.io.request("${getJSONVideoURL}", {
+		            method: 'post',
+		            dataType: 'json',
+		            sync: true,
+			  		data: {
+			  			"<portlet:namespace/>videoId": "${reqVideo.videoId}"
+			  		},
+		            on: {
+		                 success: function() {
+		                	 //json object
+		                	 var data =  this.get('responseData');
+		                	 loadPlayer(data);
+		                 }
+		            }
+		     });
+		});
+	}
 	
 </script>
 
