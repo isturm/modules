@@ -165,6 +165,11 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		coordinatorId = ParamUtil.getLong(renderRequest, "coordinatorId", 0);
 		Long producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
 		Long lectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId", 0);
+		//if coordinator, producer or lecture series clicked, 
+		//add to portlet url
+		if(coordinatorId>0)portletURL.setParameter("coordinatorId", coordinatorId.toString());
+		if(producerId>0)portletURL.setParameter("producerId", producerId.toString());
+		if(lectureseriesId>0)portletURL.setParameter("lectureseriesId", lectureseriesId.toString());
 		//detail all possible view variables
 		Long videoId = ParamUtil.getLong(renderRequest, "videoId", 0);
 		Video reqVideo = VideoLocalServiceUtil.getFullVideo(videoId);
