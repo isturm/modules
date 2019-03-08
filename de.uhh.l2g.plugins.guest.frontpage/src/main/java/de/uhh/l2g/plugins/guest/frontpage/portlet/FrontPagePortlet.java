@@ -1,12 +1,12 @@
 package de.uhh.l2g.plugins.guest.frontpage.portlet;
 
-import de.uhh.l2g.plugins.guest.frontpage.constants.FrontPagePortletKeys;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-
 import javax.portlet.Portlet;
 
 import org.osgi.service.component.annotations.Component;
+
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+
+import de.uhh.l2g.plugins.guest.frontpage.constants.FrontPagePortletKeys;
 
 /**
  * @author isturm
@@ -16,9 +16,9 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"com.liferay.portlet.display-category=lecture2go.plugins",
 		"com.liferay.portlet.instanceable=true",
-		"com.liferay.portlet.header-portlet-javascript=/js/bootstrap.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/mediaCheck-min.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.frontpage.js",
 		"javax.portlet.display-name=Guest Frontpage",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
@@ -30,4 +30,5 @@ import org.osgi.service.component.annotations.Component;
 )
 
 public class FrontPagePortlet extends MVCPortlet {
+
 }

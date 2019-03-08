@@ -42,33 +42,3 @@
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
-
-<%
-	//check lecture2go user permissions
-	User remoteUser = UserLocalServiceUtil.createUser(0);
-	//l2go administrator is logged in
-	boolean permissionAdmin = false;
-	//l2go coordinator is logged in
-	boolean permissionCoordinator = false;
-	//l2go producer is logged in
-	boolean permissionProducer = false;
-
-try{
-	Lecture2GoRoleChecker rcheck = new Lecture2GoRoleChecker();
-	remoteUser = UserLocalServiceUtil.getUser(new Long (request.getRemoteUser()));
-	permissionAdmin = rcheck.isL2gAdmin(remoteUser);
-	permissionCoordinator = rcheck.isCoordinator(remoteUser);
-	permissionProducer = rcheck.isProducer(remoteUser);
-	if(permissionAdmin){
-		permissionCoordinator=false;
-		permissionProducer=false;
-	}else{
-		if(permissionCoordinator){
-			permissionProducer=false;
-		}
-	}
-}catch(Exception e){
-	//
-	int i = 0;
-}
-%>

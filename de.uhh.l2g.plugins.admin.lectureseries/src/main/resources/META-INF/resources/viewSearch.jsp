@@ -1,5 +1,5 @@
 <%@include file="init.jsp" %>
-
+<!-- TODO not implemented jet -->
 <%
 	int lId = ParamUtil.getInteger(request, "lId");
 	String lName = ParamUtil.getString(request, "lName");

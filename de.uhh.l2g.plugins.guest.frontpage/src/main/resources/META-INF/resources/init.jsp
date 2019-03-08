@@ -1,10 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
-
-taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
-taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
-taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+<%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
+<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@page import="com.liferay.portal.kernel.theme.ThemeDisplay" %>
@@ -32,48 +32,27 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@page import="com.liferay.portal.kernel.json.JSONException"%>
 <%@page import="com.liferay.portal.kernel.json.JSONFactoryUtil"%>
 
+<%@page import="de.uhh.l2g.plugins.model.Video" %>
+<%@page import="de.uhh.l2g.plugins.model.Lectureseries" %>
+<%@page import="de.uhh.l2g.plugins.model.Institution" %>
+<%@page import="de.uhh.l2g.plugins.model.Video_Institution" %>
+<%@page import="de.uhh.l2g.plugins.service.VideoLocalServiceUtil" %>
+<%@page import="de.uhh.l2g.plugins.service.LectureseriesLocalServiceUtil" %>
+<%@page import="de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil" %>
+<%@page import="de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil" %>
+<%@page import="de.uhh.l2g.plugins.service.CreatorLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.util.Lecture2GoRoleChecker"%>
-
 
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
 
-<%
-	//check lecture2go user permissions
-	User remoteUser = UserLocalServiceUtil.createUser(0);
-	//l2go administrator is logged in
-	boolean permissionAdmin = false;
-	//l2go coordinator is logged in
-	boolean permissionCoordinator = false;
-	//l2go producer is logged in
-	boolean permissionProducer = false;
-	//l2go student is logged in
-	boolean permissionStudent = false;
+<c:set var="companyId" value="<%=company.getCompanyId()%>"/>
+<c:set var="groupId" value="<%=company.getGroup().getGroupId()%>"/>
+<c:set var="userId" value="<%=realUser.getUserId()%>"/>
 
-try{
-	Lecture2GoRoleChecker rcheck = new Lecture2GoRoleChecker();
-	remoteUser = UserLocalServiceUtil.getUser(new Long (request.getRemoteUser()));
-	permissionAdmin = rcheck.isL2gAdmin(remoteUser);
-	permissionCoordinator = rcheck.isCoordinator(remoteUser);
-	permissionProducer = rcheck.isProducer(remoteUser);
-	permissionStudent = rcheck.isStudent(remoteUser);
-	if(permissionAdmin){
-		permissionCoordinator=false;
-		permissionProducer=false;
-		permissionStudent=false;
-	}else{
-		if(permissionCoordinator){
-			permissionProducer=false;
-			permissionStudent=false;		
-		}else{
-			if(permissionProducer){
-				permissionStudent=false;
-			}
-		}
-	}
-}catch(Exception e){
-	//
-	int i = 0;
-}
+<%
+	Long companyId = company.getCompanyId();
+	Long groupId = company.getGroup().getGroupId();		
+	Long userId = realUser.getUserId();		
 %>

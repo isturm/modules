@@ -223,6 +223,8 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			 *  an array is created with the specific filter values and iterated for every subquery
 			 */
 			QueryPos qPos = QueryPos.getInstance(q);
+			qPos.add(groupId);
+			qPos.add(companyId);
 			boolean hasSearch = (searchQuery.trim().length()>0);
 			int y=1;
 			if (hasSearch)y=2;

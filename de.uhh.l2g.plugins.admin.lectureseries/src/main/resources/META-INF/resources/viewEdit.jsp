@@ -47,7 +47,7 @@
 
 <div class="viewedit">
 	<aui:form action="${actionURL}" commandName="model">
-		<aui:container cssClass='super-awesome-container'>
+		<aui:container>
 		        <aui:row>
 		                <aui:col>
 								<c:choose>

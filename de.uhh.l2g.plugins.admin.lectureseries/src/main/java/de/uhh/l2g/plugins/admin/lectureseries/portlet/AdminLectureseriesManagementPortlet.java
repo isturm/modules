@@ -625,7 +625,7 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 			}
 			JSONArray json = JSONFactoryUtil.createJSONArray();
 			try {
-				json = CreatorLocalServiceUtil.getJSONCreator(cId);
+				json = CreatorLocalServiceUtil.getJSONCreatorArray(cId);
 			} catch (PortalException e) {
 				e.printStackTrace();
 			} catch (SystemException e) {

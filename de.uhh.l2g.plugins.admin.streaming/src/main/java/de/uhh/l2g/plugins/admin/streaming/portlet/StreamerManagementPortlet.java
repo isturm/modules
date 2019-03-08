@@ -30,6 +30,7 @@ import de.uhh.l2g.plugins.model.Host;
 import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.service.HostLocalServiceUtil;
 import de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil;
+import de.uhh.l2g.plugins.util.Lecture2GoRoleChecker;
 import de.uhh.l2g.plugins.util.RepositoryManager;
 
 /**
@@ -58,6 +59,18 @@ public class StreamerManagementPortlet extends MVCPortlet {
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		String backURL = ParamUtil.getString(renderRequest, "backURL");
 		//
+		//Remote user
+		User remoteUser = UserLocalServiceUtil.createUser(0);
+		try { remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser())); } catch (Exception e1) {
+			_log.error("user can't be fatched!");
+		} 
+		//
+		Lecture2GoRoleChecker l2goRole = new Lecture2GoRoleChecker(remoteUser);		
+		//permissions
+		renderRequest.setAttribute("permissionAdmin", l2goRole.isL2gAdmin());				
+		renderRequest.setAttribute("permissionProducer", l2goRole.isProducer());				
+		renderRequest.setAttribute("permissionCoordinator", l2goRole.isCoordinator());	
+		
 		Long hostId = new Long(0);
 		try{
 			Host h = HostLocalServiceUtil.createHost(0);

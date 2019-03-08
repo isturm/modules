@@ -90,7 +90,6 @@ function getJsonCreatorsArray(){
 			}
 		});
 		//
-			
 		if(parameters['firstName'].length>0 && parameters['lastName'].length>0){
 			jsonCreatorsArray[n]=parameters;
 		}

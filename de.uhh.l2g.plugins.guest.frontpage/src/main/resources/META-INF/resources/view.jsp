@@ -1,45 +1,13 @@
-<%@page import="de.uhh.l2g.plugins.model.Video" %>
-<%@page import="de.uhh.l2g.plugins.model.Lectureseries" %>
-<%@page import="de.uhh.l2g.plugins.model.Institution" %>
-<%@page import="de.uhh.l2g.plugins.model.Video_Institution" %>
-<%@page import="de.uhh.l2g.plugins.service.VideoLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.LectureseriesLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil" %>
-<%@page import="de.uhh.l2g.plugins.service.CreatorLocalServiceUtil" %>
-
 <%@ include file="init.jsp" %>
-<%
-Long institutionId = new Long(0);
-Long parentInstitutionId = new Long(0);
-Long termId = new Long(0);
-Long categoryId = new Long(0);
-Long creatorId = new Long(0);
-String searchQuery = "";
 
-//get latest 
-//-lecture series = lectureseriesId>0
-//-videos = lectureseriesId<0
-//example -> top 10
-List<Lectureseries> latest = LectureseriesLocalServiceUtil.getLatest(12);
-ListIterator<Lectureseries> lli = latest.listIterator();
-
-//get popular videos
-//example -> top 10
-List<Video> popular = VideoLocalServiceUtil.getPopular(12);
-ListIterator<Video> pli = popular.listIterator();
-
-//get all root (1st level) institutions with open access videos
-List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutionsByOpenAccessVideos();
-
-
-%>
+<c:set var="latest" value="<%=LectureseriesLocalServiceUtil.getLatest(12, groupId, companyId)%>"/>
+<c:set var="popular" value="<%=VideoLocalServiceUtil.getPopular(12)%>"/>
 
 <div class="front-page-teaser">
  	<div class="bg-video-container">
-		<video id="bg-vid" autoplay loop poster="<%=renderRequest.getContextPath()%>/img/background_still.jpg" preload="none">
+		<video id="bg-vid" autoplay loop poster="/lecture2go-portlet/img/background_still.jpg" preload="none" muted>
 		    <!-- the video source is added dynamically to avoid unnecessary traffic -->
-		    <img src="<%=renderRequest.getContextPath()%>/img/background_still.jpg">
+		    <img src="/lecture2go-portlet/img/background_still.jpg">
 		</video>
 		<div class="dark-overlay"></div>
 		<div id="vid-control">
@@ -49,33 +17,36 @@ List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutions
 	<div class="l2go-info-container">
 		<div class="l2go-info">
 			<div class="l2go-title">
-				Lecture<span class="orange">2</span>Go
+				<c:choose>
+				  <c:when test="${company.name == 'Lecture2Go'}">
+						Lecture<span class="orange">2</span>Go
+				  </c:when>
+				  <c:otherwise>
+				  		<c:out value="${company.name}"/>
+				  </c:otherwise>
+				</c:choose>			
 			</div>
 			<div class="l2go-subtitle">
 				<p><liferay-ui:message key="l2go-description"/></p>
 			</div>
 			<div class="big-search">
+					<form action="/web/vod/l2go/-/get/0/0/0/0/0/"  method="post" name="_lgopenaccessvideos_WAR_lecture2goportlet_fm" id="_lgopenaccessvideos_WAR_lecture2goportlet_fm"> 
+						<input autocomplete="off" aria-owns="yui_patched_v3_11_0_1_1449737860306_123" aria-expanded="false" aria-autocomplete="list" class="field yui3-aclist-input" id="_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery" name="_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery" value="$param1" type="text" placeholder='#language("search-videos")'>
+						<button id="_lgopenaccessvideos_WAR_lecture2goportlet_searchButton" class="btn btn-primary button" type="submit">
+							<i class="icon-search"></i><span></span>
+						</button>
+						<div id="search-container"></div>
+					</form>
 			</div>
 			
 			<button id="outer-catalogue-button" class="catalogue-button" onclick="window.location='/web/vod/l2go';"><liferay-ui:message key="to-catalogue"/></button>
-			
 		</div>
 	</div>
 </div>
 
-
 <div id="front-page-content">
-	<% 
-		// this is a temporary solution to show a web content for important news below the teaser
-		String articleId = "78499";
-		long groupId = themeDisplay.getLayout().getGroupId();
-				
-		// check if the article is approved, if not there will be not 'lead-box'-div
-		boolean articleApproved = true;
-		
-	%>
-	
-<!-- new videos -->
+
+	<!-- latest videos -->
 	<div class="news">
 		<h4><liferay-ui:message key="last-added"/></h4>
 		<div class="video-box-list-container">
@@ -85,73 +56,73 @@ List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutions
 	                <div class="item active">
 						<div class="row-fluid video-box-list">
 							<c:set var="count" value="0" scope="page" />
-							<%
-								while(lli.hasNext()){
-									Lectureseries lectser = lli.next();
-									String oId = "";
-									boolean isVideo = false;
-									Video vid;
-									if(lectser.getLatestOpenAccessVideoId()<0){
-										isVideo = true;
-										vid = VideoLocalServiceUtil.getFullVideo(lectser.getLectureseriesId());
-										oId = vid.getVideoId()+"";
-									}else{
-										oId = lectser.getLectureseriesId()+"";
-										vid = VideoLocalServiceUtil.getFullVideo(lectser.getLatestOpenAccessVideoId());
-									}
-
-									List<Video_Institution> vi = Video_InstitutionLocalServiceUtil.getByVideo(vid.getVideoId());
-						        	// only get the first institution
-						        	Institution inst = InstitutionLocalServiceUtil.createInstitution(0);
-						        	try{
-						        		inst=InstitutionLocalServiceUtil.getById(vi.get(0).getInstitutionId());
-						        	}catch(Exception e){}
-						        	
-									%>
-									
-									<c:if test='${count % 4 == 0 && count != 0}'>
-										<!-- row-fluid -->
-											</div>
-											<!-- item -->
+							<c:forEach items="${latest}" var="item">
+								<c:set var="isVideo" value="false"/>
+								<c:set var="oId" value=""/>
+								<c:set var="vid" value="<%=VideoLocalServiceUtil.createVideo(0)%>"/>
+								<c:choose>
+									<c:when test="${item.latestOpenAccessVideoId<0}">
+										<c:set var="isVideo" value="true"/>
+										<c:set var="itemLectureseriesId" value="${item.lectureseriesId}"/>
+										<c:set var="vid" value="<%=VideoLocalServiceUtil.getFullVideo((Long)pageContext.getAttribute("itemLectureseriesId"))%>"/>
+										<c:set var="oId" value="${vid.videoId}"/>
+									</c:when>
+									<c:otherwise>
+										<c:set var="oId" value="${item.lectureseriesId}"/>
+										<c:set var="itemLatestOpenAccessVideoId" value="${item.latestOpenAccessVideoId}"/>
+										<c:set var="vid" value="<%=VideoLocalServiceUtil.getFullVideo((Long)pageContext.getAttribute("itemLatestOpenAccessVideoId"))%>"/>
+										<c:set var="isVideo" value="true"/>
+									</c:otherwise>
+								</c:choose>
+					<c:if test='${count % 4 == 0 && count != 0}'>
+							<!-- row-fluid -->
+							</div>
+					<!-- item -->
+					</div>
+						<div class="item">
+		                    <div class="row-fluid video-box-list">
+		        	</c:if>
+								<div class="span3 video-box" onClick="window.location='${vid.url}'">											
+									<div class="video-box-image-container">
+										<div class="video-box-image">
+											<img src="${vid.imageMedium}">
 										</div>
-										<div class="item">
-		                    				<div class="row-fluid video-box-list">
-		                    		</c:if>
-										<div class="span3 video-box" onClick="window.location='<%=vid.getUrl() %>'">											
-											<div class="video-box-image-container">
-												<div class="video-box-image">
-													<img src="<%=vid.getImageMedium() %>">
-												</div>
-											</div>
+									</div>
 
-											<div class="video-box-content">
-												<div class="date"><%=vid.getSimpleDate() %></div>
-												<div class="title-small dot-ellipsis dot-height-60 dot-resize-update "><%=vid.getTitle() %></div>
-												<div class="creator-small2 dot-ellipsis dot-height-25 dot-resize-update "><%=vid.getLinkedCreators() %></div>
-												<div class="lectureseries-small dot-ellipsis dot-height-25 dot-resize-update">
-													<% if (!isVideo) { %>
-														<%=lectser.getName() %>
-													<% } else { %>
-														&nbsp;
-													<% } %>
-												</div> 
-												<%if(inst.getInstitutionId()>0){ %>
-												<div class="labels">
-													<%
-														String instLink="<a href='/l2go/-/get/"+inst.getInstitutionId()+"/"+inst.getParentId()+"/0/0/0/'>"+inst.getName()+"</a>"; 
-													%>
-										        	<span class="label label-light2"><%=instLink%></span>												
-												</div>
-												<%}%>
+									<div class="video-box-content">
+											<div class="date">${vid.simpleDate}</div>
+											<div class="title-small dot-ellipsis dot-height-60 dot-resize-update ">${vid.title}</div>
+											<div class="creator-small2 dot-ellipsis dot-height-25 dot-resize-update ">${vid.linkedCreators}</div>
+											<div class="lectureseries-small dot-ellipsis dot-height-25 dot-resize-update">
+												<c:choose>
+													<c:when test="${!isVideo}">
+														<c:out value="${item.name}"/>
+													</c:when>
+													<c:otherwise>
+														<c:out value=" "/>
+													</c:otherwise>
+												</c:choose>
 											</div> 
-										</div>
+											
+											<c:set var="vidVideoId" value="${vid.videoId}"/>
+											<c:set var="vi" value="<%=Video_InstitutionLocalServiceUtil.getByVideo((Long)pageContext.getAttribute("vidVideoId"))%>"/>
+											<!-- only get the first institution -->
+											<c:set var="viInstitutionId" value="${vi[0].institutionId}"/>											
+											
+											<c:if test="${viInstitutionId>0}">
+											<c:set var="inst" value="<%=InstitutionLocalServiceUtil.getById((Long)pageContext.getAttribute("viInstitutionId"))%>"/>
+												<div class="labels">
+											        <span class="label label-light2">
+											        	<a href='/l2go/-/get/${inst.institutionId}/${inst.parentId}/0/0/0/'>${inst.name}</a>
+											        </span>												
+												</div>													
+											</c:if>
+									</div> 
+								</div>
 										
-									<c:set var="count" value="${count + 1}" scope="page"/>
-
-									<!-- span -->
-									<%
-								}
-							%>
+								<c:set var="count" value="${count + 1}" scope="page"/>
+								<!-- span -->
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -160,12 +131,8 @@ List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutions
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-<!-- popular videos -->
+	
+	<!-- popular videos -->
 	<div class="popular">
 		<h4><liferay-ui:message key="popular-videos"/></h4>
 		<div class="video-box-list-container">
@@ -175,29 +142,20 @@ List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutions
 	                <div class="item active">
 						<div class="row-fluid video-box-list">
 							<c:set var="count" value="0" scope="page" />
-							<%
-								while(pli.hasNext()){
-									Video video = pli.next();
-									
-									Video vid = VideoLocalServiceUtil.getFullVideo(video.getVideoId());
-									
-									boolean isVideo = (vid.getLectureseriesId() < 0);
-
-									String creators = CreatorLocalServiceUtil.getCommaSeparatedCreatorsByVideoIdAndMaxCreators(vid.getVideoId(),3);
-
-									String lectureseries = "";
-									
-									if (!isVideo) {
-										Lectureseries lec = LectureseriesLocalServiceUtil.getLectureseries(vid.getLectureseriesId());
-										lectureseries = lec.getName();
-									}
-									
-						        	List<Video_Institution> vi = Video_InstitutionLocalServiceUtil.getByVideo(vid.getVideoId());
-						        	// only get the first institution
-						        	Institution inst = InstitutionLocalServiceUtil.createInstitution(0);
-						        	try{
-						        		inst=InstitutionLocalServiceUtil.getById(vi.get(0).getInstitutionId());
-						        	}catch(Exception e){}							%>
+							<c:forEach items="${popular}" var="item">
+								<c:set var="itemVideoId" value="${item.videoId}"/>
+								<c:set var="vid" value="<%=VideoLocalServiceUtil.getFullVideo((Long)pageContext.getAttribute("itemVideoId"))%>"/>
+								<c:choose>
+									<c:when test="${vid.lectureseriesId<0}">
+										<c:set var="isVideo" value="true"/>
+									</c:when>
+									<c:otherwise>
+										<c:set var="isVideo" value="false"/>
+										<c:set var="vidLectureseriesId" value="${vid.lectureseriesId}"/>
+										<c:set var="lectureseries" value="<%=LectureseriesLocalServiceUtil.getLectureseries((Long)pageContext.getAttribute("vidLectureseriesId"))%>"/>
+									</c:otherwise>
+								</c:choose>
+											
 								<c:if test="${count % 4 == 0 && count != 0}">
 									<!-- row-fluid -->
 										</div>
@@ -206,38 +164,46 @@ List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutions
 									<div class="item">
 	                    				<div class="row-fluid video-box-list">
 	                    		</c:if>
-									<div class="span3 video-box" onClick="window.location='<%=vid.getUrl() %>'">	
+									<div class="span3 video-box" onClick="window.location='${vid.url}'">	
 										<div class="video-box-image-container">
 											<div class="video-box-image"> 
-												<img src="<%=vid.getImageMedium() %>">
+												<img src="${vid.imageMedium}">
 											</div>
 										</div>
 	
 										<div class="video-box-content"> 
-											<div class="date"><%=vid.getSimpleDate() %></div>
-											<div class="title-small dot-ellipsis dot-height-60 dot-resize-update "><%= vid.getTitle() %></div>
-											<div class="creator-small2 dot-ellipsis dot-height-25 dot-resize-update "><%= vid.getLinkedCreators() %></div>
+											<div class="date">${vid.simpleDate}</div>
+											<div class="title-small dot-ellipsis dot-height-60 dot-resize-update ">${vid.title}</div>
+											<div class="creator-small2 dot-ellipsis dot-height-25 dot-resize-update ">${vid.linkedCreators}</div>
 											<div class="lectureseries-small dot-ellipsis dot-height-25 dot-resize-update">
-												<% if (!isVideo) { %>
-													<%=lectureseries %>
-												<% } else { %>
-													&nbsp;
-												<% } %>
+												<c:choose>
+													<c:when test="${isVideo}">
+														<c:out value="${lectureseries}"/>
+													</c:when>
+													<c:otherwise>
+														<c:out value=" "/>
+													</c:otherwise>
+												</c:choose>
 											</div>
-											<%if(inst.getInstitutionId()>0){ %>
-											<div class="labels">
-												<%
-													String instLink="<a href='/l2go/-/get/"+inst.getInstitutionId()+"/"+inst.getParentId()+"/0/0/0/'>"+inst.getName()+"</a>"; 
-												%>
-									        	<span class="label label-light2"><%=instLink%></span>
-									        </div>
-									        <%} %>
+											
+											<c:set var="vidVideoId" value="${vid.videoId}"/>
+											<c:set var="vi" value="<%=Video_InstitutionLocalServiceUtil.getByVideo((Long)pageContext.getAttribute("vidVideoId"))%>"/>
+											<!-- only get the first institution -->
+											<c:set var="viInstitutionId" value="${vi[0].institutionId}"/>											
+											
+											<c:if test="${viInstitutionId>0}">
+											<c:set var="inst" value="<%=InstitutionLocalServiceUtil.getById((Long)pageContext.getAttribute("viInstitutionId"))%>"/>
+												<div class="labels">
+											        <span class="label label-light2">
+											        	<a href='/l2go/-/get/${inst.institutionId}/${inst.parentId}/0/0/0/'>${inst.name}</a>
+											        </span>												
+												</div>													
+											</c:if>
+											
 										</div>
 									</div>
 								<c:set var="count" value="${count + 1}" scope="page"/>
-							<%
-								}
-							%>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -246,115 +212,4 @@ List<Institution> institutions = InstitutionLocalServiceUtil.getRootInstitutions
 			</div>
 		</div>
 	</div>
-
 </div>
-
-<script>
-$(document).ready(function(){
-	// process different things depending on the screen size
-	mediaCheck({
-	  	media: '(min-width: 768px)',
-	  	entry: function() {
-	  		transformSearchToWideView();
-		  	//hide all carousel items but the first and show carousel navigation
-		  	$("#news-carousel .item:not(:first)").removeClass("active");
-		  	$("#popular-carousel .item:not(:first)").removeClass("active");
-		  	$(".carousel-control").show();
-		  	showOrHideCarouselControl('#news-carousel');
-		  	showOrHideCarouselControl('#popular-carousel');
-		  	addBGVideo();
-		 },
-	  exit: function() {
-		  	transformSearchToSmallView();
-		  	// do not show the big button on desktop
-		  	$(".filter-facility-menu").hide();
-		  	//show all carousel items and hide carousel navigation
-		  	$(".item").addClass("active");
-		  	$(".carousel-control").hide();
-		 }
-	});
-
-	// handle the previous and next buttons of the carousel
-    //showOrHideCarouselControl('#news-carousel');
-    //showOrHideCarouselControl('#popular-carousel');
-
-    $('#news-carousel').on('slid.bs.carousel', function() { 
-    	showOrHideCarouselControl('#news-carousel');
-    	// the truncation of the elements needs to be triggered manually on carousel switch
-    	$(".active .title-small, .active .creator-small2, .active .lectureseries-small").trigger("update.dot");
-    	});
-
-    $('#popular-carousel').on('slid.bs.carousel', function() { 
-    	showOrHideCarouselControl('#popular-carousel');
-    	// the truncation of the elements needs to be triggered manually on carousel switch
-    	$(".active .title-small, .active .creator-small2, .active .lectureseries-small").trigger("update.dot");
-    });
-    
-    $('#vid-control').on("click", function(){
-        var video = document.getElementById("bg-vid");
-  		var $controlIcon = $(this).find('i').eq(0);
-  		if (video.paused) {
-  			video.play();
-  			$controlIcon.switchClass("icon-play", "icon-pause");
-  		} else {
-  			video.pause();
-  			$controlIcon.switchClass("icon-pause", "icon-play");
-  		}
-	});
-
-});
-
-		
-/* 
-	hides the "previous"-control-button on first carousel page and 
-	the "next"-control-button on the last carousel page
-*/
-function showOrHideCarouselControl(id) {
-  	var $this = $(id);
-  	if($this.find('.carousel-inner .item:first').hasClass('active')) {
-  		$this.children('.left.carousel-control').hide();
-  	} else if($this.find('.carousel-inner .item:last').hasClass('active')) {
-    	$this.children('.right.carousel-control').hide();
-  	} else {
-    	$this.children('.carousel-control').show();
-  	}
-}
-
-function transformSearchToWideView() {
-  	// move search box from top to center
-  	$(".search").appendTo(".big-search");
-  	// change image to button
-	$('#_lgopenaccessvideos_WAR_lecture2goportlet_searchButton span').text(" <liferay-ui:message key='search'/>");
-	$('#_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery').attr("placeholder", "<liferay-ui:message key='search-videos-long'/>");
-}
-
-function transformSearchToSmallView() {
-  	// move search box from center to top
-  	$(".search").prependTo("#content");
-	$('#_lgopenaccessvideos_WAR_lecture2goportlet_searchButton span').text("");
-	$('#_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery').attr("placeholder", "<liferay-ui:message key='search-videos'/>");
-}
-
-// add the video source to the video
-function addBGVideo() {
-	$('#bg-vid').prepend('<source src="/o/de.uhh.l2g.plugins.guest.frontpage/img/background.mp4" type="video/mp4">');
-}
-    
-</script>
-
-<style type="text/css">
-	#breadcrumbs .breadcrumb {
-	    visibility: hidden;
-	}
-	
-	#breadcrumbs {
-	    height: 17px !important;
-	    margin-bottom: 3px;
-	    margin-top: 0;
-	    padding: 0;
-	}
-	
-	.current-page{
-		display: none;
-	}
-</style>  

@@ -89,6 +89,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	 * de.uhh.l2g.plugins.service.VideoLocalServiceUtil} to access the video
 	 * local service.
 	 */
+
 	public List<Video> getByOpenAccess(int bool) throws SystemException {
 		return videoPersistence.findByOpenAccess(bool);
 	}
@@ -181,7 +182,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		} catch (SystemException e1) {
 //			e1.printStackTrace();
 		}
-				
+
 		// prepare video short name
 		String video_shortname = objectVideo.getTitle();
 		if (video_shortname.length() > 45)
@@ -204,19 +205,20 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			imageSmall = objectVideo.getSPreffix() + "_s.jpg";
 			imageMedium = objectVideo.getSPreffix() + "_m.jpg";
 		}
-
+		
 		// set thumbnail
 		// if no file
+			
 		if (objectVideo.getContainerFormat().equals("") && objectVideo.getFilename().equals("")) {
-			objectVideo.setImage("/img/nomedia.png");
-			objectVideo.setImageSmall("/img/nomedia.png");
-			objectVideo.setImageMedium("/img/nomedia.png");
+			objectVideo.setImage(PropsUtil.get("lecture2go.theme.root.path") + "/images/nomedia.png");
+			objectVideo.setImageSmall(PropsUtil.get("lecture2go.theme.root.path") + "/images/nomedia.png");
+			objectVideo.setImageMedium(PropsUtil.get("lecture2go.theme.root.path") + "/images/nomedia.png");
 		}		
 		// if audio file
 		if (objectVideo.getContainerFormat().equals("mp3")) {
-			objectVideo.setImage("/img/audio_only_big.png");
-			objectVideo.setImageSmall("/img/audio_only_small.png");
-			objectVideo.setImageMedium("/img/audio_only_medium.png");
+			objectVideo.setImage(PropsUtil.get("lecture2go.theme.root.path") + "/images/audio_only_big.png");
+			objectVideo.setImageSmall(PropsUtil.get("lecture2go.theme.root.path") + "/images/audio_only_small.png");
+			objectVideo.setImageMedium(PropsUtil.get("lecture2go.theme.root.path") + "/images/audio_only_medium.png");
 		}
 		// is video
 		if (objectVideo.getContainerFormat().equals("mp4")) {
@@ -231,7 +233,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 				objectVideo.setImageSmall(PropsUtil.get("lecture2go.web.root") + "/images/" + imageSmall);
 				objectVideo.setImageMedium(PropsUtil.get("lecture2go.web.root") + "/images/" + imageMedium);
 			} else {
-				String img = "/img/noimage.png";
+				String img = PropsUtil.get("lecture2go.theme.root.path") + "/images/noimage.png";
 				objectVideo.setImage(img);
 				objectVideo.setImageSmall(img);
 				objectVideo.setImageMedium(img);

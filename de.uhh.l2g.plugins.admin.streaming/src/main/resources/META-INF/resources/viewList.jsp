@@ -3,6 +3,10 @@
 
 <%@include file="init.jsp"%>
 
+<jsp:useBean id="permissionAdmin" type="java.lang.Boolean" scope="request" />
+<jsp:useBean id="permissionProducer" type="java.lang.Boolean" scope="request" />
+<jsp:useBean id="permissionCoordinator" type="java.lang.Boolean" scope="request" />
+
 <portlet:renderURL var="viewURL"><portlet:param name="jspPage" value="/admin/institutionList.jsp" /></portlet:renderURL>
 <liferay-portlet:renderURL varImpl="outerURL"><portlet:param name="jspPage" value="/admin/institutionList.jsp" /></liferay-portlet:renderURL>
 <liferay-portlet:renderURL varImpl="innerURL"><portlet:param name="jspPage" value="/admin/institutionList.jsp" /></liferay-portlet:renderURL>

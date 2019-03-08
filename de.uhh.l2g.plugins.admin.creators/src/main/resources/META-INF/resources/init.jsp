@@ -6,20 +6,20 @@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@page import="com.liferay.portal.kernel.theme.ThemeDisplay" %>
-<%@page import="com.liferay.portal.kernel.util.PrefsPropsUtil"%>
-<%@page import="com.liferay.portal.kernel.util.PropsKeys"%>
-<%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.kernel.service.UserLocalServiceUtil" %>
 <%@page import="com.liferay.portal.kernel.model.User" %>
 <%@page import="com.liferay.portal.kernel.model.PortletPreferences" %>
 <%@page import="com.liferay.portal.kernel.language.LanguageUtil"%>
+<%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
+<%@page import="com.liferay.portal.kernel.dao.search.SearchContainer"%>
+<%@page import="com.liferay.portal.kernel.util.WebKeys" %>
+<%@page import="com.liferay.portal.kernel.util.PrefsPropsUtil"%>
+<%@page import="com.liferay.portal.kernel.util.PropsKeys"%>
+<%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.kernel.util.PwdGenerator"%>
 <%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="com.liferay.portal.kernel.util.UnicodeFormatter"%>
-<%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
-<%@page import="com.liferay.portal.kernel.dao.search.SearchContainer"%>
 <%@page import="com.liferay.portal.kernel.util.Validator"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 

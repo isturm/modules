@@ -42,7 +42,7 @@ import de.uhh.l2g.plugins.service.VideohitlistLocalServiceUtil;
  */
 @Component(
 		  immediate = true, 
-		  property = {"cron.expression=0 0/5 * * * ?"},
+		  property = {"cron.expression=0 0/30 * * * ?"},
 		  service = VideohitlistScheduler.class
 )
 public final class VideohitlistScheduler extends BaseSchedulerEntryMessageListener {  
