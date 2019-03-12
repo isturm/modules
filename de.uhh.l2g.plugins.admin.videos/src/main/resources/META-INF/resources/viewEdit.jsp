@@ -39,7 +39,6 @@
 <liferay-portlet:resourceURL id="updateAll" var="updateAllURL" />
 <liferay-portlet:resourceURL id="firstStepUpload" var="firstStepUploadURL" />
 <liferay-portlet:resourceURL id="secondStepUpload" var="secondStepUploadURL" />
-<liferay-portlet:resourceURL id="getJSONVideo" var="getJSONVideoURL" />
 <liferay-portlet:resourceURL id="getJSONUploadedVideos" var="getJSONUploadedVideosURL" />
 
 <c:set var="uploadProgressId" value="<%=PwdGenerator.getPassword(PwdGenerator.KEY3, 4)%>"/>
