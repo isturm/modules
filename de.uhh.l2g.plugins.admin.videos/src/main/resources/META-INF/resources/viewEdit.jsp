@@ -509,20 +509,6 @@
 		});		
 	}
 	
-	function getDefaultContainer(){
-		$.ajax({
-			url: "${updateVideoFileNameURL}",
-			method: "POST",
-			dataType: "json",
-			data: {
-		 		"<portlet:namespace/>videoId": videoId,
-	  			"<portlet:namespace/>fileName": file.fileName, 
-	  			"<portlet:namespace/>secureFileName": file.secureFileName, 
-	  			"<portlet:namespace/>generationDate": file.generationDate 
-	 		}
-		});		
-	}
-	
 	function updateVideoFileName(file){
 		$.ajax({
 			url: "${updateVideoFileNameURL}",
@@ -728,16 +714,25 @@
 		               		}
 		               }else{ 
 		    				//update only for mp3 and mp4, but without changing the container
-		    				getDefaultContainer.done(function( res ) {
-			    				var f1 = vars[0].fileName;
-			    				var f2 = res.defaultContainer;
-			    				var f3 = "mp4";
-			    				//for mp3 and mp4 files
-			    				if(f1.indexOf(f2) > -1 || f1.indexOf(f3) > -1){
-			    	           		updateVideoFileName(vars[0]);
-			    	           		validate();
-			    				}
-							});
+		    				$.ajax({
+									url: "${defaultContainerURL}",
+									method: "POST",
+									dataType: "json",
+									data: {
+								 		"<portlet:namespace/>videoId": videoId
+							 		},
+							 		success: function(res) {
+					    				var f1 = vars[0].fileName;
+					    				var f2 = res.containerFormat;
+					    				var f3 = "mp4";
+					    				//for mp3 and mp4 files
+					    				if(f1.indexOf(f2) > -1 || f1.indexOf(f3) > -1){
+					    	           		updateVideoFileName(vars[0]);
+					    	           		validate();
+					    				}					    		         
+							        }							 		
+							});	
+							//
 		               }
 		     	   });
 	               
