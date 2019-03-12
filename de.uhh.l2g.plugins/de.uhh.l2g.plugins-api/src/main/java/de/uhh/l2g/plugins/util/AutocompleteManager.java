@@ -58,18 +58,20 @@ public class AutocompleteManager {
 		return resultList;
 	}
 	
-	public static JSONArray wordsJSONArray = JSONFactoryUtil.createJSONArray();
+	public static JSONArray SEARCH_WORDS_JSONArray = JSONFactoryUtil.createJSONArray();
+	public static JSONArray SEARCH_WORDS_Array = JSONFactoryUtil.createJSONArray();
 	
 	public static synchronized boolean generateAutocompleteResults() throws SystemException  {
-		wordsJSONArray = JSONFactoryUtil.createJSONArray();
+		SEARCH_WORDS_JSONArray = JSONFactoryUtil.createJSONArray();
 		List<String> arrStr = new ArrayList<String>();
 		JSONObject strJSON = null;
 		arrStr = getAutocompleteResults();
 		for (String str : arrStr) {
 			strJSON = JSONFactoryUtil.createJSONObject();
 			strJSON.put("word", str);
-			wordsJSONArray.put(strJSON);
-			//System.out.println(str);
+			SEARCH_WORDS_JSONArray.put(strJSON);
+			SEARCH_WORDS_Array.put(str);
+			//System.out.println(str); 
 		}
 		return true;
 	}

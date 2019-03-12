@@ -43,6 +43,8 @@
 <%@page import="de.uhh.l2g.plugins.service.CreatorLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.util.Lecture2GoRoleChecker"%>
 
+<%@page import="de.uhh.l2g.plugins.util.AutocompleteManager"%>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />

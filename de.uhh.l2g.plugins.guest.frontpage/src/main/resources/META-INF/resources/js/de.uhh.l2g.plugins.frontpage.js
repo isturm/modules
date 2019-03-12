@@ -1,4 +1,48 @@
 $(document).ready(function(){
+	//---prepare auto complete results start
+	//set here your portlet name space.
+	var autoCompleteList;
+	//auto complete list for findVideos
+	AUI().use('autocomplete-list', 'aui-base', 'aui-io-request', 'autocomplete-filters', 'autocomplete-highlighters', function(A) {
+	    //URL for call serverResource method
+		var nameSpace = A.one('#portletNamespace').get('text'); 
+	    var findVideosURL = A.one('#findVideosURL').get('text');
+	    //findVideos name
+	    //call serverResource method with ajax which give in response.
+	    A.io.request(findVideosURL, {
+	        dataType: 'json',
+	        method: 'POST',
+	        sync: true,
+	        on: {
+	            success: function() {
+	                console.log("Enter in success");
+	                //create autocomplete obejct for findVideos input box
+	                autoCompleteList = new A.AutoCompleteList({
+	                    activateFirstItem: 'true',
+	                    inputNode: '#'+nameSpace + 'findVideos',
+	                    resultTextLocator: 'word',
+	                    render: 'true',
+	                    resultHighlighter: 'phraseMatch',
+	                    resultFilters: ['phraseMatch'],
+	                    source: this.get('responseData'),
+	                    typeAhead: true,
+	                    maxResults: 20,
+	                    minQueryLength: 3,
+	                });
+	                //submit selected search word
+	                autoCompleteList.on(
+	                		'select',
+	                		function(event) {
+	                			//submit 
+	                			$('#'+nameSpace + 'submitForm').submit();
+	                		}
+	                );
+	            }
+	        }
+	    });
+	});	
+	//---prepare auto complete results end
+	
 	// process different things depending on the screen size
 	mediaCheck({
 	  	media: '(min-width: 768px)',
@@ -23,9 +67,6 @@ $(document).ready(function(){
 	});
 
 	// handle the previous and next buttons of the carousel
-    //showOrHideCarouselControl('#news-carousel');
-    //showOrHideCarouselControl('#popular-carousel');
-
     $('#news-carousel').on('slid.bs.carousel', function() { 
     	showOrHideCarouselControl('#news-carousel');
     	// the truncation of the elements needs to be triggered manually on carousel switch
@@ -51,7 +92,6 @@ $(document).ready(function(){
 	});
 
 });
-
 		
 /* 
 	hides the "previous"-control-button on first carousel page and 

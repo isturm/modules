@@ -3,6 +3,13 @@
 <c:set var="latest" value="<%=LectureseriesLocalServiceUtil.getLatest(12, groupId, companyId)%>"/>
 <c:set var="popular" value="<%=VideoLocalServiceUtil.getPopular(12)%>"/>
 
+<portlet:resourceURL var="findVideos">
+	<portlet:param name="task" value="findVideos"/> 
+</portlet:resourceURL>
+
+<div style="display: none;" id="findVideosURL">${findVideos}</div> 
+<div style="display: none;" id="portletNamespace"><portlet:namespace/></div> 
+
 <div class="front-page-teaser">
  	<div class="bg-video-container">
 		<video id="bg-vid" autoplay loop poster="/lecture2go-portlet/img/background_still.jpg" preload="none" muted>
@@ -26,19 +33,14 @@
 				  </c:otherwise>
 				</c:choose>			
 			</div>
+
 			<div class="l2go-subtitle">
 				<p><liferay-ui:message key="l2go-description"/></p>
 			</div>
-			<div class="big-search">
-					<form action="/web/vod/l2go/-/get/0/0/0/0/0/"  method="post" name="_lgopenaccessvideos_WAR_lecture2goportlet_fm" id="_lgopenaccessvideos_WAR_lecture2goportlet_fm"> 
-						<input autocomplete="off" aria-owns="yui_patched_v3_11_0_1_1449737860306_123" aria-expanded="false" aria-autocomplete="list" class="field yui3-aclist-input" id="_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery" name="_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery" value="$param1" type="text" placeholder='#language("search-videos")'>
-						<button id="_lgopenaccessvideos_WAR_lecture2goportlet_searchButton" class="btn btn-primary button" type="submit">
-							<i class="icon-search"></i><span></span>
-						</button>
-						<div id="search-container"></div>
-					</form>
-			</div>
-			
+		    <aui:form action="/web/vod/l2go/-/get/0/0/0/0/0/" method="POST" name="submitForm">
+			    <aui:input name="findVideos" id="findVideos" label="" inlineField="true" value="${memberDTO.findVideos}"/>
+		    </aui:form>
+			<br/>		    			
 			<button id="outer-catalogue-button" class="catalogue-button" onclick="window.location='/web/vod/l2go';"><liferay-ui:message key="to-catalogue"/></button>
 		</div>
 	</div>

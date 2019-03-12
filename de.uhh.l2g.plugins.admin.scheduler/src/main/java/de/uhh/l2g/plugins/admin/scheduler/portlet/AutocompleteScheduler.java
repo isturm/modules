@@ -10,6 +10,8 @@ import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
@@ -33,7 +35,10 @@ import de.uhh.l2g.plugins.util.AutocompleteManager;
 		  property = {"cron.expression=0 0/5 * * * ?"},
 		  service = AutocompleteScheduler.class
 )
+
+
 public class AutocompleteScheduler extends BaseSchedulerEntryMessageListener {
+	public static JSONArray SEARCH_WORDS_JSONArray = JSONFactoryUtil.createJSONArray();
 	  /**
 	   * doReceive: This is where the magic happens, this is where you want to do the work for
 	   * the scheduled job.
