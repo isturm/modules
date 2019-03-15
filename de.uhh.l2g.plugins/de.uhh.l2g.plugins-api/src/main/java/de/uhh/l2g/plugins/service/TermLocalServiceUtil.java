@@ -116,6 +116,10 @@ public class TermLocalServiceUtil {
 		return getService().fetchTerm(termId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Term geTerm(long termId) {
+		return getService().geTerm(termId);
+	}
+
 	public static de.uhh.l2g.plugins.model.Term getById(java.lang.Long termId)
 		throws com.liferay.portal.kernel.exception.NoSuchModelException,
 			com.liferay.portal.kernel.exception.SystemException {

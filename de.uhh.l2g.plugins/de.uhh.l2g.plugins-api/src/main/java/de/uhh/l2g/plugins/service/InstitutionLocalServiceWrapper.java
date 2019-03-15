@@ -197,6 +197,15 @@ public class InstitutionLocalServiceWrapper implements InstitutionLocalService,
 		return _institutionLocalService.getRootByGroupId(companyId, groupId);
 	}
 
+	@Override
+	public de.uhh.l2g.plugins.model.Institution getRootByParentAndCompanyAndGroup(
+		long parentId, long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			de.uhh.l2g.plugins.exception.NoSuchInstitutionException {
+		return _institutionLocalService.getRootByParentAndCompanyAndGroup(parentId,
+			companyId, groupId);
+	}
+
 	/**
 	* Updates the institution in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

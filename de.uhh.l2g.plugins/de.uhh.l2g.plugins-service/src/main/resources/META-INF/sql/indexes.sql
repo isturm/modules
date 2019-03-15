@@ -25,7 +25,7 @@ create index IX_4CF38EBB on LG_Institution (groupId, parentId, sort);
 create index IX_982D2D90 on LG_Institution (level, groupId);
 create index IX_63B03BE9 on LG_Institution (level, typ[$COLUMN_LENGTH:75$], groupId);
 create index IX_755E10F1 on LG_Institution (name[$COLUMN_LENGTH:75$], groupId);
-create index IX_40A7A033 on LG_Institution (parentId);
+create index IX_229A2635 on LG_Institution (parentId, companyId, groupId);
 create index IX_ACBFFBFE on LG_Institution (sort, groupId);
 create index IX_8BEF7329 on LG_Institution (typ[$COLUMN_LENGTH:75$], groupId);
 create index IX_8A5E489D on LG_Institution (www[$COLUMN_LENGTH:75$], groupId);

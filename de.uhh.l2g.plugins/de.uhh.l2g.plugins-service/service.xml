@@ -167,7 +167,7 @@
             <finder-column name="parentId"></finder-column>
             <finder-column name="sort"></finder-column>
         </finder>
-         <finder name="Root" return-type="Institution" where="parentId =0" unique="true">
+         <finder name="Root" return-type="Institution" where="parentId=0" unique="true">
             <finder-column name="companyId"></finder-column>
             <finder-column name="groupId"></finder-column>
         </finder>
@@ -184,6 +184,11 @@
         <finder name="GroupAndCompany" return-type="Collection">
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="ParentAndCompanyAndGroup" return-type="Institution">
+            <finder-column name="parentId"></finder-column>
+            <finder-column name="companyId"></finder-column>
+            <finder-column name="groupId"></finder-column>
         </finder>
     </entity>
     <entity name="Lectureseries_Institution" local-service="true" remote-service="false">

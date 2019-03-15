@@ -9109,7 +9109,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	}
 
 	private static final String _FINDER_COLUMN_ROOT_COMPANYID_2 = "institution.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_ROOT_GROUPID_2 = "institution.groupId = ? AND institution.parentId =0";
+	private static final String _FINDER_COLUMN_ROOT_GROUPID_2 = "institution.groupId = ? AND institution.parentId=0";
 	public static final FinderPath FINDER_PATH_FETCH_BY_G_I = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
 			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByG_I",
@@ -10897,6 +10897,276 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 
 	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_GROUPID_2 = "institution.groupId = ? AND ";
 	private static final String _FINDER_COLUMN_GROUPANDCOMPANY_COMPANYID_2 = "institution.companyId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP =
+		new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByParentAndCompanyAndGroup",
+			new String[] {
+				Long.class.getName(), Long.class.getName(), Long.class.getName()
+			},
+			InstitutionModelImpl.PARENTID_COLUMN_BITMASK |
+			InstitutionModelImpl.COMPANYID_COLUMN_BITMASK |
+			InstitutionModelImpl.GROUPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_PARENTANDCOMPANYANDGROUP =
+		new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
+			InstitutionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByParentAndCompanyAndGroup",
+			new String[] {
+				Long.class.getName(), Long.class.getName(), Long.class.getName()
+			});
+
+	/**
+	 * Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or throws a {@link NoSuchInstitutionException} if it could not be found.
+	 *
+	 * @param parentId the parent ID
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @return the matching institution
+	 * @throws NoSuchInstitutionException if a matching institution could not be found
+	 */
+	@Override
+	public Institution findByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId) throws NoSuchInstitutionException {
+		Institution institution = fetchByParentAndCompanyAndGroup(parentId,
+				companyId, groupId);
+
+		if (institution == null) {
+			StringBundler msg = new StringBundler(8);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("parentId=");
+			msg.append(parentId);
+
+			msg.append(", companyId=");
+			msg.append(companyId);
+
+			msg.append(", groupId=");
+			msg.append(groupId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchInstitutionException(msg.toString());
+		}
+
+		return institution;
+	}
+
+	/**
+	 * Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param parentId the parent ID
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @return the matching institution, or <code>null</code> if a matching institution could not be found
+	 */
+	@Override
+	public Institution fetchByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId) {
+		return fetchByParentAndCompanyAndGroup(parentId, companyId, groupId,
+			true);
+	}
+
+	/**
+	 * Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param parentId the parent ID
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching institution, or <code>null</code> if a matching institution could not be found
+	 */
+	@Override
+	public Institution fetchByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { parentId, companyId, groupId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP,
+					finderArgs, this);
+		}
+
+		if (result instanceof Institution) {
+			Institution institution = (Institution)result;
+
+			if ((parentId != institution.getParentId()) ||
+					(companyId != institution.getCompanyId()) ||
+					(groupId != institution.getGroupId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(5);
+
+			query.append(_SQL_SELECT_INSTITUTION_WHERE);
+
+			query.append(_FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_PARENTID_2);
+
+			query.append(_FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_COMPANYID_2);
+
+			query.append(_FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(parentId);
+
+				qPos.add(companyId);
+
+				qPos.add(groupId);
+
+				List<Institution> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"InstitutionPersistenceImpl.fetchByParentAndCompanyAndGroup(long, long, long, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Institution institution = list.get(0);
+
+					result = institution;
+
+					cacheResult(institution);
+
+					if ((institution.getParentId() != parentId) ||
+							(institution.getCompanyId() != companyId) ||
+							(institution.getGroupId() != groupId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP,
+							finderArgs, institution);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Institution)result;
+		}
+	}
+
+	/**
+	 * Removes the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; from the database.
+	 *
+	 * @param parentId the parent ID
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @return the institution that was removed
+	 */
+	@Override
+	public Institution removeByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId) throws NoSuchInstitutionException {
+		Institution institution = findByParentAndCompanyAndGroup(parentId,
+				companyId, groupId);
+
+		return remove(institution);
+	}
+
+	/**
+	 * Returns the number of institutions where parentId = &#63; and companyId = &#63; and groupId = &#63;.
+	 *
+	 * @param parentId the parent ID
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @return the number of matching institutions
+	 */
+	@Override
+	public int countByParentAndCompanyAndGroup(long parentId, long companyId,
+		long groupId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_PARENTANDCOMPANYANDGROUP;
+
+		Object[] finderArgs = new Object[] { parentId, companyId, groupId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_COUNT_INSTITUTION_WHERE);
+
+			query.append(_FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_PARENTID_2);
+
+			query.append(_FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_COMPANYID_2);
+
+			query.append(_FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(parentId);
+
+				qPos.add(companyId);
+
+				qPos.add(groupId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_PARENTID_2 =
+		"institution.parentId = ? AND ";
+	private static final String _FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_COMPANYID_2 =
+		"institution.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_PARENTANDCOMPANYANDGROUP_GROUPID_2 =
+		"institution.groupId = ?";
 
 	public InstitutionPersistenceImpl() {
 		setModelClass(Institution.class);
@@ -10919,6 +11189,12 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 		finderCache.putResult(FINDER_PATH_FETCH_BY_G_I,
 			new Object[] {
 				institution.getGroupId(), institution.getInstitutionId()
+			}, institution);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP,
+			new Object[] {
+				institution.getParentId(), institution.getCompanyId(),
+				institution.getGroupId()
 			}, institution);
 
 		institution.resetOriginalValues();
@@ -11011,6 +11287,17 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 			false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_G_I, args,
 			institutionModelImpl, false);
+
+		args = new Object[] {
+				institutionModelImpl.getParentId(),
+				institutionModelImpl.getCompanyId(),
+				institutionModelImpl.getGroupId()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_PARENTANDCOMPANYANDGROUP,
+			args, Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP,
+			args, institutionModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -11055,6 +11342,33 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_G_I, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_G_I, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					institutionModelImpl.getParentId(),
+					institutionModelImpl.getCompanyId(),
+					institutionModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PARENTANDCOMPANYANDGROUP,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP,
+				args);
+		}
+
+		if ((institutionModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] {
+					institutionModelImpl.getOriginalParentId(),
+					institutionModelImpl.getOriginalCompanyId(),
+					institutionModelImpl.getOriginalGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PARENTANDCOMPANYANDGROUP,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_PARENTANDCOMPANYANDGROUP,
+				args);
 		}
 	}
 

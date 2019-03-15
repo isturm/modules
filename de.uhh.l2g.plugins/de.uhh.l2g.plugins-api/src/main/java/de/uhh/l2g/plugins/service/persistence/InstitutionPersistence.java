@@ -2794,6 +2794,63 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	public int countByGroupAndCompany(long groupId, long companyId);
 
 	/**
+	* Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or throws a {@link NoSuchInstitutionException} if it could not be found.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @return the matching institution
+	* @throws NoSuchInstitutionException if a matching institution could not be found
+	*/
+	public Institution findByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId) throws NoSuchInstitutionException;
+
+	/**
+	* Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @return the matching institution, or <code>null</code> if a matching institution could not be found
+	*/
+	public Institution fetchByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId);
+
+	/**
+	* Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching institution, or <code>null</code> if a matching institution could not be found
+	*/
+	public Institution fetchByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId, boolean retrieveFromCache);
+
+	/**
+	* Removes the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; from the database.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @return the institution that was removed
+	*/
+	public Institution removeByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId) throws NoSuchInstitutionException;
+
+	/**
+	* Returns the number of institutions where parentId = &#63; and companyId = &#63; and groupId = &#63;.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @return the number of matching institutions
+	*/
+	public int countByParentAndCompanyAndGroup(long parentId, long companyId,
+		long groupId);
+
+	/**
 	* Caches the institution in the entity cache if it is enabled.
 	*
 	* @param institution the institution

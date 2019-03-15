@@ -166,6 +166,11 @@ public interface InstitutionLocalService extends BaseLocalService,
 	public Institution getRootByGroupId(long companyId, long groupId)
 		throws SystemException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Institution getRootByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId)
+		throws SystemException, NoSuchInstitutionException;
+
 	/**
 	* Updates the institution in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

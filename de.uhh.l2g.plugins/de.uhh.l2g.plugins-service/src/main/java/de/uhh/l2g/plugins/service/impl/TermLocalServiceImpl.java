@@ -19,8 +19,11 @@ import java.util.List;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.uhh.l2g.plugins.model.Term;
+import de.uhh.l2g.plugins.service.TermLocalServiceUtil;
 import de.uhh.l2g.plugins.service.base.TermLocalServiceBaseImpl;
 
 /**
@@ -43,6 +46,17 @@ public class TermLocalServiceImpl extends TermLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.TermLocalServiceUtil} to access the term local service.
 	 */
+	private static final Log _log = LogFactoryUtil.getLog(TermLocalServiceImpl.class);
+	
+	public Term geTerm(long termId){
+		Term t = TermLocalServiceUtil.createTerm(0);
+		try {
+			t = termLocalService.getTerm(termId);
+		} catch (Exception e) {
+			_log.error("can't fetch term for id " + termId);
+		}
+		return t;
+	}
 	
 	public List<Term> getAllSemesters() throws SystemException {
 		List<Term> sl = new ArrayList<Term>();

@@ -187,6 +187,15 @@ public class InstitutionLocalServiceUtil {
 		return getService().getRootByGroupId(companyId, groupId);
 	}
 
+	public static de.uhh.l2g.plugins.model.Institution getRootByParentAndCompanyAndGroup(
+		long parentId, long companyId, long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			de.uhh.l2g.plugins.exception.NoSuchInstitutionException {
+		return getService()
+				   .getRootByParentAndCompanyAndGroup(parentId, companyId,
+			groupId);
+	}
+
 	/**
 	* Updates the institution in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

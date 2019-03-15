@@ -3387,6 +3387,82 @@ public class InstitutionUtil {
 	}
 
 	/**
+	* Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or throws a {@link NoSuchInstitutionException} if it could not be found.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @return the matching institution
+	* @throws NoSuchInstitutionException if a matching institution could not be found
+	*/
+	public static Institution findByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId)
+		throws de.uhh.l2g.plugins.exception.NoSuchInstitutionException {
+		return getPersistence()
+				   .findByParentAndCompanyAndGroup(parentId, companyId, groupId);
+	}
+
+	/**
+	* Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @return the matching institution, or <code>null</code> if a matching institution could not be found
+	*/
+	public static Institution fetchByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId) {
+		return getPersistence()
+				   .fetchByParentAndCompanyAndGroup(parentId, companyId, groupId);
+	}
+
+	/**
+	* Returns the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching institution, or <code>null</code> if a matching institution could not be found
+	*/
+	public static Institution fetchByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId, boolean retrieveFromCache) {
+		return getPersistence()
+				   .fetchByParentAndCompanyAndGroup(parentId, companyId,
+			groupId, retrieveFromCache);
+	}
+
+	/**
+	* Removes the institution where parentId = &#63; and companyId = &#63; and groupId = &#63; from the database.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @return the institution that was removed
+	*/
+	public static Institution removeByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId)
+		throws de.uhh.l2g.plugins.exception.NoSuchInstitutionException {
+		return getPersistence()
+				   .removeByParentAndCompanyAndGroup(parentId, companyId,
+			groupId);
+	}
+
+	/**
+	* Returns the number of institutions where parentId = &#63; and companyId = &#63; and groupId = &#63;.
+	*
+	* @param parentId the parent ID
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @return the number of matching institutions
+	*/
+	public static int countByParentAndCompanyAndGroup(long parentId,
+		long companyId, long groupId) {
+		return getPersistence()
+				   .countByParentAndCompanyAndGroup(parentId, companyId, groupId);
+	}
+
+	/**
 	* Caches the institution in the entity cache if it is enabled.
 	*
 	* @param institution the institution

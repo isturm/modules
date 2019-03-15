@@ -121,6 +121,8 @@ public interface TermLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Term fetchTerm(long termId);
 
+	public Term geTerm(long termId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Term getById(java.lang.Long termId)
 		throws NoSuchModelException, SystemException;

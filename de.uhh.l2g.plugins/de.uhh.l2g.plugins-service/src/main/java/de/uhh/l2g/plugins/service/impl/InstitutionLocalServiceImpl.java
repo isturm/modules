@@ -107,6 +107,10 @@ public class InstitutionLocalServiceImpl extends InstitutionLocalServiceBaseImpl
 		return institutionPersistence.findByRoot(companyId, groupId);
 	}
 	
+	public Institution getRootByParentAndCompanyAndGroup(long parentId, long companyId, long groupId) throws NoSuchInstitutionException, SystemException{
+		return institutionPersistence.findByParentAndCompanyAndGroup(parentId, companyId, groupId);
+	}
+	
 	public  List<Institution> getByParentId(long parentId) throws SystemException {
 		List<Institution> institutions = institutionPersistence.findByParent(parentId);
 		return institutions;
