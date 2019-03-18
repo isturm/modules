@@ -52,3 +52,7 @@
 	Long groupId = company.getGroup().getGroupId();		
 	Long userId = realUser.getUserId();		
 %>
+
+<script>
+	var nameSpace = "<portlet:namespace />";
+</script>

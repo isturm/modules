@@ -95,10 +95,10 @@
 			<liferay-ui:panel-container>
 				<!-- 	parentinstitution filter -->
 				<c:if test="${presentParentInstitutions.size()>0}">
-					<liferay-ui:panel extended="false" defaultState="collapsed" title="institution" cssClass='${hasParentInstitutionFiltered ? "filtered" : "notFiltered"}'>
+					<liferay-ui:panel extended="true" title="institution" cssClass='${hasParentInstitutionFiltered ? "filtered" : "notFiltered"}'>
 						<ul>
 						<c:forEach items="${presentParentInstitutions}" var="parentInstitution">
-							<portlet:actionURL var="filterByParentInstitution" name="addFilter">
+							<portlet:renderURL var="filterByParentInstitution">
 								<portlet:param name="jspPage" value="/viewList.jsp" />
 								<portlet:param name="parentInstitutionId" value='${hasParentInstitutionFiltered ? "0" : parentInstitution.institutionId}'/>
 								<portlet:param name="institutionId" value="${institutionId}"/>				
@@ -106,7 +106,7 @@
 								<portlet:param name="categoryId" value="${categoryId}"/>
 								<portlet:param name="creatorId" value="${creatorId}"/>
 								<portlet:param name="searchQuery" value="${searchQuery}"/>	
-							</portlet:actionURL>
+							</portlet:renderURL>
 							<li class="filter-menu"><a href="${filterByParentInstitution}"><div class="filter-menu-link"><span ${hasParentInstitutionFiltered ? 'class="icon-large icon-remove"' : ''}></span>${parentInstitution.name}</div></a></li>
 						</c:forEach>
 						</ul>
@@ -116,10 +116,10 @@
 			 	<!-- institution filter  -->
 				<c:if test="${hasParentInstitutionFiltered}">
 					<c:if test="${presentInstitutions.size()>0}">
-						<liferay-ui:panel extended="false" defaultState="collapsed" title="sub-institution" cssClass='${hasInstitutionFiltered ? "filtered" : "notFiltered"}'>
+						<liferay-ui:panel extended="true" title="sub-institution" cssClass='${hasInstitutionFiltered ? "filtered" : "notFiltered"}'>
 							<ul>
 							<c:forEach items="${presentInstitutions}" var="institution">
-								<portlet:actionURL var="filterByInstitution" name="addFilter">
+								<portlet:renderURL var="filterByInstitution">
 									<portlet:param name="jspPage" value="/viewList.jsp" />
 									<portlet:param name="parentInstitutionId" value="${parentInstitutionId}"/>
 									<portlet:param name="institutionId" value='${hasInstitutionFiltered ? "0" : institution.institutionId}'/>
@@ -127,7 +127,7 @@
 									<portlet:param name="categoryId" value="${categoryId}"/>
 									<portlet:param name="creatorId" value="${creatorId}"/>
 									<portlet:param name="searchQuery" value="${searchQuery}"/>	
-								</portlet:actionURL>
+								</portlet:renderURL>
 								<li class="filter-menu"><a href="${filterByInstitution}"><div class="filter-menu-link"><span ${hasInstitutionFiltered ? 'class="icon-large icon-remove"' : ''}></span>${institution.name}</div></a></li>
 							</c:forEach>
 							</ul>
@@ -137,10 +137,10 @@
 				
 				<!-- 	terms filter -->
 				<c:if test="${presentTerms.size()>0}">
-					<liferay-ui:panel extended="false" defaultState="collapsed" title="term" cssClass='${hasTermFiltered ? "filtered" : "notFiltered"}'>
+					<liferay-ui:panel extended="true" title="term" cssClass='${hasTermFiltered ? "filtered" : "notFiltered"}'>
 						<ul class="terms">
 						<c:forEach items="${presentTerms}" var="term">
-							<portlet:actionURL var="filterByTerm" name="addFilter">
+							<portlet:renderURL var="filterByTerm">
 								<portlet:param name="jspPage" value="/viewList.jsp" />
 								<portlet:param name="institutionId" value="${institutionId}"/>
 								<portlet:param name="parentInstitutionId" value="${parentInstitutionId}"/>	
@@ -148,7 +148,7 @@
 								<portlet:param name="categoryId" value="${categoryId}"/>
 								<portlet:param name="creatorId" value="${creatorId}"/>
 								<portlet:param name="searchQuery" value="${searchQuery}"/>	
-							</portlet:actionURL>
+							</portlet:renderURL>
 							<li class="filter-menu"><a href="${filterByTerm}"><div class="filter-menu-link"><span ${hasTermFiltered ? 'class="icon-large icon-remove"' : ''}></span><c:choose><c:when test="${term.termName==''}"><liferay-ui:message key="no-term"/></c:when><c:otherwise>${term.termName}</c:otherwise></c:choose></div></a></li>
 						</c:forEach>
 						</ul>
@@ -161,10 +161,10 @@
 				
 				<!-- category filter -->
 				<c:if test="${presentCategories.size()>0}">
-					<liferay-ui:panel extended="false" defaultState="collapsed" title="category" cssClass='${hasCategoryFiltered ? "filtered" : "notFiltered"}'>
+					<liferay-ui:panel extended="true" title="category" cssClass='${hasCategoryFiltered ? "filtered" : "notFiltered"}'>
 						<ul>
 						<c:forEach items="${presentCategories}" var="category">
-				    		<portlet:actionURL var="filterByCategory" name="addFilter">
+				    		<portlet:renderURL var="filterByCategory">
 								<portlet:param name="jspPage" value="/viewList.jsp" />
 								<portlet:param name="institutionId" value="${institutionId}"/>
 								<portlet:param name="parentInstitutionId" value="${parentInstitutionId}"/>
@@ -172,7 +172,7 @@
 								<portlet:param name="categoryId" value='${hasCategoryFiltered ? "0" : category.categoryId}'/>
 								<portlet:param name="creatorId" value="${creatorId}"/>	
 								<portlet:param name="searchQuery" value="${searchQuery}"/>	
-							</portlet:actionURL>
+							</portlet:renderURL>
 							<li class="filter-menu"><a href="${filterByCategory}"><div class="filter-menu-link"><span ${hasCategoryFiltered ? 'class="icon-large icon-remove"' : ''}></span>${category.name}</div></a></li>
 						</c:forEach>
 						</ul>
@@ -197,176 +197,179 @@
 
 		
 	<liferay-ui:search-container emptyResultsMessage="no-lectureseries-or-videos-found" delta="20" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
-	<liferay-ui:search-container-results>
-		<%
-		    searchContainer.setTotal(reqLectureseries.size());		 
-		    searchContainer.setResults(ListUtil.subList(reqLectureseries, searchContainer.getStart(), searchContainer.getEnd()));		
-		%>
-	</liferay-ui:search-container-results>
+			
+			<liferay-ui:search-container-results>
+				<%
+				    searchContainer.setTotal(reqLectureseries.size());		 
+				    searchContainer.setResults(ListUtil.subList(reqLectureseries, searchContainer.getStart(), searchContainer.getEnd()));		
+				%>
+			</liferay-ui:search-container-results>
 	
-	<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Lectureseries" keyProperty="lectureseriesId" modelVar="lectser">
-		<c:set var="oId" value=""/>
-		<c:set var="isVideo" value="<%=false%>"/>
-		<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.createVideo(0)%>"/>
-		<c:choose>
-			<c:when test="${lectser.latestOpenAccessVideoId<0}">
-				<c:set var="isVideo" value="<%=true%>"/>
-				<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getFullVideo(lectser.getLectureseriesId())%>"/>			
-				<c:set var="oId" value="${vidDummy.videoId}"/>
-			</c:when>
-			<c:otherwise>
-				<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getFullVideo(lectser.getPreviewVideoId())%>"/>				
-				<c:set var="oId" value="${lectser.lectureseriesId}"/>
-			</c:otherwise>
-		</c:choose>
-		
-		<c:set var="videoCount" value="${lectser.numberOfOpenAccessVideos}"/>
-		<c:set var="vl" value="<%=new ArrayList<Video>()%>"/>
-		
-		<c:choose>
-			<c:when test="${videoCount>0 && isSearched}">
-				<!-- get videos by search word and lecture series -->
-				<c:set var="vl" value="<%=VideoLocalServiceUtil.getBySearchWordAndLectureseriesId(searchQuery, (Long)pageContext.getAttribute("oId"))%>"/>
-			</c:when>
-			<c:otherwise>
-				<!-- get all videos of the lecture series -->
-				<c:set var="vl" value="<%=VideoLocalServiceUtil.getByLectureseriesAndOpenaccess((Long)pageContext.getAttribute("oId"), 1)%>"/>
-			</c:otherwise>
-		</c:choose>		
-
-		<liferay-ui:search-container-column-text>
-						<portlet:actionURL name="viewOpenAccessVideo" var="view1URL">
-							<portlet:param name="objectId" value="${oId}"/>
-							<c:if test="${isVideo}"><portlet:param name="objectType" value="v"/></c:if>
-							<c:if test="${!isVideo}"><portlet:param name="objectType" value="l"/></c:if>
-						</portlet:actionURL>
+			<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Lectureseries" keyProperty="lectureseriesId" modelVar="lectser">
+						<c:set var="oId" value=""/>
+						<c:set var="isVideo" value="<%=false%>"/>
+						<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.createVideo(0)%>"/>
+						<c:choose>
+							<c:when test="${lectser.latestOpenAccessVideoId<0}">
+								<c:set var="isVideo" value="<%=true%>"/>
+								<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getFullVideo(lectser.getLectureseriesId())%>"/>			
+								<c:set var="oId" value="${vidDummy.videoId}"/>
+							</c:when>
+							<c:otherwise>
+								<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getFullVideo(lectser.getPreviewVideoId())%>"/>				
+								<c:set var="oId" value="${lectser.lectureseriesId}"/>
+							</c:otherwise>
+						</c:choose>
+						
+						<c:set var="videoCount" value="${lectser.numberOfOpenAccessVideos}"/>
+						<c:set var="vl" value="<%=new ArrayList<Video>()%>"/>
 						
 						<c:choose>
-							<c:when test="${videoCount==0 && isVideo}">
+							<c:when test="${videoCount>0 && isSearched}">
+								<!-- get videos by search word and lecture series -->
+								<c:set var="vl" value="<%=VideoLocalServiceUtil.getBySearchWordAndLectureseriesId(searchQuery, (Long)pageContext.getAttribute("oId"))%>"/>
+							</c:when>
+							<c:otherwise>
+								<!-- get all videos of the lecture series -->
+								<c:set var="vl" value="<%=VideoLocalServiceUtil.getByLectureseriesAndOpenaccess((Long)pageContext.getAttribute("oId"), 1)%>"/>
+							</c:otherwise>
+						</c:choose>		
+				
+						<liferay-ui:search-container-column-text>
+										<portlet:actionURL name="viewOpenAccessVideo" var="view1URL">
+											<portlet:param name="objectId" value="${oId}"/>
+											<c:if test="${isVideo}"><portlet:param name="objectType" value="v"/></c:if>
+											<c:if test="${!isVideo}"><portlet:param name="objectType" value="l"/></c:if>
+										</portlet:actionURL>
+										
 										<div class="videotile wide" onClick="window.location='${view1URL}'">
-											<div class="video-image-wrapper">
-											   <img class="video-image-big" src="${vidDummy.getImageMedium()}"/>
-											</div>
-											<div class="video-content-wrapper">
-													<div class="video-content">
-														<%try{%>
-														<c:set var="term" value="<%=TermLocalServiceUtil.getTerm(lectser.getTermId()).getTermName()%>"/>
-														<span class="term-of-creation">${term}</span>
-														<%}catch(Exception e){}%>
-												        <div class="lectureseries-title dot-ellipsis dot-resize-update">
-												        	<a href="${view1URL}">${lectser.name}</a>
-												        </div>
-														
-														<div class="allcreators">
-															${vidDummy.linkedCreators}
+											<c:choose>
+												<c:when test="${videoCount==0 && isVideo}">
+																<div class="video-image-wrapper">
+																   <img class="video-image-big" src="${vidDummy.getImageMedium()}"/>
+																</div>
+																<div class="video-content-wrapper">
+																		<div class="video-content">
+																			<%try{%>
+																			<c:set var="term" value="<%=TermLocalServiceUtil.getTerm(lectser.getTermId()).getTermName()%>"/>
+																			<span class="term-of-creation">${term}</span>
+																			<%}catch(Exception e){}%>
+																	        <div class="lectureseries-title dot-ellipsis dot-resize-update">
+																	        	<a href="${view1URL}">${lectser.name}</a>
+																	        </div>
+																			
+																			<div class="allcreators">
+																				${vidDummy.linkedCreators}
+																			</div>
+																		</div>
+																		<div class="video-content-footer">
+																	        <div class="labels">
+																	        	<c:set var="cat" value=""/>
+																	        	<c:set var="vId" value="${vidDummy.videoId}"/>
+																	        	<c:set var="vi" value="<%=Video_InstitutionLocalServiceUtil.getByVideo((Long)pageContext.getAttribute("vId"))%>"/>
+																	        	<%try{%>
+																	        	<c:set var="cId" value="<%=Video_CategoryLocalServiceUtil.getByVideo(lectser.getLectureseriesId()).get(0).getCategoryId()%>"/>
+																	        	<c:set var="cat"><a href='/l2go/-/get/0/0/${cId}/0/0/'><%=CategoryLocalServiceUtil.getById((Long)pageContext.getAttribute("cId")).getName()%></a></c:set>
+																	          	<span class="label label-light2">${cat}</span>
+																	          	<c:set var="iId" value="${vi.get(0).institutionId}"/>
+																	          	<c:set var="inst" value="<%=InstitutionLocalServiceUtil.getById((Long)pageContext.getAttribute("iId"))%>"/>
+																				<c:set var="instLink"><a href='/l2go/-/get/${inst.institutionId}/${inst.parentId}/0/0/0/'>${inst.name}</a></a></c:set>
+																	          	<%}catch(Exception e){}%>
+																	        </div>
+																        </div>	
+															     </div>
+												    	</c:when>
+														<c:otherwise>
+														<!-- multiple videos in lecture series -->
+														<div class="video-image-wrapper">
+														       <img class="video-image-big layered-paper darker" src="${vidDummy.imageMedium}"/>
+															   <span class="badge">${videoCount}</span>
+														       <span class="tri"></span>
+														       <span class="overlay"></span>
 														</div>
-													</div>
-													<div class="video-content-footer">
-												        <div class="labels">
-												        	<c:set var="cat" value=""/>
-												        	<c:set var="vId" value="${vidDummy.videoId}"/>
-												        	<c:set var="vi" value="<%=Video_InstitutionLocalServiceUtil.getByVideo((Long)pageContext.getAttribute("vId"))%>"/>
-												        	<%try{%>
-												        	<c:set var="cId" value="<%=Video_CategoryLocalServiceUtil.getByVideo(lectser.getLectureseriesId()).get(0).getCategoryId()%>"/>
-												        	<c:set var="cat"><a href='/l2go/-/get/0/0/${cId}/0/0/'><%=CategoryLocalServiceUtil.getById((Long)pageContext.getAttribute("cId")).getName()%></a></c:set>
-												          	<span class="label label-light2">${cat}</span>
-												          	<c:set var="iId" value="${vi.get(0).institutionId}"/>
-												          	<c:set var="inst" value="<%=InstitutionLocalServiceUtil.getById((Long)pageContext.getAttribute("iId"))%>"/>
-															<c:set var="instLink"><a href='/l2go/-/get/${inst.institutionId}/${inst.parentId}/0/0/0/'>${inst.name}</a></a></c:set>
-												          	<%}catch(Exception e){}%>
-												        </div>
-											        </div>	
-										        </div>
-							    	</c:when>
-									<c:otherwise>
-									<!-- multiple videos in lecture series -->
-								       <div class="videotile wide">
-									        <div class="video-image-wrapper">
-									          <img class="video-image-big layered-paper darker" src="${vidDummy.imageMedium}"/>
-											  <span class="badge">${videoCount}</span>
-									          <span class="tri"></span>
-									          <span class="overlay"></span>
-									    </div>
-									     
-									<div class="video-content-wrapper">
-											<div class="video-content">
-												<%try{%>
-												<c:set var="term" value="<%=TermLocalServiceUtil.getTerm(lectser.getTermId()).getTermName()%>"/>
-												<span class="term-of-creation">${term}</span>
-											    <%}catch(Exception e){}%>
-												<div class="lectureseries-title dot-ellipsis dot-resize-update dot-height-40">
-										        	<a href="${view1URL}">${lectser.name}</a>
-										        </div>
-									        	<c:set var="lId" value="${vidDummy.lectureseriesId}"/>
-												<c:set var="allcreators" value="<%=CreatorLocalServiceUtil.getCommaSeparatedLinkedCreatorsByLectureseriesIdAndMaxCreators((Long)pageContext.getAttribute("lId"), 3)%>"/>
-												<div class="allcreators">
-													${allcreators}
-												</div>
-											</div>
-											
-											<div class="video-content-footer">
+														     
+														<div class="video-content-wrapper">
+																<div class="video-content">
+																	<%try{%>
+																	<c:set var="term" value="<%=TermLocalServiceUtil.getTerm(lectser.getTermId()).getTermName()%>"/>
+																	<span class="term-of-creation">${term}</span>
+																    <%}catch(Exception e){}%>
+																	<div class="lectureseries-title dot-ellipsis dot-resize-update dot-height-40">
+															        	<a href="${view1URL}">${lectser.name}</a>
+															        </div>
+														        	<c:set var="lId" value="${vidDummy.lectureseriesId}"/>
+																	<c:set var="allcreators" value="<%=CreatorLocalServiceUtil.getCommaSeparatedLinkedCreatorsByLectureseriesIdAndMaxCreators((Long)pageContext.getAttribute("lId"), 3)%>"/>
+																	<div class="allcreators">
+																		${allcreators}
+																	</div>
+																</div>
+																
+																<div class="video-content-footer">
+															        <div class="labels">
+																        <c:set var="cat"><a href='/l2go/-/get/0/0/${lectser.categoryId}/0/0/'><%=CategoryLocalServiceUtil.getById(lectser.getCategoryId()).getName()%></a></c:set>
+																        <c:set var="li" value="<%=Lectureseries_InstitutionLocalServiceUtil.getByLectureseries(lectser.getLectureseriesId())%>"/>
+																        <span class="label label-light2">${cat}</span>
+																        <c:set var="iId" value="${li.get(0).institutionId}"/>
+																        <c:set var="inst" value="<%=InstitutionLocalServiceUtil.getById((Long)pageContext.getAttribute("iId"))%>"/>
+																        <c:set var="instLink"><a href='/l2go/-/get/${inst.institutionId}/${inst.parentId}/0/0/0/'>${inst.name}</a></c:set>
+															            <span class="label label-light2">${instLink}</span>
+															        </div>
+															   </div>
+													    </div>
+												</c:otherwise>						
+											</c:choose>
+										<!-- videotile  end-->
+										</div>
+										<!-- sublist for videos -->
+										<c:set var="videoDivTitle" value=""/>
+										<c:if test="${videoCount>0}">
+											<div class='videolist'>
 										        <button id="b${oId}" >
 													<span class="lfr-icon-menu-text">
-														<i class="icon-large icon-chevron-down"></i>
+														<i class="icon-chevron-up"></i>
 													</span>	
 												</button>
-										        <div class="labels">
-											        <c:set var="cat"><a href='/l2go/-/get/0/0/${lectser.categoryId}/0/0/'><%=CategoryLocalServiceUtil.getById(lectser.getCategoryId()).getName()%></a></c:set>
-											        <c:set var="li" value="<%=Lectureseries_InstitutionLocalServiceUtil.getByLectureseries(lectser.getLectureseriesId())%>"/>
-											        <span class="label label-light2">${cat}</span>
-											        <c:set var="iId" value="${li.get(0).institutionId}"/>
-											        <c:set var="inst" value="<%=InstitutionLocalServiceUtil.getById((Long)pageContext.getAttribute("iId"))%>"/>
-											        <c:set var="instLink"><a href='/l2go/-/get/${inst.institutionId}/${inst.parentId}/0/0/0/'>${inst.name}</a></c:set>
-										            <span class="label label-light2">${instLink}</span>
-										        </div>
-										   </div>
-								    </div>
-							</c:otherwise>						
-						</c:choose>
-					<!-- videotile  -->
-					</div>
-				
-				<!-- sublist for videos -->
-				<c:set var="videoDivTitle" value=""/>
-				<c:if test="${videoCount>0}">
-					<div id="videolist">
-						<ul id="p${oId}" class="list-group toggler-content-collapsed content">
-							<c:forEach items="${vl}" var="v">
-								<portlet:actionURL name="viewOpenAccessVideo" var="vURL">
-									<portlet:param name="objectId" value="${v.videoId}"/>
-									<portlet:param name="objectType" value="v"/>
-								</portlet:actionURL>				
-
-								<li class="videotile small" onClick="window.location='${vURL}'">
-										<div class="videotile metainfolist small">
-											<div class="video-image-wrapper-small">
-												<img class="video-image" src="${v.imageSmall}">
+												<ul id="p${oId}">
+													<c:forEach items="${vl}" var="v">
+														<portlet:actionURL name="viewOpenAccessVideo" var="vURL">
+															<portlet:param name="objectId" value="${v.videoId}"/>
+															<portlet:param name="objectType" value="v"/>
+														</portlet:actionURL>				
+						
+														<li class="videotile small" onClick="window.location='${vURL}'">
+																<div class="videotile metainfolist small">
+																	<div class="video-image-wrapper-small">
+																		<img class="video-image" src="${v.imageSmall}">
+																	</div>
+																</div>
+																<%try{%>
+																<c:set var="date" value="${v.simpleDate.trim()}"/>
+																<c:set var="dur" value="${v.duration.trim().substring(0, 8)}"/>
+																<%}catch(Exception e){}%>
+																<div class="metainfo-small">
+								              						<div class="generation-date">${date}</div>
+																	<div class="title-small">${v.title}</div>		              							
+									              					<div class="allcreators">		              							
+								              							${v.linkedCreators}
+								              						</div>
+							              						</div>
+														</li>
+													</c:forEach>
+													<c:if test="${isSearched && (videoCount>1)}">
+														<li class="videotile small show-all" onClick="window.location='${view1URL}'">
+															<liferay-ui:message key="all-videos"/>
+														</li>
+													</c:if>
+												</ul>
 											</div>
-										</div>
-										<%try{%>
-										<c:set var="date" value="${v.simpleDate.trim()}"/>
-										<c:set var="dur" value="${v.duration.trim().substring(0, 8)}"/>
-										<%}catch(Exception e){}%>
-										<div class="metainfo-small">
-		              						<div class="generation-date">${date}</div>
-											<div class="title-small">${v.title}</div>		              							
-			              					<div class="allcreators">		              							
-		              							${v.linkedCreators}
-		              						</div>
-	              						</div>
-								</li>
-							</c:forEach>
-							<c:if test="${isSearched && (videoCount>1)}">
-								<li class="videotile small show-all" onClick="window.location='${view1URL}'">
-									<liferay-ui:message key="all-videos"/>
-								</li>
-							</c:if>
-							</ul>
-						</div>
-				</c:if>		
-		</liferay-ui:search-container-column-text>
-		</liferay-ui:search-container-row>
+										</c:if>		
+										<!-- sublist for videos end-->							
+											
+						</liferay-ui:search-container-column-text>
+				</liferay-ui:search-container-row>
+				
 		<liferay-ui:search-iterator />
+		
 		</liferay-ui:search-container>
 		<!-- span9 -->
 		</div>
@@ -374,26 +377,3 @@
 	</div>
 <!-- catalogue-container -->
 </div>
-
-<script>
-//workaround: as neither DOM-ready nor Liferay.Portlet.ready are working right now, set an interval until the element is there
-var checkExist = setInterval(function() {
-	if ($('#_lgopenaccessvideos_WAR_lecture2goportlet_lectureseriesesSearchContainer').length) {
-		var searchQuery = '${searchQuery}';
-		var markOptions = {
-			"separateWordSearch": false,
-			 "each": function(node){
-				 // open the video list of a lectureseries if a search query is found in a video BUT NOT in the lectureseries itself
-				 if(!(($(node).closest(".table-cell").find(".videotile.wide").find("mark")).length)){
-					// open the video list of a lectureseries if a video is found
-					 $(node).closest("ul").show();
-				 }
-			 }
-		};
-		if (searchQuery) {
-			$("#_lgopenaccessvideos_WAR_lecture2goportlet_lectureseriesesSearchContainer").mark(searchQuery, markOptions);
-		}
-	   	clearInterval(checkExist);
- 	}
-}, 100);
-</script>

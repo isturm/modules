@@ -19,7 +19,6 @@ import javax.servlet.http.Cookie;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -27,14 +26,11 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import de.uhh.l2g.plugins.exception.NoSuchInstitutionException;
 import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
 import de.uhh.l2g.plugins.exception.NoSuchVideoException;
 import de.uhh.l2g.plugins.guest.videos.constants.OpenAccessVideosPortletKeys;
@@ -80,7 +76,7 @@ import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
 		"com.liferay.portlet.header-portlet-javascript=/js/readmore.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.mark.js",
-		"com.liferay.portlet.header-portlet-javascript=/js/catalog.js",
+		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.guest.videos.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",		
 		"javax.portlet.display-name=Guest Videos",
 		"javax.portlet.init-param.template-path=/",
@@ -237,6 +233,7 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 		renderRequest.setAttribute("pInst", pInst);
 		renderRequest.setAttribute("rInst", rInst);
 		//
+		
 		super.render(renderRequest, renderResponse);
 	}
 	
@@ -292,35 +289,6 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 		out.println(wordsJSONArray);
 	}
 	
-	public void addFilter(ActionRequest request, ActionResponse response){
-		String jspPage = request.getParameter("jspPage");
-		Long institutionId = new Long(request.getParameter("institutionId"));
-		Long parentInstitutionId = new Long(request.getParameter("parentInstitutionId"));
-		Long termId = new Long(request.getParameter("termId"));
-		Long categoryId = new Long(request.getParameter("categoryId"));
-		Long creatorId = new Long(request.getParameter("creatorId"));
-		String searchQuery = "";
-		if (request.getParameter("searchQuery") != null) {
-			searchQuery = request.getParameter("searchQuery");
-		}
-
-		response.setRenderParameter("institutionId", institutionId+"");
-		response.setRenderParameter("parentInstitutionId", parentInstitutionId+"");
-		response.setRenderParameter("termId", termId+"");
-		response.setRenderParameter("categoryId", categoryId+"");
-		response.setRenderParameter("creatorId", creatorId+"");
-		response.setRenderParameter("searchQuery", searchQuery);
-		response.setRenderParameter("jspPage", jspPage);
-	}
-	
-	public void addSearch(ActionRequest request, ActionResponse response) {
-		String jspPage = request.getParameter("jspPage");
-		String searchQuery = request.getParameter("searchQuery");
-		
-		response.setRenderParameter("searchQuery", searchQuery);
-		response.setRenderParameter("jspPage", jspPage);
-	}
-
 	public void viewOpenAccessVideo(ActionRequest request, ActionResponse response) {
 		String objectType = ParamUtil.getString(request, "objectType");
 		String password = request.getParameter("password");
