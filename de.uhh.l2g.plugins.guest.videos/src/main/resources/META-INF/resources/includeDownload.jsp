@@ -30,24 +30,6 @@
 						<a href="${video.m4aDownloadLink}" target="_blank"> <span class="icon-large icon-music"></span><br/><liferay-ui:message key="m4a-audio"/> </a>
 					</div>
 				</c:if>
-
-				<c:if test="${video.oggFile.isFile()==true}">
-					<div class="download">
-						<a href="${video.oggDownloadLink}" target="_blank"> <span class="icon-large icon-film"></span><br/><liferay-ui:message key="ogg-video"/> </a>
-					</div>
-				</c:if>
-
-				<c:if test="${video.webmFile.isFile()==true}">
-					<div class="download">
-						<a href="${video.webmDownloadLink}" target="_blank"> <span class="icon-large icon-film"></span><br/><liferay-ui:message key="webm-video"/> </a>
-					</div>
-				</c:if>
-
-				<c:if test="${video.flvFile.isFile()==true}">
-					<div class="download">
-						<a href="${video.flvDownloadLink}" target="_blank"> <span class="icon-large icon-film"></span><br/><liferay-ui:message key="flv-video"/> </a>
-					</div>
-				</c:if>
 			</div>
 		<!-- openaccess end -->
 </div>

@@ -11,13 +11,13 @@
         // Start- und Endzeit der Zitatfunktion ermitteln (Durch die URL Parameter)
         var frameStart = getUrlParameter('start');
         var frameEnd = getUrlParameter('end');
-        var fs = <%=timeStart%>;
-        var fe = <%=timeEnd%>;
-        var citationAllowed = <%=video.getCitation2go()%>;
+        var fs = ${timeStart};
+        var fe = ${timeEnd};
+        var citationAllowed = ${video.citation2go};
         
 		if(citationAllowed==1 && fs>0 && fe>fs){
-	        frameStart = <%=timeStart%>;
-	        frameEnd = <%=timeEnd%>;		
+	        frameStart = ${timeStart};
+	        frameEnd = ${timeEnd};		
 		}
 		
         var playerUri1 ="${video.playerUris.get(0)}";
@@ -217,8 +217,8 @@
             
             function generateClipLink (firstFrame, lastFrame) {
             	$citation.val("${video.url}"+"/"+firstFrame+"/"+lastFrame);
-            	var vid = <%=video.getVideoId()%>;
-            	var host ='<%=PropsUtil.get("lecture2go.web.root")%>';
+            	var vid = "${video.videoId}";
+            	var host ="${lecture2goWebRoot}";
             	
             	var iframe="<iframe src='"+host+"/lecture2go-portlet/player/iframe/?v="+vid+"/"+firstFrame+"/"+lastFrame+"' frameborder='0' width='647' height='373' allowfullscreen></iframe>";
             	$citationiframe.val(iframe);

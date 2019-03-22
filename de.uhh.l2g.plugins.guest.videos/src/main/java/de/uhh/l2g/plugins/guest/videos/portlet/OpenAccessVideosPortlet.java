@@ -89,9 +89,78 @@ import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
 )
 public class OpenAccessVideosPortlet extends MVCPortlet {
 	private static final Log _log = LogFactoryUtil.getLog(OpenAccessVideosPortlet.class);
-
+	
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+		String view = ParamUtil.getString(renderRequest, "jspPage");
+
+		switch (view) {
+		case "/viewDetails.jsp":
+			renderDetails(renderRequest, renderResponse);
+			break;
+
+		default:
+			renderList(renderRequest, renderResponse);
+			break;
+		}
+		
+		
+		super.render(renderRequest, renderResponse);
+	}
+	
+	@Override
+	public void serveResource( ResourceRequest resourceRequest, ResourceResponse resourceResponse ) throws IOException, PortletException {
+		String resourceID = resourceRequest.getResourceID();
+		String cmd = ParamUtil.getString(resourceRequest, Constants.CMD);
+		if (cmd.equals("get_search_words")) {
+			getSearchWords(resourceRequest, resourceResponse);
+		}
+		
+		try{
+			if(resourceID.equals("showSegments")){
+				String vId = ParamUtil.getString(resourceRequest, "videoId");
+				Long vID = new Long(vId);
+				com.liferay.portal.kernel.json.JSONArray ja = JSONFactoryUtil.createJSONArray();
+				//get segments for video and convert to json array
+				try {
+					List<Segment> sl= SegmentLocalServiceUtil.getSegmentsByVideoId(vID);
+					ListIterator<Segment> sIt = sl.listIterator();
+					while(sIt.hasNext()){
+						Segment s = sIt.next();
+						JSONObject jo = JSONFactoryUtil.createJSONObject();
+						jo.put("chapter", s.getChapter());
+						jo.put("description", s.getDescription());
+						jo.put("end", s.getEnd());
+						jo.put("image", s.getImage());
+						jo.put("number", s.getNumber());
+						jo.put("segmentId", s.getPrimaryKey());
+						jo.put("seconds", s.getSeconds());
+						jo.put("start", s.getStart());
+						jo.put("title", s.getTitle());
+						jo.put("userId", s.getUserId());
+						jo.put("videoId", s.getVideoId());
+						jo.put("previousSegmentId", SegmentLocalServiceUtil.getPreviusSegmentId(s.getSegmentId()));
+						ja.put(jo);
+					}
+					
+				} catch (PortalException e) {
+					//e.printStackTrace();
+				} catch (SystemException e) {
+					//e.printStackTrace();
+				}
+				writeJSON(resourceRequest, resourceResponse, ja);
+			}			
+		}catch (NullPointerException npe){}
+		
+	}
+	
+	public static JSONArray wordsJSONArray = JSONFactoryUtil.createJSONArray();
+	private void getSearchWords(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws IOException, PortletException {
+		PrintWriter out = resourceResponse.getWriter();
+		out.println(wordsJSONArray);
+	}
+	
+	public void renderList(RenderRequest renderRequest, RenderResponse renderResponse) {
 		Long parentInstitutionId = ParamUtil.getLong(renderRequest, "parentInstitutionId");
 		Long institutionId 	= ParamUtil.getLong(renderRequest, "institutionId", 0);
 		Long termId = ParamUtil.getLong(renderRequest, "termId", 0);
@@ -232,71 +301,16 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 		renderRequest.setAttribute("insti", insti);
 		renderRequest.setAttribute("pInst", pInst);
 		renderRequest.setAttribute("rInst", rInst);
-		//
-		
-		super.render(renderRequest, renderResponse);
+		//		
 	}
-	
-	@Override
-	public void serveResource( ResourceRequest resourceRequest, ResourceResponse resourceResponse ) throws IOException, PortletException {
-		String resourceID = resourceRequest.getResourceID();
-		String cmd = ParamUtil.getString(resourceRequest, Constants.CMD);
-		if (cmd.equals("get_search_words")) {
-			getSearchWords(resourceRequest, resourceResponse);
-		}
-		
-		try{
-			if(resourceID.equals("showSegments")){
-				String vId = ParamUtil.getString(resourceRequest, "videoId");
-				Long vID = new Long(vId);
-				com.liferay.portal.kernel.json.JSONArray ja = JSONFactoryUtil.createJSONArray();
-				//get segments for video and convert to json array
-				try {
-					List<Segment> sl= SegmentLocalServiceUtil.getSegmentsByVideoId(vID);
-					ListIterator<Segment> sIt = sl.listIterator();
-					while(sIt.hasNext()){
-						Segment s = sIt.next();
-						JSONObject jo = JSONFactoryUtil.createJSONObject();
-						jo.put("chapter", s.getChapter());
-						jo.put("description", s.getDescription());
-						jo.put("end", s.getEnd());
-						jo.put("image", s.getImage());
-						jo.put("number", s.getNumber());
-						jo.put("segmentId", s.getPrimaryKey());
-						jo.put("seconds", s.getSeconds());
-						jo.put("start", s.getStart());
-						jo.put("title", s.getTitle());
-						jo.put("userId", s.getUserId());
-						jo.put("videoId", s.getVideoId());
-						jo.put("previousSegmentId", SegmentLocalServiceUtil.getPreviusSegmentId(s.getSegmentId()));
-						ja.put(jo);
-					}
-					
-				} catch (PortalException e) {
-					//e.printStackTrace();
-				} catch (SystemException e) {
-					//e.printStackTrace();
-				}
-				writeJSON(resourceRequest, resourceResponse, ja);
-			}			
-		}catch (NullPointerException npe){}
-		
-	}
-	
-	public static JSONArray wordsJSONArray = JSONFactoryUtil.createJSONArray();
-	private void getSearchWords(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws IOException, PortletException {
-		PrintWriter out = resourceResponse.getWriter();
-		out.println(wordsJSONArray);
-	}
-	
-	public void viewOpenAccessVideo(ActionRequest request, ActionResponse response) {
-		String objectType = ParamUtil.getString(request, "objectType");
-		String password = request.getParameter("password");
+	public void renderDetails(RenderRequest renderRequest, RenderResponse renderResponse) {
+		String objectType = ParamUtil.getString(renderRequest, "objectType");
+		String password = renderRequest.getParameter("password");
 		boolean objectExists = true;
 		
 		Long objectId = new Long(0);
 		boolean secLink = false;
-	   	String oid = request.getParameter("objectId");
+	   	String oid = renderRequest.getParameter("objectId");
 		
 	    try{
 	    	objectId = new Long(oid);
@@ -318,8 +332,8 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 	    Long timeEnd = new Long(0);
 	    
 	    try{
-	    	timeStart = new Long(ParamUtil.getString(request, "timeStart"));
-	    	timeEnd = new Long(ParamUtil.getString(request, "timeEnd"));
+	    	timeStart = new Long(ParamUtil.getString(renderRequest, "timeStart"));
+	    	timeEnd = new Long(ParamUtil.getString(renderRequest, "timeEnd"));
 	    }catch(Exception e){}
 	   
 	    Video video = VideoLocalServiceUtil.createVideo(0);
@@ -338,7 +352,7 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 	    		}
 	    	}catch(Exception e){
 	    		objectExists = false;
-	    		response.setRenderParameter("jspPage","/noVideosFound.jsp");	
+	    		//response.setRenderParameter("jspPage","/noVideosFound.jsp");	
 	    	}
 	    }else if(objectType.equals("v")){
 	    	video = VideoLocalServiceUtil.getFullVideo(objectId);
@@ -410,7 +424,7 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 
 	   			
 	    		//2. authentication by cookie
-				Cookie[] c = request.getCookies();
+				Cookie[] c = renderRequest.getCookies();
 				try{
 					for(int i=0; i<c.length;i++){
 						Cookie coo = c[i];
@@ -439,21 +453,21 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 	    		}
 	    	}
 		    
-		    request.setAttribute("videoLicense",l);
-		    request.setAttribute("videoMetadata",m);
-		    request.setAttribute("videoInstitutions",vi);
-		    request.setAttribute("videoLectureseries",vl);
-		    request.setAttribute("video",video);
-		    request.setAttribute("relatedVideos",relatedVideos);
-		    request.setAttribute("segments",segments);
-		    request.setAttribute("lectureseries",lectureseries);
-		    request.setAttribute("timeStart",timeStart);
-		    request.setAttribute("timeEnd",timeEnd);
-		    request.setAttribute("objectType",objectType);
-		    request.setAttribute("objectId",oid);
+		    renderRequest.setAttribute("videoLicense",l);
+		    renderRequest.setAttribute("videoMetadata",m);
+		    renderRequest.setAttribute("videoInstitutions",vi);
+		    renderRequest.setAttribute("videoLectureseries",vl);
+		    renderRequest.setAttribute("video",video);
+		    renderRequest.setAttribute("relatedVideos",relatedVideos);
+		    renderRequest.setAttribute("segments",segments);
+		    renderRequest.setAttribute("lectureseries",lectureseries);
+		    renderRequest.setAttribute("timeStart",timeStart);
+		    renderRequest.setAttribute("timeEnd",timeEnd);
+		    renderRequest.setAttribute("objectType",objectType);
+		    renderRequest.setAttribute("objectId",oid);
 		    
-		    if(video.getVideoId()==0) response.setRenderParameter("jspPage","noVideosFound.jsp");	
-		    else response.setRenderParameter("jspPage","/viewDetails.jsp");	    	
+//		    if(video.getVideoId()==0) renderResponse.setProperty("jspPage","/noVideosFound.jsp");	
+//		    else renderResponse.setProperty("jspPage","/viewDetails.jsp");	    	
 	    }
 	}
 	

@@ -8,7 +8,10 @@
 <%@page import="com.liferay.portal.kernel.util.WebKeys" %>
 <%@page import="com.liferay.portal.kernel.theme.ThemeDisplay" %>
 <%@page import="com.liferay.portal.kernel.util.PrefsPropsUtil"%>
-<%@page import="com.liferay.portal.kernel.util.PropsKeys"%>
+<%@page import="com.liferay.portal.kernel.util.PropsKeys "%>
+<%@page import="com.liferay.portal.kernel.util.PortalUtil" %>
+<%@page import="com.liferay.portal.kernel.util.PrefsPropsUtil"%>
+<%@page import="com.liferay.portal.kernel.util.PropsUtil" %>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
 <%@page import="com.liferay.portal.kernel.dao.search.SearchContainer"%>
@@ -51,8 +54,11 @@
 	Long companyId = company.getCompanyId();
 	Long groupId = company.getGroup().getGroupId();		
 	Long userId = realUser.getUserId();		
+	PortalUtil.setPageTitle((String)pageContext.getAttribute("pageTitle"), request);
 %>
 
 <script>
 	var nameSpace = "<portlet:namespace />";
 </script>
+
+<c:set var="nameSpace" value="<portlet:namespace />"/>

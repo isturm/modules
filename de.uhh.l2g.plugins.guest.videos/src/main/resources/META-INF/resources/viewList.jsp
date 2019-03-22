@@ -42,14 +42,14 @@
 	pageContext.setAttribute("hasManyTerms", presentTerms.size() > maxTerms);
 %>
 
-	<portlet:actionURL var="backURL0" name="addFilter">
+	<portlet:renderURL var="backURL0">
 		<portlet:param name="jspPage" value="/viewList.jsp" />
 		<portlet:param name="parentInstitutionId" value="0"/>
 		<portlet:param name="institutionId" value="0"/>
 		<portlet:param name="termId" value="0"/>
 		<portlet:param name="categoryId" value="0"/>
 		<portlet:param name="creatorId" value="0"/>
-	</portlet:actionURL>
+	</portlet:renderURL>
 		
 	<div class="path-wide">
 	<A HREF=${portalURL}>${company.name}</A><span class="uhh-icon-arrow-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
@@ -61,27 +61,27 @@
 	</c:if>
 	
 	<c:if test="${pInst.name.length()>0}">
-		<portlet:actionURL var="backURL1" name="addFilter">
+		<portlet:renderURL var="backURL1" >
 			<portlet:param name="jspPage" value="/viewList.jsp" />
 			<portlet:param name="parentInstitutionId" value="${pInst.institutionId}\'\'"/>
 			<portlet:param name="institutionId" value="0"/>
 			<portlet:param name="termId" value="0"/>
 			<portlet:param name="categoryId" value="0"/>
 			<portlet:param name="creatorId" value="0"/>
-		</portlet:actionURL>
+		</portlet:renderURL>
 		<span class="uhh-icon-arrow-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 		<A HREF="${backURL1}">${pInst.name}</A>	
 	</c:if>
 	
 	<c:if test="${insti.name.length()>0}">
-			<portlet:actionURL var="backURL2" name="addFilter">
+			<portlet:renderURL var="backURL2">
 				<portlet:param name="jspPage" value="/viewList.jsp" />
 				<portlet:param name="parentInstitutionId" value="${pInst.institutionId}\'\'"/>
 				<portlet:param name="institutionId" value="${insti.institutionId}\'\'"/>
 				<portlet:param name="termId" value="0"/>
 				<portlet:param name="categoryId" value="0"/>
 				<portlet:param name="creatorId" value="0"/>
-			</portlet:actionURL>	
+			</portlet:renderURL>	
 			<span class="uhh-icon-arrow-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 			<A HREF="${backURL2}">${insti.name}</A> 
 	</c:if>
@@ -185,7 +185,7 @@
 	
 <div>
 		
-<portlet:actionURL var="filterBySearchQuery" name="addFilter">
+<portlet:renderURL var="filterBySearchQuery">
 	<portlet:param name="jspPage" value="/viewList.jsp" />
 	<portlet:param name="institutionId" value="0"/>
 	<portlet:param name="parentInstitutionId" value="0"/>
@@ -193,7 +193,7 @@
 	<portlet:param name="categoryId" value="0"/>
 	<portlet:param name="creatorId" value="0"/>
 	<portlet:param name="jspPage" value="/viewList.jsp" />
-</portlet:actionURL>		
+</portlet:renderURL>		
 
 		
 	<liferay-ui:search-container emptyResultsMessage="no-lectureseries-or-videos-found" delta="20" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
@@ -236,11 +236,12 @@
 						</c:choose>		
 				
 						<liferay-ui:search-container-column-text>
-										<portlet:actionURL name="viewOpenAccessVideo" var="view1URL">
-											<portlet:param name="objectId" value="${oId}"/>
+										<portlet:renderURL var="view1URL">
+											<portlet:param name="jspPage" value="/viewDetails.jsp" />
+											<portlet:param name="objectId" value="${oId}"/>											
 											<c:if test="${isVideo}"><portlet:param name="objectType" value="v"/></c:if>
 											<c:if test="${!isVideo}"><portlet:param name="objectType" value="l"/></c:if>
-										</portlet:actionURL>
+										</portlet:renderURL>
 										
 										<div class="videotile wide" onClick="window.location='${view1URL}'">
 											<c:choose>
@@ -331,10 +332,11 @@
 												</button>
 												<ul id="p${oId}">
 													<c:forEach items="${vl}" var="v">
-														<portlet:actionURL name="viewOpenAccessVideo" var="vURL">
+														<portlet:renderURL var="vURL">
+															<portlet:param name="jspPage" value="/viewDetails.jsp" />
 															<portlet:param name="objectId" value="${v.videoId}"/>
 															<portlet:param name="objectType" value="v"/>
-														</portlet:actionURL>				
+														</portlet:renderURL>				
 						
 														<li class="videotile small" onClick="window.location='${vURL}'">
 																<div class="videotile metainfolist small">
