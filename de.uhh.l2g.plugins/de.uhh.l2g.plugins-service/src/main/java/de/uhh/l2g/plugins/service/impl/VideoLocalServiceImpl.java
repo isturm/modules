@@ -15,9 +15,14 @@
 package de.uhh.l2g.plugins.service.impl;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -32,8 +37,10 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.search.ParseException;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -62,6 +69,7 @@ import de.uhh.l2g.plugins.service.SegmentLocalServiceUtil;
 import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 import de.uhh.l2g.plugins.service.base.VideoLocalServiceBaseImpl;
 import de.uhh.l2g.plugins.util.FFmpegManager;
+import de.uhh.l2g.plugins.util.ProzessManager;
 
 /**
  * The implementation of the video local service.
@@ -92,6 +100,10 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 
 	public List<Video> getByOpenAccess(int bool) throws SystemException {
 		return videoPersistence.findByOpenAccess(bool);
+	}
+
+	public int getByOpenAccessAndUploadedFile(int bool) throws SystemException {
+		return	videoPersistence.countByOpenAccessAndUploadedFile(bool);
 	}
 
 	public Video getLatestOpenAccessVideoForLectureseries(Long lectureseriesId) {
@@ -128,6 +140,10 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		return rvl;
 	}
 
+	public int countByLectureseries(Long lectureseriesId) throws SystemException {
+		return videoPersistence.countByLectureseries(lectureseriesId);
+	}
+
 	public List<Video> getByProducerAndLectureseries(Long producerId, Long lectureseriesId) throws SystemException {
 		List<Video> vl = videoPersistence.findByProducerAndLectureseries(producerId, lectureseriesId);
 		return vl;
@@ -145,362 +161,159 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	public List<Video> getLatestVideos(){
 		return videoFinder.findLatestVideos();
 	}
-
-	@Override
-	public Video getFullVideo(Long videoId){
+	
+	public void createThumbnailsIfNotExisting(Long videoId) {
 		Video objectVideo = VideoLocalServiceUtil.createVideo(0);
 		try {
-			objectVideo = videoPersistence.findByPrimaryKey(videoId);
-		} catch (NoSuchModelException e1) {
-//			e1.printStackTrace();
-		} catch (SystemException e1) {
-//			e1.printStackTrace();
+			objectVideo = getVideo(videoId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
 		}
-		// add all properties to the video object
-		Host objectHost = new HostImpl();
-		try {
-			objectHost = HostLocalServiceUtil.getHost(objectVideo.getHostId());
-		} catch (PortalException e1) {
-//			e1.printStackTrace();
-		} catch (SystemException e1) {
-//			e1.printStackTrace();
-		}
-		Producer objectProducer = new ProducerImpl();
-		try {
-			objectProducer = producerPersistence.findByPrimaryKey(objectVideo.getProducerId());
-		} catch (NoSuchProducerException e1) {
-//			e1.printStackTrace();
-		} catch (SystemException e1) {
-//			e1.printStackTrace();
-		}
-		@SuppressWarnings("unused")
-		Lectureseries objectLectureseries = new LectureseriesImpl();
-		try {
-			objectLectureseries = lectureseriesPersistence.findByPrimaryKey(objectVideo.getLectureseriesId());
-		} catch (NoSuchLectureseriesException e1) {
-//			e1.printStackTrace();
-		} catch (SystemException e1) {
-//			e1.printStackTrace();
-		}
-
-		// prepare video short name
-		String video_shortname = objectVideo.getTitle();
-		if (video_shortname.length() > 45)
-			video_shortname = video_shortname.substring(0, 45) + "...";
-		objectVideo.setShortTitle(video_shortname);
-		
-		// thumbnails
-		String image = "";
-		String imageSmall = "";
-		String imageMedium = "";
-		String videoPfad = "";
-		if (objectVideo.getOpenAccess() == 1) {
-			videoPfad = PropsUtil.get("lecture2go.media.repository") + "/" + objectHost.getServerRoot() + "/" + objectProducer.getHomeDir() + "/" + objectVideo.getFilename();
-			image = objectVideo.getPreffix() + ".jpg";
-			imageSmall = objectVideo.getPreffix() + "_s.jpg";
-			imageMedium = objectVideo.getPreffix() + "_m.jpg";
-		} else {
-			videoPfad = PropsUtil.get("lecture2go.media.repository") + "/" + objectHost.getServerRoot() + "/" + objectProducer.getHomeDir() + "/" + objectVideo.getSecureFilename();
-			image = objectVideo.getSPreffix() + ".jpg";
-			imageSmall = objectVideo.getSPreffix() + "_s.jpg";
-			imageMedium = objectVideo.getSPreffix() + "_m.jpg";
-		}
-		
-		// set thumbnail
-		// if no file
-			
-		if (objectVideo.getContainerFormat().equals("") && objectVideo.getFilename().equals("")) {
-			objectVideo.setImage(PropsUtil.get("lecture2go.theme.root.path") + "/images/nomedia.png");
-			objectVideo.setImageSmall(PropsUtil.get("lecture2go.theme.root.path") + "/images/nomedia.png");
-			objectVideo.setImageMedium(PropsUtil.get("lecture2go.theme.root.path") + "/images/nomedia.png");
-		}		
-		// if audio file
-		if (objectVideo.getContainerFormat().equals("mp3")) {
-			objectVideo.setImage(PropsUtil.get("lecture2go.theme.root.path") + "/images/audio_only_big.png");
-			objectVideo.setImageSmall(PropsUtil.get("lecture2go.theme.root.path") + "/images/audio_only_small.png");
-			objectVideo.setImageMedium(PropsUtil.get("lecture2go.theme.root.path") + "/images/audio_only_medium.png");
-		}
-		// is video
+		// only create thumbnails for mp4 files
 		if (objectVideo.getContainerFormat().equals("mp4")) {
-			File videoFile = new File(videoPfad);
+			/*String filePath = PropsUtil.get("lecture2go.media.repository") + "/" + objectVideo.getHost().getServerRoot() + "/" + objectVideo.getProducer().getHomeDir() + "/" + objectVideo.getFilename();
+			File videoFile = new File(filePath);*/
+			File videoFile = objectVideo.getMp4File();
+
 			if (videoFile.isFile()) {
 				if (!FFmpegManager.thumbnailsExists(objectVideo)) {
 					// create thumbnail
-					String thumbnailLocation = PropsUtil.get("lecture2go.images.system.path") + "/" + image;
-					FFmpegManager.createThumbnail(videoPfad, thumbnailLocation);
+					String thumbnailLocation = PropsUtil.get("lecture2go.images.system.path") + "/" + objectVideo.getCurrentPrefix() + ".jpg";
+					//duration in seconds 
+					String myDateString = objectVideo.getDuration();
+					//SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+					//the above commented line was changed to the one below, as per Grodriguez's pertinent comment:
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+					try {
+						java.util.Date date = sdf.parse(myDateString);
+						Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+						calendar.setTime(date);   // assigns calendar to given date 
+						int hour = calendar.get(Calendar.HOUR);
+						int min = calendar.get(Calendar.MINUTE);
+						int sec = calendar.get(Calendar.SECOND);
+						int dur = hour+sec+min;
+						FFmpegManager.createThumbnail(videoFile.getPath(), thumbnailLocation, dur/2);
+					} catch (java.text.ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-				objectVideo.setImage(PropsUtil.get("lecture2go.web.root") + "/images/" + image);
-				objectVideo.setImageSmall(PropsUtil.get("lecture2go.web.root") + "/images/" + imageSmall);
-				objectVideo.setImageMedium(PropsUtil.get("lecture2go.web.root") + "/images/" + imageMedium);
-			} else {
-				String img = PropsUtil.get("lecture2go.theme.root.path") + "/images/noimage.png";
-				objectVideo.setImage(img);
-				objectVideo.setImageSmall(img);
-				objectVideo.setImageMedium(img);
 			}
 		}
-		// date
-		// extract time and date from the originalFileName
-		String[] parameter = objectVideo.getGenerationDate().split("\\_");
-		// check parameter 3 - this is the date
-		String l2gDate = "";
-		String l2gTime = ""; 
-		try{
-			l2gDate = parameter[0];
-			l2gTime = parameter[1];
-			objectVideo.setDate(l2gDate.split("\\-")[2] + "." + l2gDate.split("\\-")[1] + "." + l2gDate.split("\\-")[0] + " - " + l2gTime.split("\\-")[0] + ":" + l2gTime.split("\\-")[1]);
-			objectVideo.setSimpleDate(l2gDate.split("\\-")[2] + "." + l2gDate.split("\\-")[1] + "." + l2gDate.split("\\-")[0]);
-		}catch(ArrayIndexOutOfBoundsException ai){}
-		
-		// set preffix and filename
-		String preffix = "";
-		@SuppressWarnings("unused")
-		String filename = "";
-		if (objectVideo.getOpenAccess() == 1) {
-			preffix = objectVideo.getPreffix();
-			filename = objectVideo.getFilename();
-		} else {
-			preffix = objectVideo.getSPreffix();
-			filename = objectVideo.getSecureFilename();
-		}
-		String homedirPath = "";
-		homedirPath = PropsUtil.get("lecture2go.media.repository") + "/" + objectHost.getServerRoot() + "/" + objectProducer.getHomeDir() + "/" + preffix;
-		// additional files
+	}
+	
+	public void createSymLinkToDownloadableFileIfNotExisting(Long videoId) {
+		Video objectVideo = VideoLocalServiceUtil.createVideo(0);
 		try {
-			File mp4File = new File(homedirPath + ".mp4");
-			File mp3File = new File(homedirPath + ".mp3");
-			File m4vFile = new File(homedirPath + ".m4v");
-			File pdfFile = new File(homedirPath + ".pdf");
-			File m4aFile = new File(homedirPath + ".m4a");
-			File fvlFile = new File(homedirPath + ".flv");
-			File oggFile = new File(homedirPath + ".ogg");
-			File webmFile = new File(homedirPath + ".webm");
-			String vttChapterFile = new String(PropsUtil.get("lecture2go.chapters.web.root") +"/"+objectVideo.getVideoId()+".vtt");
-			//
-			objectVideo.setMp4File(mp4File);
-			objectVideo.setMp3File(mp3File);
-			objectVideo.setM4vFile(m4vFile);
-			objectVideo.setPdfFile(pdfFile);
-			objectVideo.setM4aFile(m4aFile);
-			objectVideo.setFlvFile(fvlFile);
-			objectVideo.setOggFile(oggFile);
-			objectVideo.setWebmFile(webmFile);
-			objectVideo.setVttChapterFile(vttChapterFile);
-			//test
+			objectVideo = getVideo(videoId);
 		} catch (Exception e) {
-			//
+			e.printStackTrace();
+			return;
 		}
-		// URL
-		String webhome = PropsUtil.get("lecture2go.web.home");
-		@SuppressWarnings("unused")
-		Institution institution = new InstitutionImpl();
-		try {
-			institution = institutionPersistence.findByPrimaryKey(objectVideo.getRootInstitutionId());
-		} catch (NoSuchInstitutionException e) {
-//			//e.printStackTrace();
-		} catch (SystemException e) {
-//			//e.printStackTrace();
-		}
-		try {
-			if (webhome.contains("localhost"))
-				webhome += "/web/vod";
-			objectVideo.setUrl(webhome + "/l2go/-/get/v/" + objectVideo.getVideoId());
-			if(objectVideo.getLectureseriesId()>0)
-				objectVideo.setLectureseriesUrl(webhome + "/l2go/-/get/l/" + objectVideo.getLectureseriesId()); 
-		} catch (NoSuchElementException nseex) {
-		}
-		// SURL
-		if (objectVideo.getOpenAccess() != 1){
-			objectVideo.setSecureUrl(webhome + "/l2go/-/get/v/" + objectVideo.getSPreffix());
-		}else{
-			objectVideo.setSecureUrl("");
-		}
-		
-		// Streaming-URL
-		addPlayerUris2Video(objectHost, objectVideo, objectProducer);
-		//Streaming-URL end
-			
-		List<Segment> sl = new ArrayList<Segment>();
-		try {
-			sl = SegmentLocalServiceUtil.getSegmentsByVideoId(videoId);
-			if(sl.size()>0)objectVideo.setHasChapters(true);
-		} catch (PortalException e) {
-		} catch (SystemException e) {
-		}
-		
-		//creators
-		String linkedCreators = CreatorLocalServiceUtil.getCommaSeparatedLinkedCreatorsByVideoIdAndMaxCreators(videoId,3);
-		objectVideo.setLinkedCreators(linkedCreators);
+		Host objectHost = objectVideo.getHost();
+		Producer objectProducer = objectVideo.getProducer();
 
-		String creators = CreatorLocalServiceUtil.getCommaSeparatedCreatorsByVideoIdAndMaxCreators(videoId,3);
-		objectVideo.setCreators(creators);
-		
-		//get download Links 
-		@SuppressWarnings("unused")
-		String l2go_path = objectVideo.getRootInstitutionId() + "l2g" + objectProducer.getHomeDir();
-		String preff="";
-		String pth="";
-		if(objectVideo.getOpenAccess()==1){
-			preff=objectVideo.getPreffix();
-			pth = PropsUtil.get("lecture2go.downloadserver.web.root")+"/abo/";
-		}
-		else {
-			preff=objectVideo.getSPreffix();
-			///getFile?downloadPath=/vh_001/rzii014/00.000_video-20527_2016-12-20_15-26.mp4&downloadAllowed=1
-			pth = PropsUtil.get("lecture2go.downloadserver.web.root")+"/servlet-file-download/getFile?downloadAllowed="+objectVideo.getDownloadLink()+"&downloadPath=/"+objectHost.getName()+"/"+objectProducer.getHomeDir()+"/";
-		}
-		String downMp3Link = pth+preff+".mp3";
-		String downMp4Link = pth+preff+".mp4";
-		String downM4vLink = pth+preff+".m4v";
-		String downM4aLink = pth+preff+".m4a";
-		String downWebmLink = pth+preff+".webm";
-		String downPdfLink = pth+preff+".pdf";
-		String downOggLink = pth+preff+".ogg";
-		String downFlvLink = pth+preff+".flv";
-		//
-		objectVideo.setMp4DownloadLink(downMp4Link);
-		objectVideo.setMp3DownloadLink(downMp3Link);
-		objectVideo.setM4vDownloadLink(downM4vLink);
-		objectVideo.setM4aDownloadLink(downM4aLink);
-		objectVideo.setWebmDownloadLink(downWebmLink);
-		objectVideo.setPdfDownloadLink(downPdfLink);
-		objectVideo.setOggDownloadLink(downOggLink);
-		objectVideo.setFlvDownloadLink(downFlvLink);
-		//rss links
-		if(objectVideo.getLectureseriesId()>0){
-			String rssMp3Link = PropsUtil.get("lecture2go.web.root")+"/rss/"+objectVideo.getLectureseriesId()+".mp3.xml";
-			String rssMp4Link = PropsUtil.get("lecture2go.web.root")+"/rss/"+objectVideo.getLectureseriesId()+".mp4.xml";
-			String rssM4vLink = PropsUtil.get("lecture2go.web.root")+"/rss/"+objectVideo.getLectureseriesId()+".m4v.xml";
-			String rssM4aLink = PropsUtil.get("lecture2go.web.root")+"/rss/"+objectVideo.getLectureseriesId()+".m4a.xml";
-			String rssWebmLink = PropsUtil.get("lecture2go.web.root")+"/rss/"+objectVideo.getLectureseriesId()+".webm.xml";
-			String rssOggLink = PropsUtil.get("lecture2go.web.root")+"/rss/"+objectVideo.getLectureseriesId()+".ogg.xml";
-			String rssFlvLink = PropsUtil.get("lecture2go.web.root")+"/rss/"+objectVideo.getLectureseriesId()+".flv.xml";		
-			//
-			objectVideo.setMp3RssLink(rssMp3Link);
-			objectVideo.setMp4RssLink(rssMp4Link);
-			objectVideo.setM4vRssLink(rssM4vLink);
-			objectVideo.setM4aRssLink(rssM4aLink);
-			objectVideo.setWebmRssLink(rssWebmLink);
-			objectVideo.setOggRssLink(rssOggLink);
-			objectVideo.setFlvRssLink(rssFlvLink);
-		}
-		
-		//embed iframe
-		String embedIframe="<iframe src='"+PropsUtil.get("lecture2go.web.root")+"/player/iframe/?v="+objectVideo.getVideoId()+"' frameborder='0' width='647' height='373' allowfullscreen></iframe>";
-		objectVideo.setEmbedIframe(embedIframe);
-		
-		//embed html5
-		String embedHtml5="";
-		if(objectVideo.getDownloadLink()==1){
-			if(objectVideo.getContainerFormat().equals("mp4")){
-				if(objectVideo.getOpenAccess()==1){
-					embedHtml5="<video width='647' height='373' controls><source src='"+PropsUtil.get("lecture2go.downloadserver.web.root")+"/abo/"+objectVideo.getPreffix()+".mp4"+"' type='video/mp4'>Your browser does not support the video tag.</video>";
-				}else{
-					embedHtml5="<video width='647' height='373' controls><source src='"+PropsUtil.get("lecture2go.downloadserver.web.root")+"/videorep/"+objectHost.getServerRoot()+"/"+objectProducer.getHomeDir()+"/"+objectVideo.getSecureFilename()+"' type='video/mp4'>Your browser does not support the video tag.</video>";
+		// check if file with download-suffix exists, if not create it 
+		// (we always create a _symlink_ with download suffix even if download is not permitted, as this file is also used as an RSTP fallback)
+		if(checkSmilFile(objectVideo)){
+			File file = new File(PropsUtil.get("lecture2go.media.repository") + "/" + objectHost.getServerRoot() + "/" + objectProducer.getHomeDir() + "/" + objectVideo.getCurrentPrefix()+PropsUtil.get("lecture2go.videoprocessing.downloadsuffix")+".mp4");
+			try {
+				if (!isSymlink(file)) {
+					ProzessManager pm = new ProzessManager();
+					pm.createSymLinkToDownloadableFile(objectHost, objectVideo, objectProducer);
 				}
-			}else{
-				if(objectVideo.getOpenAccess()==1){
-					embedHtml5="<audio controls><source src='"+PropsUtil.get("lecture2go.downloadserver.web.root")+"/abo/"+objectVideo.getPreffix()+".mp3"+"' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
-				}else{
-					embedHtml5="<audio controls><source src='"+PropsUtil.get("lecture2go.downloadserver.web.root")+"/videorep/"+objectHost.getServerRoot()+"/"+objectProducer.getHomeDir()+"/"+objectVideo.getSecureFilename()+"' type='audio/mpeg'>Your browser does not support the audio element.</audio>";
-				}				
-			}
+			} catch (Exception e) {
+				//e.printStackTrace();
+			} 
 		}
-		
-		//embed commsy
-		String embedCommsy="";
-		if(objectVideo.getOpenAccess()==1){
-			embedCommsy ="(:lecture2go "+objectVideo.getRootInstitutionId() + "l2g" + objectProducer.getHomeDir()+"/"+objectVideo.getFilename()+":)";
-		}else{
-			embedCommsy ="(:lecture2go "+objectVideo.getRootInstitutionId() + "l2g" + objectProducer.getHomeDir()+"/"+objectVideo.getSecureFilename()+":)";
-		}
-		objectVideo.setEmbedCommsy(embedCommsy);
-		
-		objectVideo.setEmbedHtml5(embedHtml5);
-		
-		return objectVideo;
 	}
 	
 	public JSONArray getJSONVideo(Long videoId){
-		Video video = getFullVideo(videoId);
 		JSONArray json = JSONFactoryUtil.createJSONArray();
-		
-		if(video.getMp4File().isFile()){
-			JSONObject jsonoMp4 = JSONFactoryUtil.createJSONObject();
-			String name="";
-			if(video.getOpenAccess()==1){
-				name=video.getPreffix()+".mp4";
-			}else{
-				name=video.getSPreffix()+".mp4";
+		try {
+			Video video = getVideo(videoId);
+					
+			if(video.getMp4File().isFile()){
+				JSONObject jsonoMp4 = JSONFactoryUtil.createJSONObject();
+				String name="";
+				if(video.getOpenAccess()==1){
+					name=video.getPreffix()+".mp4";
+				}else{
+					name=video.getSPreffix()+".mp4";
+				}
+				jsonoMp4.put("name", name);
+				jsonoMp4.put("id", name.replace(".", ""));
+				jsonoMp4.put("size", video.getFileSize());
+				jsonoMp4.put("type", "mp4");
+				json.put(jsonoMp4);
 			}
-			jsonoMp4.put("name", name);
-			jsonoMp4.put("id", name.replace(".", ""));
-			jsonoMp4.put("size", video.getFileSize());
-			jsonoMp4.put("type", "mp4");
-			json.put(jsonoMp4);
-		}
+	
+			if(video.getMp3File().isFile()){
+				JSONObject jsonoMp3 = JSONFactoryUtil.createJSONObject();
+				jsonoMp3.put("name", video.getMp3File().getName());
+				jsonoMp3.put("id", video.getMp3File().getName().replace(".", ""));
+				jsonoMp3.put("size", video.getMp3File().getTotalSpace());
+				jsonoMp3.put("type", "mp3");
+				json.put(jsonoMp3);
+			}
+			
+			if(video.getM4aFile().isFile()){
+				JSONObject jsonoM4a = JSONFactoryUtil.createJSONObject();
+				jsonoM4a.put("name", video.getM4aFile().getName());
+				jsonoM4a.put("id", video.getM4aFile().getName().replace(".", ""));
+				jsonoM4a.put("size",  video.getM4aFile().getTotalSpace());
+				jsonoM4a.put("type", "m4a");
+				json.put(jsonoM4a); 
+			}
+	
+			if(video.getM4vFile().isFile()){
+				JSONObject jsonoM4v = JSONFactoryUtil.createJSONObject();
+				jsonoM4v.put("name", video.getM4vFile().getName());
+				jsonoM4v.put("id", video.getM4vFile().getName().replace(".", ""));
+				jsonoM4v.put("size", video.getM4vFile().getTotalSpace());
+				jsonoM4v.put("type", "m4v");
+				json.put(jsonoM4v);
+			}
+			
+			if(video.getPdfFile().isFile()){
+				JSONObject pdf = JSONFactoryUtil.createJSONObject();
+				pdf.put("name", video.getPdfFile().getName());
+				pdf.put("id", video.getPdfFile().getName().replace(".", ""));
+				pdf.put("size", video.getPdfFile().getTotalSpace());
+				pdf.put("type", "pdf");
+				json.put(pdf);
+			}
+			
+			if(video.getFlvFile().isFile()){
+				JSONObject flv = JSONFactoryUtil.createJSONObject();
+				flv.put("name", video.getFlvFile().getName());
+				flv.put("id", video.getFlvFile().getName().replace(".", ""));
+				flv.put("size", video.getFlvFile().getTotalSpace());
+				flv.put("type", "flv");
+				json.put(flv);
+			}
+			
+			if(video.getOggFile().isFile()){
+				JSONObject ogg = JSONFactoryUtil.createJSONObject();
+				ogg.put("name", video.getOggFile().getName());
+				ogg.put("id", video.getOggFile().getName().replace(".", ""));
+				ogg.put("size", video.getOggFile().getTotalSpace());
+				ogg.put("type", "ogg");
+				json.put(ogg);
+			}
+			
+			if(video.getWebmFile().isFile()){
+				JSONObject webm = JSONFactoryUtil.createJSONObject();
+				webm.put("name", video.getWebmFile().getName());
+				webm.put("id", video.getWebmFile().getName().replace(".", ""));
+				webm.put("size", video.getWebmFile().getTotalSpace());
+				webm.put("type", "webm");
+				json.put(webm);
+			}
+		
+		} catch (Exception e) {
 
-		if(video.getMp3File().isFile()){
-			JSONObject jsonoMp3 = JSONFactoryUtil.createJSONObject();
-			jsonoMp3.put("name", video.getMp3File().getName());
-			jsonoMp3.put("id", video.getMp3File().getName().replace(".", ""));
-			jsonoMp3.put("size", video.getMp3File().getTotalSpace());
-			jsonoMp3.put("type", "mp3");
-			json.put(jsonoMp3);
-		}
-		
-		if(video.getM4aFile().isFile()){
-			JSONObject jsonoM4a = JSONFactoryUtil.createJSONObject();
-			jsonoM4a.put("name", video.getM4aFile().getName());
-			jsonoM4a.put("id", video.getM4aFile().getName().replace(".", ""));
-			jsonoM4a.put("size",  video.getM4aFile().getTotalSpace());
-			jsonoM4a.put("type", "m4a");
-			json.put(jsonoM4a); 
-		}
-
-		if(video.getM4vFile().isFile()){
-			JSONObject jsonoM4v = JSONFactoryUtil.createJSONObject();
-			jsonoM4v.put("name", video.getM4vFile().getName());
-			jsonoM4v.put("id", video.getM4vFile().getName().replace(".", ""));
-			jsonoM4v.put("size", video.getM4vFile().getTotalSpace());
-			jsonoM4v.put("type", "m4v");
-			json.put(jsonoM4v);
-		}
-		
-		if(video.getPdfFile().isFile()){
-			JSONObject pdf = JSONFactoryUtil.createJSONObject();
-			pdf.put("name", video.getPdfFile().getName());
-			pdf.put("id", video.getPdfFile().getName().replace(".", ""));
-			pdf.put("size", video.getPdfFile().getTotalSpace());
-			pdf.put("type", "pdf");
-			json.put(pdf);
-		}
-		
-		if(video.getFlvFile().isFile()){
-			JSONObject flv = JSONFactoryUtil.createJSONObject();
-			flv.put("name", video.getFlvFile().getName());
-			flv.put("id", video.getFlvFile().getName().replace(".", ""));
-			flv.put("size", video.getFlvFile().getTotalSpace());
-			flv.put("type", "flv");
-			json.put(flv);
-		}
-		
-		if(video.getOggFile().isFile()){
-			JSONObject ogg = JSONFactoryUtil.createJSONObject();
-			ogg.put("name", video.getOggFile().getName());
-			ogg.put("id", video.getOggFile().getName().replace(".", ""));
-			ogg.put("size", video.getOggFile().getTotalSpace());
-			ogg.put("type", "ogg");
-			json.put(ogg);
-		}
-		
-		if(video.getWebmFile().isFile()){
-			JSONObject webm = JSONFactoryUtil.createJSONObject();
-			webm.put("name", video.getWebmFile().getName());
-			webm.put("id", video.getWebmFile().getName().replace(".", ""));
-			webm.put("size", video.getWebmFile().getTotalSpace());
-			webm.put("type", "webm");
-			json.put(webm);
 		}
 		return json;
 	}
@@ -519,6 +332,10 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		}
 	}
 
+	public int countByLectureseriesAndOpenaccess(Long lectureseriesId, int openAccess) throws SystemException{
+		return videoPersistence.countByLectureseriesAndOpenaccess(lectureseriesId, openAccess);
+	}
+	
 	public List<Video> getByLectureseriesAndOpenaccess(Long lectureseriesId, int openAccess) throws SystemException{
 		List<Video> vl = new ArrayList<Video>();
 		if(lectureseriesId!=0)vl=videoPersistence.findByLectureseriesAndOpenaccess(lectureseriesId, openAccess);	
@@ -544,7 +361,11 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	 * lecture2go.uri4.player.template=${lecture2go.downloadserver.web.root}/abo/[filename]
 	 * lecture2go.uri5.player.template=rtsp://[host]:[port]/vod/_definst/[ext]:[l2go_path]/[filename]
 	**/
-	public void addPlayerUris2Video(Host host, Video video, Producer producer){
+	public void addPlayerUris2Video(Video video){
+		
+		Host host = video.getHost();
+		Producer producer = video.getProducer();
+		
 		ArrayList<String> playerUris = new ArrayList<String>();
 		JSONArray playerUrisSortedJSON = JSONFactoryUtil.createJSONArray();
 		
@@ -562,6 +383,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		for(int i=0; i<uris.size();i++){
 			String playerUri = "";
 			playerUri += uris.get(i);
+			/*
 			if(video.getOpenAccess()==1){
 				if (checkSmilFile(video)) {
 					playerUri = playerUri.replace("[smilfile]", video.getPreffix()+".smil");
@@ -572,7 +394,20 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 					playerUri = playerUri.replace("[smilfile]", video.getSPreffix()+".smil");
 				}
 				playerUri = playerUri.replace("[filename]", video.getSecureFilename());
+			}*/
+			
+			if (checkSmilFile(video)) {
+				playerUri = playerUri.replace("[smilfile]", video.getCurrentPrefix() +".smil");
 			}
+			
+			String filename;
+			if (video.getContainerFormat().equals("mp4")) {
+				// this returns the correct filename even for videos with multiple qualities
+				filename = video.getCurrentMp4FilenameWithReasonableBitrate();
+			} else {
+				filename = video.getCurrentFilename();
+			}
+			playerUri = playerUri.replace("[filename]", filename);
 			//
 			playerUri = playerUri.replace("[host]", host.getStreamer());
 			playerUri = playerUri.replace("[ext]", video.getContainerFormat());
@@ -587,7 +422,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		for(int i=0; i<playerUris.size();i++){
 			String uri = playerUris.get(i);
 			//json object
-			JSONObject o =  JSONFactoryUtil.createJSONObject();
+			JSONObject o = JSONFactoryUtil.createJSONObject();
 			//container
 			String container ="";
 			int l = uri.trim().split("\\.").length;
@@ -631,7 +466,10 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 	}	
 
 	public List<Video> getBySearchWordAndLectureseriesId(String word, Long lectureseriesId) throws SystemException{
-		return videoFinder.findVideosBySearchWordAndLectureseriesId(word, lectureseriesId);
+		List<Video> vl = new ArrayList<Video>();
+		if(lectureseriesId!=0)vl=videoFinder.findVideosBySearchWordAndLectureseriesId(word, lectureseriesId);	
+		List<Video> rvl = getSortedVideoList(vl, lectureseriesId);		
+		return rvl;
 	}	
 	
 	public List<Video> getByHits(Long hits){
@@ -665,18 +503,16 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		
 		if(vl == null || lectureseriesId < 1)
 			return sortedVideoList;
-	
-		ListIterator<Video> vli = vl.listIterator();
-		while(vli.hasNext()){
-			Video objectVideo = getFullVideo(vli.next().getVideoId());
-			if(objectVideo.getFilename().trim().length()>0)sortedVideoList.add(objectVideo);
+		
+		for(Video objectVideo: vl) {
+			if(objectVideo.getFilename().trim().length()>0)sortedVideoList.add(objectVideo); 
 		}
 		int sortVideo = 0;
 		try {
 			Lectureseries lectureseriesObject = lectureseriesPersistence.findByPrimaryKey(lectureseriesId);
 			sortVideo = lectureseriesObject.getVideoSort();
 		} catch (NoSuchModelException e) {
-			////e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		// Sort by generation date
@@ -706,47 +542,6 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		return vl.get(0).getVideoId();
 	}
 	
-	
-	public List<Video> getByIdOrAndTitle(int vId, String vTitle, boolean isAndOperator) throws SystemException {
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.VideoImpl.class, "vid");
-		Junction junction = null;
-		List<Video> videoList = Collections.emptyList();
-		if (isAndOperator) {
-			junction = RestrictionsFactoryUtil.conjunction();
-		} else {
-			junction = RestrictionsFactoryUtil.disjunction();
-		}
-		if (Validator.isDigit(vId + "") || vId > 0) {
-			junction.add(PropertyFactoryUtil.forName("vid.videoId").eq(Long.valueOf(vId)));
-		}
-		if (!Validator.isBlank(vTitle)) {
-			junction.add(PropertyFactoryUtil.forName("vid.title").like(StringPool.PERCENT + HtmlUtil.escape(vTitle) + StringPool.PERCENT));
-		}
-		dynamicQuery.add(junction);
-		try {
-			videoList = VideoLocalServiceUtil.dynamicQuery(dynamicQuery);
-		} catch (final SystemException e) {
-		}
-		return videoList;
-	}
-	
-	public List<Video> getByKeyWords(String keywords) throws SystemException {
-		List<Video> videoList = Collections.emptyList();
-		final Junction junction = RestrictionsFactoryUtil.disjunction();
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(de.uhh.l2g.plugins.model.impl.VideoImpl.class, "vid");
-		if (Validator.isDigit(keywords)) {
-			junction.add(PropertyFactoryUtil.forName("vid.videoId").eq(Long.valueOf(keywords)));
-		} else {
-			junction.add(PropertyFactoryUtil.forName("vid.title").like(StringPool.PERCENT + HtmlUtil.escape(keywords) + StringPool.PERCENT));
-		}
-		dynamicQuery.add(junction);
-		try {
-			videoList = VideoLocalServiceUtil.dynamicQuery(dynamicQuery);
-		} catch (final SystemException e) {
-		}
-		return videoList;
-	}
-	
 	/**
 	 * Checks if the video has a related smil-file in the file system
 	 */
@@ -774,6 +569,25 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		String smilPath = mediaRep + "/" + prefix +".smil";
 		File smilFile = new File(smilPath);
 		return smilFile.isFile();
+	}
+
+	public boolean fileStringSegmentFoundInArray(String file, JSONArray jsonArray){
+		boolean ret = false;
+		for(int i=0;i<jsonArray.length();i++){
+			Object o = jsonArray.get(i);
+			int df = 0;
+			df++;
+		}
+		return ret;
+	}
+
+	/**
+	 * Checks if file is a symoblic link
+	 * @param file the file to check
+	 * @return true if file is sym link, false if not
+	 */
+	public boolean isSymlink(File file) {
+		return Files.isSymbolicLink(file.toPath());
 	}
 	
 }

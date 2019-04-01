@@ -2432,6 +2432,172 @@ public class VideoUtil {
 	}
 
 	/**
+	* Returns all the videos where openAccess = &#63;.
+	*
+	* @param openAccess the open access
+	* @return the matching videos
+	*/
+	public static List<Video> findByOpenAccessAndUploadedFile(int openAccess) {
+		return getPersistence().findByOpenAccessAndUploadedFile(openAccess);
+	}
+
+	/**
+	* Returns a range of all the videos where openAccess = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param openAccess the open access
+	* @param start the lower bound of the range of videos
+	* @param end the upper bound of the range of videos (not inclusive)
+	* @return the range of matching videos
+	*/
+	public static List<Video> findByOpenAccessAndUploadedFile(int openAccess,
+		int start, int end) {
+		return getPersistence()
+				   .findByOpenAccessAndUploadedFile(openAccess, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the videos where openAccess = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param openAccess the open access
+	* @param start the lower bound of the range of videos
+	* @param end the upper bound of the range of videos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching videos
+	*/
+	public static List<Video> findByOpenAccessAndUploadedFile(int openAccess,
+		int start, int end, OrderByComparator<Video> orderByComparator) {
+		return getPersistence()
+				   .findByOpenAccessAndUploadedFile(openAccess, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the videos where openAccess = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link VideoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param openAccess the open access
+	* @param start the lower bound of the range of videos
+	* @param end the upper bound of the range of videos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching videos
+	*/
+	public static List<Video> findByOpenAccessAndUploadedFile(int openAccess,
+		int start, int end, OrderByComparator<Video> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByOpenAccessAndUploadedFile(openAccess, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first video in the ordered set where openAccess = &#63;.
+	*
+	* @param openAccess the open access
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video
+	* @throws NoSuchVideoException if a matching video could not be found
+	*/
+	public static Video findByOpenAccessAndUploadedFile_First(int openAccess,
+		OrderByComparator<Video> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
+		return getPersistence()
+				   .findByOpenAccessAndUploadedFile_First(openAccess,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first video in the ordered set where openAccess = &#63;.
+	*
+	* @param openAccess the open access
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching video, or <code>null</code> if a matching video could not be found
+	*/
+	public static Video fetchByOpenAccessAndUploadedFile_First(int openAccess,
+		OrderByComparator<Video> orderByComparator) {
+		return getPersistence()
+				   .fetchByOpenAccessAndUploadedFile_First(openAccess,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last video in the ordered set where openAccess = &#63;.
+	*
+	* @param openAccess the open access
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video
+	* @throws NoSuchVideoException if a matching video could not be found
+	*/
+	public static Video findByOpenAccessAndUploadedFile_Last(int openAccess,
+		OrderByComparator<Video> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
+		return getPersistence()
+				   .findByOpenAccessAndUploadedFile_Last(openAccess,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last video in the ordered set where openAccess = &#63;.
+	*
+	* @param openAccess the open access
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching video, or <code>null</code> if a matching video could not be found
+	*/
+	public static Video fetchByOpenAccessAndUploadedFile_Last(int openAccess,
+		OrderByComparator<Video> orderByComparator) {
+		return getPersistence()
+				   .fetchByOpenAccessAndUploadedFile_Last(openAccess,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the videos before and after the current video in the ordered set where openAccess = &#63;.
+	*
+	* @param videoId the primary key of the current video
+	* @param openAccess the open access
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next video
+	* @throws NoSuchVideoException if a video with the primary key could not be found
+	*/
+	public static Video[] findByOpenAccessAndUploadedFile_PrevAndNext(
+		long videoId, int openAccess, OrderByComparator<Video> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
+		return getPersistence()
+				   .findByOpenAccessAndUploadedFile_PrevAndNext(videoId,
+			openAccess, orderByComparator);
+	}
+
+	/**
+	* Removes all the videos where openAccess = &#63; from the database.
+	*
+	* @param openAccess the open access
+	*/
+	public static void removeByOpenAccessAndUploadedFile(int openAccess) {
+		getPersistence().removeByOpenAccessAndUploadedFile(openAccess);
+	}
+
+	/**
+	* Returns the number of videos where openAccess = &#63;.
+	*
+	* @param openAccess the open access
+	* @return the number of matching videos
+	*/
+	public static int countByOpenAccessAndUploadedFile(int openAccess) {
+		return getPersistence().countByOpenAccessAndUploadedFile(openAccess);
+	}
+
+	/**
 	* Caches the video in the entity cache if it is enabled.
 	*
 	* @param video the video

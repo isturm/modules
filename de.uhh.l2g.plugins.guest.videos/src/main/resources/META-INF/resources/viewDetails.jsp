@@ -31,6 +31,7 @@
 	<c:set var="isCitation2Go" value="true"/>
 </c:if>
 <c:set var="pageName" value="${themeDisplay.getLayout().getName(themeDisplay.getLocale())}"/>
+<%PortalUtil.setPageTitle((String)pageContext.getAttribute("pageTitle"), request);%>
 
 <c:if test="${video.videoId>0}">
 	<c:choose>
@@ -125,6 +126,7 @@
 				<h1><liferay-ui:message key="video-catalog"/></h1>
 				    
 				<c:set var="lTermId" value="${lectureseries.termId}"/>
+				<%try{%>
 				<c:set var="term" value="<%=TermLocalServiceUtil.getById((Long)pageContext.getAttribute("lTermId"))%>"/>
 				<c:choose>
 					<c:when test="${lTermId > 1}">
@@ -134,6 +136,7 @@
 						<c:set var="termMetadata" value=""/>
 					</c:otherwise>
 				</c:choose>
+				<%}catch(Exception e){}%>
 				<c:set var="series" value="${lectureseries.name}${termMetadata}"/>
 				<div class="col-md-7">
 				    <div id="main" >

@@ -34,10 +34,9 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import de.uhh.l2g.plugins.exception.NoSuchVideoException;
-import de.uhh.l2g.plugins.model.Host;
-import de.uhh.l2g.plugins.model.Producer;
 import de.uhh.l2g.plugins.model.Video;
 
+import java.io.File;
 import java.io.Serializable;
 
 import java.util.List;
@@ -69,6 +68,18 @@ public interface VideoLocalService extends BaseLocalService,
 	* Checks if the video has a related smil-file in the file system
 	*/
 	public boolean checkSmilFile(Video video);
+
+	public boolean fileStringSegmentFoundInArray(java.lang.String file,
+		JSONArray jsonArray);
+
+	/**
+	* Checks if file is a symoblic link
+	*
+	* @param file the file to check
+	* @return true if file is sym link, false if not
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isSymlink(File file);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -137,9 +148,6 @@ public interface VideoLocalService extends BaseLocalService,
 		throws SystemException, NoSuchVideoException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Video getFullVideo(java.lang.Long videoId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Video getLatestOpenAccessVideoForLectureseries(
 		java.lang.Long lectureseriesId);
 
@@ -161,6 +169,17 @@ public interface VideoLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Video updateVideo(Video video);
+
+	public int countByLectureseries(java.lang.Long lectureseriesId)
+		throws SystemException;
+
+	public int countByLectureseriesAndOpenaccess(
+		java.lang.Long lectureseriesId, int openAccess)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getByOpenAccessAndUploadedFile(int bool)
+		throws SystemException;
 
 	/**
 	* Returns the number of videos.
@@ -240,14 +259,6 @@ public interface VideoLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Video> getByHitsAndOpenAccess(java.lang.Long hits);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Video> getByIdOrAndTitle(int vId, java.lang.String vTitle,
-		boolean isAndOperator) throws SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Video> getByKeyWords(java.lang.String keywords)
-		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Video> getByLectureseries(java.lang.Long lectureseriesId)
@@ -347,7 +358,12 @@ public interface VideoLocalService extends BaseLocalService,
 	* lecture2go.uri4.player.template=${lecture2go.downloadserver.web.root}/abo/[filename]
 	* lecture2go.uri5.player.template=rtsp://[host]:[port]/vod/_definst/[ext]:[l2go_path]/[filename]
 	*/
-	public void addPlayerUris2Video(Host host, Video video, Producer producer);
+	public void addPlayerUris2Video(Video video);
 
 	public void createLastVideoList() throws SystemException;
+
+	public void createSymLinkToDownloadableFileIfNotExisting(
+		java.lang.Long videoId);
+
+	public void createThumbnailsIfNotExisting(java.lang.Long videoId);
 }

@@ -278,6 +278,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.isEscapedModel();
 	}
 
+	/**
+	* Checks if file has chapters
+	*/
 	@Override
 	public boolean isHasChapters() {
 		return _video.isHasChapters();
@@ -298,6 +301,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getExpandoBridge();
 	}
 
+	/**
+	* Returns and sets the URIs for the video player as a JSONAray
+	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getJsonPlayerUris() {
 		return _video.getJsonPlayerUris();
@@ -306,6 +312,16 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<de.uhh.l2g.plugins.model.Video> toCacheModel() {
 		return _video.toCacheModel();
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Host getHost() {
+		return _video.getHost();
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Producer getProducer() {
+		return _video.getProducer();
 	}
 
 	@Override
@@ -368,41 +384,65 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.hashCode();
 	}
 
+	/**
+	* Returns the flv file (unchecked if existing)
+	*/
 	@Override
 	public java.io.File getFlvFile() {
 		return _video.getFlvFile();
 	}
 
+	/**
+	* Returns the m4a file (unchecked if existing)
+	*/
 	@Override
 	public java.io.File getM4aFile() {
 		return _video.getM4aFile();
 	}
 
+	/**
+	* Returns the m4v file (unchecked if existing)
+	*/
 	@Override
 	public java.io.File getM4vFile() {
 		return _video.getM4vFile();
 	}
 
+	/**
+	* Returns the mp3 file (unchecked if existing)
+	*/
 	@Override
 	public java.io.File getMp3File() {
 		return _video.getMp3File();
 	}
 
+	/**
+	* Returns the mp4 file (unchecked if existing)
+	*/
 	@Override
 	public java.io.File getMp4File() {
 		return _video.getMp4File();
 	}
 
+	/**
+	* Returns the ogg file (unchecked if existing)
+	*/
 	@Override
 	public java.io.File getOggFile() {
 		return _video.getOggFile();
 	}
 
+	/**
+	* Returns the pdf file (unchecked if existing)
+	*/
 	@Override
 	public java.io.File getPdfFile() {
 		return _video.getPdfFile();
 	}
 
+	/**
+	* Returns the webm file (unchecked if existing)
+	*/
 	@Override
 	public java.io.File getWebmFile() {
 		return _video.getWebmFile();
@@ -448,6 +488,43 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getCreators();
 	}
 
+	/**
+	* Returns the current file name depending on openaccess field
+	*/
+	@Override
+	public java.lang.String getCurrentFilename() {
+		return _video.getCurrentFilename();
+	}
+
+	/**
+	* Returns the current filename of the video with a reasonable _bitrate_, this is either the original file or, if multiple qualities are
+	* referenced from a _smil_ file, the version with the download suffix.
+	* Checks if prefix is _openaccess_ or secure and returns the correct one.
+	*/
+	@Override
+	public java.lang.String getCurrentMp4FilenameWithReasonableBitrate() {
+		return _video.getCurrentMp4FilenameWithReasonableBitrate();
+	}
+
+	/**
+	* Returns the current file prefix depending on openaccess field
+	*/
+	@Override
+	public java.lang.String getCurrentPrefix() {
+		return _video.getCurrentPrefix();
+	}
+
+	/**
+	* Returns the current URL depending on the openaccess field
+	*/
+	@Override
+	public java.lang.String getCurrentURL() {
+		return _video.getCurrentURL();
+	}
+
+	/**
+	* Returns the formatted generation date with time
+	*/
 	@Override
 	public java.lang.String getDate() {
 		return _video.getDate();
@@ -463,16 +540,25 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getDuration();
 	}
 
+	/**
+	* Returns the complete embed code for commsy depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getEmbedCommsy() {
 		return _video.getEmbedCommsy();
 	}
 
+	/**
+	* Returns the complete html5 embed code depending on the openaccess field and container format
+	*/
 	@Override
 	public java.lang.String getEmbedHtml5() {
 		return _video.getEmbedHtml5();
 	}
 
+	/**
+	* Returns the complete iframe embed code (usable for openaccess and non-openaccess videos)
+	*/
 	@Override
 	public java.lang.String getEmbedIframe() {
 		return _video.getEmbedIframe();
@@ -498,6 +584,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getFilename();
 	}
 
+	/**
+	* Returns the download link to the video file depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getFlvDownloadLink() {
 		return _video.getFlvDownloadLink();
@@ -518,16 +607,25 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getGenerationDate();
 	}
 
+	/**
+	* Returns the image in original size (checks which file should be used (thumbnail, audio, ... ))
+	*/
 	@Override
 	public java.lang.String getImage() {
 		return _video.getImage();
 	}
 
+	/**
+	* Returns the image in medium size (checks which file should be used (thumbnail, audio, ... ))
+	*/
 	@Override
 	public java.lang.String getImageMedium() {
 		return _video.getImageMedium();
 	}
 
+	/**
+	* Returns the image in small size (checks which file should be used (thumbnail, audio, ... ))
+	*/
 	@Override
 	public java.lang.String getImageSmall() {
 		return _video.getImageSmall();
@@ -543,6 +641,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getLectureseriesNumber();
 	}
 
+	/**
+	* Returns the complete URL to the lectureseries of this video
+	*/
 	@Override
 	public java.lang.String getLectureseriesUrl() {
 		return _video.getLectureseriesUrl();
@@ -553,6 +654,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getLinkedCreators();
 	}
 
+	/**
+	* Returns the download link to the audio file depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getM4aDownloadLink() {
 		return _video.getM4aDownloadLink();
@@ -563,6 +667,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getM4aRssLink();
 	}
 
+	/**
+	* Returns the download link to the video file depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getM4vDownloadLink() {
 		return _video.getM4vDownloadLink();
@@ -573,6 +680,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getM4vRssLink();
 	}
 
+	/**
+	* Returns the download link to the audio file depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getMp3DownloadLink() {
 		return _video.getMp3DownloadLink();
@@ -583,9 +693,21 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getMp3RssLink();
 	}
 
+	/**
+	* Returns the download link to the video file depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getMp4DownloadLink() {
 		return _video.getMp4DownloadLink();
+	}
+
+	/**
+	* Returns the _openaccess_ filename of the video with a reasonable _bitrate_, this is either the original file or, if multiple qualities are
+	* referenced from a _smil_ file, the version with the download suffix.
+	*/
+	@Override
+	public java.lang.String getMp4FilenameWithReasonableBitrate() {
+		return _video.getMp4FilenameWithReasonableBitrate();
 	}
 
 	@Override
@@ -593,6 +715,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getMp4RssLink();
 	}
 
+	/**
+	* Returns the download link to the video file depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getOggDownloadLink() {
 		return _video.getOggDownloadLink();
@@ -613,11 +738,17 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getPassword();
 	}
 
+	/**
+	* Returns the download link to the video file depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getPdfDownloadLink() {
 		return _video.getPdfDownloadLink();
 	}
 
+	/**
+	* Returns the open access prefix of the file (filename without extension)
+	*/
 	@Override
 	public java.lang.String getPreffix() {
 		return _video.getPreffix();
@@ -633,6 +764,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getResolution();
 	}
 
+	/**
+	* Returns the secure prefix of the file (filename without extension)
+	*/
 	@Override
 	public java.lang.String getSPreffix() {
 		return _video.getSPreffix();
@@ -648,21 +782,34 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getSecureFilename();
 	}
 
+	/**
+	* Returns the secure filename of the video with a reasonable _bitrate_, this is either the original file or, if multiple qualities are
+	* referenced from a _smil_ file, the version with the download suffix.
+	*/
+	@Override
+	public java.lang.String getSecureMp4FilenameWithReasonableBitrate() {
+		return _video.getSecureMp4FilenameWithReasonableBitrate();
+	}
+
+	/**
+	* Returns the complete secure URL to the NON open access video
+	*/
 	@Override
 	public java.lang.String getSecureUrl() {
 		return _video.getSecureUrl();
 	}
 
-	@Override
-	public java.lang.String getShortName() {
-		return _video.getShortName();
-	}
-
+	/**
+	* Returns the title in a truncated form
+	*/
 	@Override
 	public java.lang.String getShortTitle() {
 		return _video.getShortTitle();
 	}
 
+	/**
+	* Returns the formatted generation date without time
+	*/
 	@Override
 	public java.lang.String getSimpleDate() {
 		return _video.getSimpleDate();
@@ -688,6 +835,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getTitle();
 	}
 
+	/**
+	* Returns the complete URL to the open access video
+	*/
 	@Override
 	public java.lang.String getUrl() {
 		return _video.getUrl();
@@ -713,6 +863,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getUserUuid();
 	}
 
+	/**
+	* Returns the path to the vtt-chapter-file
+	*/
 	@Override
 	public java.lang.String getVttChapterFile() {
 		return _video.getVttChapterFile();
@@ -723,6 +876,9 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.getVttThumbsFilde();
 	}
 
+	/**
+	* Returns the download link to the video file depending on the openaccess field
+	*/
 	@Override
 	public java.lang.String getWebmDownloadLink() {
 		return _video.getWebmDownloadLink();
@@ -1363,11 +1519,6 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setSecureUrl(java.lang.String secureUrl) {
 		_video.setSecureUrl(secureUrl);
-	}
-
-	@Override
-	public void setShortName(java.lang.String shortName) {
-		_video.setShortName(shortName);
 	}
 
 	@Override

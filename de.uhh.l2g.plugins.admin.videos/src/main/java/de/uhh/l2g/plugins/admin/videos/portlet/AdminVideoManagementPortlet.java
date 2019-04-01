@@ -120,7 +120,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Video reqVideo = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
-		reqVideo = VideoLocalServiceUtil.getFullVideo(reqVideoId);
+		try {reqVideo = VideoLocalServiceUtil.getVideo(reqVideoId);} catch (PortalException e1) {}
 		
 		request.setAttribute("reqVideo", reqVideo);
 		String backURL = request.getParameter("backURL");
@@ -172,7 +172,8 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		if(lectureseriesId>0)portletURL.setParameter("lectureseriesId", lectureseriesId.toString());
 		//detail all possible view variables
 		Long videoId = ParamUtil.getLong(renderRequest, "videoId", 0);
-		Video reqVideo = VideoLocalServiceUtil.getFullVideo(videoId);
+		Video reqVideo = VideoLocalServiceUtil.createVideo(0);
+		try {reqVideo = VideoLocalServiceUtil.getVideo(videoId);} catch (PortalException e1) {}
 		List<Lectureseries> reqLectureseriesList = new ArrayList<Lectureseries>();
 		Lectureseries reqLectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
 		License reqLicense = LicenseLocalServiceUtil.createLicense(0);
@@ -493,7 +494,8 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Long userId = new Long(userID);
 		String resourceID = resourceRequest.getResourceID();
 		Long videoId = ParamUtil.getLong(resourceRequest, "videoId");
-		Video video = VideoLocalServiceUtil.getFullVideo(videoId);
+		Video video = VideoLocalServiceUtil.createVideo(0);
+		try {video = VideoLocalServiceUtil.getVideo(videoId);} catch (PortalException e1) {}
 		Metadata metadata = MetadataLocalServiceUtil.createMetadata(0);
 		try {
 			Long metadataId = video.getMetadataId();
@@ -1648,7 +1650,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Video video = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
-		video = VideoLocalServiceUtil.getFullVideo(reqVideoId);
+		try {video = VideoLocalServiceUtil.getVideo(reqVideoId);} catch (PortalException e1) {}
 		ProzessManager pm = new ProzessManager();	
 		pm.deleteVideo(video);
 		String backURL = request.getParameter("backURL");
@@ -1663,7 +1665,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Video video = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
-		video = VideoLocalServiceUtil.getFullVideo(reqVideoId);
+		try {video = VideoLocalServiceUtil.getVideo(reqVideoId);} catch (PortalException e1) {}
 		ProzessManager pm = new ProzessManager();	
 		//deactivate open access
 		//and refresh lecture series with this video
@@ -1684,7 +1686,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Video video = VideoLocalServiceUtil.createVideo(0);
 		Long reqVideoId = new Long(0);
 		try{reqVideoId = new Long(request.getParameterMap().get("videoId")[0]);}catch(Exception e){}
-		video = VideoLocalServiceUtil.getFullVideo(reqVideoId);
+		try {video = VideoLocalServiceUtil.getVideo(reqVideoId);} catch (PortalException e1) {}
 		//activate open access
 		//and refresh lecture series with this video
 		ProzessManager pm = new ProzessManager();	
@@ -1772,7 +1774,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			List<Video> vl = VideoLocalServiceUtil.getAll();
 			ListIterator<Video> vit = vl.listIterator();
 			while(vit.hasNext()){
-				Video v = VideoLocalServiceUtil.getFullVideo(vit.next().getVideoId());
+				Video v = VideoLocalServiceUtil.createVideo(0);
+				try {v = VideoLocalServiceUtil.getVideo(vit.next().getVideoId());} catch (PortalException e) {}
+
 				if(v.isHasChapters())updateVttChapterFile(v);
 			}
 		} catch (SystemException e) {

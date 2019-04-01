@@ -41,6 +41,23 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 	}
 
 	@Override
+	public boolean fileStringSegmentFoundInArray(java.lang.String file,
+		com.liferay.portal.kernel.json.JSONArray jsonArray) {
+		return _videoLocalService.fileStringSegmentFoundInArray(file, jsonArray);
+	}
+
+	/**
+	* Checks if file is a symoblic link
+	*
+	* @param file the file to check
+	* @return true if file is sym link, false if not
+	*/
+	@Override
+	public boolean isSymlink(java.io.File file) {
+		return _videoLocalService.isSymlink(file);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _videoLocalService.getActionableDynamicQuery();
 	}
@@ -139,11 +156,6 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 	}
 
 	@Override
-	public de.uhh.l2g.plugins.model.Video getFullVideo(java.lang.Long videoId) {
-		return _videoLocalService.getFullVideo(videoId);
-	}
-
-	@Override
 	public de.uhh.l2g.plugins.model.Video getLatestOpenAccessVideoForLectureseries(
 		java.lang.Long lectureseriesId) {
 		return _videoLocalService.getLatestOpenAccessVideoForLectureseries(lectureseriesId);
@@ -172,6 +184,26 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 	public de.uhh.l2g.plugins.model.Video updateVideo(
 		de.uhh.l2g.plugins.model.Video video) {
 		return _videoLocalService.updateVideo(video);
+	}
+
+	@Override
+	public int countByLectureseries(java.lang.Long lectureseriesId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.countByLectureseries(lectureseriesId);
+	}
+
+	@Override
+	public int countByLectureseriesAndOpenaccess(
+		java.lang.Long lectureseriesId, int openAccess)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.countByLectureseriesAndOpenaccess(lectureseriesId,
+			openAccess);
+	}
+
+	@Override
+	public int getByOpenAccessAndUploadedFile(int bool)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _videoLocalService.getByOpenAccessAndUploadedFile(bool);
 	}
 
 	/**
@@ -292,20 +324,6 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 	public java.util.List<de.uhh.l2g.plugins.model.Video> getByHitsAndOpenAccess(
 		java.lang.Long hits) {
 		return _videoLocalService.getByHitsAndOpenAccess(hits);
-	}
-
-	@Override
-	public java.util.List<de.uhh.l2g.plugins.model.Video> getByIdOrAndTitle(
-		int vId, java.lang.String vTitle, boolean isAndOperator)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _videoLocalService.getByIdOrAndTitle(vId, vTitle, isAndOperator);
-	}
-
-	@Override
-	public java.util.List<de.uhh.l2g.plugins.model.Video> getByKeyWords(
-		java.lang.String keywords)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _videoLocalService.getByKeyWords(keywords);
 	}
 
 	@Override
@@ -453,16 +471,25 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 	* lecture2go.uri5.player.template=rtsp://[host]:[port]/vod/_definst/[ext]:[l2go_path]/[filename]
 	*/
 	@Override
-	public void addPlayerUris2Video(de.uhh.l2g.plugins.model.Host host,
-		de.uhh.l2g.plugins.model.Video video,
-		de.uhh.l2g.plugins.model.Producer producer) {
-		_videoLocalService.addPlayerUris2Video(host, video, producer);
+	public void addPlayerUris2Video(de.uhh.l2g.plugins.model.Video video) {
+		_videoLocalService.addPlayerUris2Video(video);
 	}
 
 	@Override
 	public void createLastVideoList()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		_videoLocalService.createLastVideoList();
+	}
+
+	@Override
+	public void createSymLinkToDownloadableFileIfNotExisting(
+		java.lang.Long videoId) {
+		_videoLocalService.createSymLinkToDownloadableFileIfNotExisting(videoId);
+	}
+
+	@Override
+	public void createThumbnailsIfNotExisting(java.lang.Long videoId) {
+		_videoLocalService.createThumbnailsIfNotExisting(videoId);
 	}
 
 	@Override

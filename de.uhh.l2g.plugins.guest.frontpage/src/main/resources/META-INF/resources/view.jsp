@@ -66,13 +66,13 @@
 									<c:when test="${item.latestOpenAccessVideoId<0}">
 										<c:set var="isVideo" value="true"/>
 										<c:set var="itemLectureseriesId" value="${item.lectureseriesId}"/>
-										<c:set var="vid" value="<%=VideoLocalServiceUtil.getFullVideo((Long)pageContext.getAttribute("itemLectureseriesId"))%>"/>
+										<c:set var="vid" value="<%=VideoLocalServiceUtil.getVideo((Long)pageContext.getAttribute("itemLectureseriesId"))%>"/>
 										<c:set var="oId" value="${vid.videoId}"/>
 									</c:when>
 									<c:otherwise>
 										<c:set var="oId" value="${item.lectureseriesId}"/>
 										<c:set var="itemLatestOpenAccessVideoId" value="${item.latestOpenAccessVideoId}"/>
-										<c:set var="vid" value="<%=VideoLocalServiceUtil.getFullVideo((Long)pageContext.getAttribute("itemLatestOpenAccessVideoId"))%>"/>
+										<c:set var="vid" value="<%=VideoLocalServiceUtil.getVideo((Long)pageContext.getAttribute("itemLatestOpenAccessVideoId"))%>"/>
 										<c:set var="isVideo" value="true"/>
 									</c:otherwise>
 								</c:choose>
@@ -146,7 +146,7 @@
 							<c:set var="count" value="0" scope="page" />
 							<c:forEach items="${popular}" var="item">
 								<c:set var="itemVideoId" value="${item.videoId}"/>
-								<c:set var="vid" value="<%=VideoLocalServiceUtil.getFullVideo((Long)pageContext.getAttribute("itemVideoId"))%>"/>
+								<c:set var="vid" value="<%=VideoLocalServiceUtil.getVideo((Long)pageContext.getAttribute("itemVideoId"))%>"/>
 								<c:choose>
 									<c:when test="${vid.lectureseriesId<0}">
 										<c:set var="isVideo" value="true"/>

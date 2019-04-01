@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
@@ -345,17 +343,17 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 	    	try{
 	    		lectureseries = LectureseriesLocalServiceUtil.getLectureseries(objectId);
 	    		if(!secLink){
-	    			video = VideoLocalServiceUtil.getFullVideo(lectureseries.getLatestOpenAccessVideoId());
+	    			try {video = VideoLocalServiceUtil.getVideo(lectureseries.getLatestOpenAccessVideoId());} catch (PortalException e1) {}
 	    		}else{
 	    			Long videoId = VideoLocalServiceUtil.getLatestClosedAccessVideoId(objectId);
-	    			video = VideoLocalServiceUtil.getFullVideo(videoId);
+	    			try {video = VideoLocalServiceUtil.getVideo(videoId);} catch (PortalException e1) {}
 	    		}
-	    	}catch(Exception e){
+	    	}catch(Exception e){ 
 	    		objectExists = false;
 	    		//response.setRenderParameter("jspPage","/noVideosFound.jsp");	
 	    	}
 	    }else if(objectType.equals("v")){
-	    	video = VideoLocalServiceUtil.getFullVideo(objectId);
+			try {video = VideoLocalServiceUtil.getVideo(objectId);} catch (PortalException e1) {}
 	    	if(video.getVideoId()==0)objectExists=false;
 	    	try{lectureseries = LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId());}catch (Exception e){}
 	    }

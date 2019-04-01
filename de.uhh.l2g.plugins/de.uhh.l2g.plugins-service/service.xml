@@ -691,6 +691,9 @@
     	<column name="userName" type="String"></column>
     	<column name="createDate" type="Date"></column>
     	<column name="modifiedDate" type="Date"></column>
+        <finder name="OpenAccessAndUploadedFile" return-type="Collection" where="filename &gt; ''">
+            <finder-column name="openAccess"></finder-column>
+        </finder>
     </entity>
     <entity name="Video_Institution" local-service="true" remote-service="false">
         <column name="videoInstitutionId" type="long" primary="true" id-type="increment"></column>

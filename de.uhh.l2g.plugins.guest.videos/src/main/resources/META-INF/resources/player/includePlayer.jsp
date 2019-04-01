@@ -1,5 +1,3 @@
-<script type="text/javascript">jwplayer.key="";</script>
-
 <script>
     $(function() {
         // herausfinden ob es ein tablet/smartphone ist
@@ -20,13 +18,6 @@
 	        frameEnd = ${timeEnd};		
 		}
 		
-        var playerUri1 ="${video.playerUris.get(0)}";
-        var playerUri2 ="${video.playerUris.get(1)}";
-        var playerUri3 ="${video.playerUris.get(2)}";
-        var playerUri4 ="${video.playerUris.get(3)}";
-        var playerUri5 ="${video.playerUris.get(4)}";
-        
-
         //hack for HLS in firefox and mp3
         var containerFormat = "${video.containerFormat}";
         var isFirefox = typeof InstallTrigger !== 'undefined';
@@ -46,13 +37,7 @@
             width: "100%",
             aspectratio: "16:9",
             image: "${video.image}",
-            sources: [
-            	{ file: playerUri1 },
-            	{ file: playerUri2 },
-            	{ file: playerUri3 },
-            	{ file: playerUri4 },
-            	{ file: playerUri5 }
-            ],
+            sources: ${video.jsonPlayerUris},
             tracks: [{
                 file: vttFile,
                 kind:'chapters'

@@ -54,7 +54,6 @@
 	Long companyId = company.getCompanyId();
 	Long groupId = company.getGroup().getGroupId();		
 	Long userId = realUser.getUserId();		
-	PortalUtil.setPageTitle((String)pageContext.getAttribute("pageTitle"), request);
 %>
 
 <script>

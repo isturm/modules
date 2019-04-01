@@ -94,7 +94,7 @@
 			</liferay-ui:search-container-results>
 		
 			<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Video" keyProperty="videoId" modelVar="video">
-					<c:set var="vid" value="<%=VideoLocalServiceUtil.getFullVideo(video.getVideoId())%>"/>
+					<c:set var="vid" value="<%=VideoLocalServiceUtil.getVideo(video.getVideoId())%>"/>
 					<c:set var="url" value=""/>
 					<c:if test="${vid.getOpenAccess()==1}">
 						<c:set var="url" value="${vid.url}"/>

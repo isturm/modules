@@ -212,11 +212,11 @@
 						<c:choose>
 							<c:when test="${lectser.latestOpenAccessVideoId<0}">
 								<c:set var="isVideo" value="<%=true%>"/>
-								<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getFullVideo(lectser.getLectureseriesId())%>"/>			
+								<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getVideo(lectser.getLectureseriesId())%>"/>			
 								<c:set var="oId" value="${vidDummy.videoId}"/>
 							</c:when>
 							<c:otherwise>
-								<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getFullVideo(lectser.getPreviewVideoId())%>"/>				
+								<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getVideo(lectser.getPreviewVideoId())%>"/>				
 								<c:set var="oId" value="${lectser.lectureseriesId}"/>
 							</c:otherwise>
 						</c:choose>

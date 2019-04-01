@@ -596,19 +596,24 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		int a = 1;
 		while(ittLect.hasNext()){
 			Lectureseries l = ittLect.next();
-			Video v = VideoLocalServiceUtil.getFullVideo(l.getLatestOpenAccessVideoId());
-			// generate RSS
-			LOG.info("Generate RSS" +a+" fol lecture series with ID: "+l.getLectureseriesId()+" and latest open access video with ID: "+v.getVideoId());
-			ProzessManager pm = new ProzessManager();
-			for (String f: FileManager.MEDIA_FORMATS) {           
-				try {
-					pm.generateRSS(v, f);
-				} catch (Exception e) {
-					e.printStackTrace();
-				} 
-			}		
-			LOG.info("RSS "+a+" generated");
-			a++;
+			Video v;
+			try {
+				v = VideoLocalServiceUtil.getVideo(l.getLatestOpenAccessVideoId());
+				// generate RSS
+				LOG.info("Generate RSS" +a+" fol lecture series with ID: "+l.getLectureseriesId()+" and latest open access video with ID: "+v.getVideoId());
+				ProzessManager pm = new ProzessManager();
+				for (String f: FileManager.MEDIA_FORMATS) {           
+					try {
+						pm.generateRSS(v, f);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} 
+				}		
+				LOG.info("RSS "+a+" generated");
+				a++;
+			} catch (PortalException e1) {
+				LOG.info("Can't get video with id "+l.getLatestOpenAccessVideoId());
+			}
 		}
 	}
 	

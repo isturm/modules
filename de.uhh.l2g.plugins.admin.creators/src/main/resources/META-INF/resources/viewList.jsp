@@ -103,7 +103,7 @@
 					<c:forEach items="${videoCreators}" var="vidcr" varStatus="status">
 					   <br/>
 					   <c:set var="vId" value="${vidcr.videoId}"/>
-					   <c:set var="video" value="<%=VideoLocalServiceUtil.getFullVideo((Long)pageContext.getAttribute("vId"))%>"/>
+					   <c:set var="video" value="<%=VideoLocalServiceUtil.getVideo((Long)pageContext.getAttribute("vId"))%>"/>
 					   <a href='${video.url}' target="_blank">${video.title}</a>
 					</c:forEach>
 					<br/>
