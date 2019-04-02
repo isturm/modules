@@ -1672,7 +1672,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		try {
 			pm.deactivateOpenaccess(video);
 		} catch (PortalException e) {
+			e.printStackTrace();
 		} catch (SystemException e) {
+			e.printStackTrace();
 		}
 		String backURL = request.getParameter("backURL");
 		try {

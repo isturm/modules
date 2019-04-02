@@ -305,9 +305,9 @@ public class VideoImpl extends VideoBaseImpl {
 			String vId = "0";
 			if(this.getOpenAccess()==1)vId = getVideoId()+"";
 			else vId = getSPreffix();
-			embedIframe = "<iframe src='"+WEBROOT+"/lecture2go-portlet/player/iframe/?v="+vId+"' frameborder='0' width='"+EMBED_WIDTH+"' height='"+EMBED_HEIGHT+"' allowfullscreen></iframe>";
+			embedIframe = "<iframe src='"+WEBROOT+"/o/de.uhh.l2g.plugins.guest.videos.iframe/player/?v="+vId+"' frameborder='0' width='"+EMBED_WIDTH+"' height='"+EMBED_HEIGHT+"' allowfullscreen></iframe>";
 		}
-		return embedIframe;
+		return embedIframe; 
 	}
 	
 	public void setEmbedIframe(String embedIframe) {

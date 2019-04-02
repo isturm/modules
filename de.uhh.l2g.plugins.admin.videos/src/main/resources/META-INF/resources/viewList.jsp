@@ -235,7 +235,7 @@
 										</c:if>
 										
 										<c:if test="${vid.openAccess==0}">
-											<a href="${lockURL}" title="<liferay-ui:message key='unlock-help'/>" alt="<liferay-ui:message key='unlock-help'/>">
+											<a href="${unlockURL}" title="<liferay-ui:message key='unlock-help'/>" alt="<liferay-ui:message key='unlock-help'/>">
 											    <span class="icon-large icon-lock" onclick="return confirm('<liferay-ui:message key="really-unlock-question"/>')"></span>
 											 </a>
 										</c:if>

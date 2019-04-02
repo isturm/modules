@@ -202,10 +202,10 @@
             
             function generateClipLink (firstFrame, lastFrame) {
             	$citation.val("${video.url}"+"/"+firstFrame+"/"+lastFrame);
-            	var vid = "${video.videoId}";
+            	var vid = "${video.videoId}"; 
             	var host ="${lecture2goWebRoot}";
             	
-            	var iframe="<iframe src='"+host+"/lecture2go-portlet/player/iframe/?v="+vid+"/"+firstFrame+"/"+lastFrame+"' frameborder='0' width='647' height='373' allowfullscreen></iframe>";
+            	var iframe="<iframe src='"+host+"/TODO/?v="+vid+"/"+firstFrame+"/"+lastFrame+"' frameborder='0' width='647' height='373' allowfullscreen></iframe>";
             	$citationiframe.val(iframe);
             }
         });
