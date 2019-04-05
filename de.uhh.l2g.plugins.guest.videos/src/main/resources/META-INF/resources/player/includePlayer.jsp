@@ -197,7 +197,6 @@
                 	generateClipLink (Math.round(startFrameTime), Math.round(endFrameTime));
                 	console.log("start: " + startFrameTime + ", end: " + endFrameTime);
                 }
-                validateClipTime();
             });
             
             function generateClipLink (firstFrame, lastFrame) {
@@ -208,6 +207,7 @@
             	var iframe="<iframe src='"+host+"/TODO/?v="+vid+"/"+firstFrame+"/"+lastFrame+"' frameborder='0' width='647' height='373' allowfullscreen></iframe>";
             	$citationiframe.val(iframe);
             }
+            
         });
     });
 

@@ -30,8 +30,16 @@
 <c:if test="${timeStart>0 && timeEnd>timeStart && video.citation2go==1}">
 	<c:set var="isCitation2Go" value="true"/>
 </c:if>
+
 <c:set var="pageName" value="${themeDisplay.getLayout().getName(themeDisplay.getLocale())}"/>
 <%PortalUtil.setPageTitle((String)pageContext.getAttribute("pageTitle"), request);%>
+
+<portlet:resourceURL var="findVideos">
+	<portlet:param name="task" value="findVideos"/> 
+</portlet:resourceURL>
+
+<div style="display: none;" id="findVideosURL">${findVideos}</div> 
+<div style="display: none;" id="portletNamespace"><portlet:namespace/></div> 
 
 <c:if test="${video.videoId>0}">
 	<c:choose>
@@ -122,9 +130,13 @@
 					    	</c:choose>
 					    </div>
 				</c:if>
-			
+
 				<h1><liferay-ui:message key="video-catalog"/></h1>
 				    
+				<aui:form action="${findVideos}" method="GET" name="submitForm">
+					<aui:input name="findVideos" id="findVideos" label="" inlineField="true" value="${memberDTO.findVideos}"/>
+				</aui:form>			
+
 				<c:set var="lTermId" value="${lectureseries.termId}"/>
 				<%try{%>
 				<c:set var="term" value="<%=TermLocalServiceUtil.getById((Long)pageContext.getAttribute("lTermId"))%>"/>

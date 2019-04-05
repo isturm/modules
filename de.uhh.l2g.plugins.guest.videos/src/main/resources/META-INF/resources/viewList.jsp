@@ -50,8 +50,15 @@
 		<portlet:param name="categoryId" value="0"/>
 		<portlet:param name="creatorId" value="0"/>
 	</portlet:renderURL>
-		
-	<div class="path-wide">
+
+	<portlet:resourceURL var="findVideosURL">
+			<portlet:param name="task" value="findVideos"/> 
+	</portlet:resourceURL>
+
+<div style="display: none;" id="findVideosURL">${findVideosURL}</div> 
+<div style="display: none;" id="portletNamespace"><portlet:namespace/></div> 
+
+<div class="path-wide">
 	<A HREF=${portalURL}>${company.name}</A><span class="uhh-icon-arrow-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 	<A HREF="${backURL0}">${pageName}</A>
 	<span class="uhh-icon-arrow-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
@@ -85,9 +92,15 @@
 			<span class="uhh-icon-arrow-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 			<A HREF="${backURL2}">${insti.name}</A> 
 	</c:if>
-	
 </div>
+
 <h1><liferay-ui:message key="video-catalog"/></h1>
+		    
+<portlet:actionURL name="search" var="searchURL" />
+<aui:form action="${searchURL}" method="POST" name="submitForm">
+	<aui:input name="findVideos" id="findVideos" label="" inlineField="true" value="${memberDTO.findVideos}"/>
+</aui:form>
+		    
 <div class="catalogue-container">
 	<div class="row-fluid">
 	<c:if test="${!resultSetEmpty}">
@@ -105,7 +118,7 @@
 								<portlet:param name="termId" value="${termId}"/>
 								<portlet:param name="categoryId" value="${categoryId}"/>
 								<portlet:param name="creatorId" value="${creatorId}"/>
-								<portlet:param name="searchQuery" value="${searchQuery}"/>	
+								<portlet:param name="findVideos" value="${searchQuery}"/>	
 							</portlet:renderURL>
 							<li class="filter-menu"><a href="${filterByParentInstitution}"><div class="filter-menu-link"><span ${hasParentInstitutionFiltered ? 'class="icon-large icon-remove"' : ''}></span>${parentInstitution.name}</div></a></li>
 						</c:forEach>
@@ -126,7 +139,7 @@
 									<portlet:param name="termId" value="${termId}"/>
 									<portlet:param name="categoryId" value="${categoryId}"/>
 									<portlet:param name="creatorId" value="${creatorId}"/>
-									<portlet:param name="searchQuery" value="${searchQuery}"/>	
+									<portlet:param name="findVideos" value="${searchQuery}"/>	
 								</portlet:renderURL>
 								<li class="filter-menu"><a href="${filterByInstitution}"><div class="filter-menu-link"><span ${hasInstitutionFiltered ? 'class="icon-large icon-remove"' : ''}></span>${institution.name}</div></a></li>
 							</c:forEach>
@@ -147,7 +160,7 @@
 								<portlet:param name="termId" value='${hasTermFiltered ? "0" : term.termId}'/>
 								<portlet:param name="categoryId" value="${categoryId}"/>
 								<portlet:param name="creatorId" value="${creatorId}"/>
-								<portlet:param name="searchQuery" value="${searchQuery}"/>	
+								<portlet:param name="findVideos" value="${searchQuery}"/>	
 							</portlet:renderURL>
 							<li class="filter-menu"><a href="${filterByTerm}"><div class="filter-menu-link"><span ${hasTermFiltered ? 'class="icon-large icon-remove"' : ''}></span><c:choose><c:when test="${term.termName==''}"><liferay-ui:message key="no-term"/></c:when><c:otherwise>${term.termName}</c:otherwise></c:choose></div></a></li>
 						</c:forEach>
@@ -171,7 +184,7 @@
 								<portlet:param name="termId" value="${termId}"/>
 								<portlet:param name="categoryId" value='${hasCategoryFiltered ? "0" : category.categoryId}'/>
 								<portlet:param name="creatorId" value="${creatorId}"/>	
-								<portlet:param name="searchQuery" value="${searchQuery}"/>	
+								<portlet:param name="findVideos" value="${searchQuery}"/>	
 							</portlet:renderURL>
 							<li class="filter-menu"><a href="${filterByCategory}"><div class="filter-menu-link"><span ${hasCategoryFiltered ? 'class="icon-large icon-remove"' : ''}></span>${category.name}</div></a></li>
 						</c:forEach>
@@ -210,17 +223,16 @@
 						<c:set var="isVideo" value="<%=false%>"/>
 						<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.createVideo(0)%>"/>
 						<c:choose>
-							<c:when test="${lectser.latestOpenAccessVideoId<0}">
+							<c:when test="${lectser.latestOpenAccessVideoId<0 && lectser.lectureseriesId>0}">
 								<c:set var="isVideo" value="<%=true%>"/>
-								<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getVideo(lectser.getLectureseriesId())%>"/>			
+								<%try{%><c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getVideo(lectser.getLectureseriesId())%>"/><%}catch(Exception e){};%>	
 								<c:set var="oId" value="${vidDummy.videoId}"/>
 							</c:when>
 							<c:otherwise>
-								<c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getVideo(lectser.getPreviewVideoId())%>"/>				
+								<%try{%><c:set var="vidDummy" value="<%=VideoLocalServiceUtil.getVideo(lectser.getPreviewVideoId())%>"/><%}catch(Exception e){};%>				
 								<c:set var="oId" value="${lectser.lectureseriesId}"/>
 							</c:otherwise>
 						</c:choose>
-						
 						<c:set var="videoCount" value="${lectser.numberOfOpenAccessVideos}"/>
 						<c:set var="vl" value="<%=new ArrayList<Video>()%>"/>
 						

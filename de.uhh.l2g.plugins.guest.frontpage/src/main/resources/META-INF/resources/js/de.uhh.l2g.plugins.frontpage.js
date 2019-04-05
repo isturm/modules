@@ -33,7 +33,8 @@ $(document).ready(function(){
 	                autoCompleteList.on(
 	                		'select',
 	                		function(event) {
-	                			//submit 
+	                			var searchWord=event.result.text;
+	                			$('#'+nameSpace + 'findVideos').val(searchWord);
 	                			$('#'+nameSpace + 'submitForm').submit();
 	                		}
 	                );

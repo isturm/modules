@@ -15,9 +15,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
 
 import de.uhh.l2g.plugins.guest.frontpage.constants.FrontPagePortletKeys;
 import de.uhh.l2g.plugins.util.AutocompleteManager;
@@ -55,7 +53,6 @@ public class FrontPagePortlet extends MVCPortlet {
 	        return;
 	    }
 	    // get theme display object
-	    ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
 	    // get writer for write data
 	    PrintWriter out = resourceResponse.getWriter();
 	    JSONArray searchWordsJsonArray = JSONFactoryUtil.createJSONArray();

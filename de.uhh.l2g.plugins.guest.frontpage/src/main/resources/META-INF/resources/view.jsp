@@ -4,7 +4,7 @@
 <c:set var="popular" value="<%=VideoLocalServiceUtil.getPopular(12)%>"/>
 
 <portlet:resourceURL var="findVideos">
-	<portlet:param name="task" value="findVideos"/> 
+	<portlet:param name="cmd" value="findVideos"/> 
 </portlet:resourceURL>
 
 <div style="display: none;" id="findVideosURL">${findVideos}</div> 

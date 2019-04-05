@@ -42,6 +42,8 @@
 <%@page import="de.uhh.l2g.plugins.service.Video_CategoryLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.service.Lectureseries_InstitutionLocalServiceUtil" %>
 
+<%@page import="de.uhh.l2g.plugins.util.AutocompleteManager"%>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
@@ -14,9 +16,11 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.events.Action;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -25,9 +29,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
 import de.uhh.l2g.plugins.exception.NoSuchVideoException;
@@ -53,6 +59,7 @@ import de.uhh.l2g.plugins.service.TermLocalServiceUtil;
 import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
+import de.uhh.l2g.plugins.util.AutocompleteManager;
 
 /**
  * @author isturm
@@ -63,9 +70,6 @@ import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
 	property = {
 		"com.liferay.portlet.display-category=lecture2go.plugins",
 		"com.liferay.portlet.instanceable=true",
-		"com.liferay.portlet.header-portlet-javascript=/js/jquery.tmpl.min.js",
-		"com.liferay.portlet.header-portlet-javascript=/js/jquery-ui-1.11.1.js",
-		"com.liferay.portlet.header-portlet-javascript=/js/bootstrap.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.socialshareprivacy.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/qrc.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.cookie.js",
@@ -150,6 +154,24 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 			}			
 		}catch (NullPointerException npe){}
 		
+		//--- Autocomplete start
+		//getting task name to do
+	    String task = resourceRequest.getParameter("task");
+	    if (Validator.isNull(task)) {
+	        return;
+	    }
+	    switch (task) {
+	        case"findVideos":
+	        	// get writer for write data
+	        	PrintWriter out = resourceResponse.getWriter();
+	        	JSONArray searchWordsJsonArray = JSONFactoryUtil.createJSONArray();
+	            searchWordsJsonArray = AutocompleteManager.SEARCH_WORDS_JSONArray;
+	            _log.info("Search words array size" + searchWordsJsonArray.length());
+	            out.println(searchWordsJsonArray.toString());
+	            _log.info("End serveResource method");	
+	            break;
+	    }
+		//--- Autocomplete end
 	}
 	
 	public static JSONArray wordsJSONArray = JSONFactoryUtil.createJSONArray();
@@ -158,13 +180,18 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 		out.println(wordsJSONArray);
 	}
 	
+	public void search(ActionRequest req, ActionResponse res){
+		String findVideos = ParamUtil.getString(req, "findVideos");
+		res.setRenderParameter("findVideos", findVideos);
+	}
+	
 	public void renderList(RenderRequest renderRequest, RenderResponse renderResponse) {
 		Long parentInstitutionId = ParamUtil.getLong(renderRequest, "parentInstitutionId");
 		Long institutionId 	= ParamUtil.getLong(renderRequest, "institutionId", 0);
 		Long termId = ParamUtil.getLong(renderRequest, "termId", 0);
 		Long categoryId = ParamUtil.getLong(renderRequest, "categoryId", 0);
 		Long creatorId = ParamUtil.getLong(renderRequest, "creatorId", 0);
-		String searchQuery = ParamUtil.getString(renderRequest, "searchQuery", "");
+		String searchQuery = ParamUtil.getString(renderRequest, "findVideos", "");
 		int maxTerms = 4;
 		boolean hasInstitutionFiltered 	= (institutionId != 0);
 		boolean hasParentInstitutionFiltered = (parentInstitutionId != 0);
