@@ -133,9 +133,7 @@
 
 				<h1><liferay-ui:message key="video-catalog"/></h1>
 				    
-				<aui:form action="${findVideos}" method="GET" name="submitForm">
-					<aui:input name="findVideos" id="findVideos" label="" inlineField="true" value="${memberDTO.findVideos}"/>
-				</aui:form>			
+				<%@ include file="includeSearch.jsp"%>		
 
 				<c:set var="lTermId" value="${lectureseries.termId}"/>
 				<%try{%>

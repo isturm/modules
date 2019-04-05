@@ -96,10 +96,7 @@
 
 <h1><liferay-ui:message key="video-catalog"/></h1>
 		    
-<portlet:actionURL name="search" var="searchURL" />
-<aui:form action="${searchURL}" method="POST" name="submitForm">
-	<aui:input name="findVideos" id="findVideos" label="" inlineField="true" value="${memberDTO.findVideos}"/>
-</aui:form>
+<%@ include file="includeSearch.jsp"%>
 		    
 <div class="catalogue-container">
 	<div class="row-fluid">

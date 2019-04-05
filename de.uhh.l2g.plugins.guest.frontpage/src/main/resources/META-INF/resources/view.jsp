@@ -4,7 +4,7 @@
 <c:set var="popular" value="<%=VideoLocalServiceUtil.getPopular(12)%>"/>
 
 <portlet:resourceURL var="findVideos">
-	<portlet:param name="cmd" value="findVideos"/> 
+	<portlet:param name="task" value="findVideos"/> 
 </portlet:resourceURL>
 
 <div style="display: none;" id="findVideosURL">${findVideos}</div> 
@@ -37,9 +37,9 @@
 			<div class="l2go-subtitle">
 				<p><liferay-ui:message key="l2go-description"/></p>
 			</div>
-		    <aui:form action="/web/vod/l2go/-/get/0/0/0/0/0/" method="POST" name="submitForm">
-			    <aui:input name="findVideos" id="findVideos" label="" inlineField="true" value="${memberDTO.findVideos}"/>
-		    </aui:form>
+			
+			<%@ include file="includeSearch.jsp"%>	
+			
 			<br/>		    			
 			<button id="outer-catalogue-button" class="catalogue-button" onclick="window.location='/web/vod/l2go';"><liferay-ui:message key="to-catalogue"/></button>
 		</div>

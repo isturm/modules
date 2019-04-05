@@ -65,5 +65,6 @@ public class FrontPagePortlet extends MVCPortlet {
 	    out.println(searchWordsJsonArray.toString());
 	    log.info("End serveResource method");
 	}
+	
 
 }

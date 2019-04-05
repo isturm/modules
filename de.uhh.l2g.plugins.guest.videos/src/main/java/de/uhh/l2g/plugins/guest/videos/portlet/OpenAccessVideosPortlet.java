@@ -16,11 +16,10 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.liferay.portal.kernel.events.Action;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -28,8 +27,9 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper;
+import com.liferay.portal.kernel.portlet.FriendlyURLMapper;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -68,6 +68,7 @@ import de.uhh.l2g.plugins.util.AutocompleteManager;
 @Component(
 	immediate = true,
 	property = {
+		"com.liferay.portlet.friendly-url-routes=META-INF/friendly-url-routes/routes.xml",
 		"com.liferay.portlet.display-category=lecture2go.plugins",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.socialshareprivacy.js",
@@ -87,8 +88,9 @@ import de.uhh.l2g.plugins.util.AutocompleteManager;
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
-	service = Portlet.class
+	service = DefaultFriendlyURLMapper.class
 )
+
 public class OpenAccessVideosPortlet extends MVCPortlet {
 	private static final Log _log = LogFactoryUtil.getLog(OpenAccessVideosPortlet.class);
 	
@@ -100,16 +102,12 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 		case "/viewDetails.jsp":
 			renderDetails(renderRequest, renderResponse);
 			break;
-
 		default:
 			renderList(renderRequest, renderResponse);
 			break;
 		}
-		
-		
 		super.render(renderRequest, renderResponse);
 	}
-	
 	@Override
 	public void serveResource( ResourceRequest resourceRequest, ResourceResponse resourceResponse ) throws IOException, PortletException {
 		String resourceID = resourceRequest.getResourceID();
@@ -490,9 +488,6 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 		    renderRequest.setAttribute("timeEnd",timeEnd);
 		    renderRequest.setAttribute("objectType",objectType);
 		    renderRequest.setAttribute("objectId",oid);
-		    
-//		    if(video.getVideoId()==0) renderResponse.setProperty("jspPage","/noVideosFound.jsp");	
-//		    else renderResponse.setProperty("jspPage","/viewDetails.jsp");	    	
 	    }
 	}
 	
