@@ -40,7 +40,7 @@ import de.uhh.l2g.plugins.util.RepositoryManager;
 	immediate = true,
 	property = {
 		"com.liferay.portlet.display-category=lecture2go.plugins",
-		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.instanceable=false",
 		"javax.portlet.display-name=Admin Streaming",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/viewList.jsp",

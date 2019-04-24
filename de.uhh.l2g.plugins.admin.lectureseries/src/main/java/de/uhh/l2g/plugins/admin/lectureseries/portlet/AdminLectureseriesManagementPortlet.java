@@ -80,7 +80,7 @@ import de.uhh.l2g.plugins.util.ProzessManager;
 	immediate = true,
 	property = {
 		"com.liferay.portlet.display-category=lecture2go.plugins",
-		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.instanceable=false",
 		"javax.portlet.display-name=Admin Lectureseries",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.tmpl.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery-ui-1.10.3.custom.min.js",

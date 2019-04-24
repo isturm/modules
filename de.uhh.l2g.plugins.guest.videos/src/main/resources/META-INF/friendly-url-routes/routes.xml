@@ -1,12 +1,21 @@
 <?xml version="1.0"?>
-<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 7.1.0//EN" "http://www.liferay.com/dtd/liferay-friendly-url-routes_7_1_0.dtd">
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 7.0.0//EN" "http://www.liferay.com/dtd/liferay-friendly-url-routes_7_0_0.dtd">
 
 <routes>
-   <route>
-        <pattern></pattern>
-        <implicit-parameter name="mvcRenderCommandName">/l2go</implicit-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
-		<implicit-parameter name="p_p_mode">view</implicit-parameter>
-		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+    <route>
+         <pattern>/{objectType}/{objectId}</pattern>
+         <implicit-parameter name="mvcRenderCommandName">/view/render/details</implicit-parameter> 
+    </route>
+    <route>
+        <pattern>/{objectType}/{objectId}/{timeStart}/{timeEnd}</pattern>
+		<implicit-parameter name="mvcRenderCommandName">/view/render/details</implicit-parameter>
+    </route>
+    <route>
+        <pattern>/{institutionId}/{parentInstitutionId}/{categoryId}/{creatorId}/{termId}</pattern>
+		<implicit-parameter name="mvcRenderCommandName">/view/render/list</implicit-parameter>
+    </route>  
+    <route>
+        <pattern>/{institutionId}/{parentInstitutionId}/{categoryId}/{creatorId}/{termId}/{searchQuery}</pattern>
+		<implicit-parameter name="mvcRenderCommandName">/view/render/list</implicit-parameter>
     </route>
 </routes>

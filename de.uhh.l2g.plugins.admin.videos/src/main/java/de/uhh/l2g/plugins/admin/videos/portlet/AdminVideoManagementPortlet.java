@@ -93,7 +93,7 @@ import de.uhh.l2g.plugins.util.Security;
 	immediate = true,
 	property = {
 		"com.liferay.portlet.display-category=lecture2go.plugins",
-		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.header-portlet-css=/js/jquery.datetimepicker.css",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery-ui-1.11.1.js",
 		"com.liferay.portlet.header-portlet-javascript=/upload-9.27.0/js/vendor/jquery.ui.widget.js",		
@@ -109,7 +109,7 @@ import de.uhh.l2g.plugins.util.Security;
 		"javax.portlet.init-param.view-template=/viewList.jsp",
 		"javax.portlet.name=" + AdminVideoManagementPortletKeys.AdminVideoManagement,
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
+		"javax.portlet.security-role-ref=power-user,user" 
 	},
 	service = Portlet.class 
 )

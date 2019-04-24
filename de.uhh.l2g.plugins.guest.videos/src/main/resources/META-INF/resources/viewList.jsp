@@ -32,7 +32,7 @@
 <c:set var="portalURL" value="<%=PrefsPropsUtil.getString(company.getCompanyId(),PropsKeys.DEFAULT_LANDING_PAGE_PATH)%>"/>
 <c:set var="pageName" value="<%=themeDisplay.getLayout().getName(themeDisplay.getLocale())%>"/>
 <c:set var="displayTerms" value="<%=new DisplayTerms(renderRequest)%>"/>
- 
+  
 <%
 	// set page context for better use in taglibs
 	pageContext.setAttribute("hasParentInstitutionFiltered", hasParentInstitutionFiltered);
@@ -43,7 +43,7 @@
 %>
 
 	<portlet:renderURL var="backURL0">
-		<portlet:param name="jspPage" value="/viewList.jsp" />
+		<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 		<portlet:param name="parentInstitutionId" value="0"/>
 		<portlet:param name="institutionId" value="0"/>
 		<portlet:param name="termId" value="0"/>
@@ -53,6 +53,7 @@
 
 	<portlet:resourceURL var="findVideosURL">
 			<portlet:param name="task" value="findVideos"/> 
+			<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 	</portlet:resourceURL>
 
 <div style="display: none;" id="findVideosURL">${findVideosURL}</div> 
@@ -69,7 +70,7 @@
 	
 	<c:if test="${pInst.name.length()>0}">
 		<portlet:renderURL var="backURL1" >
-			<portlet:param name="jspPage" value="/viewList.jsp" />
+			<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 			<portlet:param name="parentInstitutionId" value="${pInst.institutionId}\'\'"/>
 			<portlet:param name="institutionId" value="0"/>
 			<portlet:param name="termId" value="0"/>
@@ -82,7 +83,7 @@
 	
 	<c:if test="${insti.name.length()>0}">
 			<portlet:renderURL var="backURL2">
-				<portlet:param name="jspPage" value="/viewList.jsp" />
+				<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 				<portlet:param name="parentInstitutionId" value="${pInst.institutionId}\'\'"/>
 				<portlet:param name="institutionId" value="${insti.institutionId}\'\'"/>
 				<portlet:param name="termId" value="0"/>
@@ -109,7 +110,7 @@
 						<ul>
 						<c:forEach items="${presentParentInstitutions}" var="parentInstitution">
 							<portlet:renderURL var="filterByParentInstitution">
-								<portlet:param name="jspPage" value="/viewList.jsp" />
+								<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 								<portlet:param name="parentInstitutionId" value='${hasParentInstitutionFiltered ? "0" : parentInstitution.institutionId}'/>
 								<portlet:param name="institutionId" value="${institutionId}"/>				
 								<portlet:param name="termId" value="${termId}"/>
@@ -130,7 +131,7 @@
 							<ul>
 							<c:forEach items="${presentInstitutions}" var="institution">
 								<portlet:renderURL var="filterByInstitution">
-									<portlet:param name="jspPage" value="/viewList.jsp" />
+									<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 									<portlet:param name="parentInstitutionId" value="${parentInstitutionId}"/>
 									<portlet:param name="institutionId" value='${hasInstitutionFiltered ? "0" : institution.institutionId}'/>
 									<portlet:param name="termId" value="${termId}"/>
@@ -151,7 +152,7 @@
 						<ul class="terms">
 						<c:forEach items="${presentTerms}" var="term">
 							<portlet:renderURL var="filterByTerm">
-								<portlet:param name="jspPage" value="/viewList.jsp" />
+								<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 								<portlet:param name="institutionId" value="${institutionId}"/>
 								<portlet:param name="parentInstitutionId" value="${parentInstitutionId}"/>	
 								<portlet:param name="termId" value='${hasTermFiltered ? "0" : term.termId}'/>
@@ -167,7 +168,6 @@
 						</c:if>
 					</liferay-ui:panel>
 				</c:if>
-			
 				
 				<!-- category filter -->
 				<c:if test="${presentCategories.size()>0}">
@@ -175,7 +175,7 @@
 						<ul>
 						<c:forEach items="${presentCategories}" var="category">
 				    		<portlet:renderURL var="filterByCategory">
-								<portlet:param name="jspPage" value="/viewList.jsp" />
+								<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 								<portlet:param name="institutionId" value="${institutionId}"/>
 								<portlet:param name="parentInstitutionId" value="${parentInstitutionId}"/>
 								<portlet:param name="termId" value="${termId}"/>
@@ -196,13 +196,12 @@
 <div>
 		
 <portlet:renderURL var="filterBySearchQuery">
-	<portlet:param name="jspPage" value="/viewList.jsp" />
+	<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
 	<portlet:param name="institutionId" value="0"/>
 	<portlet:param name="parentInstitutionId" value="0"/>
 	<portlet:param name="termId" value="0"/>
 	<portlet:param name="categoryId" value="0"/>
 	<portlet:param name="creatorId" value="0"/>
-	<portlet:param name="jspPage" value="/viewList.jsp" />
 </portlet:renderURL>		
 
 		
@@ -246,7 +245,7 @@
 				
 						<liferay-ui:search-container-column-text>
 										<portlet:renderURL var="view1URL">
-											<portlet:param name="jspPage" value="/viewDetails.jsp" />
+											<portlet:param name="mvcRenderCommandName" value="/view/render/details" />
 											<portlet:param name="objectId" value="${oId}"/>											
 											<c:if test="${isVideo}"><portlet:param name="objectType" value="v"/></c:if>
 											<c:if test="${!isVideo}"><portlet:param name="objectType" value="l"/></c:if>
@@ -342,9 +341,9 @@
 												<ul id="p${oId}">
 													<c:forEach items="${vl}" var="v">
 														<portlet:renderURL var="vURL">
-															<portlet:param name="jspPage" value="/viewDetails.jsp" />
-															<portlet:param name="objectId" value="${v.videoId}"/>
+															<portlet:param name="mvcRenderCommandName" value="/view/render/details" />
 															<portlet:param name="objectType" value="v"/>
+															<portlet:param name="objectId" value="${v.videoId}"/>
 														</portlet:renderURL>				
 						
 														<li class="videotile small" onClick="window.location='${vURL}'">

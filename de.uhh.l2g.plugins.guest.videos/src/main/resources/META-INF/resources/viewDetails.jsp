@@ -15,7 +15,7 @@
 <jsp:useBean id="timeEnd" type="java.lang.Long" scope="request" />
 
 <portlet:renderURL var="backURL0">
-	<portlet:param name="jspPage" value="/viewList.jsp" />
+	<portlet:param name="mvcRenderCommandName" value="/view/list" />
 	<portlet:param name="parentInstitutionId" value="0"/>
 	<portlet:param name="institutionId" value="0"/>
 	<portlet:param name="termId" value="0"/>
@@ -63,7 +63,7 @@
 								         	<c:set var="rInstId" value="${pInst.parentId}"/>
 								         	<c:set var="rInst" value="<%=InstitutionLocalServiceUtil.getInstitution((Long)pageContext.getAttribute("rInstId"))%>"/>
 											<portlet:renderURL var="backURL1">
-												<portlet:param name="jspPage" value="/viewList.jsp" />
+												<portlet:param name="mvcRenderCommandName" value="/view/list" />
 												<portlet:param name="parentInstitutionId" value="${pInst.institutionId}"/>
 												<portlet:param name="institutionId" value="0"/>
 												<portlet:param name="termId" value="0"/>
@@ -71,7 +71,7 @@
 												<portlet:param name="creatorId" value="0"/>
 											</portlet:renderURL>					
 											<portlet:renderURL var="backURL2">
-												<portlet:param name="jspPage" value="/viewList.jsp" />
+												<portlet:param name="mvcRenderCommandName" value="/view/list" />
 												<portlet:param name="parentInstitutionId" value="${pInst.institutionId}"/>
 												<portlet:param name="institutionId" value="${insti.institutionId}"/>
 												<portlet:param name="termId" value="0"/>
@@ -99,7 +99,7 @@
 					    				<c:set var="ipId" value="${pInst.parentId}"/>
 					    				<c:set var="rInst" value="<%=InstitutionLocalServiceUtil.getById((Long)pageContext.getAttribute("ipId"))%>"/>
 										<portlet:renderURL var="backURL3">
-											<portlet:param name="jspPage" value="/viewList.jsp" />
+											<portlet:param name="mvcRenderCommandName" value="/view/list" />
 											<portlet:param name="parentInstitutionId" value="${pInst.institutionId}"/>
 											<portlet:param name="institutionId" value="0"/>
 											<portlet:param name="termId" value="0"/>
@@ -107,7 +107,7 @@
 											<portlet:param name="creatorId" value="0"/>
 										</portlet:renderURL>					
 										<portlet:renderURL var="backURL4">
-											<portlet:param name="jspPage" value="/viewList.jsp" />
+											<portlet:param name="mvcRenderCommandName" value="/view/list" />
 											<portlet:param name="parentInstitutionId" value="${pInst.institutionId}"/>
 											<portlet:param name="institutionId" value="${insti.institutionId}"/>
 											<portlet:param name="termId" value="0"/>
@@ -363,7 +363,7 @@
 											</c:choose>
 		
 											<portlet:renderURL var="viewOpenAccessVideoURL1">
-												<portlet:param name="jspPage" value="/viewDetails.jsp" />
+												<portlet:param name="mvcRenderCommandName" value="/view/render/details" />
 												<portlet:param name="objectId" value="${oId}"/>
 												<portlet:param name="objectType" value="v"/>
 											</portlet:renderURL>

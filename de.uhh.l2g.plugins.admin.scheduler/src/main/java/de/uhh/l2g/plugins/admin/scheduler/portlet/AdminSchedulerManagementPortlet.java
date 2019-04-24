@@ -13,7 +13,7 @@ import de.uhh.l2g.plugins.admin.scheduler.constants.AdminSchedulerManagementPort
 	immediate = true,
 	property = {
 		"com.liferay.portlet.display-category=category.sample",
-		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.instanceable=false",
 		"javax.portlet.display-name=de.uhh.l2g.plugins.admin.scheduler Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
