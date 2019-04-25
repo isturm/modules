@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
@@ -130,13 +128,6 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 	private void getSearchWords(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws IOException, PortletException {
 		PrintWriter out = resourceResponse.getWriter();
 		out.println(wordsJSONArray);
-	}
-	
-	@Override
-	public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws IOException, PortletException {
-		String searchQuery = ParamUtil.getString(actionRequest, "findVideos", "");
-		System.out.println(searchQuery);
-		actionResponse.addProperty("findVideos",searchQuery);
 	}
 	
 }

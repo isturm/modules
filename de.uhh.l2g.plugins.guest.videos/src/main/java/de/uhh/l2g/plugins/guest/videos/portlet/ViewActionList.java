@@ -24,12 +24,8 @@ public class ViewActionList extends BaseMVCActionCommand {
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 		String searchQuery = ParamUtil.getString(actionRequest, "findVideos", "");
-		System.out.println(searchQuery);
 		actionResponse.addProperty("findVideos",searchQuery);
-		int teas = 0;
-		
-		teas = teas +24;
-		
+		actionRequest.setAttribute("findVideos",searchQuery);
 	}
 
 }

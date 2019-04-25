@@ -47,13 +47,13 @@ public class ViewRenderList implements MVCRenderCommand{
 		Long termId = ParamUtil.getLong(renderRequest, "termId", 0);
 		Long categoryId = ParamUtil.getLong(renderRequest, "categoryId", 0);
 		Long creatorId = ParamUtil.getLong(renderRequest, "creatorId", 0);
-		String searchQuery = ParamUtil.getString(renderRequest, "findVideos", "");
+		String findVideos = ParamUtil.getString(renderRequest, "findVideos", "");
 		int maxTerms = 4;
 		boolean hasInstitutionFiltered 	= (institutionId != 0);
 		boolean hasParentInstitutionFiltered = (parentInstitutionId != 0);
 		boolean hasTermFiltered	= (termId != 0);
 		boolean hasCategoryFiltered	= (categoryId != 0);
-		boolean isSearched = (searchQuery.trim().length()>0);
+		boolean isSearched = (findVideos.trim().length()>0);
 		//
 		long companyId = PortalUtil.getCompanyId(renderRequest);
 		long groupId = new Long(0);
@@ -67,7 +67,7 @@ public class ViewRenderList implements MVCRenderCommand{
 			institutionId = new Long(0);
 		}		
 		// get filtered lectureseries and single videos
-		List<Lectureseries> reqLectureseries = LectureseriesLocalServiceUtil.getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(institutionId, parentInstitutionId, termId, categoryId, creatorId, searchQuery, groupId, companyId);
+		List<Lectureseries> reqLectureseries = LectureseriesLocalServiceUtil.getFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(institutionId, parentInstitutionId, termId, categoryId, creatorId, findVideos, groupId, companyId);
 		// differentiate returned lectureseries in real lectureseries and fake video lectureseries (openAccessVideoId is negative on videos)
 		ArrayList<Long> lectureseriesIds = new ArrayList<Long>();
 		ArrayList<Long> videoIds = new ArrayList<Long>();
@@ -128,7 +128,7 @@ public class ViewRenderList implements MVCRenderCommand{
 		portletURL.setParameter("termId", termId.toString());
 		portletURL.setParameter("categoryId", categoryId.toString());
 		portletURL.setParameter("creatorId", creatorId.toString());
-		portletURL.setParameter("searchQuery", searchQuery);
+		portletURL.setParameter("findVideos", findVideos);
 		//
 		boolean resultSetEmpty = true;
 		if(presentParentInstitutions.size()>0||presentInstitutions.size()>0||presentTerms.size()>0||presentCategories.size()>0){
@@ -161,7 +161,7 @@ public class ViewRenderList implements MVCRenderCommand{
 		renderRequest.setAttribute("termId", termId);
 		renderRequest.setAttribute("categoryId", categoryId);
 		renderRequest.setAttribute("creatorId", creatorId);
-		renderRequest.setAttribute("searchQuery", searchQuery);
+		renderRequest.setAttribute("findVideos", findVideos);
 		renderRequest.setAttribute("maxTerms", maxTerms);
 		renderRequest.setAttribute("hasInstitutionFiltered", hasInstitutionFiltered);
 		renderRequest.setAttribute("hasParentInstitutionFiltered", hasParentInstitutionFiltered);

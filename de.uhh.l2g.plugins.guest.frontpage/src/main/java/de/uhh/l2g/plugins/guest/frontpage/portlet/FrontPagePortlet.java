@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.util.Validator;
 import de.uhh.l2g.plugins.guest.frontpage.constants.FrontPagePortletKeys;
 import de.uhh.l2g.plugins.util.AutocompleteManager;
 
+
 /**
  * @author isturm
  */
@@ -35,7 +36,6 @@ import de.uhh.l2g.plugins.util.AutocompleteManager;
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/mediaCheck-min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.frontpage.js",
-		"com.liferay.portlet.action-url-redirect=true",
 		"javax.portlet.display-name=Guest Frontpage",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
@@ -52,13 +52,15 @@ public class FrontPagePortlet extends MVCPortlet {
 	@ProcessAction(name="search")
 	public void search(ActionRequest req, ActionResponse res){
 		String findVideos = ParamUtil.getString(req, "findVideos");
+		
+		//
 		try {
-			res.sendRedirect("/web/vod/l2go");
+			res.sendRedirect("/web/vod/l2go/-/get/0/0/0/0/0/"+findVideos);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	} 
 	
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws IOException, PortletException {
