@@ -2,6 +2,7 @@ package de.uhh.l2g.plugins.guest.frontpage.portlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -19,10 +20,13 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.URLStringEncoder;
 import com.liferay.portal.kernel.util.Validator;
 
 import de.uhh.l2g.plugins.guest.frontpage.constants.FrontPagePortletKeys;
 import de.uhh.l2g.plugins.util.AutocompleteManager;
+import de.uhh.l2g.plugins.util.HTMLFilter;
 
 
 /**
@@ -52,13 +56,19 @@ public class FrontPagePortlet extends MVCPortlet {
 	@ProcessAction(name="search")
 	public void search(ActionRequest req, ActionResponse res){
 		String findVideos = ParamUtil.getString(req, "findVideos");
-		
-		//
+		//XSS anti scripting required!
+		HTMLFilter hF = new HTMLFilter();
+		findVideos = hF.filter(findVideos);
+		//Encode URL to string 
 		try {
-			res.sendRedirect("/web/vod/l2go/-/get/0/0/0/0/0/"+findVideos);
-		} catch (IOException e) {
+			String partUrl = PropsUtil.get("lecture2go.web.root") + "/web/vod/l2go/-/get/0/0/0/0/0/";
+			URLStringEncoder encoder = new URLStringEncoder();
+			String url=partUrl+encoder.encode(findVideos);
+			System.out.println(url);
+			res.sendRedirect(url); 
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 	} 
 	
