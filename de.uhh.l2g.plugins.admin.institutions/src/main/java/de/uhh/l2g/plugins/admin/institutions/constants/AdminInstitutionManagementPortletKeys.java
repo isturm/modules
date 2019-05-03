@@ -6,5 +6,6 @@ package de.uhh.l2g.plugins.admin.institutions.constants;
 public class AdminInstitutionManagementPortletKeys {
 
 	public static final String AdminInstitutionManagement = "AdminInstitutionManagement";
+	public static final String DEFAULT_STREAMER = "Default";
 
 }
