@@ -85,15 +85,6 @@ public interface InstitutionLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
-	* Special handling for default entry
-	* Default has to be Top Level Institution, must be replaced while migrating
-	*
-	* TODO: remove Default when migrating data
-	*/
-	public Institution addDefaultInstitution(ServiceContext serviceContext)
-		throws PortalException, SystemException;
-
-	/**
 	* Adds the institution to the database. Also notifies the appropriate model listeners.
 	*
 	* @param institution the institution
@@ -101,10 +92,6 @@ public interface InstitutionLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Institution addInstitution(Institution institution);
-
-	public Institution addInstitution(java.lang.String name, long hostId,
-		long parentId, int sort, ServiceContext serviceContext)
-		throws PortalException, SystemException;
 
 	/**
 	* Creates a new institution with the primary key. Does not add the institution to the database.
@@ -133,9 +120,6 @@ public interface InstitutionLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.DELETE)
 	public Institution deleteInstitution(long institutionId)
 		throws PortalException;
-
-	public Institution deleteInstitution(long institutionId,
-		ServiceContext serviceContext) throws PortalException, SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Institution fetchInstitution(long institutionId);
@@ -328,8 +312,4 @@ public interface InstitutionLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getDefaultInstitutionId(long companyId, long groupId)
-		throws SystemException;
 }

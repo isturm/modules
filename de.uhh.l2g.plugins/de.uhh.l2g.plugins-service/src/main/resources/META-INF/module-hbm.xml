@@ -94,7 +94,7 @@
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.InstitutionImpl" table="LG_Institution">
 		<id name="institutionId" type="long">
-			<generator class="assigned" />
+			<generator class="increment" />
 		</id>
 		<property name="parentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -107,7 +107,7 @@
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.Institution_HostImpl" table="LG_Institution_Host">
 		<id name="institutionHostId" type="long">
-			<generator class="assigned" />
+			<generator class="increment" />
 		</id>
 		<property name="institutionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="hostId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

@@ -108,6 +108,12 @@ public class Institution_HostLocalServiceImpl
 		return institutions;
 	}
 
+	public Institution_Host deleteLinkById(long institutionHostId) throws PortalException, SystemException {
+		Institution_Host institution_Host = null;
+		institution_Host = deleteInstitution_Host(institutionHostId);
+		return institution_Host;
+	}
+	
 	public List<Institution_Host> getListByGroupIdAndHostId(long groupId, long hostId) throws SystemException, PortalException {
 		List<Institution_Host> institution_host = institution_HostPersistence.findByG_H(groupId, hostId);
 		return institution_host;
@@ -127,6 +133,11 @@ public class Institution_HostLocalServiceImpl
 	 * */
 	public List<Institution_Host> getListByGroupIdAndInstitutionId(long companyId, long groupId, long institutionId) throws SystemException, PortalException {
 		List<Institution_Host> institution_host = (List<Institution_Host>) institution_HostPersistence.findByC_G_I(companyId, groupId, institutionId);
+		return institution_host;
+	}
+	
+	public List<Institution_Host> getListByInstitutionId(long institutionId) throws SystemException, PortalException {
+		List<Institution_Host> institution_host = institution_HostPersistence.findByinstitutionId(institutionId);
 		return institution_host;
 	}
 

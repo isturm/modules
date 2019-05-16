@@ -2221,7 +2221,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	private static final String _FINDER_COLUMN_WWW_WWW_3 = "(institution.www IS NULL OR institution.www = '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_LEVEL = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
 			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBylevel",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLevel",
 			new String[] {
 				Integer.class.getName(),
 				
@@ -2230,13 +2230,13 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 			});
 	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_LEVEL = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
 			InstitutionModelImpl.FINDER_CACHE_ENABLED, InstitutionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBylevel",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLevel",
 			new String[] { Integer.class.getName() },
 			InstitutionModelImpl.LEVEL_COLUMN_BITMASK |
 			InstitutionModelImpl.SORT_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_LEVEL = new FinderPath(InstitutionModelImpl.ENTITY_CACHE_ENABLED,
 			InstitutionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBylevel",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLevel",
 			new String[] { Integer.class.getName() });
 
 	/**
@@ -2246,8 +2246,8 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the matching institutions
 	 */
 	@Override
-	public List<Institution> findBylevel(int level) {
-		return findBylevel(level, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<Institution> findByLevel(int level) {
+		return findByLevel(level, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
@@ -2263,8 +2263,8 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the range of matching institutions
 	 */
 	@Override
-	public List<Institution> findBylevel(int level, int start, int end) {
-		return findBylevel(level, start, end, null);
+	public List<Institution> findByLevel(int level, int start, int end) {
+		return findByLevel(level, start, end, null);
 	}
 
 	/**
@@ -2281,9 +2281,9 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the ordered range of matching institutions
 	 */
 	@Override
-	public List<Institution> findBylevel(int level, int start, int end,
+	public List<Institution> findByLevel(int level, int start, int end,
 		OrderByComparator<Institution> orderByComparator) {
-		return findBylevel(level, start, end, orderByComparator, true);
+		return findByLevel(level, start, end, orderByComparator, true);
 	}
 
 	/**
@@ -2301,7 +2301,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the ordered range of matching institutions
 	 */
 	@Override
-	public List<Institution> findBylevel(int level, int start, int end,
+	public List<Institution> findByLevel(int level, int start, int end,
 		OrderByComparator<Institution> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
@@ -2412,10 +2412,10 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @throws NoSuchInstitutionException if a matching institution could not be found
 	 */
 	@Override
-	public Institution findBylevel_First(int level,
+	public Institution findByLevel_First(int level,
 		OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException {
-		Institution institution = fetchBylevel_First(level, orderByComparator);
+		Institution institution = fetchByLevel_First(level, orderByComparator);
 
 		if (institution != null) {
 			return institution;
@@ -2441,9 +2441,9 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the first matching institution, or <code>null</code> if a matching institution could not be found
 	 */
 	@Override
-	public Institution fetchBylevel_First(int level,
+	public Institution fetchByLevel_First(int level,
 		OrderByComparator<Institution> orderByComparator) {
-		List<Institution> list = findBylevel(level, 0, 1, orderByComparator);
+		List<Institution> list = findByLevel(level, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2461,10 +2461,10 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @throws NoSuchInstitutionException if a matching institution could not be found
 	 */
 	@Override
-	public Institution findBylevel_Last(int level,
+	public Institution findByLevel_Last(int level,
 		OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException {
-		Institution institution = fetchBylevel_Last(level, orderByComparator);
+		Institution institution = fetchByLevel_Last(level, orderByComparator);
 
 		if (institution != null) {
 			return institution;
@@ -2490,15 +2490,15 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the last matching institution, or <code>null</code> if a matching institution could not be found
 	 */
 	@Override
-	public Institution fetchBylevel_Last(int level,
+	public Institution fetchByLevel_Last(int level,
 		OrderByComparator<Institution> orderByComparator) {
-		int count = countBylevel(level);
+		int count = countByLevel(level);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Institution> list = findBylevel(level, count - 1, count,
+		List<Institution> list = findByLevel(level, count - 1, count,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2518,7 +2518,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @throws NoSuchInstitutionException if a institution with the primary key could not be found
 	 */
 	@Override
-	public Institution[] findBylevel_PrevAndNext(long institutionId, int level,
+	public Institution[] findByLevel_PrevAndNext(long institutionId, int level,
 		OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException {
 		Institution institution = findByPrimaryKey(institutionId);
@@ -2530,12 +2530,12 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 
 			Institution[] array = new InstitutionImpl[3];
 
-			array[0] = getBylevel_PrevAndNext(session, institution, level,
+			array[0] = getByLevel_PrevAndNext(session, institution, level,
 					orderByComparator, true);
 
 			array[1] = institution;
 
-			array[2] = getBylevel_PrevAndNext(session, institution, level,
+			array[2] = getByLevel_PrevAndNext(session, institution, level,
 					orderByComparator, false);
 
 			return array;
@@ -2548,7 +2548,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 		}
 	}
 
-	protected Institution getBylevel_PrevAndNext(Session session,
+	protected Institution getByLevel_PrevAndNext(Session session,
 		Institution institution, int level,
 		OrderByComparator<Institution> orderByComparator, boolean previous) {
 		StringBundler query = null;
@@ -2660,8 +2660,8 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @param level the level
 	 */
 	@Override
-	public void removeBylevel(int level) {
-		for (Institution institution : findBylevel(level, QueryUtil.ALL_POS,
+	public void removeByLevel(int level) {
+		for (Institution institution : findByLevel(level, QueryUtil.ALL_POS,
 				QueryUtil.ALL_POS, null)) {
 			remove(institution);
 		}
@@ -2674,7 +2674,7 @@ public class InstitutionPersistenceImpl extends BasePersistenceImpl<Institution>
 	 * @return the number of matching institutions
 	 */
 	@Override
-	public int countBylevel(int level) {
+	public int countByLevel(int level) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_LEVEL;
 
 		Object[] finderArgs = new Object[] { level };

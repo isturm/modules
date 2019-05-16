@@ -66,20 +66,6 @@ public class InstitutionLocalServiceWrapper implements InstitutionLocalService,
 	}
 
 	/**
-	* Special handling for default entry
-	* Default has to be Top Level Institution, must be replaced while migrating
-	*
-	* TODO: remove Default when migrating data
-	*/
-	@Override
-	public de.uhh.l2g.plugins.model.Institution addDefaultInstitution(
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _institutionLocalService.addDefaultInstitution(serviceContext);
-	}
-
-	/**
 	* Adds the institution to the database. Also notifies the appropriate model listeners.
 	*
 	* @param institution the institution
@@ -89,16 +75,6 @@ public class InstitutionLocalServiceWrapper implements InstitutionLocalService,
 	public de.uhh.l2g.plugins.model.Institution addInstitution(
 		de.uhh.l2g.plugins.model.Institution institution) {
 		return _institutionLocalService.addInstitution(institution);
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Institution addInstitution(
-		java.lang.String name, long hostId, long parentId, int sort,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _institutionLocalService.addInstitution(name, hostId, parentId,
-			sort, serviceContext);
 	}
 
 	/**
@@ -137,16 +113,6 @@ public class InstitutionLocalServiceWrapper implements InstitutionLocalService,
 		long institutionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _institutionLocalService.deleteInstitution(institutionId);
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Institution deleteInstitution(
-		long institutionId,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _institutionLocalService.deleteInstitution(institutionId,
-			serviceContext);
 	}
 
 	@Override
@@ -448,13 +414,6 @@ public class InstitutionLocalServiceWrapper implements InstitutionLocalService,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _institutionLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
-	}
-
-	@Override
-	public long getDefaultInstitutionId(long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _institutionLocalService.getDefaultInstitutionId(companyId,
-			groupId);
 	}
 
 	@Override

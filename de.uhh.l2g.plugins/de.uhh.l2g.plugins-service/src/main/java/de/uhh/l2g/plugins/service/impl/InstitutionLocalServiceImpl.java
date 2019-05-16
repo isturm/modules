@@ -129,7 +129,7 @@ public class InstitutionLocalServiceImpl extends InstitutionLocalServiceBaseImpl
 	}
 
 	public List<Institution> getByLevel(int level) throws SystemException {
-		return institutionPersistence.findBylevel(level);
+		return institutionPersistence.findByLevel(level);
 	}
 
 	public List<Institution> getByLectureseriesId(long lectureseriesId, int begin, int end) throws SystemException {
@@ -259,104 +259,6 @@ public class InstitutionLocalServiceImpl extends InstitutionLocalServiceBaseImpl
 		}
 	}
 	
-	public long getDefaultInstitutionId(long companyId, long groupId) throws SystemException{
-		Institution defaultInstitution = institutionPersistence.fetchByRoot(companyId, groupId, false);
-		if (defaultInstitution == null) return 0;
-		else return defaultInstitution.getPrimaryKey();
-	}
-	
-	
-	/**Special handling for default entry
-	 * Default has to be Top Level Institution, must be replaced while migrating
-	 * 
-	 * TODO: remove Default when migrating data
-	 */
-	public Institution addDefaultInstitution(ServiceContext serviceContext) throws SystemException, PortalException {
-		
-    	
-		long groupId = serviceContext.getScopeGroupId();
-		long companyId = serviceContext.getCompanyId();
-		long userId = serviceContext.getUserId();
-
-		User user = userPersistence.findByPrimaryKey(userId);
-		
-		long institutionId = counterLocalService.increment(Institution.class.getName());
-
-		Institution defaultInstitution = institutionPersistence.create(institutionId);
-
-		//ParentId = 0 marks default
-		defaultInstitution.setName(PropsUtil.get("lecture2go.default.rootInstitution"));
-		defaultInstitution.setGroupId(groupId);
-		defaultInstitution.setCompanyId(companyId);
-		//Set Top Level Attributes
-		defaultInstitution.setParentId(0);
-		defaultInstitution.setLevel(0);
-		defaultInstitution.setParentId(0);
-		defaultInstitution.setTyp("tree1");
-		defaultInstitution.setExpandoBridgeAttributes(serviceContext);
-
-		institutionPersistence.update(defaultInstitution);
-		
-		//add default host if set
-		long hostId = HostLocalServiceUtil.getDefaultHostId(companyId, groupId);
-		if (hostId > 0){
-			Institution_HostLocalServiceUtil.addEntry(institutionId, hostId, serviceContext);
-		}
-
-		resourceLocalService.addResources(user.getCompanyId(), groupId, userId,
-				Institution.class.getName(), institutionId, false, true, true);
-    	
-    	return defaultInstitution;
-	}
-	
-	
-
-	public Institution addInstitution(String name, long hostId, long parentId, int sort, ServiceContext serviceContext) throws SystemException, PortalException {
-
-		long groupId = serviceContext.getScopeGroupId();
-		long companyId = serviceContext.getCompanyId();
-		long userId = serviceContext.getUserId();
-
-		User user = userPersistence.findByPrimaryKey(userId);
-
-		validate(name);
-
-		long institutionId = counterLocalService.increment(Institution.class.getName());
-
-		Institution institution = institutionPersistence.create(institutionId);
-
-		Institution parent = InstitutionLocalServiceUtil.getById(parentId);
-
-		institution.setName(name);
-		institution.setGroupId(groupId);
-		institution.setCompanyId(companyId);
-		institution.setParentId(parentId);
-		institution.setTyp("tree1"); //there is no tree2 anymore
-		if (parentId > 0 && parentId < Long.MAX_VALUE) institution.setLevel(parent.getLevel()+1);
-		else institution.setLevel(0);
-		
-		if(sort <= 0) sort = 1;
-		institution.setSort(updateSort(institution,sort));
-
-		institution.setExpandoBridgeAttributes(serviceContext);
-
-		institutionPersistence.update(institution);
-
-
-		//System.out.println(institutionId+" "+institution.getPrimaryKey() +" "+institution.getInstitutionId());
-		//System.out.println(institutionId+" "+hostId);
-
-		//only add if set
-		if (hostId > 0){
-			Institution_HostLocalServiceUtil.addEntry(institutionId, hostId, serviceContext);
-		}
-
-		resourceLocalService.addResources(user.getCompanyId(), groupId, userId,
-			       Institution.class.getName(), institutionId, false, true, true);
-
-		return institution;
-	}
-
 	public Institution updateInstitution(long institutionId, String name, int sort,
 		       ServiceContext serviceContext) throws PortalException,
 		       SystemException {
@@ -403,77 +305,5 @@ public class InstitutionLocalServiceImpl extends InstitutionLocalServiceBaseImpl
 		    return institution;
 
 		}
-
-	public Institution deleteInstitution(long institutionId, ServiceContext serviceContext)
-		        throws PortalException, SystemException {
-
-
-		   		long groupId = serviceContext.getScopeGroupId();
-		   		long companyId = serviceContext.getCompanyId();
-		   		long userId = serviceContext.getUserId();
-
-		   		Institution institution = getInstitution(institutionId);
-
-		   	    //Check if Institution is empty, i.e. no  subfacilities, lecture series, videos, and members
-		        if (getLockingElements(institutionId) < 1){
-
-			        resourceLocalService.deleteResource(serviceContext.getCompanyId(),
-			        		Institution.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL,
-			        		institutionId);
-
-			        updateSort(institution, 0);
-			        institution = deleteInstitution(institutionId);
-
-			        //Remove anything from link table if there...			        
-			    	List<Institution_Host> linstitution_Host = Institution_HostLocalServiceUtil.getListByGroupIdAndInstitutionId(companyId, groupId, institutionId);
-
-					if (linstitution_Host.size() > 0){
-
-						for (Institution_Host link : linstitution_Host) {
-							long ihId = link.getPrimaryKey();
-							//System.out.println(ihId);
-
-
-							Institution_HostLocalServiceUtil.deleteLinkById(ihId, serviceContext);
-
-						}
-					}
-		        }
-		        else { 
-		        	System.out.println("Could not delte "+ institution.getName() + "because there are lectures, videos or other entity instances associated with this institution");
-		        	}
-
-		        return institution;
-
-		  }
-	
-//	   public long updateCounter() throws SystemException, PortalException {
-//
-//		        //get current Counter
-//				Counter counter = CounterLocalServiceUtil.getCounter(Institution.class.getName());
-//	            LOG.debug(counter.getCurrentId());
-//	            int count = InstitutionLocalServiceUtil.getInstitutionsCount();
-//	            LOG.debug(count);
-//	            long institutionId = 0; //actual maxId
-//	            
-//				//Retrieve actual table data
-//
-//	            if (count > 0){ //our db is filled... with something at least
-//					ClassLoader classLoader = (ClassLoader)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),"portletClassLoader");    		
-//					DynamicQuery query = DynamicQueryFactoryUtil.forClass(Institution.class,classLoader).addOrder(OrderFactoryUtil.desc("institutionId"));
-//					query.setLimit(0,1);
-//					List<Institution> institutions = InstitutionLocalServiceUtil.dynamicQuery(query);
-//					
-//					if (institutions.size() > 0)institutionId = institutions.get(0).getInstitutionId();
-//	            }
-//		        LOG.debug(institutionId);
-//				//Update Counter if asynchronous with estimated value or data reseted
-//		        if (counter.getCurrentId() <  institutionId || institutionId == 0){
-//		        	counter.setCurrentId(institutionId);
-//		        	CounterLocalServiceUtil.updateCounter(counter);
-//		        }
-//				return counter.getCurrentId();
-//					
-//	   }
 
 }

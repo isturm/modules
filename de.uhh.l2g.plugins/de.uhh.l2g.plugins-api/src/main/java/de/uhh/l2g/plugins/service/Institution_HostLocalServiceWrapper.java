@@ -151,6 +151,14 @@ public class Institution_HostLocalServiceWrapper
 
 	@Override
 	public de.uhh.l2g.plugins.model.Institution_Host deleteLinkById(
+		long institutionHostId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.deleteLinkById(institutionHostId);
+	}
+
+	@Override
+	public de.uhh.l2g.plugins.model.Institution_Host deleteLinkById(
 		long institutionHostId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -363,6 +371,14 @@ public class Institution_HostLocalServiceWrapper
 			com.liferay.portal.kernel.exception.SystemException {
 		return _institution_HostLocalService.getListByGroupIdAndInstitutionId(companyId,
 			groupId, institutionId);
+	}
+
+	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Institution_Host> getListByInstitutionId(
+		long institutionId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _institution_HostLocalService.getListByInstitutionId(institutionId);
 	}
 
 	/**

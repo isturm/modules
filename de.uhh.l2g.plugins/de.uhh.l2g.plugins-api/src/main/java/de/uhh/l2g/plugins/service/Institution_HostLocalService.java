@@ -137,6 +137,9 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	public Institution_Host deleteInstitution_Host(long institutionHostId)
 		throws PortalException;
 
+	public Institution_Host deleteLinkById(long institutionHostId)
+		throws PortalException, SystemException;
+
 	public Institution_Host deleteLinkById(long institutionHostId,
 		ServiceContext serviceContext) throws PortalException, SystemException;
 
@@ -268,6 +271,10 @@ public interface Institution_HostLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Institution_Host> getListByGroupIdAndInstitutionId(
 		long companyId, long groupId, long institutionId)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Institution_Host> getListByInstitutionId(long institutionId)
 		throws PortalException, SystemException;
 
 	/**

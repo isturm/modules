@@ -96,7 +96,7 @@
         </finder>
     </entity>
     <entity name="Institution" local-service="true" remote-service="false">
-    	<column name="institutionId" type="long" primary="true">
+    	<column name="institutionId" type="long" primary="true" id-type="increment">
     	</column>
     	<column name="parentId" type="long"></column>
     	<column name="name" type="String"></column>
@@ -120,7 +120,7 @@
     	<finder name="Www" return-type="Collection">
     		<finder-column name="www"></finder-column>
     	</finder>
-    	<finder name="level" return-type="Collection">
+    	<finder name="Level" return-type="Collection">
     		<finder-column name="level"></finder-column>
     	</finder>
     	<finder name="Sort" return-type="Collection">
@@ -328,7 +328,7 @@
         </finder>
     </entity>
     <entity name="Institution_Host" local-service="true" remote-service="false">
-        <column name="institutionHostId" type="long" primary="true"></column>
+        <column name="institutionHostId" type="long" primary="true" id-type="increment"></column>
         <column name="institutionId" type="long"></column>
         <column name="hostId" type="long"></column>
         <column name="groupId" type="long"></column>

@@ -69,19 +69,6 @@ public class InstitutionLocalServiceUtil {
 	}
 
 	/**
-	* Special handling for default entry
-	* Default has to be Top Level Institution, must be replaced while migrating
-	*
-	* TODO: remove Default when migrating data
-	*/
-	public static de.uhh.l2g.plugins.model.Institution addDefaultInstitution(
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().addDefaultInstitution(serviceContext);
-	}
-
-	/**
 	* Adds the institution to the database. Also notifies the appropriate model listeners.
 	*
 	* @param institution the institution
@@ -90,15 +77,6 @@ public class InstitutionLocalServiceUtil {
 	public static de.uhh.l2g.plugins.model.Institution addInstitution(
 		de.uhh.l2g.plugins.model.Institution institution) {
 		return getService().addInstitution(institution);
-	}
-
-	public static de.uhh.l2g.plugins.model.Institution addInstitution(
-		java.lang.String name, long hostId, long parentId, int sort,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .addInstitution(name, hostId, parentId, sort, serviceContext);
 	}
 
 	/**
@@ -134,14 +112,6 @@ public class InstitutionLocalServiceUtil {
 		long institutionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteInstitution(institutionId);
-	}
-
-	public static de.uhh.l2g.plugins.model.Institution deleteInstitution(
-		long institutionId,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().deleteInstitution(institutionId, serviceContext);
 	}
 
 	public static de.uhh.l2g.plugins.model.Institution fetchInstitution(
@@ -411,11 +381,6 @@ public class InstitutionLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	public static long getDefaultInstitutionId(long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getDefaultInstitutionId(companyId, groupId);
 	}
 
 	public static InstitutionLocalService getService() {

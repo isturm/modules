@@ -575,7 +575,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @param level the level
 	* @return the matching institutions
 	*/
-	public java.util.List<Institution> findBylevel(int level);
+	public java.util.List<Institution> findByLevel(int level);
 
 	/**
 	* Returns a range of all the institutions where level = &#63;.
@@ -589,7 +589,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @param end the upper bound of the range of institutions (not inclusive)
 	* @return the range of matching institutions
 	*/
-	public java.util.List<Institution> findBylevel(int level, int start, int end);
+	public java.util.List<Institution> findByLevel(int level, int start, int end);
 
 	/**
 	* Returns an ordered range of all the institutions where level = &#63;.
@@ -604,7 +604,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching institutions
 	*/
-	public java.util.List<Institution> findBylevel(int level, int start,
+	public java.util.List<Institution> findByLevel(int level, int start,
 		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Institution> orderByComparator);
 
@@ -622,7 +622,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching institutions
 	*/
-	public java.util.List<Institution> findBylevel(int level, int start,
+	public java.util.List<Institution> findByLevel(int level, int start,
 		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Institution> orderByComparator,
 		boolean retrieveFromCache);
@@ -635,7 +635,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @return the first matching institution
 	* @throws NoSuchInstitutionException if a matching institution could not be found
 	*/
-	public Institution findBylevel_First(int level,
+	public Institution findByLevel_First(int level,
 		com.liferay.portal.kernel.util.OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException;
 
@@ -646,7 +646,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching institution, or <code>null</code> if a matching institution could not be found
 	*/
-	public Institution fetchBylevel_First(int level,
+	public Institution fetchByLevel_First(int level,
 		com.liferay.portal.kernel.util.OrderByComparator<Institution> orderByComparator);
 
 	/**
@@ -657,7 +657,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @return the last matching institution
 	* @throws NoSuchInstitutionException if a matching institution could not be found
 	*/
-	public Institution findBylevel_Last(int level,
+	public Institution findByLevel_Last(int level,
 		com.liferay.portal.kernel.util.OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException;
 
@@ -668,7 +668,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching institution, or <code>null</code> if a matching institution could not be found
 	*/
-	public Institution fetchBylevel_Last(int level,
+	public Institution fetchByLevel_Last(int level,
 		com.liferay.portal.kernel.util.OrderByComparator<Institution> orderByComparator);
 
 	/**
@@ -680,7 +680,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @return the previous, current, and next institution
 	* @throws NoSuchInstitutionException if a institution with the primary key could not be found
 	*/
-	public Institution[] findBylevel_PrevAndNext(long institutionId, int level,
+	public Institution[] findByLevel_PrevAndNext(long institutionId, int level,
 		com.liferay.portal.kernel.util.OrderByComparator<Institution> orderByComparator)
 		throws NoSuchInstitutionException;
 
@@ -689,7 +689,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	*
 	* @param level the level
 	*/
-	public void removeBylevel(int level);
+	public void removeByLevel(int level);
 
 	/**
 	* Returns the number of institutions where level = &#63;.
@@ -697,7 +697,7 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	* @param level the level
 	* @return the number of matching institutions
 	*/
-	public int countBylevel(int level);
+	public int countByLevel(int level);
 
 	/**
 	* Returns all the institutions where sort = &#63;.

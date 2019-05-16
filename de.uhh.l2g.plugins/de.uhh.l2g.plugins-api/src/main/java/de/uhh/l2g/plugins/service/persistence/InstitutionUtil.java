@@ -736,8 +736,8 @@ public class InstitutionUtil {
 	* @param level the level
 	* @return the matching institutions
 	*/
-	public static List<Institution> findBylevel(int level) {
-		return getPersistence().findBylevel(level);
+	public static List<Institution> findByLevel(int level) {
+		return getPersistence().findByLevel(level);
 	}
 
 	/**
@@ -752,8 +752,8 @@ public class InstitutionUtil {
 	* @param end the upper bound of the range of institutions (not inclusive)
 	* @return the range of matching institutions
 	*/
-	public static List<Institution> findBylevel(int level, int start, int end) {
-		return getPersistence().findBylevel(level, start, end);
+	public static List<Institution> findByLevel(int level, int start, int end) {
+		return getPersistence().findByLevel(level, start, end);
 	}
 
 	/**
@@ -769,9 +769,9 @@ public class InstitutionUtil {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching institutions
 	*/
-	public static List<Institution> findBylevel(int level, int start, int end,
+	public static List<Institution> findByLevel(int level, int start, int end,
 		OrderByComparator<Institution> orderByComparator) {
-		return getPersistence().findBylevel(level, start, end, orderByComparator);
+		return getPersistence().findByLevel(level, start, end, orderByComparator);
 	}
 
 	/**
@@ -788,11 +788,11 @@ public class InstitutionUtil {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching institutions
 	*/
-	public static List<Institution> findBylevel(int level, int start, int end,
+	public static List<Institution> findByLevel(int level, int start, int end,
 		OrderByComparator<Institution> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
-				   .findBylevel(level, start, end, orderByComparator,
+				   .findByLevel(level, start, end, orderByComparator,
 			retrieveFromCache);
 	}
 
@@ -804,10 +804,10 @@ public class InstitutionUtil {
 	* @return the first matching institution
 	* @throws NoSuchInstitutionException if a matching institution could not be found
 	*/
-	public static Institution findBylevel_First(int level,
+	public static Institution findByLevel_First(int level,
 		OrderByComparator<Institution> orderByComparator)
 		throws de.uhh.l2g.plugins.exception.NoSuchInstitutionException {
-		return getPersistence().findBylevel_First(level, orderByComparator);
+		return getPersistence().findByLevel_First(level, orderByComparator);
 	}
 
 	/**
@@ -817,9 +817,9 @@ public class InstitutionUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching institution, or <code>null</code> if a matching institution could not be found
 	*/
-	public static Institution fetchBylevel_First(int level,
+	public static Institution fetchByLevel_First(int level,
 		OrderByComparator<Institution> orderByComparator) {
-		return getPersistence().fetchBylevel_First(level, orderByComparator);
+		return getPersistence().fetchByLevel_First(level, orderByComparator);
 	}
 
 	/**
@@ -830,10 +830,10 @@ public class InstitutionUtil {
 	* @return the last matching institution
 	* @throws NoSuchInstitutionException if a matching institution could not be found
 	*/
-	public static Institution findBylevel_Last(int level,
+	public static Institution findByLevel_Last(int level,
 		OrderByComparator<Institution> orderByComparator)
 		throws de.uhh.l2g.plugins.exception.NoSuchInstitutionException {
-		return getPersistence().findBylevel_Last(level, orderByComparator);
+		return getPersistence().findByLevel_Last(level, orderByComparator);
 	}
 
 	/**
@@ -843,9 +843,9 @@ public class InstitutionUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching institution, or <code>null</code> if a matching institution could not be found
 	*/
-	public static Institution fetchBylevel_Last(int level,
+	public static Institution fetchByLevel_Last(int level,
 		OrderByComparator<Institution> orderByComparator) {
-		return getPersistence().fetchBylevel_Last(level, orderByComparator);
+		return getPersistence().fetchByLevel_Last(level, orderByComparator);
 	}
 
 	/**
@@ -857,11 +857,11 @@ public class InstitutionUtil {
 	* @return the previous, current, and next institution
 	* @throws NoSuchInstitutionException if a institution with the primary key could not be found
 	*/
-	public static Institution[] findBylevel_PrevAndNext(long institutionId,
+	public static Institution[] findByLevel_PrevAndNext(long institutionId,
 		int level, OrderByComparator<Institution> orderByComparator)
 		throws de.uhh.l2g.plugins.exception.NoSuchInstitutionException {
 		return getPersistence()
-				   .findBylevel_PrevAndNext(institutionId, level,
+				   .findByLevel_PrevAndNext(institutionId, level,
 			orderByComparator);
 	}
 
@@ -870,8 +870,8 @@ public class InstitutionUtil {
 	*
 	* @param level the level
 	*/
-	public static void removeBylevel(int level) {
-		getPersistence().removeBylevel(level);
+	public static void removeByLevel(int level) {
+		getPersistence().removeByLevel(level);
 	}
 
 	/**
@@ -880,8 +880,8 @@ public class InstitutionUtil {
 	* @param level the level
 	* @return the number of matching institutions
 	*/
-	public static int countBylevel(int level) {
-		return getPersistence().countBylevel(level);
+	public static int countByLevel(int level) {
+		return getPersistence().countByLevel(level);
 	}
 
 	/**
