@@ -1,4 +1,4 @@
-package de.uhh.l2g.pluging.admin.roles.portlet.render;
+package de.uhh.l2g.plugins.admin.roles.portlet.render;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 
-import de.uhh.l2g.pluging.admin.roles.constants.AdminRolesPortletKeys;
+import de.uhh.l2g.plugins.admin.roles.constants.AdminRolesPortletKeys;
 import de.uhh.l2g.plugins.model.Coordinator;
 import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.model.Producer;

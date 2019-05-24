@@ -1,8 +1,8 @@
-package de.uhh.l2g.pluging.admin.roles.portlet;
-
-import de.uhh.l2g.pluging.admin.roles.constants.AdminRolesPortletKeys;
+package de.uhh.l2g.plugins.admin.roles.portlet;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+
+import de.uhh.l2g.plugins.admin.roles.constants.AdminRolesPortletKeys;
 
 import javax.portlet.Portlet;
 

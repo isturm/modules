@@ -18,10 +18,13 @@
 <%@ page import="com.liferay.portal.kernel.model.Role"%>
 <%@ page import="com.liferay.portal.kernel.language.LanguageUtil"%>
 <%@ page import="com.liferay.portal.kernel.util.PortalUtil"%>
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil"%>
 
 <%@ page import="de.uhh.l2g.plugins.service.CoordinatorLocalServiceUtil"%>
 <%@ page import="de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil"%>
-<%@ page import="de.uhh.l2g.pluging.admin.roles.util.TextManager"%>
+<%@ page import="de.uhh.l2g.plugins.admin.roles.util.TextManager"%>
+<%@ page import="de.uhh.l2g.plugins.admin.roles.search.UserSearchHelper"%>
+<%@ page import="de.uhh.l2g.plugins.admin.roles.search.UserSearchHelper"%>
 
 <liferay-theme:defineObjects />
 

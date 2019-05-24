@@ -1,4 +1,4 @@
-package de.uhh.l2g.pluging.admin.roles.util;
+package de.uhh.l2g.plugins.admin.roles.util;
 
 import java.util.List;
 

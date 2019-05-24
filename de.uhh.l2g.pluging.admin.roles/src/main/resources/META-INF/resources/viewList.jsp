@@ -3,10 +3,15 @@
 <jsp:useBean id="portletURL" type="javax.portlet.PortletURL" scope="request" />
 <jsp:useBean id="l2goRoles" type="java.util.List<com.liferay.portal.kernel.model.Role>" scope="request" />
 <jsp:useBean id="l2goUsers" type="java.util.List<User>" scope="request" />
+<jsp:useBean id="roleId" type="java.lang.Long" scope="request" />
+<jsp:useBean id="backURL" type="javax.portlet.PortletURL" scope="request" />
+<jsp:useBean id="displayTerms" type="de.uhh.l2g.plugins.admin.roles.search.UserDisplayTerms" scope="request" />
+<jsp:useBean id="userSearchContainer" type="de.uhh.l2g.plugins.admin.roles.search.UserSearchContainer" scope="request" />
 
 <c:set var="application" value="<%=application%>"/>
-<c:set var="displayTerms" value="<%=new DisplayTerms(renderRequest)%>"/>
-<c:set var="backURL" value="<%=String.valueOf(PortalUtil.getCurrentCompleteURL(request))%>"/>
+
+<liferay-portlet:renderURL varImpl="userSearchURL">
+</liferay-portlet:renderURL>
 
 <div class="noresponsive">
 	<aui:fieldset helpMessage="choose-filter" column="true" cssClass="list">
@@ -22,14 +27,17 @@
 	</aui:fieldset>
 </div>
 
-<liferay-ui:search-container emptyResultsMessage="no-users-found" delta="10" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
-			<liferay-ui:search-form page="/viewSearch.jsp" servletContext="${application}" />
+<aui:form action="${userSearchURL}" method="post" name="fm">
+	<liferay-ui:search-container emptyResultsMessage="no-users-found" delta="10" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
 			<liferay-ui:search-container-results>
+				<div id="modifiedSearch">
+					<liferay-ui:search-form page="/viewSearch.jsp" servletContext="<%= application %>" />
+				</div>
+				
 				<%
-					DisplayTerms displayTerms =searchContainer.getDisplayTerms();
 					String keywords = displayTerms.getKeywords(); 
-					searchContainer.setTotal(l2goUsers.size());		 
-					searchContainer.setResults(ListUtil.subList(l2goUsers, searchContainer.getStart(), searchContainer.getEnd()));
+					searchContainer.setTotal(UserSearchHelper.getTotalUserCount(displayTerms,userSearchContainer.getStart(), userSearchContainer.getEnd()));		 
+					searchContainer.setResults(UserSearchHelper.getUser(displayTerms,userSearchContainer.getStart(), userSearchContainer.getEnd()));
 				%>
 			</liferay-ui:search-container-results>
 		
@@ -61,3 +69,4 @@
 		
 			<liferay-ui:search-iterator />
 		</liferay-ui:search-container>
+</aui:form>		

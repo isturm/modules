@@ -1,4 +1,4 @@
-package de.uhh.l2g.pluging.admin.roles.portlet.render;
+package de.uhh.l2g.plugins.admin.roles.portlet.render;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,9 @@ import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 
-import de.uhh.l2g.pluging.admin.roles.constants.AdminRolesPortletKeys;
+import de.uhh.l2g.plugins.admin.roles.constants.AdminRolesPortletKeys;
+import de.uhh.l2g.plugins.admin.roles.search.UserDisplayTerms;
+import de.uhh.l2g.plugins.admin.roles.search.UserSearchContainer;
 import de.uhh.l2g.plugins.util.Lecture2GoRoleChecker;
 import com.liferay.portal.kernel.model.Role;;
 
@@ -38,9 +40,32 @@ public class ViewListMVCRenderCommand implements MVCRenderCommand {
 		
 		//Remote user
 		Long userId = new Long(renderRequest.getRemoteUser());
-		PortletURL portletURL = renderResponse.createRenderURL();
-		User remoteUser = UserLocalServiceUtil.createUser(0);
 		Long roleId = ParamUtil.getLong(renderRequest, "roleId");
+
+		String keywords = ParamUtil.getString(renderRequest, "keywords", "");
+		//update role id if keword has been set!
+		if(!keywords.isEmpty()) roleId = new Long(0);
+		
+		//portletURL
+		PortletURL portletURL = renderResponse.createRenderURL();
+		portletURL.setParameter("roleId", roleId.toString() );
+
+		//
+		UserSearchContainer userSearchContainer = new UserSearchContainer(renderRequest, portletURL);	
+		UserDisplayTerms displayTerms = (UserDisplayTerms)userSearchContainer.getDisplayTerms();
+		
+		//search request
+		String searchFullName = ParamUtil.getString(renderRequest,"fullName");
+		System.out.println(searchFullName);
+		
+		//backURL
+		PortletURL backURL = portletURL;
+		String delta = ParamUtil.getString(renderRequest, "delta");
+		String cur = ParamUtil.getString(renderRequest, "cur");
+		backURL.setParameter("delta", delta);
+		backURL.setParameter("cur", cur);
+		//
+		User remoteUser = UserLocalServiceUtil.createUser(0);
 		//
 		
 		try {
@@ -78,8 +103,13 @@ public class ViewListMVCRenderCommand implements MVCRenderCommand {
 		renderRequest.setAttribute("permissionProducer", permissionProducer);
 		renderRequest.setAttribute("roleId", roleId);
 		renderRequest.setAttribute("portletURL", portletURL);
+		renderRequest.setAttribute("backURL", backURL);
 		renderRequest.setAttribute("l2goRoles", l2goRoles);
 		renderRequest.setAttribute("l2goUsers", user);
+
+		renderRequest.setAttribute("userSearchContainer", userSearchContainer);
+		renderRequest.setAttribute("displayTerms", displayTerms);
+		renderRequest.setAttribute("keywords", keywords);
 		
 		//
 		

@@ -1,4 +1,4 @@
-package de.uhh.l2g.pluging.admin.roles.constants;
+package de.uhh.l2g.plugins.admin.roles.constants;
 
 /**
  * @author isturm

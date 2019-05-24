@@ -54,8 +54,7 @@
 			</aui:select>
 		</div>
 		
-		${backURL}
-		<aui:input name="userId" type="hidden" value="${reqUserId}"/>
+			<aui:input name="userId" type="hidden" value="${reqUserId}"/>
 		<aui:input name="backURL" type="hidden" value="${backURL}"/>
 		<aui:button type="submit"/>
 		<aui:button type="cancel" value="cancel" href="${backURL}" id="cancel"/>

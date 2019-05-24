@@ -1,4 +1,4 @@
-package de.uhh.l2g.pluging.admin.roles.portlet.actions;
+package de.uhh.l2g.plugins.admin.roles.portlet.actions;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
-import de.uhh.l2g.pluging.admin.roles.constants.AdminRolesPortletKeys;
+import de.uhh.l2g.plugins.admin.roles.constants.AdminRolesPortletKeys;
 import de.uhh.l2g.plugins.model.Coordinator;
 import de.uhh.l2g.plugins.model.Host;
 import de.uhh.l2g.plugins.model.Producer;
