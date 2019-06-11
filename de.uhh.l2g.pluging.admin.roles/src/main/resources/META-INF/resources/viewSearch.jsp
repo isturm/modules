@@ -5,7 +5,5 @@
 	SearchContainer searchContainer = (SearchContainer)request.getAttribute("liferay-ui:search:searchContainer");
 	DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 %>
-<liferay-ui:search-toggle buttonLabel="user-search" displayTerms="<%= displayTerms %>" id="toggle_id_user_search">
-</liferay-ui:search-toggle>
-
+	<input class="form-control search-query" id="toggle_id_user_searchkeywords" name="<portlet:namespace></portlet:namespace>keywords" placeholder="keywords" title="keywords" type="text" value="${displayTerms.keywords}">
 <br/>

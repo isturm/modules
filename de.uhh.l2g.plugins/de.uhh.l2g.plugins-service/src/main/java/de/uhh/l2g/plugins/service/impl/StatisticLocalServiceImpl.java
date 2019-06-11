@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
@@ -61,6 +62,13 @@ public class StatisticLocalServiceImpl
 	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.StatisticLocalServiceUtil} to access the institution_ host local service.
 	 */
 
+	public JSONObject getAllStatistics() throws SystemException {
+			//generate view, if not existing
+			statisticFinder.createVideoStatisticView();
+			//
+			return statisticFinder.findAllStatistics();
+	}
+		
 	public List<Statistic> getByCompanyIdandGroupId(long companyId, long groupId) throws SystemException, PortalException {
 		List<Statistic> institution_host = statisticPersistence.findByGroupAndCompany(groupId, companyId);
 		return institution_host; 

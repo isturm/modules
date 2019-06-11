@@ -65,6 +65,12 @@ public class StatisticLocalServiceWrapper implements StatisticLocalService,
 		return _statisticLocalService.getIndexableActionableDynamicQuery();
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getAllStatistics()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _statisticLocalService.getAllStatistics();
+	}
+
 	/**
 	* @throws PortalException
 	*/

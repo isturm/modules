@@ -69,6 +69,11 @@ public class StatisticLocalServiceUtil {
 		return getService().getIndexableActionableDynamicQuery();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getAllStatistics()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAllStatistics();
+	}
+
 	/**
 	* @throws PortalException
 	*/

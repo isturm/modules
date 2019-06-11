@@ -1,6 +1,5 @@
 package de.uhh.l2g.plugins.admin.institutions.portlet.render;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletException;
@@ -44,16 +43,20 @@ public class ViewListMVCRenderCommand implements MVCRenderCommand {
 		PortletURL portletURL = renderResponse.createRenderURL();
 		//Remote user
 		User remoteUser = UserLocalServiceUtil.createUser(0);
-		try { remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser())); } catch (Exception e1) {
+		try {
+			remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser())); 
+		} catch (Exception e1) {
 			_log.error("user can't be fatched!");
 		} 
+		//
 		Lecture2GoRoleChecker l2goRole = new Lecture2GoRoleChecker(remoteUser);
 		List<Host> hostList = HostLocalServiceUtil.getHosts(0, 100);
-		//
+		
 		renderRequest.setAttribute("root", root);
 		renderRequest.setAttribute("institutionsList", institutionsList);	
 		renderRequest.setAttribute("portletURL", portletURL);	
 		renderRequest.setAttribute("hostList", hostList);	
+		
 		//permissions
 		renderRequest.setAttribute("permissionAdmin", l2goRole.isL2gAdmin());				
 		renderRequest.setAttribute("permissionProducer", l2goRole.isProducer());				

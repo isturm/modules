@@ -22,6 +22,8 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface StatisticFinder {
+	public com.liferay.portal.kernel.json.JSONObject findAllStatistics();
+
 	public int createVideoStatisticView();
 
 	public int removeVideoStatisticTable();
