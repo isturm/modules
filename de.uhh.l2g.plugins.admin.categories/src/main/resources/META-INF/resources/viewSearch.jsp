@@ -10,8 +10,6 @@
 <c:set var="cName" value="<%=ParamUtil.getString(request, "cName")%>"/>
 <c:set var="displayTerms" value="<%=displayTerms%>"/>
 
-<liferay-ui:search-toggle buttonLabel="category-search" displayTerms="${displayTerms}" id="toggle_id_category_search">
-	<aui:input label="id" name="cId" value='${cId}'/> <!-- If Id = 0 then set blank in field -->
-	<aui:input label="name" name="cName" value='${cName}'/>
-</liferay-ui:search-toggle>
+	<input class="form-control search-query" id="toggle_id_video_searchkeywords" name="<portlet:namespace></portlet:namespace>keywords" placeholder="keywords" title="keywords" type="text" value="${displayTerms.keywords}">
+<br/>
 

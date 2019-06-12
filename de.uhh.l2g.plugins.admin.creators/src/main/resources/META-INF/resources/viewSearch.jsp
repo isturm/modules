@@ -8,12 +8,5 @@
 	SearchContainer searchContainer = (SearchContainer)request.getAttribute("liferay-ui:search:searchContainer");
 	DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 %>
-<liferay-ui:search-toggle buttonLabel="creators-search" displayTerms="<%= displayTerms %>" id="toggle_id_creators_search">
-	<aui:input label="job-title" name="jobTitle" value='<%= jobTitle %>'/>
-	<aui:input label="first-name" name="firstName" value='<%= firstName %>'/>
-	<aui:input label="middle-name" name="middleName" value='<%= middleName %>'/>
-	<aui:input label="last-name" name="lastName" value='<%= lastName %>'/>
-	<aui:input label="full-name" name="fullName" value='<%= fullName %>'/>
-</liferay-ui:search-toggle>
-
+	<input class="form-control search-query" id="toggle_id_video_searchkeywords" name="<portlet:namespace></portlet:namespace>keywords" placeholder="keywords" title="keywords" type="text" value="${displayTerms.keywords}">
 <br/>
