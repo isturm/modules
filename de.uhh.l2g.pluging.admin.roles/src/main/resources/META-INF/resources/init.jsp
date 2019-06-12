@@ -24,7 +24,6 @@
 <%@ page import="de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil"%>
 <%@ page import="de.uhh.l2g.plugins.admin.roles.util.TextManager"%>
 <%@ page import="de.uhh.l2g.plugins.admin.roles.search.UserSearchHelper"%>
-<%@ page import="de.uhh.l2g.plugins.admin.roles.search.UserSearchHelper"%>
 
 <liferay-theme:defineObjects />
 

@@ -43,6 +43,8 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
 import de.uhh.l2g.plugins.admin.videos.constants.AdminVideoManagementPortletKeys;
+import de.uhh.l2g.plugins.admin.videos.search.VideoDisplayTerms;
+import de.uhh.l2g.plugins.admin.videos.search.VideoSearchContainer;
 import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
 import de.uhh.l2g.plugins.model.Category;
 import de.uhh.l2g.plugins.model.Coordinator;
@@ -133,13 +135,18 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		String backURL = ParamUtil.getString(renderRequest, "backURL");
-
+		
+		//
+		PortletURL portletURL = renderResponse.createRenderURL();
+		
+		VideoSearchContainer videoSearchContainer = new VideoSearchContainer(renderRequest, portletURL);	
+		VideoDisplayTerms displayTerms = (VideoDisplayTerms)videoSearchContainer.getDisplayTerms();
+		
 		//Remote user
 		Long userId = new Long(renderRequest.getRemoteUser());
 		User user = UserLocalServiceUtil.createUser(0);
 		long companyId = new Long(0);
 		long groupId = new Long(0);
-		PortletURL portletURL = renderResponse.createRenderURL();
 		User remoteUser = UserLocalServiceUtil.createUser(0);
 		try {
 			remoteUser = UserLocalServiceUtil.getUser(new Long(renderRequest.getRemoteUser())); 
@@ -161,8 +168,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		List<Lectureseries> lectureseries = new ArrayList<Lectureseries>();
 		List<Video> tempVideosList = new ArrayList<Video>();
 		Map<Term, List<Lectureseries>> lectureseriesAsTreeList = new TreeMap<Term, List<Lectureseries>>();
-		Long coordinatorId = new Long(0);
-		coordinatorId = ParamUtil.getLong(renderRequest, "coordinatorId", 0);
+		Long coordinatorId = ParamUtil.getLong(renderRequest, "coordinatorId", 0);
 		Long producerId = ParamUtil.getLong(renderRequest, "producerId", 0);
 		Long lectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId", 0);
 		//if coordinator, producer or lecture series clicked, 
@@ -355,6 +361,8 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		renderRequest.setAttribute("reqVideo", reqVideo);
 		renderRequest.setAttribute("languages", languages);
 		renderRequest.setAttribute("assignedCreators", assignedCreators);
+		renderRequest.setAttribute("displayTerms", displayTerms);
+		renderRequest.setAttribute("videoSearchContainer", videoSearchContainer);
 		//
 		renderResponse.setProperty("jspPage", mvcPath);
 		super.render(renderRequest, renderResponse);

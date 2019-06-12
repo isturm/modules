@@ -12,9 +12,16 @@
 <jsp:useBean id="tempVideosList" type="java.util.List<Video>" scope="request" />
 <jsp:useBean id="portletURL" type="javax.portlet.PortletURL" scope="request" />
 <jsp:useBean id="remoteUser" type="com.liferay.portal.kernel.model.User" scope="request" />
+<jsp:useBean id="displayTerms" type="de.uhh.l2g.plugins.admin.videos.search.VideoDisplayTerms" scope="request" />
+<jsp:useBean id="videoSearchContainer" type="de.uhh.l2g.plugins.admin.videos.search.VideoSearchContainer" scope="request" />
 
 <c:set var="pageName" value="<%=themeDisplay.getLayout().getName(themeDisplay.getLocale())%>"/>
 <c:set var="contextPath" value="<%=config.getServletContext().getContextPath() %>"/>			
+<c:set var="application" value="<%=application%>"/>
+
+<liferay-portlet:renderURL varImpl="videosSearchURL">
+    <portlet:param name="mvcPath" value="/viewList.jsp" />
+</liferay-portlet:renderURL>
 
 <div class="noresponsive">
 	<label class="edit-video-lable">${pageName}</label>
@@ -83,196 +90,209 @@
 			</a>
 	</c:if>
 	
-	<liferay-ui:search-container emptyResultsMessage="no-videos-found" delta="10"  iteratorURL="${portletURL}">
-			<liferay-ui:search-container-results>
-				<%
-					DisplayTerms displayTerms =searchContainer.getDisplayTerms();
-					//String keywords = displayTerms.getKeywords(); 
-					searchContainer.setTotal(tempVideosList.size());		 
-					searchContainer.setResults(ListUtil.subList(tempVideosList, searchContainer.getStart(), searchContainer.getEnd()));
-				%>
-			</liferay-ui:search-container-results>
-		
-			<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Video" keyProperty="videoId" modelVar="video">
-					<c:set var="vid" value="<%=VideoLocalServiceUtil.getVideo(video.getVideoId())%>"/>
-					<c:set var="url" value=""/>
-					<c:if test="${vid.getOpenAccess()==1}">
-						<c:set var="url" value="${vid.url}"/>
-					</c:if>
-					<c:if test="${vid.getOpenAccess()==0}">
-						<c:set var="url" value="${vid.secureUrl}"/>
-					</c:if>
-					<portlet:actionURL name="viewVideo" var="viewURL">
-						<portlet:param name="videoId" value="${video.videoId}" />
-					</portlet:actionURL>
-					<liferay-ui:search-container-column-text name="">
-						<div class="adminrow wide">
-								<c:set var="ls" value="<%=LectureseriesLocalServiceUtil.createLectureseries(0)%>"/>
-								<c:if test="${vid.getLectureseriesId()>0}">
-									<c:set var="ls" value="<%=LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId())%>"/>
-								</c:if>
-		
-								<c:set var="lName" value=""/>
-								<c:if test="${ls.name}">
-									<c:set var="lName" value="${ls.name}"/>
-								</c:if>
-		
-								<c:set var="lTerm" value="0"/>
-								<c:if test="${ls.termId>0}">
-									<c:set var="lTerm" value="${ls.termId}"/>
-								</c:if>
-		
-								<c:set var="vName" value="${vid.title}"/>
-								<c:if test="${fn:length(vName)==0}">
-									<c:set var="vName" value="<%=LanguageUtil.get(request, "no-title")%>"/>
-								</c:if>
-								
-								<c:set var="creators" value="<%=CreatorLocalServiceUtil.getCommaSeparatedLinkedCreatorsByVideoIdAndMaxCreators(video.getVideoId(), 100)%>"/>
-								<c:if test="${fn:length(creators)==0}">
-									<c:set var="creators" value="<%=LanguageUtil.get(request, "no-creators")%>"/>
-								</c:if>
-								
-								<c:set var="onClick" value="#"/>
-								<c:if test="${fn:length(vid.filename)>0}">
-									<c:set var="onClick" value="window.open('${url}')"/>
-								</c:if>		
-								
-								<div class="video-image-wrapper" onClick="${onClick}">
-								    <img class="video-image-big" src="${vid.imageMedium}"/>
-								</div>
-								
-								<div class="admintile wide video-content-wrapper">
-									<div class="admin-videolist-video-title" onClick="${onClick}">
-										${vName}
-									</div>
-									
-									<div class="admin-videolist-creator-title">
-										${creators}
-									</div>
-									
-									<c:if test="${fn:length(lName)>0}">
-										<div class="admin-videolist-lectureseries-title">
-											${lName} (${lTerm})
-										</div>
-									</c:if>
-									
-									<c:if test="${fn:length(vid.filename)>0}">
-										<div class="format">
-											<c:if test="${vid.mp4File.isFile()}">
-												<liferay-ui:message key="mp4-video"/> &nbsp;
-											</c:if>
-											
-											<c:if test="${vid.mp3File.isFile()}">
-												<liferay-ui:message key="mp3-audio"/> &nbsp;
-											</c:if>
-											
-											<c:if test="${vid.m4aFile.isFile()}">
-												<liferay-ui:message key="m4a-audio"/> &nbsp;
-											</c:if>
-											
-											<c:if test="${vid.m4vFile.isFile()}">
-												<liferay-ui:message key="m4v-video"/> &nbsp;
-											</c:if>
-										</div>																
-									</c:if>
-	
-									<div class="admin-videolist-date">
-										${vid.date} | <liferay-ui:message key="hits"/>: ${vid.hits}
-									</div>
-								</div>
-								
-								<div class="video-edit-wrapper">
-									
-									<c:set var="primKey" value="<%=String.valueOf(video.getPrimaryKey())%>" />
-					
-									<portlet:renderURL var="editURL">
-										<portlet:param name="videoId" value="${primKey}" />
-										<portlet:param name="backURL" value="${portletURL}"/>
-										<portlet:param name="mvcPath" value="/viewEdit.jsp" />
-									</portlet:renderURL>
-									
-									
-									<portlet:actionURL name="lockVideo" var="lockURL">
-										<portlet:param name="videoId" value="${primKey}" />
-										<portlet:param name="backURL" value="${portletURL}"/>	
-									</portlet:actionURL>
-									
-									<portlet:actionURL name="unlockVideo" var="unlockURL">
-										<portlet:param name="videoId" value="${primKey}" />
-										<portlet:param name="backURL" value="${portletURL}"/>	
-									</portlet:actionURL>
-									
-									<portlet:actionURL name="activateDownload" var="activateDowonloadURL">
-										<portlet:param name="videoId" value="${primKey}" />
-										<portlet:param name="backURL" value="${portletURL}"/>	
-									</portlet:actionURL>
-									
-									<portlet:actionURL name="deactivateDownload" var="deactivateDowonloadURL">
-										<portlet:param name="videoId" value="${primKey}" />
-										<portlet:param name="backURL" value="${portletURL}"/>	
-									</portlet:actionURL>
-									
-									<portlet:renderURL var="segmentURL">
-										<portlet:param name="videoId" value="${primKey}" />
-										<portlet:param name="backURL" value="${portletURL}"/>		
-										<portlet:param name="mvcPath" value="/viewSegment.jsp" />
-									</portlet:renderURL>
+	<aui:form action="${videosSearchURL}" method="post" name="fm">
+		<liferay-ui:search-container emptyResultsMessage="no-videos-found" delta="10" iteratorURL="${portletURL}" displayTerms="${displayTerms}">
+				<liferay-ui:search-container-results>
+				<div id="modifiedSearch">
+					<liferay-ui:search-form page="/viewSearch.jsp" servletContext="<%= application %>" />
+				</div>
 				
-									<portlet:actionURL name="removeVideo" var="removeURL">
-										<portlet:param name="videoId" value="${primKey}" />
-										<portlet:param name="backURL" value="${portletURL}"/>	
-									</portlet:actionURL>
-									
-									<a href="${editURL}" title="<liferay-ui:message key='edit'/>" alt="<liferay-ui:message key='edit'/>">
-									   <span class="icon-large icon-pencil"></span>
-									</a>
-									
-									<c:if test="${fn:length(vid.filename)>0}">
-										<c:if test="${vid.openAccess==1}">
-											<a href="${lockURL}" title="<liferay-ui:message key='lock-help'/>" alt="<liferay-ui:message key='lock-help'/>">
-											   <span class="icon-large icon-unlock" onclick="return confirm('<liferay-ui:message key="really-lock-question"/>')"></span>
-											</a>
-										</c:if>
-										
-										<c:if test="${vid.openAccess==0}">
-											<a href="${unlockURL}" title="<liferay-ui:message key='unlock-help'/>" alt="<liferay-ui:message key='unlock-help'/>">
-											    <span class="icon-large icon-lock" onclick="return confirm('<liferay-ui:message key="really-unlock-question"/>')"></span>
-											 </a>
-										</c:if>
-										
-										<c:if test="${vid.downloadLink==1}">
-											 <a href="${deactivateDowonloadURL}" title="<liferay-ui:message key='deaktivate-download-help'/>" alt="<liferay-ui:message key='deaktivate-download-help'/>">
-											    <span class="icon-large icon-download-alt" onclick="return confirm('<liferay-ui:message key="really-deactivate-download-question"/>')"></span>
-											 </a>
-										</c:if>
-										
-										<c:if test="${vid.downloadLink==0}">
-											 <a href="${activateDowonloadURL}" title="<liferay-ui:message key='aktivate-download-help'/>" alt="<liferay-ui:message key='aktivate-download-help'/>">
-											    <span class="icon-large icon-download"></span>
-											 </a>		
-										</c:if>
-										
-										<c:set var="segments" value="<%=SegmentLocalServiceUtil.getSegmentsByVideoId(video.getVideoId())%>"/>
-										<c:if test="${segments.size()>0}">
-											<a href="${segmentURL}" title="<liferay-ui:message key='comment-video-help'/>" alt="<liferay-ui:message key='comment-video-help'/>">
-											    <span class="icon-large icon-comment"></span>
-											 </a>	
-										</c:if>
-										
-										<c:if test="${segments.size()==0}">
-											<a href="${segmentURL}" title="<liferay-ui:message key='comment-video-help'/>" alt="<liferay-ui:message key='comment-video-help'/>">
-											   <span class="icon-large icon-align-justify"></span>
-											</a>
-										</c:if>
+				<%
+					String keywords = displayTerms.getKeywords(); 
+					searchContainer.setTotal(VideoSearchHelper.getTotalVideoCount(displayTerms,videoSearchContainer.getStart(), videoSearchContainer.getEnd()));		 
+					searchContainer.setResults(VideoSearchHelper.getVideo(displayTerms,videoSearchContainer.getStart(), videoSearchContainer.getEnd()));
+				%>
+				</liferay-ui:search-container-results>
+			
+				<liferay-ui:search-container-row className="de.uhh.l2g.plugins.model.Video" keyProperty="videoId" modelVar="video">
+						<c:set var="vid" value="<%=VideoLocalServiceUtil.getVideo(video.getVideoId())%>"/>
+						<c:set var="url" value=""/>
+						<c:if test="${vid.getOpenAccess()==1}">
+							<c:set var="url" value="${vid.url}"/>
+						</c:if>
+						<c:if test="${vid.getOpenAccess()==0}">
+							<c:set var="url" value="${vid.secureUrl}"/>
+						</c:if>
+						<portlet:actionURL name="viewVideo" var="viewURL">
+							<portlet:param name="videoId" value="${video.videoId}" />
+						</portlet:actionURL>
+						<liferay-ui:search-container-column-text name="">
+							<div class="adminrow wide">
+									<c:set var="ls" value="<%=LectureseriesLocalServiceUtil.createLectureseries(0)%>"/>
+									<c:if test="${vid.getLectureseriesId()>0}">
+										<c:set var="ls" value="<%=LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId())%>"/>
+									</c:if>
+			
+									<c:set var="lName" value=""/>
+									<c:if test="${ls.name}">
+										<c:set var="lName" value="${ls.name}"/>
+									</c:if>
+			
+									<c:set var="lTerm" value="0"/>
+									<c:if test="${ls.termId>0}">
+										<c:set var="lTerm" value="${ls.termId}"/>
+									</c:if>
+			
+									<c:set var="vName" value="${vid.title}"/>
+									<c:if test="${fn:length(vName)==0}">
+										<c:set var="vName" value="<%=LanguageUtil.get(request, "no-title")%>"/>
 									</c:if>
 									
-									<a href="${removeURL}" title="<liferay-ui:message key='delete'/>">
-										<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
-									</a>
-								</div>
-						</div>		
-					</liferay-ui:search-container-column-text>
-			</liferay-ui:search-container-row>
-		<liferay-ui:search-iterator />
-	</liferay-ui:search-container>
+									<c:set var="creators" value="<%=CreatorLocalServiceUtil.getCommaSeparatedLinkedCreatorsByVideoIdAndMaxCreators(video.getVideoId(), 100)%>"/>
+									<c:if test="${fn:length(creators)==0}">
+										<c:set var="creators" value="<%=LanguageUtil.get(request, "no-creators")%>"/>
+									</c:if>
+									
+									<c:set var="onClick" value="#"/>
+									<c:if test="${fn:length(vid.filename)>0}">
+										<c:set var="onClick" value="window.open('${url}')"/>
+									</c:if>		
+									
+									<div class="video-image-wrapper" onClick="${onClick}">
+									    <img class="video-image-big" src="${vid.imageMedium}"/>
+									</div>
+									
+									<div class="admintile wide video-content-wrapper">
+										<div class="admin-videolist-video-title" onClick="${onClick}">
+											${vName}
+										</div>
+										
+										<div class="admin-videolist-creator-title">
+											${creators}
+										</div>
+										
+										<c:if test="${fn:length(lName)>0}">
+											<div class="admin-videolist-lectureseries-title">
+												${lName} (${lTerm})
+											</div>
+										</c:if>
+										
+										<c:if test="${fn:length(vid.filename)>0}">
+											<div class="format">
+												<c:if test="${vid.mp4File.isFile()}">
+													<liferay-ui:message key="mp4-video"/> &nbsp;
+												</c:if>
+												
+												<c:if test="${vid.mp3File.isFile()}">
+													<liferay-ui:message key="mp3-audio"/> &nbsp;
+												</c:if>
+												
+												<c:if test="${vid.m4aFile.isFile()}">
+													<liferay-ui:message key="m4a-audio"/> &nbsp;
+												</c:if>
+												
+												<c:if test="${vid.m4vFile.isFile()}">
+													<liferay-ui:message key="m4v-video"/> &nbsp;
+												</c:if>
+											</div>																
+										</c:if>
+		
+										<div class="admin-videolist-date">
+											${vid.date} | <liferay-ui:message key="hits"/>: ${vid.hits}
+										</div>
+									</div>
+									
+									<div class="video-edit-wrapper">
+										
+										<c:set var="primKey" value="<%=String.valueOf(video.getPrimaryKey())%>" />
+						
+										<portlet:renderURL var="editURL">
+											<portlet:param name="videoId" value="${primKey}" />
+											<portlet:param name="backURL" value="${portletURL}"/>
+											<portlet:param name="mvcPath" value="/viewEdit.jsp" />
+										</portlet:renderURL>
+										
+										
+										<portlet:actionURL name="lockVideo" var="lockURL">
+											<portlet:param name="videoId" value="${primKey}" />
+											<portlet:param name="backURL" value="${portletURL}"/>	
+										</portlet:actionURL>
+										
+										<portlet:actionURL name="unlockVideo" var="unlockURL">
+											<portlet:param name="videoId" value="${primKey}" />
+											<portlet:param name="backURL" value="${portletURL}"/>	
+										</portlet:actionURL>
+										
+										<portlet:actionURL name="activateDownload" var="activateDowonloadURL">
+											<portlet:param name="videoId" value="${primKey}" />
+											<portlet:param name="backURL" value="${portletURL}"/>	
+										</portlet:actionURL>
+										
+										<portlet:actionURL name="deactivateDownload" var="deactivateDowonloadURL">
+											<portlet:param name="videoId" value="${primKey}" />
+											<portlet:param name="backURL" value="${portletURL}"/>	
+										</portlet:actionURL>
+										
+										<portlet:renderURL var="segmentURL">
+											<portlet:param name="videoId" value="${primKey}" />
+											<portlet:param name="backURL" value="${portletURL}"/>		
+											<portlet:param name="mvcPath" value="/viewSegment.jsp" />
+										</portlet:renderURL>
+					
+										<portlet:actionURL name="removeVideo" var="removeURL">
+											<portlet:param name="videoId" value="${primKey}" />
+											<portlet:param name="backURL" value="${portletURL}"/>	
+										</portlet:actionURL>
+										
+										<a href="${editURL}" title="<liferay-ui:message key='edit'/>" alt="<liferay-ui:message key='edit'/>">
+										   <span class="icon-large icon-pencil"></span>
+										</a>
+										
+										<c:if test="${fn:length(vid.filename)>0}">
+											<c:if test="${vid.openAccess==1}">
+												<a href="${lockURL}" title="<liferay-ui:message key='lock-help'/>" alt="<liferay-ui:message key='lock-help'/>">
+												   <span class="icon-large icon-unlock" onclick="return confirm('<liferay-ui:message key="really-lock-question"/>')"></span>
+												</a>
+											</c:if>
+											
+											<c:if test="${vid.openAccess==0}">
+												<a href="${unlockURL}" title="<liferay-ui:message key='unlock-help'/>" alt="<liferay-ui:message key='unlock-help'/>">
+												    <span class="icon-large icon-lock" onclick="return confirm('<liferay-ui:message key="really-unlock-question"/>')"></span>
+												 </a>
+											</c:if>
+											
+											<c:if test="${vid.downloadLink==1}">
+												 <a href="${deactivateDowonloadURL}" title="<liferay-ui:message key='deaktivate-download-help'/>" alt="<liferay-ui:message key='deaktivate-download-help'/>">
+												    <span class="icon-large icon-download-alt" onclick="return confirm('<liferay-ui:message key="really-deactivate-download-question"/>')"></span>
+												 </a>
+											</c:if>
+											
+											<c:if test="${vid.downloadLink==0}">
+												 <a href="${activateDowonloadURL}" title="<liferay-ui:message key='aktivate-download-help'/>" alt="<liferay-ui:message key='aktivate-download-help'/>">
+												    <span class="icon-large icon-download"></span>
+												 </a>		
+											</c:if>
+											
+											<c:set var="segments" value="<%=SegmentLocalServiceUtil.getSegmentsByVideoId(video.getVideoId())%>"/>
+											<c:if test="${segments.size()>0}">
+												<a href="${segmentURL}" title="<liferay-ui:message key='comment-video-help'/>" alt="<liferay-ui:message key='comment-video-help'/>">
+												    <span class="icon-large icon-comment"></span>
+												 </a>	
+											</c:if>
+											
+											<c:if test="${segments.size()==0}">
+												<a href="${segmentURL}" title="<liferay-ui:message key='comment-video-help'/>" alt="<liferay-ui:message key='comment-video-help'/>">
+												   <span class="icon-large icon-align-justify"></span>
+												</a>
+											</c:if>
+										</c:if>
+										
+										<a href="${removeURL}" title="<liferay-ui:message key='delete'/>">
+											<span class="icon-large icon-remove" onclick="return confirm('<liferay-ui:message key="really-delete-question"/>')"></span>
+										</a>
+									</div>
+							</div>		
+						</liferay-ui:search-container-column-text>
+				</liferay-ui:search-container-row>
+			<liferay-ui:search-iterator />
+		</liferay-ui:search-container>
+		
+		<aui:input name="coordinatorId" type="hidden" value="${coordinatorId}"/>
+		<c:if test="${coordinatorId>0}">
+			<aui:input name="producerId" type="hidden" value="${producerId}"/>
+		</c:if>
+		<c:if test="${producerId>0}">
+			<aui:input name="lectureseriesId" type="hidden" value="${lectureseriesId}"/>
+		</c:if>
+	</aui:form>
 </div>

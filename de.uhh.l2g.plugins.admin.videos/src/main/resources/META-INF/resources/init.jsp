@@ -18,14 +18,16 @@
 <%@page import="com.liferay.portal.kernel.util.PwdGenerator"%>
 <%@page import="com.liferay.portal.kernel.util.PropsUtil"%>
 <%@page import="com.liferay.portal.kernel.util.UnicodeFormatter"%>
-<%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
-<%@page import="com.liferay.portal.kernel.dao.search.SearchContainer"%>
 <%@page import="com.liferay.portal.kernel.util.Validator"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="com.liferay.portal.kernel.json.JSONObject"%>
 <%@page import="com.liferay.portal.kernel.json.JSONArray"%>
 <%@page import="com.liferay.portal.kernel.json.JSONException"%>
 <%@page import="com.liferay.portal.kernel.json.JSONFactoryUtil"%>
+
+<%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
+<%@page import="com.liferay.portal.kernel.dao.search.SearchContainer"%>
+<%@page import="com.liferay.portal.kernel.util.WebKeys" %>
 
 <%@page import="javax.portlet.PortletURL"%>
 
@@ -61,6 +63,8 @@
 <%@page import="de.uhh.l2g.plugins.service.HostLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil" %>
 <%@page import="de.uhh.l2g.plugins.service.Video_CategoryLocalServiceUtil" %>
+
+<%@page import="de.uhh.l2g.plugins.admin.videos.search.VideoSearchHelper" %>
 
 <liferay-theme:defineObjects />
 
