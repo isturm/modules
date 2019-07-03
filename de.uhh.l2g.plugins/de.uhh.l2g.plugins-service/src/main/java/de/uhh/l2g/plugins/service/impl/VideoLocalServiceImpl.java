@@ -417,7 +417,7 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 			//
 			if( playerUri.length()>0 && !playerUri.contains("[") && !playerUri.contains("]") )playerUris.add(playerUri);
 			
-		}
+		} 
 		//sort player with priority set in the portal-ext.properties
 		for(int i=0; i<playerUris.size();i++){
 			String uri = playerUris.get(i);
