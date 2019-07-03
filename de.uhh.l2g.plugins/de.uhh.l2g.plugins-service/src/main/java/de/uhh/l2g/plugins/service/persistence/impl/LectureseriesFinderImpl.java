@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import de.uhh.l2g.plugins.model.Lectureseries;
 import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.model.impl.LectureseriesImpl;
-import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
+import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 import de.uhh.l2g.plugins.service.persistence.LectureseriesFinder;
 
 public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl implements LectureseriesFinder {
@@ -451,12 +451,17 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 				l.setLatestVideoUploadDate(date);
 			}catch (Exception e){}
 			try{
-				Integer nV = Video_LectureseriesLocalServiceUtil.getNumberOfVideosByLectureseries(l.getLectureseriesId());
-				Integer nOAV = Video_LectureseriesLocalServiceUtil.getNumberOfVideosByLectureseriesAndOpenAccess(l.getLectureseriesId(), 1);
-				
+				Integer nV = VideoLocalServiceUtil.countByLectureseries(l.getLectureseriesId());
 				l.setNumberOfVideos(nV);
-				l.setNumberOfOpenAccessVideos(nOAV);
-			}catch (Exception e){}
+			}catch (Exception e){
+				int i = 0;
+			}
+			try{
+				Integer nOAV = VideoLocalServiceUtil.countByLectureseriesAndOpenaccess(l.getLectureseriesId(), 1);
+ 				l.setNumberOfOpenAccessVideos(nOAV);
+			}catch (Exception e){
+				int i = 0;
+			}
 			// 
 			ll.add(l);
 		}
