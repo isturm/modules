@@ -86,7 +86,9 @@ public class ViewRenderDetails implements MVCRenderCommand{
 	    	try{
 	    		lectureseries = LectureseriesLocalServiceUtil.getLectureseries(objectId);
 	    		if(!secLink){
-	    			try {video = VideoLocalServiceUtil.getVideo(lectureseries.getLatestOpenAccessVideoId());} catch (PortalException e1) {}
+	    			try {
+	    				video = VideoLocalServiceUtil.getVideo(lectureseries.getPreviewVideoId());
+	    			} catch (PortalException e1) {}
 	    		}else{
 	    			Long videoId = VideoLocalServiceUtil.getLatestClosedAccessVideoId(objectId);
 	    			try {video = VideoLocalServiceUtil.getVideo(videoId);} catch (PortalException e1) {}
