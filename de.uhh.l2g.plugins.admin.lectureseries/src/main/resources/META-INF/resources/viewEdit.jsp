@@ -283,7 +283,7 @@
 			 	   	<portlet:namespace/>creator: JSON.stringify(jsonArray)
 			  },
 			  global: false,
-			  async:false,
+			  async: true,
 			  success: function(data) {
 			    //remove all creators 
 			    $( "#creators" ).empty();
