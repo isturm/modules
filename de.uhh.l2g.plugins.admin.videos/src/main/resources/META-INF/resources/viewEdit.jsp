@@ -660,9 +660,9 @@
 	    	            if (!acceptFileTypes.test(extension)) {
 	    	                uploadErrors.push('<liferay-ui:message key="not-an-accepted-file-type"/>');
 	    	            }
-	    	            if ( data.originalFiles[i]['size'] > 5368709120) { //5 GB
-	    	                uploadErrors.push('<liferay-ui:message key="max-file-size"/>');
-	    	            }
+	    	            // if ( data.originalFiles[i]['size'] > 5368709120) { //5 GB
+	    	            //     uploadErrors.push('<liferay-ui:message key="max-file-size"/>');
+	    	            // }
 	    			}
 	              	//check for first upload
 	              	checkFirstUpload.done(function( dat ) {
