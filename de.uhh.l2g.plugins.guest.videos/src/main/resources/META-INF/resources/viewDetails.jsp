@@ -51,10 +51,8 @@
 					    	
 					    	<c:choose>
 					    		<c:when test="${video.lectureseriesId>0}">
-						    		<c:forEach items="${videoLectureseries}" var="vl">
-						    			<c:set var="lId" value="${vl.lectureseriesId}"/>
-						    			<c:set var="lec" value="<%=LectureseriesLocalServiceUtil.getLectureseries((Long)pageContext.getAttribute("lId"))%>"/>
-						    			<c:set var="institutions" value="<%=InstitutionLocalServiceUtil.getByLectureseriesId((Long)pageContext.getAttribute("lId"), com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS)%>"/>
+						    			<c:set var="lec" value="<%=LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId())%>"/>
+						    			<c:set var="institutions" value="<%=InstitutionLocalServiceUtil.getByLectureseriesId(video.getLectureseriesId(), com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS)%>"/>
 						    			<c:forEach var = "j" begin = "0" end = "0">
 						    				<c:set var="insti" value="${institutions.get(0)}"/>
 						    				<c:set var="iId" value="${insti.institutionId}"/>
@@ -88,7 +86,6 @@
 									    	</c:if>
 									    	<br/>						         	
 								      	</c:forEach>
-								    </c:forEach>
 					    		</c:when>
 					    		<c:otherwise>
 					    			<c:forEach items="${videoInstitutions}" var="vi">
