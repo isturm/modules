@@ -23,6 +23,7 @@ import de.uhh.l2g.plugins.service.persistence.LectureseriesFinder;
 
 public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl implements LectureseriesFinder {
 
+	public static final String FIND_ALL_SEMESTERS = LectureseriesFinder.class.getName() + ".findAllSemesters";
 	public static final String FIND_ALL_LECTURESERIES_WITH_OPENACCESS_VIDEOS = LectureseriesFinder.class.getName() + ".findAllLectureseriesWithOpenAccessVideos";
 	public static final String FIND_ALL_LECTURESERIES_WITH_PASSWORD = LectureseriesFinder.class.getName() + ".findAllLectureseriesWithPassword";
 	public static final String FIND_ALL_LECTURESERIES_FOR_VIDEO = LectureseriesFinder.class.getName() + ".findAllLectureseriesForVideo";
@@ -63,7 +64,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				//se.printStackTrace();
+				//e.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
@@ -109,7 +110,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				//se.printStackTrace();
+				//e.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
@@ -153,7 +154,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-//				se.printStackTrace();
+				//e.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
@@ -180,6 +181,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 	public List<Lectureseries> findFilteredByInstitutionParentInstitutionTermCategoryCreatorSearchString(Long institutionId, Long parentInstitutionId, Long termId, Long categoryId, Long creatorId, String searchQuery, int limit, Long groupId, Long companyId) {
 		int start =com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS;
 		int stop =com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS;
+		List<Lectureseries> ret = new ArrayList<Lectureseries>();
 		if (limit>0){
 			start=0;
 			stop = limit;
@@ -190,38 +192,14 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			session = openSession();
 			String sql = sqlFilterForOpenAccessLectureseries(institutionId, parentInstitutionId, termId, categoryId, creatorId, searchQuery, groupId, companyId);
 			SQLQuery q = session.createSQLQuery(sql);
-			q.addScalar("number_", Type.STRING);
-			q.addScalar("eventType", Type.STRING);
-			q.addScalar("categoryId", Type.LONG);
-			q.addScalar("name", Type.STRING);
-			q.addScalar("shortDesc", Type.STRING);
-			q.addScalar("termId", Type.LONG);
-			q.addScalar("language", Type.STRING);
-			q.addScalar("facultyName", Type.STRING);
-			q.addScalar("lectureseriesId", Type.STRING);
-			q.addScalar("password_", Type.STRING);
-			q.addScalar("approved", Type.STRING);
-			q.addScalar("longDesc", Type.STRING);
-			q.addScalar("latestOpenAccessVideoId", Type.LONG);
-			q.addScalar("videoSort", Type.INTEGER);
-			q.addScalar("USID", Type.STRING);
-			q.addScalar("previewVideoId", Type.LONG);
-			q.addScalar("groupId", Type.LONG);
-			q.addScalar("companyId", Type.LONG);
-			q.addScalar("userId", Type.LONG);
-			q.addScalar("userName", Type.STRING);
-			q.addScalar("createDate", Type.DATE);
-			q.addScalar("modifiedDate", Type.DATE);			
-			//additional parameter
-			q.addScalar("latestVideoUploadDate", Type.STRING);
-			q.addScalar("videoCount", Type.INTEGER);		
-			//
+	        q.addEntity("Lectureseries", LectureseriesImpl.class);
 			q.setCacheable(false);
 			
 			/*
 			 *  the filter query has a variable number of parameters and those are used in subqueries (lectureseries/single videos/ all videos if a search is used)
 			 *  an array is created with the specific filter values and iterated for every subquery
 			 */
+			String searchString = searchQuery.replace("&amp;", "&");//get from entity &amp; only the character & for this specific search
 			QueryPos qPos = QueryPos.getInstance(q);
 			qPos.add(groupId);
 			qPos.add(companyId);
@@ -235,22 +213,19 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 				if (categoryId > 0) qPos.add(categoryId);
 				if (institutionId > 0) qPos.add(institutionId);
 				if (parentInstitutionId > 0) qPos.add(parentInstitutionId);					
-				if (hasSearch) qPos.add("%" + searchQuery + "%");
+				if (hasSearch) qPos.add("%" + searchString + "%");
 			}
-			
-			@SuppressWarnings("unchecked")
-			List <Object[]> l =  (List<Object[]>) QueryUtil.list(q, getDialect(),start , stop);
-			return assembleLectureseries(l);
+			ret = (List<Lectureseries>) QueryUtil.list(q, getDialect(), start, stop);
 		} catch (Exception e) {
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				//se.printStackTrace();
+				//e.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
 		}
-		return null;
+		return ret;
 	}
 		
 	private String sqlFilterForOpenAccessLectureseries(Long institutionId, Long institutionParentId, Long termId, Long categoryId, Long creatorId, String searchQuery, Long groupId, Long companyId) {
@@ -266,12 +241,12 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 		// this is an additional query only used for searching. videos which are part of a lectureseries must be searched for the searchquery but are not relevant of the normal filtering
 		
 		//for lecture series
-		String lQuery = "SELECT l.number_, l.eventType, l.categoryId, l.name, l.shortDesc, l.termId, \"\" AS language, \"\" AS facultyName, l.lectureseriesId, NULL AS password_, 1 AS approved, l.longDesc, l. latestOpenAccessVideoId, l.latestVideoUploadDate, l.videoSort, l.USID, l.previewVideoId, l.groupId, l.companyId, l.userId, l.userName, l.createDate, l.modifiedDate, COUNT(l.lectureseriesId) as videoCount FROM LG_Video v ";
+		String lQuery = "SELECT l.number_, l.eventType, l.categoryId, l.name, l.shortDesc, l.termId, \"\" AS language, \"\" AS facultyName, l.lectureseriesId, NULL AS password_, 1 AS approved, l.longDesc, l. latestOpenAccessVideoId, l.latestVideoUploadDate, l.latestVideoGenerationDate, l.videoSort, l.USID, l.previewVideoId, l.groupId, l.companyId, l.userId, l.userName, l.createDate, l.modifiedDate, COUNT(l.lectureseriesId) as videoCount FROM LG_Video v ";
 			   lQuery+= "JOIN LG_Lectureseries AS l ON (v.lectureseriesId = l.lectureseriesId)";
 		String lQueryForSeach="";
 		
 		//for videos
-		String vQuery = "SELECT \"00.000\" AS number_, NULL AS eventType, 0 AS categoryId, v.title AS name, v.title AS shortDesc, v.termId, \"\" AS language, \"\" AS facultyName, v.videoId AS lectureseriesId, NULL AS password_, 1 AS approved, v.title AS longDesc, v.lectureseriesId AS latestOpenAccessVideoId, v.uploadDate AS latestVideoUploadDate, 1 as videoSort, \"\"  as USID, 0 as previewVideoId, v.groupId, v.companyId, v.userId, v.userName, v.createDate, v.modifiedDate, 1 as videoCount FROM LG_Video v ";
+		String vQuery = "SELECT \"00.000\" AS number_, NULL AS eventType, 0 AS categoryId, v.title AS name, v.title AS shortDesc, v.termId, \"\" AS language, \"\" AS facultyName, v.videoId AS lectureseriesId, NULL AS password_, 1 AS approved, v.title AS longDesc, v.lectureseriesId AS latestOpenAccessVideoId, v.uploadDate AS latestVideoUploadDate, v.generationDate as latestVideoGenerationDate, 1 as videoSort, \"\"  as USID, 0 as previewVideoId, v.groupId, v.companyId, v.userId, v.userName, v.createDate, v.modifiedDate, 1 as videoCount FROM LG_Video v ";
 		
 		//final query
 		String query = "";
@@ -409,7 +384,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			try {
 				throw new SystemException(e);
 			} catch (SystemException se) {
-				//se.printStackTrace();
+				//e.printStackTrace();
 			}
 		} finally {
 			closeSession(session);
@@ -450,18 +425,6 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 				Date date = format.parse(string);
 				l.setLatestVideoUploadDate(date);
 			}catch (Exception e){}
-			try{
-				Integer nV = VideoLocalServiceUtil.countByLectureseries(l.getLectureseriesId());
-				l.setNumberOfVideos(nV);
-			}catch (Exception e){
-				int i = 0;
-			}
-			try{
-				Integer nOAV = VideoLocalServiceUtil.countByLectureseriesAndOpenaccess(l.getLectureseriesId(), 1);
- 				l.setNumberOfOpenAccessVideos(nOAV);
-			}catch (Exception e){
-				int i = 0;
-			}
 			// 
 			ll.add(l);
 		}

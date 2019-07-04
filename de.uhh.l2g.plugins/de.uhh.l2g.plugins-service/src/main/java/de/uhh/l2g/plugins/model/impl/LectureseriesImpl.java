@@ -14,7 +14,10 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.PropsUtil;
+
+import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 
 /**
  * The extended model implementation for the Lectureseries service. Represents a row in the &quot;LG_Lectureseries&quot; database table, with each column mapped to a property of this class.
@@ -32,29 +35,40 @@ public class LectureseriesImpl extends LectureseriesBaseImpl {
 	 * Never reference this class directly. All methods that expect a lectureseries model instance should use the {@link de.uhh.l2g.plugins.model.Lectureseries} interface instead.
 	 */
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String type;
 	
-	private int numberOfVideos = 0;
-	private int numberOfOpenAccessVideos = 0;
 	private int videoSort = 0;
+
+	private int numberOfVideos = 0;
+
+	private int numberOfOpenAccessVideos = 0;
 	
 	public int getNumberOfVideos() {
-		return numberOfVideos;
+		int videoCount = 0;
+		try {
+			videoCount = VideoLocalServiceUtil.countByLectureseries(this.getLectureseriesId());
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return videoCount;
 	}
 
 	public int getNumberOfOpenAccessVideos() {
-		return numberOfOpenAccessVideos;
+		int videoCount = 0;
+		try {
+			videoCount = VideoLocalServiceUtil.countByLectureseriesAndOpenaccess(this.getLectureseriesId(), 1);
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return videoCount;
 	}
-
-
-	public void setNumberOfVideos(int numberOfVideos) {
-		this.numberOfVideos = numberOfVideos;
-	}
-	
-	public void setNumberOfOpenAccessVideos(int numberOfOpenAccessVideos) {
-		this.numberOfOpenAccessVideos = numberOfOpenAccessVideos;
-	}
-
 
 	public String getType() {
 		return type;
@@ -97,5 +111,15 @@ public class LectureseriesImpl extends LectureseriesBaseImpl {
 		lid= webhome + "/l2go/-/get/l/" + this.getLectureseriesId();
 		return lid;
 	}
-	
+
+	@Override
+	public void setNumberOfVideos(int numberOfVideos) {
+		this.numberOfVideos = numberOfVideos;
+	}
+
+	@Override
+	public void setNumberOfOpenAccessVideos(int numberOfOpenAccessVideos) {
+		this.numberOfOpenAccessVideos = numberOfOpenAccessVideos;
+	}
+
 }
