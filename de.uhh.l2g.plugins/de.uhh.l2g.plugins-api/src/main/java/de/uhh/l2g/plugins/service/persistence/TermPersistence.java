@@ -707,6 +707,156 @@ public interface TermPersistence extends BasePersistence<Term> {
 	public int countByGroupAndCompany(long groupId, long companyId);
 
 	/**
+	* Returns all the terms where prefix = &#63; and year = &#63;.
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @return the matching terms
+	*/
+	public java.util.List<Term> findByPrefixAndYear(java.lang.String prefix,
+		java.lang.String year);
+
+	/**
+	* Returns a range of all the terms where prefix = &#63; and year = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @return the range of matching terms
+	*/
+	public java.util.List<Term> findByPrefixAndYear(java.lang.String prefix,
+		java.lang.String year, int start, int end);
+
+	/**
+	* Returns an ordered range of all the terms where prefix = &#63; and year = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching terms
+	*/
+	public java.util.List<Term> findByPrefixAndYear(java.lang.String prefix,
+		java.lang.String year, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the terms where prefix = &#63; and year = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TermModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @param start the lower bound of the range of terms
+	* @param end the upper bound of the range of terms (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching terms
+	*/
+	public java.util.List<Term> findByPrefixAndYear(java.lang.String prefix,
+		java.lang.String year, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first term in the ordered set where prefix = &#63; and year = &#63;.
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public Term findByPrefixAndYear_First(java.lang.String prefix,
+		java.lang.String year,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Returns the first term in the ordered set where prefix = &#63; and year = &#63;.
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public Term fetchByPrefixAndYear_First(java.lang.String prefix,
+		java.lang.String year,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns the last term in the ordered set where prefix = &#63; and year = &#63;.
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term
+	* @throws NoSuchTermException if a matching term could not be found
+	*/
+	public Term findByPrefixAndYear_Last(java.lang.String prefix,
+		java.lang.String year,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Returns the last term in the ordered set where prefix = &#63; and year = &#63;.
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching term, or <code>null</code> if a matching term could not be found
+	*/
+	public Term fetchByPrefixAndYear_Last(java.lang.String prefix,
+		java.lang.String year,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator);
+
+	/**
+	* Returns the terms before and after the current term in the ordered set where prefix = &#63; and year = &#63;.
+	*
+	* @param termId the primary key of the current term
+	* @param prefix the prefix
+	* @param year the year
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next term
+	* @throws NoSuchTermException if a term with the primary key could not be found
+	*/
+	public Term[] findByPrefixAndYear_PrevAndNext(long termId,
+		java.lang.String prefix, java.lang.String year,
+		com.liferay.portal.kernel.util.OrderByComparator<Term> orderByComparator)
+		throws NoSuchTermException;
+
+	/**
+	* Removes all the terms where prefix = &#63; and year = &#63; from the database.
+	*
+	* @param prefix the prefix
+	* @param year the year
+	*/
+	public void removeByPrefixAndYear(java.lang.String prefix,
+		java.lang.String year);
+
+	/**
+	* Returns the number of terms where prefix = &#63; and year = &#63;.
+	*
+	* @param prefix the prefix
+	* @param year the year
+	* @return the number of matching terms
+	*/
+	public int countByPrefixAndYear(java.lang.String prefix,
+		java.lang.String year);
+
+	/**
 	* Caches the term in the entity cache if it is enabled.
 	*
 	* @param term the term

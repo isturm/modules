@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.uhh.l2g.plugins.model.Term;
-import de.uhh.l2g.plugins.service.TermLocalServiceUtil;
 import de.uhh.l2g.plugins.service.base.TermLocalServiceBaseImpl;
 
 /**
@@ -46,33 +45,9 @@ public class TermLocalServiceImpl extends TermLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.TermLocalServiceUtil} to access the term local service.
 	 */
-	private static final Log _log = LogFactoryUtil.getLog(TermLocalServiceImpl.class);
-	
-	public Term geTerm(long termId){
-		Term t = TermLocalServiceUtil.createTerm(0);
-		try {
-			t = termLocalService.getTerm(termId);
-		} catch (Exception e) {
-			_log.error("can't fetch term for id " + termId);
-		}
-		return t;
-	}
-	
 	public List<Term> getAllSemesters() throws SystemException {
 		List<Term> sl = new ArrayList<Term>();
 		sl = termPersistence.findAll();
-		return sl;
-	}
-	
-	public List<Term> getByCompanyId(Long companyId) {
-		List<Term> sl = new ArrayList<Term>();
-		sl = termPersistence.findByCompany(companyId);
-		return sl;
-	}
-	
-	public List<Term> getByGroupId(Long groupId) {
-		List<Term> sl = new ArrayList<Term>();
-		sl = termPersistence.findByGroup(groupId);
 		return sl;
 	}
 	
@@ -87,5 +62,15 @@ public class TermLocalServiceImpl extends TermLocalServiceBaseImpl {
 	
 	public void deleteById(Long id) throws NoSuchModelException, SystemException{
 		termPersistence.remove(id);
+	}
+	
+	public List<Term> getByPrefixAndYear(String prefix, String year) throws NoSuchModelException, SystemException{
+		List<Term> ret = new ArrayList<Term>();
+		if(prefix.length() > 0 && year.length() > 0){
+			if(termPersistence.findByPrefixAndYear(prefix, year).size()>0){
+				ret = termPersistence.findByPrefixAndYear(prefix, year);
+			}
+		}
+		return ret;
 	}
 }

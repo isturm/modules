@@ -116,10 +116,6 @@ public class TermLocalServiceUtil {
 		return getService().fetchTerm(termId);
 	}
 
-	public static de.uhh.l2g.plugins.model.Term geTerm(long termId) {
-		return getService().geTerm(termId);
-	}
-
 	public static de.uhh.l2g.plugins.model.Term getById(java.lang.Long termId)
 		throws com.liferay.portal.kernel.exception.NoSuchModelException,
 			com.liferay.portal.kernel.exception.SystemException {
@@ -222,14 +218,11 @@ public class TermLocalServiceUtil {
 		return getService().getAllSemesters();
 	}
 
-	public static java.util.List<de.uhh.l2g.plugins.model.Term> getByCompanyId(
-		java.lang.Long companyId) {
-		return getService().getByCompanyId(companyId);
-	}
-
-	public static java.util.List<de.uhh.l2g.plugins.model.Term> getByGroupId(
-		java.lang.Long groupId) {
-		return getService().getByGroupId(groupId);
+	public static java.util.List<de.uhh.l2g.plugins.model.Term> getByPrefixAndYear(
+		java.lang.String prefix, java.lang.String year)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByPrefixAndYear(prefix, year);
 	}
 
 	/**

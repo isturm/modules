@@ -121,8 +121,6 @@ public interface TermLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Term fetchTerm(long termId);
 
-	public Term geTerm(long termId);
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Term getById(java.lang.Long termId)
 		throws NoSuchModelException, SystemException;
@@ -204,10 +202,8 @@ public interface TermLocalService extends BaseLocalService,
 	public List<Term> getAllSemesters() throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Term> getByCompanyId(java.lang.Long companyId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Term> getByGroupId(java.lang.Long groupId);
+	public List<Term> getByPrefixAndYear(java.lang.String prefix,
+		java.lang.String year) throws NoSuchModelException, SystemException;
 
 	/**
 	* Returns a range of all the terms.

@@ -108,7 +108,7 @@ create index IX_385A2033 on LG_Tagcloud (objectId);
 
 create index IX_4BAD3DD2 on LG_Term (companyId);
 create index IX_EEDDE6D4 on LG_Term (groupId, companyId);
-create index IX_4A54301C on LG_Term (prefix[$COLUMN_LENGTH:75$]);
+create index IX_A731640D on LG_Term (prefix[$COLUMN_LENGTH:75$], year[$COLUMN_LENGTH:75$]);
 create index IX_16F89D07 on LG_Term (year[$COLUMN_LENGTH:75$]);
 
 create index IX_D1B9AD6B on LG_Video (companyId);
