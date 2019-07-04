@@ -539,17 +539,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				VideoLocalServiceUtil.updateVideo(video);
 				FFmpegManager.updateFfmpegMetadata(video);
 				//--- Database end
-				//update thumbs
-				String image="";
-				String fileLocation="";
-				if(video.getOpenAccess()==1){
-					image = video.getPreffix()+".jpg";
-					fileLocation = ProducerLocalServiceUtil.getProdUcer(video.getProducerId()).getHomeDir() + "/" + video.getFilename();
-				}else{
-					image = video.getSPreffix()+".jpg";
-					fileLocation = ProducerLocalServiceUtil.getProdUcer(video.getProducerId()).getHomeDir() + "/" + video.getSecureFilename();
-				}
-				String thumbnailLocation = PropsUtil.get("lecture2go.images.system.path") + "/" + image;
 				//delete old thumbs
 				ProzessManager pm = new ProzessManager();
 				pm.deleteThumbnails(video);
@@ -566,7 +555,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 					//e.printStackTrace();
 				}	
 				//
-				FFmpegManager.createThumbnail(fileLocation, thumbnailLocation);
 			} catch (NumberFormatException e) {
 				//e.printStackTrace();
 			} catch (SystemException e) {
