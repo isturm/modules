@@ -424,6 +424,11 @@ public class CreatorLocalServiceWrapper implements CreatorLocalService,
 	}
 
 	@Override
+	public void updateAllCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId() {
+		_creatorLocalService.updateAllCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId();
+	}
+
+	@Override
 	public CreatorLocalService getWrappedService() {
 		return _creatorLocalService;
 	}

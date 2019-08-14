@@ -278,6 +278,11 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		return _video.isEscapedModel();
 	}
 
+	@Override
+	public boolean isHasCaption() {
+		return _video.isHasCaption();
+	}
+
 	/**
 	* Checks if file has chapters
 	*/
@@ -299,6 +304,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _video.getExpandoBridge();
+	}
+
+	/**
+	* Returns and sets the URIs for the video player as a JSONAray
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getJsonPlayerTracks() {
+		return _video.getJsonPlayerTracks();
 	}
 
 	/**
@@ -438,6 +451,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public java.io.File getPdfFile() {
 		return _video.getPdfFile();
+	}
+
+	/**
+	* Returns the vtt file (unchecked if existing) from the user repository
+	*/
+	@Override
+	public java.io.File getVttFile() {
+		return _video.getVttFile();
 	}
 
 	/**
@@ -864,6 +885,14 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	/**
+	* Returns the url to the vtt-caption-file
+	*/
+	@Override
+	public java.lang.String getVttCaptionUrl() {
+		return _video.getVttCaptionUrl();
+	}
+
+	/**
 	* Returns the path to the vtt-chapter-file
 	*/
 	@Override
@@ -1236,11 +1265,6 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	@Override
-	public void setHasChapters(boolean hasChapters) {
-		_video.setHasChapters(hasChapters);
-	}
-
-	@Override
 	public void setHasComments(boolean hasComments) {
 		_video.setHasComments(hasComments);
 	}
@@ -1278,6 +1302,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	@Override
 	public void setImageSmall(java.lang.String imageSmall) {
 		_video.setImageSmall(imageSmall);
+	}
+
+	@Override
+	public void setJsonPlayerTracks(
+		com.liferay.portal.kernel.json.JSONArray jsonPlayerTracks) {
+		_video.setJsonPlayerTracks(jsonPlayerTracks);
 	}
 
 	@Override
@@ -1617,8 +1647,18 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	@Override
+	public void setVttCaptionUrl(java.lang.String vttCaptionUrl) {
+		_video.setVttCaptionUrl(vttCaptionUrl);
+	}
+
+	@Override
 	public void setVttChapterFile(java.lang.String vttChapterFile) {
 		_video.setVttChapterFile(vttChapterFile);
+	}
+
+	@Override
+	public void setVttFile(java.io.File vttFile) {
+		_video.setVttFile(vttFile);
 	}
 
 	@Override

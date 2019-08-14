@@ -62,10 +62,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 import de.uhh.l2g.plugins.model.Institution;
+import de.uhh.l2g.plugins.model.Lectureseries;
 import de.uhh.l2g.plugins.model.Metadata;
 import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.model.Video_Institution;
 import de.uhh.l2g.plugins.service.InstitutionLocalServiceUtil;
+import de.uhh.l2g.plugins.service.LectureseriesLocalServiceUtil;
 import de.uhh.l2g.plugins.service.MetadataLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil;
 
@@ -372,23 +374,38 @@ public class RSSManager {
 		if (imageF.isFile()) imageLink = PropsUtil.get("lecture2go.web.home")+"/lecture2go-portlet/img/l2go_logo_transp.png";
 		*/
 		
-		// prepare the link to the lectureseries
-		String lectureseriesUrl = videoList.get(0).getLectureseriesUrl();
-		
-		// prepare the language (we set the language to the language of the first video in the list)
-		Metadata metadata = MetadataLocalServiceUtil.createMetadata(0);
-		try {
-			metadata = MetadataLocalServiceUtil.getMetadata(videoList.get(0).getMetadataId());
-		} catch (PortalException e1) {
-			e1.printStackTrace();
-		} catch (SystemException e1) {
-			e1.printStackTrace();
+		// prepare the link to the lectureseries and the image url of the whole rss feed
+		String lectureseriesUrl = "";
+		String imageUrl = "";
+		String language = "";
+		// the default description consists of a space, because some feed readers require a non-empty description field 
+		String description = " ";
+		if (!videoList.isEmpty()) {
+			lectureseriesUrl = videoList.get(0).getLectureseriesUrl();
+			imageUrl = getAbsoluteUrl(videoList.get(0).getImageMedium());
+			// prepare the language (we set the language to the language of the first video in the list)
+			Metadata metadata = MetadataLocalServiceUtil.createMetadata(0);
+			try {
+				metadata = MetadataLocalServiceUtil.getMetadata(videoList.get(0).getMetadataId());
+			} catch (PortalException e1) {
+				e1.printStackTrace();
+			} catch (SystemException e1) {
+				e1.printStackTrace();
+			}
+			// we need to replace the hyphen to be ISO-639 language code compliant
+			language = metadata.getLanguage().replaceAll("_", "-");	
+			
+			// prepare the description
+			try {
+				Lectureseries lec = LectureseriesLocalServiceUtil.getLectureseries(videoList.get(0).getLectureseriesId());
+				// replace empty description value with real description if there is any (all html tags removed)
+				if (!(lec.getLongDesc().isEmpty())) {
+					description = lec.getLongDesc().replaceAll("\\<[^>]*>","");
+				}
+			} catch (Exception e) {
+			}
 		}
-		// we need to replace the hyphen to be ISO-639 language code compliant
-		String language = metadata.getLanguage().replaceAll("_", "-");		
 		
-		// prepare the image url
-		String imageUrl = getAbsoluteUrl(videoList.get(0).getImageMedium());
 		
 		// starting XML DOM
 		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
@@ -419,7 +436,7 @@ public class RSSManager {
 			channelElement.appendChild(linkElement);
 			// description
 			Element descriptionElement = doc.createElement("description");
-			descriptionElement.setTextContent(description.replaceAll("\\<[^>]*>","")); // remove all html tags from description
+			descriptionElement.setTextContent(description);
 			channelElement.appendChild(descriptionElement);
 			//  language
 			Element languageElement = doc.createElement("language");

@@ -440,9 +440,26 @@ public class VideoLocalServiceUtil {
 		getService().addPlayerUris2Video(video);
 	}
 
+	/**
+	* This adds the "tracks" section for the video player json if there are any captions or chapters
+	*/
+	public static void addTracksToVideoPlayer(
+		de.uhh.l2g.plugins.model.Video video) {
+		getService().addTracksToVideoPlayer(video);
+	}
+
 	public static void createLastVideoList()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		getService().createLastVideoList();
+	}
+
+	/**
+	* Creates a symlink for the caption of the video to to captions folder
+	*/
+	public static void createSymLinkForCaptionIfExisting(java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().createSymLinkForCaptionIfExisting(videoId);
 	}
 
 	public static void createSymLinkToDownloadableFileIfNotExisting(

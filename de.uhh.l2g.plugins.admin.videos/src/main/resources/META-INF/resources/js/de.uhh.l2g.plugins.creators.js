@@ -1,4 +1,5 @@
-function autocompleteCreator($creatorInputObject) {
+function autocompleteCreator($creatorInputObject, validationFunction) {
+	avoidClosing = false;
 	$creatorInputObject.autocomplete({
 	    source: function(request, response) {
 	        var results = $.ui.autocomplete.filter(allCreatorsInJQueryAutocompleteFormat, request.term);
@@ -15,6 +16,9 @@ function autocompleteCreator($creatorInputObject) {
 				/* empty the creator input field */
 				$creatorInputObject.val('');
 				$("#creators").loadTemplate("#newCreator", "", { append: true, elemPerPage: 20 });
+				if( typeof validationFunction == "function" ) {
+					validationFunction();
+				}
 				$creatorInputObject.autocomplete('close');
 			});
 		},
@@ -34,6 +38,10 @@ function autocompleteCreator($creatorInputObject) {
 			if(ui.item.id>0){
   		        var vars = getJSONCreator(ui.item.id);
   		        $("#creators").loadTemplate("#created", vars, { append: true, elemPerPage: 20 });
+  		        if( typeof validationFunction == "function" )
+					validationFunction();
+  				/* empty the creator input field */
+  		     	ui.item.value="";
   			}
 		}
 	});

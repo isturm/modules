@@ -47,7 +47,6 @@ import de.uhh.l2g.plugins.model.Lectureseries_Creator;
 import de.uhh.l2g.plugins.model.Lectureseries_Institution;
 import de.uhh.l2g.plugins.model.Producer;
 import de.uhh.l2g.plugins.model.Producer_Lectureseries;
-import de.uhh.l2g.plugins.model.Tagcloud;
 import de.uhh.l2g.plugins.model.Term;
 import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.model.Video_Institution;
@@ -240,7 +239,7 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		//	
 		EmailManager em = new EmailManager();
 		//search tags
-		ArrayList<String> tagCloudArrayString = new ArrayList<String>();
+//		ArrayList<String> tagCloudArrayString = new ArrayList<String>();
 
 		Long lId = new Long(request.getParameter("lectureseriesId"));
 		String[] producers = request.getParameterValues("producers");
@@ -252,10 +251,10 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		try{
 			termId = new Long(request.getParameter("termId"));
 			Term t = TermLocalServiceUtil.getTerm(termId);
-			tagCloudArrayString.add(t.getPrefix());
-			tagCloudArrayString.add(t.getYear());
-			tagCloudArrayString.add(t.getPrefix());
-			tagCloudArrayString.add(t.getPrefix()+" "+t.getYear());
+//			tagCloudArrayString.add(t.getPrefix());
+//			tagCloudArrayString.add(t.getYear());
+//			tagCloudArrayString.add(t.getPrefix());
+//			tagCloudArrayString.add(t.getPrefix()+" "+t.getYear());
 		}catch(Exception e){}
 		Long categoryId = new Long(0);
 		try{
@@ -318,8 +317,8 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 			if(!Lectureseries_InstitutionLocalServiceUtil.institutionAssignedToLectureseries(lf))
 				Lectureseries_InstitutionLocalServiceUtil.addLectureseries_Institution(lf);
 			//
-			tagCloudArrayString.add(inst.getName());
-			tagCloudArrayString.add(parentInst.getName());
+//			tagCloudArrayString.add(inst.getName());
+//			tagCloudArrayString.add(parentInst.getName());
 		}
 		
 		// get all videos of this lectureSeries 
@@ -365,15 +364,8 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 			e.printStackTrace();
 		}
 		
-		//update tagclout category
-		Category ctgr = CategoryLocalServiceUtil.createCategory(0);
-		try{ctgr = CategoryLocalServiceUtil.getCategory(lectureseries.getCategoryId());}catch(Exception e){}		
-		tagCloudArrayString.add(ctgr.getName());
-		tagCloudArrayString.add(lectureseries.getName());
-		tagCloudArrayString.add(lectureseries.getNumber());
-
-		//edit tag cloud
-		TagcloudLocalServiceUtil.updateByObjectIdAndObjectClassType(tagCloudArrayString, lectureseries.getClass().getName(), lectureseries.getLectureseriesId());
+		//update tag cloud
+		TagcloudLocalServiceUtil.generateForLectureseries(lectureseries.getLectureseriesId());
 
 		//email notification after edit
 
@@ -404,8 +396,6 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		//		
 		EmailManager em = new EmailManager();
 		//search tags
-		String tagCloudString = "";
-		ArrayList<String> tagCloudArrayString = new ArrayList<String>();
 		
 		String s = request.getParameter("longDesc");
 		String[] producers = request.getParameterValues("producers");
@@ -414,9 +404,6 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		Long termId = new Long(0);
 		try{
 			termId = new Long(request.getParameter("termId"));
-			Term t = TermLocalServiceUtil.getTerm(termId);
-			tagCloudString += t.getPrefix()+ " ### "+t.getYear()+" ### "+t.getPrefix()+" "+t.getYear()+" ### ";
-			tagCloudArrayString.add(t.getPrefix()+" "+t.getYear());
 		}catch(Exception e){}
 		Long categoryId = new Long(0);
 		try{
@@ -477,8 +464,6 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 			lf.setInstitutionId(inst.getInstitutionId());
 			lf.setInstitutionParentId(inst.getParentId());
 			Lectureseries_InstitutionLocalServiceUtil.addLectureseries_Institution(lf);
-			tagCloudArrayString.add(inst.getName());
-			tagCloudArrayString.add(parentInst.getName());
 		}
 
 		//new creators
@@ -513,10 +498,6 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 				if(Lectureseries_CreatorLocalServiceUtil.getByLectureseriesIdAndCreatorId(lId, cId).size()==0){
 					Lectureseries_CreatorLocalServiceUtil.addLectureseries_Creator(lc);
 				}
-				Creator cr = CreatorLocalServiceUtil.getCreator(cId);
-				tagCloudArrayString.add(cr.getFirstName());
-				tagCloudArrayString.add(cr.getLastName());
-				tagCloudArrayString.add(cr.getFullName());
 				
 			}
 		}catch (NullPointerException e){}
@@ -528,18 +509,9 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 			Producer_LectureseriesLocalServiceUtil.addProducer_Lectureseries(pl);
 		}
 		
-		//category 
-		Tagcloud tagcloud = TagcloudLocalServiceUtil.createTagcloud(0);
-		Category ctgr = CategoryLocalServiceUtil.createCategory(0);
-		try{ctgr = CategoryLocalServiceUtil.getCategory(newlect.getCategoryId());}catch(Exception e){}			
-		tagCloudArrayString.add(ctgr.getName());
-		tagCloudArrayString.add(newlect.getName());
-		tagCloudArrayString.add(newlect.getNumber());
-		
 		//Tag cloud
-		tagcloud.setTags(tagCloudString);
-		TagcloudLocalServiceUtil.add(tagCloudArrayString, newlect.getClass().getName(), newlect.getLectureseriesId()); 
-
+		TagcloudLocalServiceUtil.generateForLectureseries(newlect.getLectureseriesId());
+		
 		//
 		request.setAttribute("institutions", institutions);
 		request.setAttribute("producers", producers);

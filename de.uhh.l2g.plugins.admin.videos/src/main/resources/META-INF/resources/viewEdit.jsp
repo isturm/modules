@@ -370,7 +370,7 @@
 		});
 		    
 		//load creators
-		autocompleteCreator($("#<portlet:namespace/>creator"));
+		autocompleteCreator($("#<portlet:namespace/>creator"), validate);
 	    if(assignedCreators) {
 			$("#creators").loadTemplate("#created", assignedCreators, {error: function(e) { console.log(e); }});
 	    }
@@ -494,7 +494,7 @@
 	
 	function fileUploadAllowed(data){
 		var ret = false;
-	    var acceptFileTypes = /(mp4|audio\/mp3|audio\/mpeg|audio)$/i;//allowed file types
+	    var acceptFileTypes = /(mp4|m4v|m4a|audio\/mp3|audio\/mpeg|audio|pdf)$/i;//allowed file types
 	    data.forEach(function(entry) {
 	    	if(acceptFileTypes.test(entry['type'])){
 	        	ret = true;
@@ -509,6 +509,24 @@
 		});		
 	}
 	
+	function handleVttUpload (){
+		var ret = 0;
+		$.ajax({
+			  type: "POST",
+			  url: "<%=handleVttUploadURL%>",
+			  dataType: 'json',
+			  data: {
+				  <portlet:namespace/>videoId: "<%=reqVideo.getVideoId()%>"
+			  },
+			  global: false,
+			  async: false,
+			  success: function(data) {
+			    ret = 1;
+			  }
+		});
+		return ret;
+	}
+
 	function updateVideoFileName(file){
 		$.ajax({
 			url: "${updateVideoFileNameURL}",
@@ -736,6 +754,9 @@
 		               }
 		     	   });
 	               
+	               // handle subtitle file if existing
+	               handleVttUpload();
+	      
 	               //htaccess update function for physical file protectiom
 	               updateHtaccess();
 	           	   var st = false;

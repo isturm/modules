@@ -22,7 +22,7 @@
         // Interessant ist hierbei, dass es mehrere Quellen geben kann
         // Hier wird der JW-Player initialisiert
         // Interessant ist hierbei, dass es mehrere Quellen geben kann
-		var vttFile ="${reqVideo.vttChapterFile}";
+		//var vttFile ="${reqVideo.vttChapterFile}";
 		
         // Hier wird der JW-Player initialisiert
         // Interessant ist hierbei, dass es mehrere Quellen geben kann
@@ -33,10 +33,10 @@
             image: "${reqVideo.image}",
             cast: {},
             sources: ${reqVideo.jsonPlayerUris},
-            tracks: [{
-                file: vttFile,
-                kind:'chapters'
-            }],
+            <c:if test="${video.hasCaption || video.hasChapters}">
+            	tracks: ${video.jsonPlayerTracks},
+        	</c:if>
+
             hlshtml: true,
             androidhls: true
         });

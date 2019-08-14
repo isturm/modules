@@ -475,10 +475,28 @@ public class VideoLocalServiceWrapper implements VideoLocalService,
 		_videoLocalService.addPlayerUris2Video(video);
 	}
 
+	/**
+	* This adds the "tracks" section for the video player json if there are any captions or chapters
+	*/
+	@Override
+	public void addTracksToVideoPlayer(de.uhh.l2g.plugins.model.Video video) {
+		_videoLocalService.addTracksToVideoPlayer(video);
+	}
+
 	@Override
 	public void createLastVideoList()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		_videoLocalService.createLastVideoList();
+	}
+
+	/**
+	* Creates a symlink for the caption of the video to to captions folder
+	*/
+	@Override
+	public void createSymLinkForCaptionIfExisting(java.lang.Long videoId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_videoLocalService.createSymLinkForCaptionIfExisting(videoId);
 	}
 
 	@Override

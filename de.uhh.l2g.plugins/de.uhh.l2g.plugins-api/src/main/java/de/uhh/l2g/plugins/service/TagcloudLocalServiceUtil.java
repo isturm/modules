@@ -278,6 +278,14 @@ public class TagcloudLocalServiceUtil {
 		getService().generateForAllVideos();
 	}
 
+	public static void generateForLectureseries(java.lang.Long lectureseriesId) {
+		getService().generateForLectureseries(lectureseriesId);
+	}
+
+	public static void generateForVideo(java.lang.Long videoId) {
+		getService().generateForVideo(videoId);
+	}
+
 	public static void updateByObjectIdAndObjectClassType(
 		java.util.ArrayList<java.lang.String> tagCloudArrayString,
 		java.lang.String className, long objectId)

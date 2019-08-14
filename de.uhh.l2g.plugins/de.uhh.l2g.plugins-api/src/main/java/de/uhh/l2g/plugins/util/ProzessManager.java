@@ -161,6 +161,11 @@ public class ProzessManager {
 			File downloadSymLink = new File(path + "/" + videoSPreffix + PropsUtil.get("lecture2go.videoprocessing.downloadsuffix") + ".mp4");
 			downloadSymLink.delete();
 			
+			// delete the download sym link in the download repository which may point to the original video file 
+			// (will be correctly recreated in the generateSymboliLinks method)
+			File symLink = new File(PropsUtil.get("lecture2go.symboliclinks.repository.root") + "/" + video.getFilename());
+			symLink.delete(); 
+						
 			// create a symlink to the video file which has a reasonable bitrate
 			try {
 				createSymLinkToDownloadableFile(host, video, producer);
@@ -171,10 +176,22 @@ public class ProzessManager {
 		
 		//activate symbolic links for download if allowed
 		if(video.getDownloadLink()==1)generateSymbolicLinks(video);
+		
+		//recreate the sym link to captions to point to the renamed file
+		// remove old vtt file if existing
+		File symLink = new File(PropsUtil.get("lecture2go.captions.system.path") + "/" + videoSPreffix + ".vtt");
+		symLink.delete(); // just returns false if file not existing
+		// create new sym link if caption vtt file exists
+		VideoLocalServiceUtil.createSymLinkForCaptionIfExisting(video.getVideoId());
+		
 		// generate RSS
 		for (String f: FileManager.MEDIA_FORMATS) {           
 			generateRSS(video, f);
 		}
+		
+		//update tag cloud for the lectureseries of this video (necessary to add creators of the now-open-access-video to the tagcloud)
+		TagcloudLocalServiceUtil.generateForLectureseries(video.getLectureseriesId());
+	
 		//update LectureSeries previewVideoId
 		LectureseriesLocalServiceUtil.updatePreviewVideoOpenAccess(lectureseries);
 		//
@@ -248,6 +265,14 @@ public class ProzessManager {
 			File symLink = new File(PropsUtil.get("lecture2go.symboliclinks.repository.root") + "/" + video.getPreffix() + "."+f);
 			symLink.delete();
 		}
+		
+		//recreate the sym link to captions to point to the renamed file
+		// remove old vtt file if existing
+		File symLink = new File(PropsUtil.get("lecture2go.captions.system.path") + "/" + videoPreffix + ".vtt");
+		symLink.delete(); // just returns false if file not existing
+		// create new sym link if caption vtt file exists
+		VideoLocalServiceUtil.createSymLinkForCaptionIfExisting(video.getVideoId());
+		
 		// generate RSS
 		for (String f: FileManager.MEDIA_FORMATS) {           
 			generateRSS(video, f);
@@ -263,8 +288,11 @@ public class ProzessManager {
 		
 		// refresh open access for lecture series
 		LectureseriesLocalServiceUtil.updateOpenAccess(video, lectureseries); 
-		
-		//update LectureSeries previewVideoId
+
+		// update tag cloud for the lectureseries of this video (necessary to remove creators of the now-closed-access-video to the tagcloud)
+		TagcloudLocalServiceUtil.generateForLectureseries(video.getLectureseriesId());
+				
+		// update LectureSeries previewVideoId
 		LectureseriesLocalServiceUtil.updatePreviewVideoOpenAccess(lectureseries);
 	}
 
@@ -381,6 +409,10 @@ public class ProzessManager {
 			File downloadSymLink = new File(PropsUtil.get("lecture2go.media.repository") + "/" + host.getServerRoot() + "/" + producer.getHomeDir() + "/" + videoPreffix + PropsUtil.get("lecture2go.videoprocessing.downloadsuffix") + ".mp4");
 			downloadSymLink.delete();
 			
+			//delete the old symbolic link to the caption file
+			File symLink = new File(PropsUtil.get("lecture2go.captions.system.path") + "/" + videoPreffix + ".vtt");
+			symLink.delete();
+	
 			//all thumn nails
 			deleteThumbnails(video);
 		}

@@ -201,6 +201,13 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 				if (!isSymlink(file)) {
 					ProzessManager pm = new ProzessManager();
 					pm.createSymLinkToDownloadableFile(objectHost, objectVideo, objectProducer);
+					// remove the download sym link to the original video file in the download repository and replace it with a symlink to the new downloadable file
+					File symLink = new File(PropsUtil.get("lecture2go.symboliclinks.repository.root") + "/" + objectVideo.getFilename());
+					symLink.delete(); 
+					// recreate the sym link if applicable
+					if (objectVideo.getOpenAccess() == 1 && objectVideo.getDownloadLink() == 1) {
+						pm.generateSymbolicLinks(objectVideo);
+					}					
 				}
 			} catch (Exception e) {
 				//e.printStackTrace();
@@ -290,13 +297,52 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 				webm.put("type", "webm");
 				json.put(webm);
 			}
-		
+			
+			if(video.getVttFile().isFile()){
+				JSONObject vtt = JSONFactoryUtil.createJSONObject();
+					vtt.put("name", video.getVttFile().getName());
+					vtt.put("id", video.getVttFile().getName().replace(".", ""));
+					vtt.put("size", video.getVttFile().getTotalSpace());
+					vtt.put("type", "vtt");
+					json.put(vtt);
+			}
+
 		} catch (Exception e) {
 
 		}
 		return json;
 	}
 	
+
+	/**
+	 * This adds the "tracks" section for the video player json if there are any captions or chapters
+	 */
+	public void addTracksToVideoPlayer(Video video){
+		JSONArray playerTracksJSON = JSONFactoryUtil.createJSONArray();
+		try {
+			// add chapter info to track if video has chapters
+			if (video.isHasChapters()) {
+				JSONObject chapterTrackJSON = JSONFactoryUtil.createJSONObject();
+				chapterTrackJSON.put("file", video.getVttChapterFile());
+				chapterTrackJSON.put("kind", "chapters");
+				playerTracksJSON.put(chapterTrackJSON);
+			}
+			
+			// add captions info to track if video has captions
+			if (video.isHasCaption()) {
+				JSONObject captionTrackJSON = JSONFactoryUtil.createJSONObject();
+				captionTrackJSON.put("file", video.getVttCaptionUrl());
+				captionTrackJSON.put("kind", "captions");
+				captionTrackJSON.put("label", "Test");
+				playerTracksJSON.put(captionTrackJSON);
+			}
+		} catch (Exception e) {
+			
+		}
+
+		video.setJsonPlayerTracks(playerTracksJSON);
+	}
+
 	public void createLastVideoList() throws SystemException {
 		List<Video> vlist = this.getLatestVideos();
 		//refresh the whole video list in the table
@@ -420,6 +466,12 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 				if(downloadAllowed && video.getOpenAccess()==0){
 					uri=downloadServ+"/down/"+l2go_path+"/"+video.getSecureFilename();
 				}
+				// in some cases this is necessary to correct the filename of the open access files in the download folder
+				// (case: smil file available for adaptive streaming, in combination with open access and download allowed -> wrong filename (with suffix) is set for the downloadfolder (but correct one for rtsp streaming))
+				if(downloadAllowed && video.getOpenAccess()==1){
+					uri=downloadServ+"/abo/"+video.getFilename();
+				}
+				//
 				o.put("file", uri);
 				playerUrisSortedJSON.put(o);
 			}
@@ -560,6 +612,19 @@ public class VideoLocalServiceImpl extends VideoLocalServiceBaseImpl {
 		return ret;
 	}
 
+	/**
+	 * Creates a symlink for the caption of the video to to captions folder
+	 */
+	public void createSymLinkForCaptionIfExisting(Long videoId) throws PortalException, SystemException {
+		Video video = getVideo(videoId);
+		File vttFile = video.getVttFile();
+		if(vttFile.isFile()){
+			String symLinkPath = PropsUtil.get("lecture2go.captions.system.path") + "/" + vttFile.getName();
+			ProzessManager pm = new ProzessManager();
+			pm.generateSymLink(vttFile.getAbsolutePath(), symLinkPath);
+		}
+	}
+	
 	/**
 	 * Checks if file is a symoblic link
 	 * @param file the file to check

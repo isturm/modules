@@ -15,6 +15,7 @@
 package de.uhh.l2g.plugins.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -205,4 +206,13 @@ public class HostLocalServiceImpl extends HostLocalServiceBaseImpl {
 
 	}
 
+	public List<Host> getAll(){
+		List<Host> ret = new ArrayList<Host>(); 
+		try {
+			ret = hostPersistence.findAll();
+		} catch (SystemException e) {
+			LOG.debug("Can't fetch list of all hosts");
+		}
+		return ret;
+	}
 }

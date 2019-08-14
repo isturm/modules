@@ -56,12 +56,14 @@ import de.uhh.l2g.plugins.service.ProducerLocalServiceUtil;
 
 public class RepositoryManager {
 	
+	public static boolean SYMLINKS_INSTALLED = false;
 	private static final Log LOG = LogFactoryUtil.getLog(RepositoryManager.class.getName());
+
 	//get runtime
 	/** The run cmd. */
 	static Runtime runCmd = Runtime.getRuntime();
 	
-    public static final String SYS_ROOT = "vh_000";
+    public static final String SYS_ROOT = "vh_0000";
     public static final String SYS_SERVER = "localhost";
     public static final String SYS_PROTOCOL = "http";
     public static final int SYS_PORT = 80;
@@ -112,12 +114,19 @@ public class RepositoryManager {
 		if(!mediaRep.isDirectory()){
 			createFolder(PropsUtil.get("lecture2go.media.repository")); //media repository 
 			createFolder(PropsUtil.get("lecture2go.images.system.path")); //image subfolder
-			createFolder(PropsUtil.get("lecture2go.media.repository")+"/abo"); //abo
-			//createForlder(PropsUtil.get("lecture2go.media.repository")+"/chapters"); //chapters?
+			createFolder(PropsUtil.get("lecture2go.symboliclinks.repository.root")); //abo
+			createFolder(PropsUtil.get("lecture2go.chapters.system.path")); //chapters
+			createFolder(PropsUtil.get("lecture2go.captions.system.path")); //captions
 			createFolder(PropsUtil.get("lecture2go.security.folder")); //security
+			createFolder(PropsUtil.get("lecture2go.rss.system.path")); //rss
 			createVHosts(groupId);
-			symlinkToImagesHome();
+			//
 			symlinkToAboHome();
+			symlinkToChapterHome();
+			symlinkToCaptionsHome();
+			symlinkToImagesHome();
+			symlinkToRssHome();
+			symlinkToVideorepHome();
 		}
 	}
 	
@@ -131,36 +140,94 @@ public class RepositoryManager {
 		boolean exists = false;
 
 		File mediaRep = new File(PropsUtil.get("lecture2go.media.repository"));
-		
-		File aboRep = new File(PropsUtil.get("lecture2go.media.repository")+"/abo");
+		File aboRep = new File(PropsUtil.get("lecture2go.symboliclinks.repository.root"));
 		File imagesRep = new File(PropsUtil.get("lecture2go.images.system.path"));
 		File securityRep = new File(PropsUtil.get("lecture2go.security.folder"));
+		File chaptersRep = new File(PropsUtil.get("lecture2go.chapters.system.path"));
+		File captionsRep = new File(PropsUtil.get("lecture2go.captions.system.path"));
+		File rssRep = new File(PropsUtil.get("lecture2go.rss.system.path"));
 		
-		if(mediaRep.isDirectory() && aboRep.isDirectory() && imagesRep.isDirectory() && securityRep.isDirectory())exists = true;
+		if(mediaRep.isDirectory() && aboRep.isDirectory() && imagesRep.isDirectory() && securityRep.isDirectory() && chaptersRep.isDirectory() && rssRep.isDirectory() && captionsRep.isDirectory())exists = true;
 		
 		return exists;
 	}
 	
 	/**
+	 * Symlink to chapter home.
+	 */
+	public static boolean symlinkToChapterHome(){
+		boolean ret = false;
+		File chapterFolder = new File(PropsUtil.get("lecture2go.chapters.system.path"));
+		if (chapterFolder.exists()) {
+			String cmd = "ln -s " + chapterFolder.getAbsolutePath() + " " + System.getProperty("catalina.base") + "/" + "webapps" + "/" + "chapters";
+			try { runCmd.exec(cmd); ret = true;} catch (IOException e) {}
+		}		
+		return ret;
+	}
+	
+	/**
+	 * Symlink to captions home.
+	 */
+	public static boolean symlinkToCaptionsHome(){
+		boolean ret = false;
+		File captionsFolder = new File(PropsUtil.get("lecture2go.captions.system.path"));
+		if (captionsFolder.exists()) {
+			String cmd = "ln -s " + captionsFolder.getAbsolutePath() + " " + System.getProperty("catalina.base") + "/" + "webapps" + "/" + "captions";
+			try { runCmd.exec(cmd); ret = true;} catch (IOException e) {}
+		}		
+		return ret;
+	}
+	
+	/**
+	 * Symlink to rss home.
+	 */
+	public static boolean symlinkToRssHome(){
+		boolean ret = false;
+		File rssFolder = new File(PropsUtil.get("lecture2go.rss.system.path"));
+		if (rssFolder.exists()) {
+			String cmd = "ln -s " + rssFolder.getAbsolutePath() + " " + System.getProperty("catalina.base") + "/" + "webapps" + "/" + "rss";
+			try { runCmd.exec(cmd); ret = true;} catch (IOException e) {}
+		}	
+		return ret;
+	}
+	
+	/**
+	 * Symlink to videorep home.
+	 */
+	public static boolean symlinkToVideorepHome(){
+		boolean ret = false;
+		File videorepFolder = new File(PropsUtil.get("lecture2go.httpstreaming.video.repository"));
+		if (videorepFolder.exists()) {
+			String cmd = "ln -s " + videorepFolder.getAbsolutePath() + " " + System.getProperty("catalina.base") + "/" + "webapps" + "/" + "videorep";
+			try { runCmd.exec(cmd); ret = true;} catch (IOException e) {}
+		}	
+		return ret;
+	}
+	
+	/**
 	 * Symlink to abo home.
 	 */
-	public static void symlinkToAboHome(){
-		File aboFolder = new File(PropsUtil.get("lecture2go.media.repository") + "/" + "abo");
+	public static boolean symlinkToAboHome(){
+		boolean ret = false;
+		File aboFolder = new File(PropsUtil.get("lecture2go.symboliclinks.repository.root"));
 		if (aboFolder.exists()) {
-			String cmd = "ln -s " + aboFolder.getAbsolutePath() + " " + System.getProperty("catalina.base") + "/" + "webapps" + "/" + "abo";
-			try { runCmd.exec(cmd); } catch (IOException e) {}
+			String cmd = "ln -s " + aboFolder.getAbsolutePath() + " " + System.getProperty("catalina.base") + "/" + "webapps" + "/" + PropsUtil.get("lecture2go.symboliclinks.repository.name");
+			try {runCmd.exec(cmd); ret = true;} catch (IOException e) {}
 		}		
+		return ret;
 	}
 
 	/**
 	 * Symlink to images home.
 	 */
-	public static void symlinkToImagesHome(){
+	public static boolean symlinkToImagesHome(){
+		boolean ret = false;
 		File imgFolder = new File(PropsUtil.get("lecture2go.images.system.path"));
 		if (imgFolder.exists()) {
 			String cmd = "ln -s " + imgFolder.getAbsolutePath() + " " + System.getProperty("catalina.base") + "/" + "webapps" + "/" + "images";
-			try { runCmd.exec(cmd); } catch (IOException e) {}
-		}		
+			try { runCmd.exec(cmd); ret = true;} catch (IOException e) {}
+		}	
+		return ret;
 	}
 	
 	/**
@@ -169,13 +236,15 @@ public class RepositoryManager {
 	 * @param host the host
 	 * @param producer the producer
 	 */
-	public static void symlinkToUserHome(Host host, Producer producer){
+	public static boolean symlinkToUserHome(Host host, Producer producer){
+		boolean ret = false;
 		File folder = new File(PropsUtil.get("lecture2go.media.repository") + "/" + host.getServerRoot() + "/" + producer.getHomeDir() + "/");
 		File httpFolder = new File(PropsUtil.get("lecture2go.httpstreaming.video.repository") + "/" + producer.getInstitutionId() + "l2g" + producer.getHomeDir());
 		if (!httpFolder.exists()) {
 			String cmd = "ln -s " + folder.getAbsolutePath() + " " + httpFolder.getAbsolutePath();
-			try { runCmd.exec(cmd); } catch (IOException e) {}
-		}		
+			try { runCmd.exec(cmd); ret = true;} catch (IOException e) {}
+		}	
+		return ret;
 	}
 
 	/**
@@ -192,7 +261,7 @@ public class RepositoryManager {
 		
 		//retrieving hosts should only fail if default Host has not been generated yet
 		try {
-			hosts = HostLocalServiceUtil.getByGroupId(groupId);
+			hosts = HostLocalServiceUtil.getAll();
 		
 			//then directories
 			for (Host h : hosts) {
@@ -212,7 +281,7 @@ public class RepositoryManager {
 		}
 		} catch (SystemException e) {
 			// TODO Auto-generated catch block
-//			//e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	

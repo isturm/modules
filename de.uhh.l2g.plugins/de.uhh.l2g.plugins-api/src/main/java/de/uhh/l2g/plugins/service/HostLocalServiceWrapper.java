@@ -280,6 +280,11 @@ public class HostLocalServiceWrapper implements HostLocalService,
 	}
 
 	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Host> getAll() {
+		return _hostLocalService.getAll();
+	}
+
+	@Override
 	public java.util.List<de.uhh.l2g.plugins.model.Host> getByCompanyId(
 		long companyId)
 		throws com.liferay.portal.kernel.exception.SystemException {

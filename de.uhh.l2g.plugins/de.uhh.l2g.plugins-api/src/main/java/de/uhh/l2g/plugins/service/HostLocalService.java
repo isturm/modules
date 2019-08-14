@@ -232,6 +232,9 @@ public interface HostLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Host> getAll();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Host> getByCompanyId(long companyId) throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

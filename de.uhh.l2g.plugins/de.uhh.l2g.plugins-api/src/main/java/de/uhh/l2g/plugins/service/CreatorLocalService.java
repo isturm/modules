@@ -321,4 +321,6 @@ public interface CreatorLocalService extends BaseLocalService,
 
 	public void deleteById(java.lang.Long id)
 		throws NoSuchModelException, SystemException;
+
+	public void updateAllCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId();
 }

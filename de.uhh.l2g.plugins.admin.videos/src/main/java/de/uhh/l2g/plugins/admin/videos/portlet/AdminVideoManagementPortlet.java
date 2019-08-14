@@ -83,9 +83,11 @@ import de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
 import de.uhh.l2g.plugins.util.FFmpegManager;
 import de.uhh.l2g.plugins.util.FileManager;
+import de.uhh.l2g.plugins.util.Htaccess;
 import de.uhh.l2g.plugins.util.Lecture2GoRoleChecker;
 import de.uhh.l2g.plugins.util.ProzessManager;
 import de.uhh.l2g.plugins.util.Security;
+import de.uhh.l2g.plugins.util.VideoGenerationDateComparator;
 
 
 /**
@@ -369,8 +371,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	}
 	
 	public void addVideo(ActionRequest request, ActionResponse response) throws SystemException, PortalException {
-		//search tags
-		ArrayList<String> tagCloudArrayString = new ArrayList<String>();
 		
 		//first metadata
 		Metadata reqMetadata = MetadataLocalServiceUtil.createMetadata(0);
@@ -386,9 +386,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			reqLectureseries = (Lectureseries) LectureseriesLocalServiceUtil.getLectureseries(lectureseriesId); 
 			Category ctgr = CategoryLocalServiceUtil.createCategory(0);
 			try{ctgr = CategoryLocalServiceUtil.getCategory(reqLectureseries.getCategoryId());}catch(Exception e){}			
-			tagCloudArrayString.add(ctgr.getName());
-			tagCloudArrayString.add(reqLectureseries.getName());
-			tagCloudArrayString.add(reqLectureseries.getNumber());
 		}catch(Exception e){}
 		
 		//producer
@@ -416,8 +413,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		Video video = VideoLocalServiceUtil.addVideo(newVideo);
 		//forward to the render method
 		response.setRenderParameter("videoId", video.getVideoId()+"");
-		//
-		tagCloudArrayString.add(video.getTitle());
 
 		// update uploads for producer
 		Producer p = ProducerLocalServiceUtil.createProducer(0);
@@ -457,7 +452,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				vi.setInstitutionId(ins.getInstitutionId());
 				vi.setInstitutionParentId(ins.getParentId());
 				Video_InstitutionLocalServiceUtil.addVideo_Institution(vi);
-				tagCloudArrayString.add(ins.getName());
 			}
 		}else{
 			//no lecture series 
@@ -470,7 +464,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			else vi.setInstitutionParentId(ins.getParentId());
 			
 			Video_InstitutionLocalServiceUtil.addVideo_Institution(vi);
-			tagCloudArrayString.add(ins.getName());			
 		}
 	
 		//creators
@@ -483,14 +476,10 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			vc.setCreatorId(creatorId);
 			vc.setVideoId(newVideo.getVideoId());
 			Video_CreatorLocalServiceUtil.addVideo_Creator(vc);
-			tagCloudArrayString.add(creator.getString("firstName"));
-			tagCloudArrayString.add(creator.getString("lastName"));
-			tagCloudArrayString.add(creator.getString("fullName"));
 		}
 		
 		//add tags to tag cloud
-		TagcloudLocalServiceUtil.add(tagCloudArrayString, video.getClass().getName(), video.getVideoId());
-		
+		TagcloudLocalServiceUtil.generateForVideo(video.getVideoId());
 		//
 		String backURL = request.getParameter("backURL");
 		response.setRenderParameter("backURL", backURL);
@@ -738,6 +727,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			//metadata start
 			String title = ParamUtil.getString(resourceRequest, "title");
 			String language = ParamUtil.getString(resourceRequest, "language");
+			String datetime = ParamUtil.getString(resourceRequest, "datetimepicker");
 			String tags = ParamUtil.getString(resourceRequest, "tags");
 			String publisher = ParamUtil.getString(resourceRequest, "publisher");
 			Long lId = ParamUtil.getLong(resourceRequest, "lectureseriesId");
@@ -755,8 +745,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			} catch (SystemException e1) {
 				//e1.printStackTrace();
 			}
-			//search tags
-			ArrayList<String> tagCloudArrayString = new ArrayList<String>();
 
 			Lectureseries newLect = LectureseriesLocalServiceUtil.createLectureseries(0);
 			Category ctgr = CategoryLocalServiceUtil.createCategory(0);
@@ -786,7 +774,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 						Institution in = InstitutionLocalServiceUtil.createInstitution(0);
 						Lectureseries_Institution lectinst = l_i.next();
 						in = InstitutionLocalServiceUtil.getInstitution(lectinst.getInstitutionId());
-						tagCloudArrayString.add(in.getName());
 						Video_Institution vi = Video_InstitutionLocalServiceUtil.createVideo_Institution(0);
 						vi.setVideoId(video.getVideoId());
 						vi.setInstitutionId(lectinst.getInstitutionId());
@@ -805,9 +792,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 					LectureseriesLocalServiceUtil.updateOpenAccess(video, newLect);
 					LectureseriesLocalServiceUtil.updatePreviewVideoOpenAccess(newLect);
 					
-					//add lecture series parameter to tag cloud
-					tagCloudArrayString.add(newLect.getName());
-					tagCloudArrayString.add(newLect.getNumber());
 				}else{
 					//update institution for video only without lecture series
 					List<Video_Institution> vinst = Video_InstitutionLocalServiceUtil.getByVideo(video.getVideoId());
@@ -815,40 +799,25 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 					while(vinstItt.hasNext()){
 						Institution inst = InstitutionLocalServiceUtil.getById(vinstItt.next().getInstitutionId());
 						Institution parent = InstitutionLocalServiceUtil.getById(inst.getParentId());
-						tagCloudArrayString.add(inst.getName());
-						tagCloudArrayString.add(parent.getName());
 					}
 				}
 				//add category and term to tag cloud
 				//category
 				try{ctgr = CategoryLocalServiceUtil.getCategory(categoryId);}catch(Exception e){}			
-				tagCloudArrayString.add(ctgr.getName());
-				//term
-				try{
-					Term t = TermLocalServiceUtil.getTerm(termId);
-					tagCloudArrayString.add(t.getPrefix()+" "+t.getYear());
-				}catch(Exception e){}
+
 				video.setTermId(termId);
-				//
 				//and update categories in DB for video
 				Video_CategoryLocalServiceUtil.removeByVideo(videoId);
 				Video_Category vc = Video_CategoryLocalServiceUtil.createVideo_Category(0);
 				vc.setVideoId(videoId);
 				vc.setCategoryId(categoryId);
 				if(categoryId>0)Video_CategoryLocalServiceUtil.addVideo_Category(vc);
-				//
-				//title to tag cloud
-				tagCloudArrayString.add(video.getTitle());
 				
-				//add creators to tag cloud
-				JSONArray creatorsArray = CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId);
-				for (int i = 0; i< creatorsArray.length(); i++){
-					JSONObject creator;
-					creator = creatorsArray.getJSONObject(i);
-					tagCloudArrayString.add(creator.getString("fullName"));
-				}
-				//update tag cloud for this video
-				TagcloudLocalServiceUtil.updateByObjectIdAndObjectClassType(tagCloudArrayString, video.getClass().getName(), video.getVideoId());
+				//update date and time for this video if changed 
+				int compartion = VideoGenerationDateComparator.compare(video.getGenerationDate(), datetime);
+				//override the video date_time stamp!
+				if (compartion !=0)video.setGenerationDate(datetime);
+
 				//set citation 
 				video.setCitation2go(citationAllowed);
 				//password
@@ -891,6 +860,15 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			} catch (SystemException e) {
 				errors.add("METADATA_UPDATE_FAILED_5");
 			}
+			
+			//update tag cloud for this video
+			TagcloudLocalServiceUtil.generateForVideo(video.getVideoId());
+			//update tag cloud for the lectureseries of this video
+			TagcloudLocalServiceUtil.generateForLectureseries(video.getLectureseriesId());
+			// update tag cloud for the old lectureseries of this video
+			if(lId.longValue() != oldLsId.longValue()) TagcloudLocalServiceUtil.generateForLectureseries(oldLsId);
+			
+			
 			//rebuild rss
 			// generate RSS
 			ProzessManager pm = new ProzessManager();
@@ -913,6 +891,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	        writer.close();
 		}
 		
+		/* this method is deprecated */
 		if(resourceID.equals("updateMetadata")){
 			
 	 	    String title = ParamUtil.getString(resourceRequest, "title");
@@ -935,7 +914,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				//e1.printStackTrace();
 			}
 			//search tags
-			ArrayList<String> tagCloudArrayString = new ArrayList<String>();
 
 			Lectureseries newLect = LectureseriesLocalServiceUtil.createLectureseries(0);
 			Category ctgr = CategoryLocalServiceUtil.createCategory(0);
@@ -965,7 +943,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 						Institution in = InstitutionLocalServiceUtil.createInstitution(0);
 						Lectureseries_Institution lectinst = l_i.next();
 						in = InstitutionLocalServiceUtil.getInstitution(lectinst.getInstitutionId());
-						tagCloudArrayString.add(in.getName());
 						Video_Institution vi = Video_InstitutionLocalServiceUtil.createVideo_Institution(0);
 						vi.setVideoId(video.getVideoId());
 						vi.setInstitutionId(lectinst.getInstitutionId());
@@ -983,30 +960,11 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 					//update lectureseries
 					LectureseriesLocalServiceUtil.updateOpenAccess(video, newLect);
 					LectureseriesLocalServiceUtil.updatePreviewVideoOpenAccess(newLect);
-					
-					//add lecture series parameter to tag cloud
-					tagCloudArrayString.add(newLect.getName());
-					tagCloudArrayString.add(newLect.getNumber());
-				}else{
-					//update institution for video only without lecture series
-					List<Video_Institution> vinst = Video_InstitutionLocalServiceUtil.getByVideo(video.getVideoId());
-					ListIterator<Video_Institution> vinstItt = vinst.listIterator();
-					while(vinstItt.hasNext()){
-						Institution inst = InstitutionLocalServiceUtil.getById(vinstItt.next().getInstitutionId());
-						Institution parent = InstitutionLocalServiceUtil.getById(inst.getParentId());
-						tagCloudArrayString.add(inst.getName());
-						tagCloudArrayString.add(parent.getName());
-					}
 				}
+				
 				//add category and term to tag cloud
 				//category
 				try{ctgr = CategoryLocalServiceUtil.getCategory(categoryId);}catch(Exception e){}			
-				tagCloudArrayString.add(ctgr.getName());
-				//term
-				try{
-					Term t = TermLocalServiceUtil.getTerm(termId);
-					tagCloudArrayString.add(t.getPrefix()+" "+t.getYear());
-				}catch(Exception e){}
 				video.setTermId(termId);
 				//
 				//and update categories in DB for video
@@ -1015,19 +973,10 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				vc.setVideoId(videoId);
 				vc.setCategoryId(categoryId);
 				if(categoryId>0)Video_CategoryLocalServiceUtil.addVideo_Category(vc);
-				//
-				//title to tag cloud
-				tagCloudArrayString.add(video.getTitle());
-				
-				//add creators to tag cloud
-				JSONArray creatorsArray = CreatorLocalServiceUtil.getJSONCreatorsByVideoId(videoId);
-				for (int i = 0; i< creatorsArray.length(); i++){
-					JSONObject creator;
-					creator = creatorsArray.getJSONObject(i);
-					tagCloudArrayString.add(creator.getString("fullName"));
-				}
+
 				//update tag cloud for this video
-				TagcloudLocalServiceUtil.updateByObjectIdAndObjectClassType(tagCloudArrayString, video.getClass().getName(), video.getVideoId());
+				TagcloudLocalServiceUtil.generateForLectureseries(newLect.getLectureseriesId());
+
 				//set citation 
 				video.setCitation2go(citationAllowed);
 				//password
@@ -1105,6 +1054,30 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 	        writer.print(jo.toString());
 	        writer.flush();
 	        writer.close();
+		}
+		
+		if (resourceID.equals("handleVttUpload")) {
+			JSONObject jo = JSONFactoryUtil.createJSONObject();
+			try {
+				VideoLocalServiceUtil.createSymLinkForCaptionIfExisting(videoId);
+				writeJSON(resourceRequest, resourceResponse, jo);
+			} catch (Exception e) {
+				
+			}
+		}
+
+		if (resourceID.equals("updateHtaccess")) {
+			try {
+				Host host = HostLocalServiceUtil.getHost(video.getHostId());
+				Producer producer = ProducerLocalServiceUtil.getProducer(video.getProducerId());
+				String url = PropsUtil.get("lecture2go.media.repository") + "/" + host.getServerRoot() + "/" + producer.getHomeDir() + "/";
+				long producerId = video.getProducerId();
+				List<Video> lockedVideosByProducer;
+				lockedVideosByProducer = VideoLocalServiceUtil.getByProducerAndDownloadLink(producerId, 0);
+				Htaccess.makeHtaccess(url, lockedVideosByProducer);
+			} catch (Exception e) {
+				// 
+			} 
 		}
 		
 		if(resourceID.equals("getJSONVideo")){

@@ -263,81 +263,18 @@
 													</div>		        
 										</div>
 										<c:if test="${video.hasChapters || video.hasComments}">
-											<div class="tab-pane" id="chapters">
-											    	<liferay-portlet:resourceURL id="showSegments" var="segmentsURL" />
-													<script type="text/javascript">
-														$.ajax({
-														    url: '${segmentsURL}',
-														    method: 'POST',
-														    dataType: "json",
-														    data: {
-														 	   	<portlet:namespace/>videoId: "${video.videoId}",
-														    },
-														    success: function(data, textStatus, jqXHR) {
-														        // since we are using jQuery, you don't need to parse response
-														        drawSegmentRow(data);
-														    }
-														});	
-													
-														function hideSegment(sId){
-															$("b#pf2_"+sId).hide();
-															$("b#pf1_"+sId).show();
-															$("b#iav"+sId).hide();		
-														}
-														function showSegment(sId){
-															$("b#pf1_"+sId).hide();
-															$("b#pf2_"+sId).show();
-															$("b#iav"+sId).show();		
-														}
-														function loadSegment(sId){
-															$("b#pf2_"+sId).show();
-															$("b#pf1_"+sId).hide();
-															$("b#iav"+sId).show();
-														}
-														
-														function drawSegmentRow(data) {
-															for (var i = 0; i < data.length; i++) {
-																drawRow(data[i]);
-														    }
-														}
-														
-														function drawRow(segment) {
-														    if(segment.chapter==1){
-														    	// segment is a chapter
-														    	newRow='<div class="chaptertile" id="' + segment.segmentId + '" begin="' + segment.start + '" end="' + segment.end + '">'+
-																'<a><img width="130px" height="63px" class="imgsmall" title="watch this chapter" src="'+segment.image+'"></a>'+
-																'<span class="time">'+segment.start +' - '+segment.end+'</span><br/>'+
-																'<a><span class="segment-title">'+segment.title+'</span></a>';
-															}else{
-																// segment is a comment
-																newRow='<div class="commenttile" id="'+segment.segmentId+'" onload="alert('+segment.segmentId+')">'+
-													    		'<div>'+
-																'<b id="pf1_'+segment.segmentId+'">'+
-													    		'<span class="icon-small icon-plus" id="showr'+segment.segmentId+'" onclick="showSegment('+segment.segmentId+')"/>'+
-													    		'</b>'+
-													    		'<b id="pf2_'+segment.segmentId+'">'+
-													    		'<span class="icon-small icon-minus" id="hidr'+segment.segmentId+'" onclick="hideSegment('+segment.segmentId+')"/>'+
-													    		'</b>'+
-													    		'<span class="time">'+segment.start+'</span>'+
-													    		'<a><iavst class="white" begin="'+segment.start+'" end="'+segment.end+'"><span class="segment-title">'+segment.title+'</span></iavst></a>'+
-													    		'</div>';
-													    		if(segment.description >""){
-													    			newRow=newRow+'<b id="iav'+segment.segmentId+'"><span class="fs10"><div id="description"><em>'+segment.description+'</em></div></span></b>';
-													    		}
-															}
-															newRow=newRow+'</div>';
-															if(segment.chapter!=1){
-																newRow=newRow+'<script>YUI().use("node-base", function(Y) {Y.on("available", loadSegment('+segment.segmentId+'), "#'+segment.segmentId+'")})<\/script>';
-															}
-															
-															if(segment.previousSegmentId == -1){
-																$("#chapters").append(newRow);
-															}else{
-																$(newRow).insertAfter("#"+ segment.previousSegmentId);
-															}
-														}
-													</script>
-											    </div>								
+											<ul class="tab-pane" id="chapters">
+									    		<c:forEach items="<%=segments %>" var="segment">
+										    		<li class="chaptertile" id="${segment.segmentId}" begin="${segment.start}" end="${segment.end}">
+														<div class="image">
+													    	<a><img src="${segment.image}"></a>
+													    </div>
+													    <div class="title">
+													    	<a><b>${segment.start} </b> ${segment.title}</a>
+													    </div>
+												    </li>
+										    	</c:forEach>
+								    		</ul>
 										</c:if>
 									</div>    
 								</div>

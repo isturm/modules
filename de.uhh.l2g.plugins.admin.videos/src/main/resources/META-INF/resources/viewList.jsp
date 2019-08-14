@@ -184,6 +184,10 @@
 												<c:if test="${vid.m4vFile.isFile()}">
 													<liferay-ui:message key="m4v-video"/> &nbsp;
 												</c:if>
+												
+												<c:if test="${vid.vttFile.isFile()}">
+													<liferay-ui:message key="vtt-caption"/> &nbsp;
+												</c:if>
 											</div>																
 										</c:if>
 		

@@ -360,7 +360,18 @@ public interface VideoLocalService extends BaseLocalService,
 	*/
 	public void addPlayerUris2Video(Video video);
 
+	/**
+	* This adds the "tracks" section for the video player json if there are any captions or chapters
+	*/
+	public void addTracksToVideoPlayer(Video video);
+
 	public void createLastVideoList() throws SystemException;
+
+	/**
+	* Creates a symlink for the caption of the video to to captions folder
+	*/
+	public void createSymLinkForCaptionIfExisting(java.lang.Long videoId)
+		throws PortalException, SystemException;
 
 	public void createSymLinkToDownloadableFileIfNotExisting(
 		java.lang.Long videoId);

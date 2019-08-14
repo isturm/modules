@@ -265,6 +265,10 @@ public class HostLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Host> getAll() {
+		return getService().getAll();
+	}
+
 	public static java.util.List<de.uhh.l2g.plugins.model.Host> getByCompanyId(
 		long companyId)
 		throws com.liferay.portal.kernel.exception.SystemException {

@@ -241,6 +241,10 @@ public interface TagcloudLocalService extends BaseLocalService,
 
 	public void generateForAllVideos();
 
+	public void generateForLectureseries(java.lang.Long lectureseriesId);
+
+	public void generateForVideo(java.lang.Long videoId);
+
 	public void updateByObjectIdAndObjectClassType(
 		ArrayList<java.lang.String> tagCloudArrayString,
 		java.lang.String className, long objectId) throws SystemException;

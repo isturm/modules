@@ -398,6 +398,11 @@ public class CreatorLocalServiceUtil {
 		getService().deleteById(id);
 	}
 
+	public static void updateAllCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId() {
+		getService()
+			.updateAllCreatorsForLectureseriesOverTheAssigenedVideosByLectureseriesId();
+	}
+
 	public static CreatorLocalService getService() {
 		return _serviceTracker.getService();
 	}

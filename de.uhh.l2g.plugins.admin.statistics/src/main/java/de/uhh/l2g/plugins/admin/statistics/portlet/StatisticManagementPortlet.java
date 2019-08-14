@@ -36,7 +36,11 @@ import org.osgi.service.component.annotations.Component;
 public class StatisticManagementPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-		
+		// ****** START - DO NOT USE IN PRODUCTION ******
+		// this block is temporary for fixing the tagcloud table 
+		// TagcloudLocalServiceUtil.generateForAllLectureseries();
+		// ****** END ******
+
 		//Update the statistics view 
 		
 		JSONObject jsonObject = StatisticLocalServiceUtil.getAllStatistics();
