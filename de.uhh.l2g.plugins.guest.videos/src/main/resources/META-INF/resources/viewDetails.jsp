@@ -334,7 +334,7 @@
 					<script type="text/javascript">
 						$(function(){
 							//cookie
-							$.cookie("L2G_LSID", "${lectureseries.lectureseriesId}");
+							$.cookie("L2G_LSID", "${lectureseries.lectureseriesId}", { path: "/" });
 						});
 					</script>		
 					<!-- coockie end -->

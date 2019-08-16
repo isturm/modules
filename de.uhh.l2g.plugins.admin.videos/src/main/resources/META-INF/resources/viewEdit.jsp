@@ -22,6 +22,7 @@
 <jsp:useBean id="assignedCreators" type="com.liferay.portal.json.JSONArrayImpl"  scope="request" />
 
 <liferay-portlet:resourceURL id="updateVideoFileName" var="updateVideoFileNameURL" />
+<liferay-portlet:resourceURL id="handleVttUpload" var="handleVttUploadURL" />
 <liferay-portlet:resourceURL id="videoFileNameExists" var="videoFileNameExistsURL" />
 <liferay-portlet:resourceURL id="deleteFile" var="deleteFileURL" />
 <liferay-portlet:resourceURL id="isFirstUpload" var="isFirstUploadURL" />
@@ -167,7 +168,7 @@
 													</c:forEach>					
 												</aui:select>
 												
-												<div id="l2gdate"><aui:input id="lecture2go-date" name="lecture2go-date" label="lecture2go-date" required="false" value="" disabled="true"/></div>
+												<div id="l2gdate"></div>
 									
 												<aui:input name="tags" label="tags" required="false" value="${reqVideo.tags}"/>
 									
@@ -355,6 +356,8 @@
 			if(videoGenerationDate.length > 0){
 				$("#<portlet:namespace/>lecture2go-date").val(videoGenerationDate);
 			}
+			//load the date and time to another div
+			loadDateTimepickerToTheMetadataSkeleton();
 		}
 		  
 		//load date time picker
@@ -363,10 +366,10 @@
 		   	dayOfWeekStart : 1,
 		   	lang:'en',
 		   	startDate:	new Date(),
-		   	value: new Date(),
+		   	value: videoGenerationDate,
 		   	maxDate: '+1970/01/30',
 		   	minDate: false,
-		   	step:10
+		   	step:15
 		});
 		    
 		//load creators
@@ -406,6 +409,21 @@
 		dataType: 'json',
 	});
 	
+	function loadDateTimepickerToTheMetadataSkeleton(){
+		 $('#date-time').appendTo('#l2gdate');
+	     $('#date-time .button-holder').hide();//hide button because not used!
+		 //change the lable
+		 $('#date-time .control-label').text("<liferay-ui:message key='lecture2go-date'/>"); 	
+	}
+
+	function loadDateTimepickerToFirstTitle(){
+		 $('#date-time').appendTo('#date-time-form');
+		 $('#date-time').show();
+	     $('#date-time .button-holder').show();//hide button because not used!
+		 //change the lable
+		 $('#date-time .control-label').text("<liferay-ui:message key='select-date-time-bevor-upload'/>"); 	
+	}
+
 	function applyDateTime(){
 		var genDate = $('#'+nameSpace+'datetimepicker').val();
 		$.ajax({
@@ -418,7 +436,7 @@
 			success: function(res) {
 	  			$('#date-time-form').hide();
 				$("#upload-form").fadeIn(500); 	
-				$("#<portlet:namespace/>lecture2go-date").val(genDate);
+				loadDateTimepickerToTheMetadataSkeleton();
 				$("#l2gdate").fadeIn(1000);
 				$("#<portlet:namespace/>metadata").show(); 
 				//
@@ -474,7 +492,7 @@
 					alert('<liferay-ui:message key="please-enter-a-title"/>');
 				}else{
 					$('#first-title').hide();
-					$("#date-time").show();	
+					loadDateTimepickerToFirstTitle();
 					$("#<portlet:namespace/>title").val(res.firsttitle);
 				} 
 			}
@@ -513,7 +531,7 @@
 		var ret = 0;
 		$.ajax({
 			  type: "POST",
-			  url: "<%=handleVttUploadURL%>",
+			  url: "${handleVttUploadURL}",
 			  dataType: 'json',
 			  data: {
 				  <portlet:namespace/>videoId: "<%=reqVideo.getVideoId()%>"
@@ -575,6 +593,7 @@
 			 	   	"<portlet:namespace/>title": $('#<portlet:namespace/>title').val(),
 			 	   	"<portlet:namespace/>tags": $('#<portlet:namespace/>tags').val(),
 			 	   	"<portlet:namespace/>publisher": $('#<portlet:namespace/>publisher').val(),
+			 	   	"<portlet:namespace/>datetimepicker": $('#<portlet:namespace/>datetimepicker').val(),
 			 	   	"<portlet:namespace/>citationAllowedCheckbox": chebox,
 			 	   	"<portlet:namespace/>categoryId": categoryId,
 			 	   	"<portlet:namespace/>termId": termId,
@@ -802,7 +821,7 @@
 	    		dropZone: $('#dropzone')
 	        }).bind('fileuploadsubmit', function (e, data) {
 	            	// The example input, doesn't have to be part of the upload form:
-	            	var selectorDate = "#"+nameSpace+"lecture2go-date";
+	            	var selectorDate = "#"+nameSpace+"datetimepicker";
 	            	var selectorFileName = "#"+nameSpace+"fileName";
 	            	var selectorSecureFileName = "#"+nameSpace+"secureFileName";
 	            	//

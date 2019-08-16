@@ -28,7 +28,6 @@
 	<import class="de.uhh.l2g.plugins.model.Video_Category" />
 	<import class="de.uhh.l2g.plugins.model.Video_Creator" />
 	<import class="de.uhh.l2g.plugins.model.Video_Institution" />
-	<import class="de.uhh.l2g.plugins.model.Video_Lectureseries" />
 	<import class="de.uhh.l2g.plugins.model.Videohitlist" />
 	<class name="de.uhh.l2g.plugins.model.impl.CategoryImpl" table="LG_Category">
 		<id name="categoryId" type="long">
@@ -386,14 +385,6 @@
 		<property name="videoId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="institutionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="institutionParentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-	</class>
-	<class name="de.uhh.l2g.plugins.model.impl.Video_LectureseriesImpl" table="LG_Video_Lectureseries">
-		<id name="videoLectureseriesId" type="long">
-			<generator class="increment" />
-		</id>
-		<property name="videoId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="lectureseriesId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="openAccess" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 	<class name="de.uhh.l2g.plugins.model.impl.VideohitlistImpl" table="LG_Videohitlist">
 		<id name="videohitlistId" type="long">

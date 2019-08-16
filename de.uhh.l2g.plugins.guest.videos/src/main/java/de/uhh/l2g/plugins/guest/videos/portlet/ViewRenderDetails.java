@@ -32,6 +32,7 @@ import de.uhh.l2g.plugins.service.SegmentLocalServiceUtil;
 import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
+import de.uhh.l2g.plugins.util.ProzessManager;
 
 @Component(
 	    immediate = true,
@@ -103,7 +104,20 @@ public class ViewRenderDetails implements MVCRenderCommand{
 	    	try{lectureseries = LectureseriesLocalServiceUtil.getLectureseries(video.getLectureseriesId());}catch (Exception e){}
 	    }
 	    if(objectExists){
-		    List<Video> relatedVideos = new ArrayList<Video>();
+	    	// create symlink to downloadable file if not existing
+	    	VideoLocalServiceUtil.createSymLinkToDownloadableFileIfNotExisting(video.getVideoId());
+
+			/* 
+			   generate symbolic links in the download folder if the download is enabled and symbolic links are not yet existing. 
+	    	   we currently check this on every video page view, as there may be files generated in the file system (like a generation of a mp3 by the postprocessing engine ) which 
+	    	   do not trigger an event in lecture2go, so it could be handled there
+	    	*/
+			if (video.getDownloadLink()==1) {
+				ProzessManager pm = new ProzessManager();
+				pm.generateSymbolicLinks(video);
+			}
+			
+	    	List<Video> relatedVideos = new ArrayList<Video>();
 		    //related videos by lectureseries id
 	    	try {
 	    		int os = 0;

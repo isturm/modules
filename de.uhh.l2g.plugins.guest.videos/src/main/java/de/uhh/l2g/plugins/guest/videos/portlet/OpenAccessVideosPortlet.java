@@ -2,8 +2,6 @@ package de.uhh.l2g.plugins.guest.videos.portlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import java.util.ListIterator;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -12,11 +10,8 @@ import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -25,8 +20,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import de.uhh.l2g.plugins.guest.videos.constants.OpenAccessVideosPortletKeys;
-import de.uhh.l2g.plugins.model.Segment;
-import de.uhh.l2g.plugins.service.SegmentLocalServiceUtil;
 import de.uhh.l2g.plugins.util.AutocompleteManager;
 
 /**
@@ -66,42 +59,6 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 		if (cmd.equals("get_search_words")) {
 			getSearchWords(resourceRequest, resourceResponse);
 		}
-		
-		try{
-			if(resourceID.equals("showSegments")){
-				String vId = ParamUtil.getString(resourceRequest, "videoId");
-				Long vID = new Long(vId);
-				com.liferay.portal.kernel.json.JSONArray ja = JSONFactoryUtil.createJSONArray();
-				//get segments for video and convert to json array
-				try {
-					List<Segment> sl= SegmentLocalServiceUtil.getSegmentsByVideoId(vID);
-					ListIterator<Segment> sIt = sl.listIterator();
-					while(sIt.hasNext()){
-						Segment s = sIt.next();
-						JSONObject jo = JSONFactoryUtil.createJSONObject();
-						jo.put("chapter", s.getChapter());
-						jo.put("description", s.getDescription());
-						jo.put("end", s.getEnd());
-						jo.put("image", s.getImage());
-						jo.put("number", s.getNumber());
-						jo.put("segmentId", s.getPrimaryKey());
-						jo.put("seconds", s.getSeconds());
-						jo.put("start", s.getStart());
-						jo.put("title", s.getTitle());
-						jo.put("userId", s.getUserId());
-						jo.put("videoId", s.getVideoId());
-						jo.put("previousSegmentId", SegmentLocalServiceUtil.getPreviusSegmentId(s.getSegmentId()));
-						ja.put(jo);
-					}
-					
-				} catch (PortalException e) {
-					//e.printStackTrace();
-				} catch (SystemException e) {
-					//e.printStackTrace();
-				}
-				writeJSON(resourceRequest, resourceResponse, ja);
-			}			
-		}catch (NullPointerException npe){}
 		
 		//--- Autocomplete start
 		//getting task name to do
