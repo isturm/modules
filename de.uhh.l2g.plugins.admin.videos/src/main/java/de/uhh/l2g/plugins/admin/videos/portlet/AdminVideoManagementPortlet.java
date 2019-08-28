@@ -1456,11 +1456,20 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 					}
 					jarr.put(o);
 			}
+			
+			// clean up symbolic links for the deleted file - if there are any (e.g. download-folder, caption-folder)
+			ProzessManager pm = new ProzessManager();
+			pm.removeSymbolicLinksForSingularFileIfExisting(fileName);
+			
 			//
 			PrintWriter writer = resourceResponse.getWriter();
 	        writer.print(jarr.toString());
 	        writer.flush();
 	        writer.close();
+	        
+
+
+	        
 		}
 		
 		if(resourceID.equals("getJSONCreator")){
