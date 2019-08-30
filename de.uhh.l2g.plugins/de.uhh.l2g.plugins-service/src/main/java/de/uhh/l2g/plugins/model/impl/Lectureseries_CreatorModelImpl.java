@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -25,7 +24,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Lectureseries_Creator;
 import de.uhh.l2g.plugins.model.Lectureseries_CreatorModel;
@@ -43,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Lectureseries_Creator service. Represents a row in the &quot;LG_Lectureseries_Creator&quot; database table, with each column mapped to a property of this class.
@@ -256,81 +256,23 @@ public class Lectureseries_CreatorModelImpl
 
 		attributeGetterFunctions.put(
 			"lectureseriesCreatorId",
-			new Function<Lectureseries_Creator, Object>() {
-
-				@Override
-				public Object apply(
-					Lectureseries_Creator lectureseries_Creator) {
-
-					return lectureseries_Creator.getLectureseriesCreatorId();
-				}
-
-			});
+			Lectureseries_Creator::getLectureseriesCreatorId);
 		attributeSetterBiConsumers.put(
 			"lectureseriesCreatorId",
-			new BiConsumer<Lectureseries_Creator, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries_Creator lectureseries_Creator,
-					Object lectureseriesCreatorId) {
-
-					lectureseries_Creator.setLectureseriesCreatorId(
-						(Long)lectureseriesCreatorId);
-				}
-
-			});
+			(BiConsumer<Lectureseries_Creator, Long>)
+				Lectureseries_Creator::setLectureseriesCreatorId);
 		attributeGetterFunctions.put(
-			"lectureseriesId",
-			new Function<Lectureseries_Creator, Object>() {
-
-				@Override
-				public Object apply(
-					Lectureseries_Creator lectureseries_Creator) {
-
-					return lectureseries_Creator.getLectureseriesId();
-				}
-
-			});
+			"lectureseriesId", Lectureseries_Creator::getLectureseriesId);
 		attributeSetterBiConsumers.put(
 			"lectureseriesId",
-			new BiConsumer<Lectureseries_Creator, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries_Creator lectureseries_Creator,
-					Object lectureseriesId) {
-
-					lectureseries_Creator.setLectureseriesId(
-						(Long)lectureseriesId);
-				}
-
-			});
+			(BiConsumer<Lectureseries_Creator, Long>)
+				Lectureseries_Creator::setLectureseriesId);
 		attributeGetterFunctions.put(
-			"creatorId",
-			new Function<Lectureseries_Creator, Object>() {
-
-				@Override
-				public Object apply(
-					Lectureseries_Creator lectureseries_Creator) {
-
-					return lectureseries_Creator.getCreatorId();
-				}
-
-			});
+			"creatorId", Lectureseries_Creator::getCreatorId);
 		attributeSetterBiConsumers.put(
 			"creatorId",
-			new BiConsumer<Lectureseries_Creator, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries_Creator lectureseries_Creator,
-					Object creatorId) {
-
-					lectureseries_Creator.setCreatorId((Long)creatorId);
-				}
-
-			});
+			(BiConsumer<Lectureseries_Creator, Long>)
+				Lectureseries_Creator::setCreatorId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

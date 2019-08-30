@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Coordinator;
 import de.uhh.l2g.plugins.model.CoordinatorModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Coordinator service. Represents a row in the &quot;LG_Coordinator&quot; database table, with each column mapped to a property of this class.
@@ -265,191 +265,42 @@ public class CoordinatorModelImpl
 			new LinkedHashMap<String, BiConsumer<Coordinator, ?>>();
 
 		attributeGetterFunctions.put(
-			"coordinatorId",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getCoordinatorId();
-				}
-
-			});
+			"coordinatorId", Coordinator::getCoordinatorId);
 		attributeSetterBiConsumers.put(
 			"coordinatorId",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(
-					Coordinator coordinator, Object coordinatorId) {
-
-					coordinator.setCoordinatorId((Long)coordinatorId);
-				}
-
-			});
+			(BiConsumer<Coordinator, Long>)Coordinator::setCoordinatorId);
 		attributeGetterFunctions.put(
-			"institutionId",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getInstitutionId();
-				}
-
-			});
+			"institutionId", Coordinator::getInstitutionId);
 		attributeSetterBiConsumers.put(
 			"institutionId",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(
-					Coordinator coordinator, Object institutionId) {
-
-					coordinator.setInstitutionId((Long)institutionId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"officeId",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getOfficeId();
-				}
-
-			});
+			(BiConsumer<Coordinator, Long>)Coordinator::setInstitutionId);
+		attributeGetterFunctions.put("officeId", Coordinator::getOfficeId);
 		attributeSetterBiConsumers.put(
 			"officeId",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(Coordinator coordinator, Object officeId) {
-					coordinator.setOfficeId((Long)officeId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getGroupId();
-				}
-
-			});
+			(BiConsumer<Coordinator, Long>)Coordinator::setOfficeId);
+		attributeGetterFunctions.put("groupId", Coordinator::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(Coordinator coordinator, Object groupId) {
-					coordinator.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Coordinator, Long>)Coordinator::setGroupId);
+		attributeGetterFunctions.put("companyId", Coordinator::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(Coordinator coordinator, Object companyId) {
-					coordinator.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getUserId();
-				}
-
-			});
+			(BiConsumer<Coordinator, Long>)Coordinator::setCompanyId);
+		attributeGetterFunctions.put("userId", Coordinator::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(Coordinator coordinator, Object userId) {
-					coordinator.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Coordinator, Long>)Coordinator::setUserId);
+		attributeGetterFunctions.put("userName", Coordinator::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(Coordinator coordinator, Object userName) {
-					coordinator.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getCreateDate();
-				}
-
-			});
+			(BiConsumer<Coordinator, String>)Coordinator::setUserName);
+		attributeGetterFunctions.put("createDate", Coordinator::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(Coordinator coordinator, Object createDate) {
-					coordinator.setCreateDate((Date)createDate);
-				}
-
-			});
+			(BiConsumer<Coordinator, Date>)Coordinator::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Coordinator, Object>() {
-
-				@Override
-				public Object apply(Coordinator coordinator) {
-					return coordinator.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", Coordinator::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Coordinator, Object>() {
-
-				@Override
-				public void accept(
-					Coordinator coordinator, Object modifiedDate) {
-
-					coordinator.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Coordinator, Date>)Coordinator::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Term;
 import de.uhh.l2g.plugins.model.TermModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Term service. Represents a row in the &quot;LG_Term&quot; database table, with each column mapped to a property of this class.
@@ -257,246 +257,42 @@ public class TermModelImpl extends BaseModelImpl<Term> implements TermModel {
 		Map<String, BiConsumer<Term, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Term, ?>>();
 
-		attributeGetterFunctions.put(
-			"termId",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getTermId();
-				}
-
-			});
+		attributeGetterFunctions.put("termId", Term::getTermId);
 		attributeSetterBiConsumers.put(
-			"termId",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object termId) {
-					term.setTermId((Long)termId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"parentId",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getParentId();
-				}
-
-			});
+			"termId", (BiConsumer<Term, Long>)Term::setTermId);
+		attributeGetterFunctions.put("parentId", Term::getParentId);
 		attributeSetterBiConsumers.put(
-			"parentId",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object parentId) {
-					term.setParentId((Long)parentId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"languageId",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getLanguageId();
-				}
-
-			});
+			"parentId", (BiConsumer<Term, Long>)Term::setParentId);
+		attributeGetterFunctions.put("languageId", Term::getLanguageId);
 		attributeSetterBiConsumers.put(
-			"languageId",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object languageId) {
-					term.setLanguageId((String)languageId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"prefix",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getPrefix();
-				}
-
-			});
+			"languageId", (BiConsumer<Term, String>)Term::setLanguageId);
+		attributeGetterFunctions.put("prefix", Term::getPrefix);
 		attributeSetterBiConsumers.put(
-			"prefix",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object prefix) {
-					term.setPrefix((String)prefix);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"year",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getYear();
-				}
-
-			});
+			"prefix", (BiConsumer<Term, String>)Term::setPrefix);
+		attributeGetterFunctions.put("year", Term::getYear);
 		attributeSetterBiConsumers.put(
-			"year",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object year) {
-					term.setYear((String)year);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"translation",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getTranslation();
-				}
-
-			});
+			"year", (BiConsumer<Term, String>)Term::setYear);
+		attributeGetterFunctions.put("translation", Term::getTranslation);
 		attributeSetterBiConsumers.put(
-			"translation",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object translation) {
-					term.setTranslation((String)translation);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getGroupId();
-				}
-
-			});
+			"translation", (BiConsumer<Term, String>)Term::setTranslation);
+		attributeGetterFunctions.put("groupId", Term::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object groupId) {
-					term.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Term, Long>)Term::setGroupId);
+		attributeGetterFunctions.put("companyId", Term::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object companyId) {
-					term.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Term, Long>)Term::setCompanyId);
+		attributeGetterFunctions.put("userId", Term::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object userId) {
-					term.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Term, Long>)Term::setUserId);
+		attributeGetterFunctions.put("userName", Term::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object userName) {
-					term.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Term, String>)Term::setUserName);
+		attributeGetterFunctions.put("createDate", Term::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object createDate) {
-					term.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Term, Object>() {
-
-				@Override
-				public Object apply(Term term) {
-					return term.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Term, Date>)Term::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Term::getModifiedDate);
 		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Term, Object>() {
-
-				@Override
-				public void accept(Term term, Object modifiedDate) {
-					term.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			"modifiedDate", (BiConsumer<Term, Date>)Term::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

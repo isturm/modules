@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Office;
 import de.uhh.l2g.plugins.model.OfficeModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Office service. Represents a row in the &quot;LG_Office&quot; database table, with each column mapped to a property of this class.
@@ -259,226 +259,40 @@ public class OfficeModelImpl
 		Map<String, BiConsumer<Office, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Office, ?>>();
 
-		attributeGetterFunctions.put(
-			"officeId",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getOfficeId();
-				}
-
-			});
+		attributeGetterFunctions.put("officeId", Office::getOfficeId);
 		attributeSetterBiConsumers.put(
-			"officeId",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object officeId) {
-					office.setOfficeId((Long)officeId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getName();
-				}
-
-			});
+			"officeId", (BiConsumer<Office, Long>)Office::setOfficeId);
+		attributeGetterFunctions.put("name", Office::getName);
 		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object name) {
-					office.setName((String)name);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"www",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getWww();
-				}
-
-			});
+			"name", (BiConsumer<Office, String>)Office::setName);
+		attributeGetterFunctions.put("www", Office::getWww);
 		attributeSetterBiConsumers.put(
-			"www",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object www) {
-					office.setWww((String)www);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"email",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getEmail();
-				}
-
-			});
+			"www", (BiConsumer<Office, String>)Office::setWww);
+		attributeGetterFunctions.put("email", Office::getEmail);
 		attributeSetterBiConsumers.put(
-			"email",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object email) {
-					office.setEmail((String)email);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"institutionId",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getInstitutionId();
-				}
-
-			});
+			"email", (BiConsumer<Office, String>)Office::setEmail);
+		attributeGetterFunctions.put("institutionId", Office::getInstitutionId);
 		attributeSetterBiConsumers.put(
 			"institutionId",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object institutionId) {
-					office.setInstitutionId((Long)institutionId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getGroupId();
-				}
-
-			});
+			(BiConsumer<Office, Long>)Office::setInstitutionId);
+		attributeGetterFunctions.put("groupId", Office::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object groupId) {
-					office.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Office, Long>)Office::setGroupId);
+		attributeGetterFunctions.put("companyId", Office::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object companyId) {
-					office.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Office, Long>)Office::setCompanyId);
+		attributeGetterFunctions.put("userId", Office::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object userId) {
-					office.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Office, Long>)Office::setUserId);
+		attributeGetterFunctions.put("userName", Office::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object userName) {
-					office.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Office, String>)Office::setUserName);
+		attributeGetterFunctions.put("createDate", Office::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object createDate) {
-					office.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Office, Object>() {
-
-				@Override
-				public Object apply(Office office) {
-					return office.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Office, Date>)Office::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Office::getModifiedDate);
 		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Office, Object>() {
-
-				@Override
-				public void accept(Office office, Object modifiedDate) {
-					office.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			"modifiedDate", (BiConsumer<Office, Date>)Office::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

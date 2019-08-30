@@ -14,13 +14,13 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * This class is used by SOAP remote services.
@@ -57,6 +57,7 @@ public class VideoSoap implements Serializable {
 		soapModel.setTermId(model.getTermId());
 		soapModel.setTags(model.getTags());
 		soapModel.setPassword(model.getPassword());
+		soapModel.setLicenseId(model.getLicenseId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
@@ -299,6 +300,14 @@ public class VideoSoap implements Serializable {
 		_password = password;
 	}
 
+	public long getLicenseId() {
+		return _licenseId;
+	}
+
+	public void setLicenseId(long licenseId) {
+		_licenseId = licenseId;
+	}
+
 	public long getGroupId() {
 		return _groupId;
 	}
@@ -370,6 +379,7 @@ public class VideoSoap implements Serializable {
 	private long _termId;
 	private String _tags;
 	private String _password;
+	private long _licenseId;
 	private long _groupId;
 	private long _companyId;
 	private long _userId;

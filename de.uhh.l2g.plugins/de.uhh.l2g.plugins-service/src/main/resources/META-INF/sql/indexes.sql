@@ -65,9 +65,7 @@ create index IX_719B09B3 on LG_Lectureseries_Institution (institutionId);
 create index IX_A6D66CFD on LG_Lectureseries_Institution (institutionParentId);
 create index IX_4B074373 on LG_Lectureseries_Institution (lectureseriesId, institutionId);
 
-create index IX_457EC665 on LG_License (companyId);
-create index IX_BA7153A1 on LG_License (groupId, companyId);
-create index IX_C0376223 on LG_License (videoId);
+create index IX_A6E366AD on LG_License (selectable);
 
 create index IX_5613EDEF on LG_Metadata (companyId);
 create index IX_614F0757 on LG_Metadata (groupId, companyId);
@@ -111,10 +109,9 @@ create index IX_EEDDE6D4 on LG_Term (groupId, companyId);
 create index IX_A731640D on LG_Term (prefix[$COLUMN_LENGTH:75$], year[$COLUMN_LENGTH:75$]);
 create index IX_16F89D07 on LG_Term (year[$COLUMN_LENGTH:75$]);
 
-create index IX_D1B9AD6B on LG_Video (companyId);
 create index IX_D1B2A998 on LG_Video (filename[$COLUMN_LENGTH:75$]);
-create index IX_4E42F35B on LG_Video (groupId, companyId);
 create index IX_AAE2F865 on LG_Video (lectureseriesId, openAccess);
+create index IX_C9D1732F on LG_Video (licenseId);
 create index IX_25DDBE5F on LG_Video (openAccess);
 create index IX_43B83117 on LG_Video (password_[$COLUMN_LENGTH:75$]);
 create index IX_2B61D434 on LG_Video (producerId, downloadLink);

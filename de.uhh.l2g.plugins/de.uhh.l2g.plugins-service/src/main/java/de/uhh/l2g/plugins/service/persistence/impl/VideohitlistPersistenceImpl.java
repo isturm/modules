@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchVideohitlistException;
@@ -47,12 +45,10 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the videohitlist service.
@@ -2153,6 +2149,10 @@ public class VideohitlistPersistenceImpl
 
 	public VideohitlistPersistenceImpl() {
 		setModelClass(Videohitlist.class);
+
+		setModelImplClass(VideohitlistImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(VideohitlistModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2579,161 +2579,12 @@ public class VideohitlistPersistenceImpl
 	/**
 	 * Returns the videohitlist with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the videohitlist
-	 * @return the videohitlist, or <code>null</code> if a videohitlist with the primary key could not be found
-	 */
-	@Override
-	public Videohitlist fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			VideohitlistModelImpl.ENTITY_CACHE_ENABLED, VideohitlistImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Videohitlist videohitlist = (Videohitlist)serializable;
-
-		if (videohitlist == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				videohitlist = (Videohitlist)session.get(
-					VideohitlistImpl.class, primaryKey);
-
-				if (videohitlist != null) {
-					cacheResult(videohitlist);
-				}
-				else {
-					entityCache.putResult(
-						VideohitlistModelImpl.ENTITY_CACHE_ENABLED,
-						VideohitlistImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					VideohitlistModelImpl.ENTITY_CACHE_ENABLED,
-					VideohitlistImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return videohitlist;
-	}
-
-	/**
-	 * Returns the videohitlist with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param videohitlistId the primary key of the videohitlist
 	 * @return the videohitlist, or <code>null</code> if a videohitlist with the primary key could not be found
 	 */
 	@Override
 	public Videohitlist fetchByPrimaryKey(long videohitlistId) {
 		return fetchByPrimaryKey((Serializable)videohitlistId);
-	}
-
-	@Override
-	public Map<Serializable, Videohitlist> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Videohitlist> map =
-			new HashMap<Serializable, Videohitlist>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Videohitlist videohitlist = fetchByPrimaryKey(primaryKey);
-
-			if (videohitlist != null) {
-				map.put(primaryKey, videohitlist);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				VideohitlistModelImpl.ENTITY_CACHE_ENABLED,
-				VideohitlistImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Videohitlist)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_VIDEOHITLIST_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Videohitlist videohitlist : (List<Videohitlist>)q.list()) {
-				map.put(videohitlist.getPrimaryKeyObj(), videohitlist);
-
-				cacheResult(videohitlist);
-
-				uncachedPrimaryKeys.remove(videohitlist.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					VideohitlistModelImpl.ENTITY_CACHE_ENABLED,
-					VideohitlistImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2931,6 +2782,21 @@ public class VideohitlistPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "videohitlistId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_VIDEOHITLIST;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return VideohitlistModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3065,9 +2931,6 @@ public class VideohitlistPersistenceImpl
 
 	private static final String _SQL_SELECT_VIDEOHITLIST =
 		"SELECT videohitlist FROM Videohitlist videohitlist";
-
-	private static final String _SQL_SELECT_VIDEOHITLIST_WHERE_PKS_IN =
-		"SELECT videohitlist FROM Videohitlist videohitlist WHERE videohitlistId IN (";
 
 	private static final String _SQL_SELECT_VIDEOHITLIST_WHERE =
 		"SELECT videohitlist FROM Videohitlist videohitlist WHERE ";

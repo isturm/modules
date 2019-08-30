@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -48,12 +46,10 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the host service.
@@ -3141,6 +3137,10 @@ public class HostPersistenceImpl
 
 	public HostPersistenceImpl() {
 		setModelClass(Host.class);
+
+		setModelImplClass(HostImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(HostModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -3670,157 +3670,12 @@ public class HostPersistenceImpl
 	/**
 	 * Returns the host with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the host
-	 * @return the host, or <code>null</code> if a host with the primary key could not be found
-	 */
-	@Override
-	public Host fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			HostModelImpl.ENTITY_CACHE_ENABLED, HostImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Host host = (Host)serializable;
-
-		if (host == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				host = (Host)session.get(HostImpl.class, primaryKey);
-
-				if (host != null) {
-					cacheResult(host);
-				}
-				else {
-					entityCache.putResult(
-						HostModelImpl.ENTITY_CACHE_ENABLED, HostImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					HostModelImpl.ENTITY_CACHE_ENABLED, HostImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return host;
-	}
-
-	/**
-	 * Returns the host with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param hostId the primary key of the host
 	 * @return the host, or <code>null</code> if a host with the primary key could not be found
 	 */
 	@Override
 	public Host fetchByPrimaryKey(long hostId) {
 		return fetchByPrimaryKey((Serializable)hostId);
-	}
-
-	@Override
-	public Map<Serializable, Host> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Host> map = new HashMap<Serializable, Host>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Host host = fetchByPrimaryKey(primaryKey);
-
-			if (host != null) {
-				map.put(primaryKey, host);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				HostModelImpl.ENTITY_CACHE_ENABLED, HostImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Host)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_HOST_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Host host : (List<Host>)q.list()) {
-				map.put(host.getPrimaryKeyObj(), host);
-
-				cacheResult(host);
-
-				uncachedPrimaryKeys.remove(host.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					HostModelImpl.ENTITY_CACHE_ENABLED, HostImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4018,6 +3873,21 @@ public class HostPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "hostId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_HOST;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return HostModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4210,9 +4080,6 @@ public class HostPersistenceImpl
 	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_HOST = "SELECT host FROM Host host";
-
-	private static final String _SQL_SELECT_HOST_WHERE_PKS_IN =
-		"SELECT host FROM Host host WHERE hostId IN (";
 
 	private static final String _SQL_SELECT_HOST_WHERE =
 		"SELECT host FROM Host host WHERE ";

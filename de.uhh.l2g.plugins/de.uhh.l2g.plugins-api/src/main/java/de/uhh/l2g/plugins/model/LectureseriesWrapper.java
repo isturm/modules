@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -38,20 +34,11 @@ import java.util.Objects;
  */
 @ProviderType
 public class LectureseriesWrapper
+	extends BaseModelWrapper<Lectureseries>
 	implements Lectureseries, ModelWrapper<Lectureseries> {
 
 	public LectureseriesWrapper(Lectureseries lectureseries) {
-		_lectureseries = lectureseries;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Lectureseries.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Lectureseries.class.getName();
+		super(lectureseries);
 	}
 
 	@Override
@@ -237,16 +224,6 @@ public class LectureseriesWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new LectureseriesWrapper((Lectureseries)_lectureseries.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Lectureseries lectureseries) {
-		return _lectureseries.compareTo(lectureseries);
-	}
-
 	/**
 	 * Returns the approved of this lectureseries.
 	 *
@@ -254,7 +231,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public int getApproved() {
-		return _lectureseries.getApproved();
+		return model.getApproved();
 	}
 
 	/**
@@ -264,12 +241,12 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getCategoryId() {
-		return _lectureseries.getCategoryId();
+		return model.getCategoryId();
 	}
 
 	@Override
 	public String getClosedAccessURI() {
-		return _lectureseries.getClosedAccessURI();
+		return model.getClosedAccessURI();
 	}
 
 	/**
@@ -279,7 +256,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _lectureseries.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -289,7 +266,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _lectureseries.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -299,12 +276,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getEventType() {
-		return _lectureseries.getEventType();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _lectureseries.getExpandoBridge();
+		return model.getEventType();
 	}
 
 	/**
@@ -314,7 +286,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getFacultyName() {
-		return _lectureseries.getFacultyName();
+		return model.getFacultyName();
 	}
 
 	/**
@@ -324,7 +296,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _lectureseries.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -334,7 +306,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getLanguage() {
-		return _lectureseries.getLanguage();
+		return model.getLanguage();
 	}
 
 	/**
@@ -344,7 +316,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getLatestOpenAccessVideoId() {
-		return _lectureseries.getLatestOpenAccessVideoId();
+		return model.getLatestOpenAccessVideoId();
 	}
 
 	/**
@@ -354,7 +326,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getLatestVideoGenerationDate() {
-		return _lectureseries.getLatestVideoGenerationDate();
+		return model.getLatestVideoGenerationDate();
 	}
 
 	/**
@@ -364,7 +336,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public Date getLatestVideoUploadDate() {
-		return _lectureseries.getLatestVideoUploadDate();
+		return model.getLatestVideoUploadDate();
 	}
 
 	/**
@@ -374,7 +346,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getLectureseriesId() {
-		return _lectureseries.getLectureseriesId();
+		return model.getLectureseriesId();
 	}
 
 	/**
@@ -384,7 +356,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getLongDesc() {
-		return _lectureseries.getLongDesc();
+		return model.getLongDesc();
 	}
 
 	/**
@@ -394,7 +366,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _lectureseries.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -404,7 +376,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getName() {
-		return _lectureseries.getName();
+		return model.getName();
 	}
 
 	/**
@@ -414,22 +386,22 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getNumber() {
-		return _lectureseries.getNumber();
+		return model.getNumber();
 	}
 
 	@Override
 	public int getNumberOfOpenAccessVideos() {
-		return _lectureseries.getNumberOfOpenAccessVideos();
+		return model.getNumberOfOpenAccessVideos();
 	}
 
 	@Override
 	public int getNumberOfVideos() {
-		return _lectureseries.getNumberOfVideos();
+		return model.getNumberOfVideos();
 	}
 
 	@Override
 	public String getOpenAccessURI() {
-		return _lectureseries.getOpenAccessURI();
+		return model.getOpenAccessURI();
 	}
 
 	/**
@@ -439,7 +411,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getPassword() {
-		return _lectureseries.getPassword();
+		return model.getPassword();
 	}
 
 	/**
@@ -449,7 +421,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getPreviewVideoId() {
-		return _lectureseries.getPreviewVideoId();
+		return model.getPreviewVideoId();
 	}
 
 	/**
@@ -459,12 +431,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _lectureseries.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _lectureseries.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -474,7 +441,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getShortDesc() {
-		return _lectureseries.getShortDesc();
+		return model.getShortDesc();
 	}
 
 	/**
@@ -484,12 +451,12 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getTermId() {
-		return _lectureseries.getTermId();
+		return model.getTermId();
 	}
 
 	@Override
 	public String getType() {
-		return _lectureseries.getType();
+		return model.getType();
 	}
 
 	/**
@@ -499,7 +466,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _lectureseries.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -509,7 +476,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _lectureseries.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -519,7 +486,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _lectureseries.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -529,7 +496,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public String getUSID() {
-		return _lectureseries.getUSID();
+		return model.getUSID();
 	}
 
 	/**
@@ -539,32 +506,12 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public int getVideoSort() {
-		return _lectureseries.getVideoSort();
-	}
-
-	@Override
-	public int hashCode() {
-		return _lectureseries.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _lectureseries.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _lectureseries.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _lectureseries.isNew();
+		return model.getVideoSort();
 	}
 
 	@Override
 	public void persist() {
-		_lectureseries.persist();
+		model.persist();
 	}
 
 	/**
@@ -574,12 +521,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setApproved(int approved) {
-		_lectureseries.setApproved(approved);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_lectureseries.setCachedModel(cachedModel);
+		model.setApproved(approved);
 	}
 
 	/**
@@ -589,7 +531,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setCategoryId(long categoryId) {
-		_lectureseries.setCategoryId(categoryId);
+		model.setCategoryId(categoryId);
 	}
 
 	/**
@@ -599,7 +541,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_lectureseries.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -609,7 +551,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_lectureseries.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -619,24 +561,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setEventType(String eventType) {
-		_lectureseries.setEventType(eventType);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_lectureseries.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_lectureseries.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_lectureseries.setExpandoBridgeAttributes(serviceContext);
+		model.setEventType(eventType);
 	}
 
 	/**
@@ -646,7 +571,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setFacultyName(String facultyName) {
-		_lectureseries.setFacultyName(facultyName);
+		model.setFacultyName(facultyName);
 	}
 
 	/**
@@ -656,7 +581,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_lectureseries.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -666,7 +591,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setLanguage(String language) {
-		_lectureseries.setLanguage(language);
+		model.setLanguage(language);
 	}
 
 	/**
@@ -676,7 +601,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setLatestOpenAccessVideoId(long latestOpenAccessVideoId) {
-		_lectureseries.setLatestOpenAccessVideoId(latestOpenAccessVideoId);
+		model.setLatestOpenAccessVideoId(latestOpenAccessVideoId);
 	}
 
 	/**
@@ -686,7 +611,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setLatestVideoGenerationDate(String latestVideoGenerationDate) {
-		_lectureseries.setLatestVideoGenerationDate(latestVideoGenerationDate);
+		model.setLatestVideoGenerationDate(latestVideoGenerationDate);
 	}
 
 	/**
@@ -696,7 +621,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setLatestVideoUploadDate(Date latestVideoUploadDate) {
-		_lectureseries.setLatestVideoUploadDate(latestVideoUploadDate);
+		model.setLatestVideoUploadDate(latestVideoUploadDate);
 	}
 
 	/**
@@ -706,7 +631,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setLectureseriesId(long lectureseriesId) {
-		_lectureseries.setLectureseriesId(lectureseriesId);
+		model.setLectureseriesId(lectureseriesId);
 	}
 
 	/**
@@ -716,7 +641,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setLongDesc(String longDesc) {
-		_lectureseries.setLongDesc(longDesc);
+		model.setLongDesc(longDesc);
 	}
 
 	/**
@@ -726,7 +651,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_lectureseries.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -736,12 +661,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setName(String name) {
-		_lectureseries.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_lectureseries.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -751,17 +671,17 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setNumber(String number) {
-		_lectureseries.setNumber(number);
+		model.setNumber(number);
 	}
 
 	@Override
 	public void setNumberOfOpenAccessVideos(int numberOfOpenAccessVideos) {
-		_lectureseries.setNumberOfOpenAccessVideos(numberOfOpenAccessVideos);
+		model.setNumberOfOpenAccessVideos(numberOfOpenAccessVideos);
 	}
 
 	@Override
 	public void setNumberOfVideos(int numberOfVideos) {
-		_lectureseries.setNumberOfVideos(numberOfVideos);
+		model.setNumberOfVideos(numberOfVideos);
 	}
 
 	/**
@@ -771,7 +691,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setPassword(String password) {
-		_lectureseries.setPassword(password);
+		model.setPassword(password);
 	}
 
 	/**
@@ -781,7 +701,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setPreviewVideoId(long previewVideoId) {
-		_lectureseries.setPreviewVideoId(previewVideoId);
+		model.setPreviewVideoId(previewVideoId);
 	}
 
 	/**
@@ -791,12 +711,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_lectureseries.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_lectureseries.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -806,7 +721,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setShortDesc(String shortDesc) {
-		_lectureseries.setShortDesc(shortDesc);
+		model.setShortDesc(shortDesc);
 	}
 
 	/**
@@ -816,12 +731,12 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setTermId(long termId) {
-		_lectureseries.setTermId(termId);
+		model.setTermId(termId);
 	}
 
 	@Override
 	public void setType(String type) {
-		_lectureseries.setType(type);
+		model.setType(type);
 	}
 
 	/**
@@ -831,7 +746,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_lectureseries.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -841,7 +756,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_lectureseries.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -851,7 +766,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_lectureseries.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -861,7 +776,7 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setUSID(String USID) {
-		_lectureseries.setUSID(USID);
+		model.setUSID(USID);
 	}
 
 	/**
@@ -871,77 +786,12 @@ public class LectureseriesWrapper
 	 */
 	@Override
 	public void setVideoSort(int videoSort) {
-		_lectureseries.setVideoSort(videoSort);
+		model.setVideoSort(videoSort);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Lectureseries> toCacheModel() {
-
-		return _lectureseries.toCacheModel();
+	protected LectureseriesWrapper wrap(Lectureseries lectureseries) {
+		return new LectureseriesWrapper(lectureseries);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lectureseries toEscapedModel() {
-		return new LectureseriesWrapper(_lectureseries.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _lectureseries.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lectureseries toUnescapedModel() {
-		return new LectureseriesWrapper(_lectureseries.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _lectureseries.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof LectureseriesWrapper)) {
-			return false;
-		}
-
-		LectureseriesWrapper lectureseriesWrapper = (LectureseriesWrapper)obj;
-
-		if (Objects.equals(
-				_lectureseries, lectureseriesWrapper._lectureseries)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Lectureseries getWrappedModel() {
-		return _lectureseries;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _lectureseries.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _lectureseries.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_lectureseries.resetOriginalValues();
-	}
-
-	private final Lectureseries _lectureseries;
 
 }

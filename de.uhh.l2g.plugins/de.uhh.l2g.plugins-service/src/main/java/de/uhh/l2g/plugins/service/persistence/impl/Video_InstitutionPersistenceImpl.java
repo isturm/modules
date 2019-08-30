@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchVideo_InstitutionException;
@@ -42,12 +40,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the video_ institution service.
@@ -2200,6 +2196,10 @@ public class Video_InstitutionPersistenceImpl
 
 	public Video_InstitutionPersistenceImpl() {
 		setModelClass(Video_Institution.class);
+
+		setModelImplClass(Video_InstitutionImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(Video_InstitutionModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2620,165 +2620,12 @@ public class Video_InstitutionPersistenceImpl
 	/**
 	 * Returns the video_ institution with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the video_ institution
-	 * @return the video_ institution, or <code>null</code> if a video_ institution with the primary key could not be found
-	 */
-	@Override
-	public Video_Institution fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			Video_InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-			Video_InstitutionImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Video_Institution video_Institution = (Video_Institution)serializable;
-
-		if (video_Institution == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				video_Institution = (Video_Institution)session.get(
-					Video_InstitutionImpl.class, primaryKey);
-
-				if (video_Institution != null) {
-					cacheResult(video_Institution);
-				}
-				else {
-					entityCache.putResult(
-						Video_InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-						Video_InstitutionImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					Video_InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-					Video_InstitutionImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return video_Institution;
-	}
-
-	/**
-	 * Returns the video_ institution with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param videoInstitutionId the primary key of the video_ institution
 	 * @return the video_ institution, or <code>null</code> if a video_ institution with the primary key could not be found
 	 */
 	@Override
 	public Video_Institution fetchByPrimaryKey(long videoInstitutionId) {
 		return fetchByPrimaryKey((Serializable)videoInstitutionId);
-	}
-
-	@Override
-	public Map<Serializable, Video_Institution> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Video_Institution> map =
-			new HashMap<Serializable, Video_Institution>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Video_Institution video_Institution = fetchByPrimaryKey(primaryKey);
-
-			if (video_Institution != null) {
-				map.put(primaryKey, video_Institution);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				Video_InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-				Video_InstitutionImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Video_Institution)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_VIDEO_INSTITUTION_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Video_Institution video_Institution :
-					(List<Video_Institution>)q.list()) {
-
-				map.put(
-					video_Institution.getPrimaryKeyObj(), video_Institution);
-
-				cacheResult(video_Institution);
-
-				uncachedPrimaryKeys.remove(
-					video_Institution.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					Video_InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-					Video_InstitutionImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2978,6 +2825,21 @@ public class Video_InstitutionPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "videoInstitutionId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_VIDEO_INSTITUTION;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return Video_InstitutionModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3120,9 +2982,6 @@ public class Video_InstitutionPersistenceImpl
 
 	private static final String _SQL_SELECT_VIDEO_INSTITUTION =
 		"SELECT video_Institution FROM Video_Institution video_Institution";
-
-	private static final String _SQL_SELECT_VIDEO_INSTITUTION_WHERE_PKS_IN =
-		"SELECT video_Institution FROM Video_Institution video_Institution WHERE videoInstitutionId IN (";
 
 	private static final String _SQL_SELECT_VIDEO_INSTITUTION_WHERE =
 		"SELECT video_Institution FROM Video_Institution video_Institution WHERE ";

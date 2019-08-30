@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -38,20 +34,11 @@ import java.util.Objects;
  */
 @ProviderType
 public class CoordinatorWrapper
+	extends BaseModelWrapper<Coordinator>
 	implements Coordinator, ModelWrapper<Coordinator> {
 
 	public CoordinatorWrapper(Coordinator coordinator) {
-		_coordinator = coordinator;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Coordinator.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Coordinator.class.getName();
+		super(coordinator);
 	}
 
 	@Override
@@ -128,16 +115,6 @@ public class CoordinatorWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new CoordinatorWrapper((Coordinator)_coordinator.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Coordinator coordinator) {
-		return _coordinator.compareTo(coordinator);
-	}
-
 	/**
 	 * Returns the company ID of this coordinator.
 	 *
@@ -145,7 +122,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _coordinator.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -155,7 +132,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public long getCoordinatorId() {
-		return _coordinator.getCoordinatorId();
+		return model.getCoordinatorId();
 	}
 
 	/**
@@ -165,22 +142,17 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _coordinator.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getEmailAddress() {
-		return _coordinator.getEmailAddress();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _coordinator.getExpandoBridge();
+		return model.getEmailAddress();
 	}
 
 	@Override
 	public String getFirstName() {
-		return _coordinator.getFirstName();
+		return model.getFirstName();
 	}
 
 	/**
@@ -190,7 +162,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _coordinator.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -200,17 +172,17 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public long getInstitutionId() {
-		return _coordinator.getInstitutionId();
+		return model.getInstitutionId();
 	}
 
 	@Override
 	public Date getLastLoginDate() {
-		return _coordinator.getLastLoginDate();
+		return model.getLastLoginDate();
 	}
 
 	@Override
 	public String getLastName() {
-		return _coordinator.getLastName();
+		return model.getLastName();
 	}
 
 	/**
@@ -220,7 +192,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _coordinator.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -230,7 +202,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public long getOfficeId() {
-		return _coordinator.getOfficeId();
+		return model.getOfficeId();
 	}
 
 	/**
@@ -240,12 +212,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _coordinator.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _coordinator.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -255,7 +222,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _coordinator.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -265,7 +232,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _coordinator.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -275,37 +242,12 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _coordinator.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _coordinator.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _coordinator.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _coordinator.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _coordinator.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_coordinator.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_coordinator.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -315,7 +257,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_coordinator.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -325,7 +267,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setCoordinatorId(long coordinatorId) {
-		_coordinator.setCoordinatorId(coordinatorId);
+		model.setCoordinatorId(coordinatorId);
 	}
 
 	/**
@@ -335,34 +277,17 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_coordinator.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	@Override
 	public void setEmailAddress(String emailAddress) {
-		_coordinator.setEmailAddress(emailAddress);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_coordinator.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_coordinator.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_coordinator.setExpandoBridgeAttributes(serviceContext);
+		model.setEmailAddress(emailAddress);
 	}
 
 	@Override
 	public void setFirstName(String firstName) {
-		_coordinator.setFirstName(firstName);
+		model.setFirstName(firstName);
 	}
 
 	/**
@@ -372,7 +297,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_coordinator.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -382,17 +307,17 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setInstitutionId(long institutionId) {
-		_coordinator.setInstitutionId(institutionId);
+		model.setInstitutionId(institutionId);
 	}
 
 	@Override
 	public void setLastLoginDate(Date lastLoginDate) {
-		_coordinator.setLastLoginDate(lastLoginDate);
+		model.setLastLoginDate(lastLoginDate);
 	}
 
 	@Override
 	public void setLastName(String lastName) {
-		_coordinator.setLastName(lastName);
+		model.setLastName(lastName);
 	}
 
 	/**
@@ -402,12 +327,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_coordinator.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_coordinator.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -417,7 +337,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setOfficeId(long officeId) {
-		_coordinator.setOfficeId(officeId);
+		model.setOfficeId(officeId);
 	}
 
 	/**
@@ -427,12 +347,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_coordinator.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_coordinator.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -442,7 +357,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_coordinator.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -452,7 +367,7 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_coordinator.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -462,75 +377,12 @@ public class CoordinatorWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_coordinator.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Coordinator> toCacheModel() {
-
-		return _coordinator.toCacheModel();
+	protected CoordinatorWrapper wrap(Coordinator coordinator) {
+		return new CoordinatorWrapper(coordinator);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Coordinator toEscapedModel() {
-		return new CoordinatorWrapper(_coordinator.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _coordinator.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Coordinator toUnescapedModel() {
-		return new CoordinatorWrapper(_coordinator.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _coordinator.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof CoordinatorWrapper)) {
-			return false;
-		}
-
-		CoordinatorWrapper coordinatorWrapper = (CoordinatorWrapper)obj;
-
-		if (Objects.equals(_coordinator, coordinatorWrapper._coordinator)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Coordinator getWrappedModel() {
-		return _coordinator;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _coordinator.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _coordinator.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_coordinator.resetOriginalValues();
-	}
-
-	private final Coordinator _coordinator;
 
 }

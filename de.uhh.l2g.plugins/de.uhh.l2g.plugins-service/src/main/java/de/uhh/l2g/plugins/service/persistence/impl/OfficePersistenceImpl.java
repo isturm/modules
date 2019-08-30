@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -48,12 +46,10 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the office service.
@@ -1847,6 +1843,10 @@ public class OfficePersistenceImpl
 
 	public OfficePersistenceImpl() {
 		setModelClass(Office.class);
+
+		setModelImplClass(OfficeImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(OfficeModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2277,158 +2277,12 @@ public class OfficePersistenceImpl
 	/**
 	 * Returns the office with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the office
-	 * @return the office, or <code>null</code> if a office with the primary key could not be found
-	 */
-	@Override
-	public Office fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			OfficeModelImpl.ENTITY_CACHE_ENABLED, OfficeImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Office office = (Office)serializable;
-
-		if (office == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				office = (Office)session.get(OfficeImpl.class, primaryKey);
-
-				if (office != null) {
-					cacheResult(office);
-				}
-				else {
-					entityCache.putResult(
-						OfficeModelImpl.ENTITY_CACHE_ENABLED, OfficeImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					OfficeModelImpl.ENTITY_CACHE_ENABLED, OfficeImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return office;
-	}
-
-	/**
-	 * Returns the office with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param officeId the primary key of the office
 	 * @return the office, or <code>null</code> if a office with the primary key could not be found
 	 */
 	@Override
 	public Office fetchByPrimaryKey(long officeId) {
 		return fetchByPrimaryKey((Serializable)officeId);
-	}
-
-	@Override
-	public Map<Serializable, Office> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Office> map = new HashMap<Serializable, Office>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Office office = fetchByPrimaryKey(primaryKey);
-
-			if (office != null) {
-				map.put(primaryKey, office);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				OfficeModelImpl.ENTITY_CACHE_ENABLED, OfficeImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Office)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_OFFICE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Office office : (List<Office>)q.list()) {
-				map.put(office.getPrimaryKeyObj(), office);
-
-				cacheResult(office);
-
-				uncachedPrimaryKeys.remove(office.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					OfficeModelImpl.ENTITY_CACHE_ENABLED, OfficeImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2626,6 +2480,21 @@ public class OfficePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "officeId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_OFFICE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return OfficeModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2751,9 +2620,6 @@ public class OfficePersistenceImpl
 
 	private static final String _SQL_SELECT_OFFICE =
 		"SELECT office FROM Office office";
-
-	private static final String _SQL_SELECT_OFFICE_WHERE_PKS_IN =
-		"SELECT office FROM Office office WHERE officeId IN (";
 
 	private static final String _SQL_SELECT_OFFICE_WHERE =
 		"SELECT office FROM Office office WHERE ";

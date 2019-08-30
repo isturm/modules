@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchInstitutionException;
 import de.uhh.l2g.plugins.model.Institution;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the institution service.
@@ -45,9 +40,6 @@ public interface InstitutionPersistence extends BasePersistence<Institution> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link InstitutionUtil} to access the institution persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Institution> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the institutions where parentId = &#63;.

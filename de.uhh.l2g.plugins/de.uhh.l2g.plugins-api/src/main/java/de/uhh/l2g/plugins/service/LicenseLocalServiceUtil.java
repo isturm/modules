@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service;
 
-import aQute.bnd.annotation.ProviderType;
-
+import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -63,10 +62,6 @@ public class LicenseLocalServiceUtil {
 		long licenseId) {
 
 		return getService().createLicense(licenseId);
-	}
-
-	public static boolean deleteByVideoId(Long videoId) {
-		return getService().deleteByVideoId(videoId);
 	}
 
 	/**
@@ -202,11 +197,11 @@ public class LicenseLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static de.uhh.l2g.plugins.model.License getByVideoId(Long videoId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			   de.uhh.l2g.plugins.exception.NoSuchLicenseException {
+	public static java.util.List<de.uhh.l2g.plugins.model.License>
+			getBySelectable(boolean isSelectable)
+		throws com.liferay.portal.kernel.exception.SystemException {
 
-		return getService().getByVideoId(videoId);
+		return getService().getBySelectable(isSelectable);
 	}
 
 	public static

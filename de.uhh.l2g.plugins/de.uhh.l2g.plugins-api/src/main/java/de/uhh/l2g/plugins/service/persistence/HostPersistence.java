@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchHostException;
 import de.uhh.l2g.plugins.model.Host;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the host service.
@@ -45,9 +40,6 @@ public interface HostPersistence extends BasePersistence<Host> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link HostUtil} to access the host persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Host> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the hosts where groupId = &#63;.

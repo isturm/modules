@@ -14,17 +14,13 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,22 +33,13 @@ import java.util.Objects;
  */
 @ProviderType
 public class Lectureseries_CategoryWrapper
+	extends BaseModelWrapper<Lectureseries_Category>
 	implements Lectureseries_Category, ModelWrapper<Lectureseries_Category> {
 
 	public Lectureseries_CategoryWrapper(
 		Lectureseries_Category lectureseries_Category) {
 
-		_lectureseries_Category = lectureseries_Category;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Lectureseries_Category.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Lectureseries_Category.class.getName();
+		super(lectureseries_Category);
 	}
 
 	@Override
@@ -88,20 +75,6 @@ public class Lectureseries_CategoryWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new Lectureseries_CategoryWrapper(
-			(Lectureseries_Category)_lectureseries_Category.clone());
-	}
-
-	@Override
-	public int compareTo(
-		de.uhh.l2g.plugins.model.Lectureseries_Category
-			lectureseries_Category) {
-
-		return _lectureseries_Category.compareTo(lectureseries_Category);
-	}
-
 	/**
 	 * Returns the category ID of this lectureseries_ category.
 	 *
@@ -109,12 +82,7 @@ public class Lectureseries_CategoryWrapper
 	 */
 	@Override
 	public long getCategoryId() {
-		return _lectureseries_Category.getCategoryId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _lectureseries_Category.getExpandoBridge();
+		return model.getCategoryId();
 	}
 
 	/**
@@ -124,7 +92,7 @@ public class Lectureseries_CategoryWrapper
 	 */
 	@Override
 	public long getLectureseriesCategoryId() {
-		return _lectureseries_Category.getLectureseriesCategoryId();
+		return model.getLectureseriesCategoryId();
 	}
 
 	/**
@@ -134,7 +102,7 @@ public class Lectureseries_CategoryWrapper
 	 */
 	@Override
 	public long getLectureseriesId() {
-		return _lectureseries_Category.getLectureseriesId();
+		return model.getLectureseriesId();
 	}
 
 	/**
@@ -144,42 +112,12 @@ public class Lectureseries_CategoryWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _lectureseries_Category.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _lectureseries_Category.getPrimaryKeyObj();
-	}
-
-	@Override
-	public int hashCode() {
-		return _lectureseries_Category.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _lectureseries_Category.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _lectureseries_Category.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _lectureseries_Category.isNew();
+		return model.getPrimaryKey();
 	}
 
 	@Override
 	public void persist() {
-		_lectureseries_Category.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_lectureseries_Category.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -189,24 +127,7 @@ public class Lectureseries_CategoryWrapper
 	 */
 	@Override
 	public void setCategoryId(long categoryId) {
-		_lectureseries_Category.setCategoryId(categoryId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_lectureseries_Category.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_lectureseries_Category.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_lectureseries_Category.setExpandoBridgeAttributes(serviceContext);
+		model.setCategoryId(categoryId);
 	}
 
 	/**
@@ -216,8 +137,7 @@ public class Lectureseries_CategoryWrapper
 	 */
 	@Override
 	public void setLectureseriesCategoryId(long lectureseriesCategoryId) {
-		_lectureseries_Category.setLectureseriesCategoryId(
-			lectureseriesCategoryId);
+		model.setLectureseriesCategoryId(lectureseriesCategoryId);
 	}
 
 	/**
@@ -227,12 +147,7 @@ public class Lectureseries_CategoryWrapper
 	 */
 	@Override
 	public void setLectureseriesId(long lectureseriesId) {
-		_lectureseries_Category.setLectureseriesId(lectureseriesId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_lectureseries_Category.setNew(n);
+		model.setLectureseriesId(lectureseriesId);
 	}
 
 	/**
@@ -242,86 +157,14 @@ public class Lectureseries_CategoryWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_lectureseries_Category.setPrimaryKey(primaryKey);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_lectureseries_Category.setPrimaryKeyObj(primaryKeyObj);
+	protected Lectureseries_CategoryWrapper wrap(
+		Lectureseries_Category lectureseries_Category) {
+
+		return new Lectureseries_CategoryWrapper(lectureseries_Category);
 	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Lectureseries_Category> toCacheModel() {
-
-		return _lectureseries_Category.toCacheModel();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lectureseries_Category toEscapedModel() {
-		return new Lectureseries_CategoryWrapper(
-			_lectureseries_Category.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _lectureseries_Category.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lectureseries_Category toUnescapedModel() {
-		return new Lectureseries_CategoryWrapper(
-			_lectureseries_Category.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _lectureseries_Category.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof Lectureseries_CategoryWrapper)) {
-			return false;
-		}
-
-		Lectureseries_CategoryWrapper lectureseries_CategoryWrapper =
-			(Lectureseries_CategoryWrapper)obj;
-
-		if (Objects.equals(
-				_lectureseries_Category,
-				lectureseries_CategoryWrapper._lectureseries_Category)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Lectureseries_Category getWrappedModel() {
-		return _lectureseries_Category;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _lectureseries_Category.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _lectureseries_Category.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_lectureseries_Category.resetOriginalValues();
-	}
-
-	private final Lectureseries_Category _lectureseries_Category;
 
 }

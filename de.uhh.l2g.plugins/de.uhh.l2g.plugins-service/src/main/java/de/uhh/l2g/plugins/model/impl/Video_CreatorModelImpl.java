@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -25,7 +24,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Video_Creator;
 import de.uhh.l2g.plugins.model.Video_CreatorModel;
@@ -43,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Video_Creator service. Represents a row in the &quot;LG_Video_Creator&quot; database table, with each column mapped to a property of this class.
@@ -248,71 +248,18 @@ public class Video_CreatorModelImpl
 			new LinkedHashMap<String, BiConsumer<Video_Creator, ?>>();
 
 		attributeGetterFunctions.put(
-			"videoCreatorId",
-			new Function<Video_Creator, Object>() {
-
-				@Override
-				public Object apply(Video_Creator video_Creator) {
-					return video_Creator.getVideoCreatorId();
-				}
-
-			});
+			"videoCreatorId", Video_Creator::getVideoCreatorId);
 		attributeSetterBiConsumers.put(
 			"videoCreatorId",
-			new BiConsumer<Video_Creator, Object>() {
-
-				@Override
-				public void accept(
-					Video_Creator video_Creator, Object videoCreatorId) {
-
-					video_Creator.setVideoCreatorId((Long)videoCreatorId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"creatorId",
-			new Function<Video_Creator, Object>() {
-
-				@Override
-				public Object apply(Video_Creator video_Creator) {
-					return video_Creator.getCreatorId();
-				}
-
-			});
+			(BiConsumer<Video_Creator, Long>)Video_Creator::setVideoCreatorId);
+		attributeGetterFunctions.put("creatorId", Video_Creator::getCreatorId);
 		attributeSetterBiConsumers.put(
 			"creatorId",
-			new BiConsumer<Video_Creator, Object>() {
-
-				@Override
-				public void accept(
-					Video_Creator video_Creator, Object creatorId) {
-
-					video_Creator.setCreatorId((Long)creatorId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoId",
-			new Function<Video_Creator, Object>() {
-
-				@Override
-				public Object apply(Video_Creator video_Creator) {
-					return video_Creator.getVideoId();
-				}
-
-			});
+			(BiConsumer<Video_Creator, Long>)Video_Creator::setCreatorId);
+		attributeGetterFunctions.put("videoId", Video_Creator::getVideoId);
 		attributeSetterBiConsumers.put(
 			"videoId",
-			new BiConsumer<Video_Creator, Object>() {
-
-				@Override
-				public void accept(
-					Video_Creator video_Creator, Object videoId) {
-
-					video_Creator.setVideoId((Long)videoId);
-				}
-
-			});
+			(BiConsumer<Video_Creator, Long>)Video_Creator::setVideoId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

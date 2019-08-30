@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Host;
 import de.uhh.l2g.plugins.model.HostModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Host service. Represents a row in the &quot;LG_Host&quot; database table, with each column mapped to a property of this class.
@@ -260,266 +260,45 @@ public class HostModelImpl extends BaseModelImpl<Host> implements HostModel {
 		Map<String, BiConsumer<Host, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Host, ?>>();
 
-		attributeGetterFunctions.put(
-			"hostId",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getHostId();
-				}
-
-			});
+		attributeGetterFunctions.put("hostId", Host::getHostId);
 		attributeSetterBiConsumers.put(
-			"hostId",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object hostId) {
-					host.setHostId((Long)hostId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"protocol",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getProtocol();
-				}
-
-			});
+			"hostId", (BiConsumer<Host, Long>)Host::setHostId);
+		attributeGetterFunctions.put("protocol", Host::getProtocol);
 		attributeSetterBiConsumers.put(
-			"protocol",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object protocol) {
-					host.setProtocol((String)protocol);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"streamer",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getStreamer();
-				}
-
-			});
+			"protocol", (BiConsumer<Host, String>)Host::setProtocol);
+		attributeGetterFunctions.put("streamer", Host::getStreamer);
 		attributeSetterBiConsumers.put(
-			"streamer",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object streamer) {
-					host.setStreamer((String)streamer);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"port",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getPort();
-				}
-
-			});
+			"streamer", (BiConsumer<Host, String>)Host::setStreamer);
+		attributeGetterFunctions.put("port", Host::getPort);
 		attributeSetterBiConsumers.put(
-			"port",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object port) {
-					host.setPort((Integer)port);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"serverRoot",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getServerRoot();
-				}
-
-			});
+			"port", (BiConsumer<Host, Integer>)Host::setPort);
+		attributeGetterFunctions.put("serverRoot", Host::getServerRoot);
 		attributeSetterBiConsumers.put(
-			"serverRoot",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object serverRoot) {
-					host.setServerRoot((String)serverRoot);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getName();
-				}
-
-			});
+			"serverRoot", (BiConsumer<Host, String>)Host::setServerRoot);
+		attributeGetterFunctions.put("name", Host::getName);
 		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object name) {
-					host.setName((String)name);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"defaultHost",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getDefaultHost();
-				}
-
-			});
+			"name", (BiConsumer<Host, String>)Host::setName);
+		attributeGetterFunctions.put("defaultHost", Host::getDefaultHost);
 		attributeSetterBiConsumers.put(
-			"defaultHost",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object defaultHost) {
-					host.setDefaultHost((Integer)defaultHost);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getGroupId();
-				}
-
-			});
+			"defaultHost", (BiConsumer<Host, Integer>)Host::setDefaultHost);
+		attributeGetterFunctions.put("groupId", Host::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object groupId) {
-					host.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Host, Long>)Host::setGroupId);
+		attributeGetterFunctions.put("companyId", Host::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object companyId) {
-					host.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Host, Long>)Host::setCompanyId);
+		attributeGetterFunctions.put("userId", Host::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object userId) {
-					host.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Host, Long>)Host::setUserId);
+		attributeGetterFunctions.put("userName", Host::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object userName) {
-					host.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Host, String>)Host::setUserName);
+		attributeGetterFunctions.put("createDate", Host::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object createDate) {
-					host.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Host, Object>() {
-
-				@Override
-				public Object apply(Host host) {
-					return host.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Host, Date>)Host::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Host::getModifiedDate);
 		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Host, Object>() {
-
-				@Override
-				public void accept(Host host, Object modifiedDate) {
-					host.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			"modifiedDate", (BiConsumer<Host, Date>)Host::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

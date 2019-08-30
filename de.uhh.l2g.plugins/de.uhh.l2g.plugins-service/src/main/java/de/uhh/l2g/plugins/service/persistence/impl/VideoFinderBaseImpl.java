@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.service.persistence.VideoPersistence;
 
-import java.lang.reflect.Field;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -41,19 +39,7 @@ public class VideoFinderBaseImpl extends BasePersistenceImpl<Video> {
 
 		dbColumnNames.put("password", "password_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 	}
 
 	@Override

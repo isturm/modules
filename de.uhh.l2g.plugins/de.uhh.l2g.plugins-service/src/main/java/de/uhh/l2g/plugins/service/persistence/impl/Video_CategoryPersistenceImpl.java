@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchVideo_CategoryException;
@@ -42,12 +40,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the video_ category service.
@@ -1652,6 +1648,10 @@ public class Video_CategoryPersistenceImpl
 
 	public Video_CategoryPersistenceImpl() {
 		setModelClass(Video_Category.class);
+
+		setModelImplClass(Video_CategoryImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(Video_CategoryModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2028,163 +2028,12 @@ public class Video_CategoryPersistenceImpl
 	/**
 	 * Returns the video_ category with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the video_ category
-	 * @return the video_ category, or <code>null</code> if a video_ category with the primary key could not be found
-	 */
-	@Override
-	public Video_Category fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			Video_CategoryModelImpl.ENTITY_CACHE_ENABLED,
-			Video_CategoryImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Video_Category video_Category = (Video_Category)serializable;
-
-		if (video_Category == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				video_Category = (Video_Category)session.get(
-					Video_CategoryImpl.class, primaryKey);
-
-				if (video_Category != null) {
-					cacheResult(video_Category);
-				}
-				else {
-					entityCache.putResult(
-						Video_CategoryModelImpl.ENTITY_CACHE_ENABLED,
-						Video_CategoryImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					Video_CategoryModelImpl.ENTITY_CACHE_ENABLED,
-					Video_CategoryImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return video_Category;
-	}
-
-	/**
-	 * Returns the video_ category with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param videoCategoryId the primary key of the video_ category
 	 * @return the video_ category, or <code>null</code> if a video_ category with the primary key could not be found
 	 */
 	@Override
 	public Video_Category fetchByPrimaryKey(long videoCategoryId) {
 		return fetchByPrimaryKey((Serializable)videoCategoryId);
-	}
-
-	@Override
-	public Map<Serializable, Video_Category> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Video_Category> map =
-			new HashMap<Serializable, Video_Category>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Video_Category video_Category = fetchByPrimaryKey(primaryKey);
-
-			if (video_Category != null) {
-				map.put(primaryKey, video_Category);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				Video_CategoryModelImpl.ENTITY_CACHE_ENABLED,
-				Video_CategoryImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Video_Category)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_VIDEO_CATEGORY_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Video_Category video_Category :
-					(List<Video_Category>)q.list()) {
-
-				map.put(video_Category.getPrimaryKeyObj(), video_Category);
-
-				cacheResult(video_Category);
-
-				uncachedPrimaryKeys.remove(video_Category.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					Video_CategoryModelImpl.ENTITY_CACHE_ENABLED,
-					Video_CategoryImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2383,6 +2232,21 @@ public class Video_CategoryPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "videoCategoryId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_VIDEO_CATEGORY;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return Video_CategoryModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2497,9 +2361,6 @@ public class Video_CategoryPersistenceImpl
 
 	private static final String _SQL_SELECT_VIDEO_CATEGORY =
 		"SELECT video_Category FROM Video_Category video_Category";
-
-	private static final String _SQL_SELECT_VIDEO_CATEGORY_WHERE_PKS_IN =
-		"SELECT video_Category FROM Video_Category video_Category WHERE videoCategoryId IN (";
 
 	private static final String _SQL_SELECT_VIDEO_CATEGORY_WHERE =
 		"SELECT video_Category FROM Video_Category video_Category WHERE ";

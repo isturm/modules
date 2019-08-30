@@ -149,14 +149,6 @@ public class ViewRenderDetails implements MVCRenderCommand{
 			} catch (PortalException e) {
 			} catch (SystemException e) {}
 		    
-		    //license for video
-		    
-		    License l = LicenseLocalServiceUtil.createLicense(0);
-		    try {
-				l = LicenseLocalServiceUtil.getByVideoId(video.getVideoId());
-			} catch (NoSuchLicenseException e) {
-			} catch (SystemException e) {}
-		    
 		    //update video hits
 		    Long hits = video.getHits();
 		    hits = hits+1;
@@ -210,7 +202,6 @@ public class ViewRenderDetails implements MVCRenderCommand{
 	    		}
 	    	}
 		    
-		    renderRequest.setAttribute("videoLicense",l);
 		    renderRequest.setAttribute("videoMetadata",m);
 		    renderRequest.setAttribute("videoInstitutions",vi);
 		    renderRequest.setAttribute("videoLectureseries",vl);

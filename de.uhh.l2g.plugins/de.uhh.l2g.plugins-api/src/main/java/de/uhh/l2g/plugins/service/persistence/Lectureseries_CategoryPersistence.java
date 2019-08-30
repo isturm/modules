@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchLectureseries_CategoryException;
 import de.uhh.l2g.plugins.model.Lectureseries_Category;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the lectureseries_ category service.
@@ -46,9 +41,6 @@ public interface Lectureseries_CategoryPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link Lectureseries_CategoryUtil} to access the lectureseries_ category persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Lectureseries_Category> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the lectureseries_ categories where lectureseriesId = &#63;.

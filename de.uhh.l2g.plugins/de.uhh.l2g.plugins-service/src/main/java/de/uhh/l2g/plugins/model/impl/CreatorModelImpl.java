@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Creator;
 import de.uhh.l2g.plugins.model.CreatorModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Creator service. Represents a row in the &quot;LG_Creator&quot; database table, with each column mapped to a property of this class.
@@ -269,266 +269,46 @@ public class CreatorModelImpl
 		Map<String, BiConsumer<Creator, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Creator, ?>>();
 
-		attributeGetterFunctions.put(
-			"creatorId",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getCreatorId();
-				}
-
-			});
+		attributeGetterFunctions.put("creatorId", Creator::getCreatorId);
 		attributeSetterBiConsumers.put(
-			"creatorId",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object creatorId) {
-					creator.setCreatorId((Long)creatorId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"firstName",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getFirstName();
-				}
-
-			});
+			"creatorId", (BiConsumer<Creator, Long>)Creator::setCreatorId);
+		attributeGetterFunctions.put("firstName", Creator::getFirstName);
 		attributeSetterBiConsumers.put(
-			"firstName",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object firstName) {
-					creator.setFirstName((String)firstName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastName",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getLastName();
-				}
-
-			});
+			"firstName", (BiConsumer<Creator, String>)Creator::setFirstName);
+		attributeGetterFunctions.put("lastName", Creator::getLastName);
 		attributeSetterBiConsumers.put(
-			"lastName",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object lastName) {
-					creator.setLastName((String)lastName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"middleName",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getMiddleName();
-				}
-
-			});
+			"lastName", (BiConsumer<Creator, String>)Creator::setLastName);
+		attributeGetterFunctions.put("middleName", Creator::getMiddleName);
 		attributeSetterBiConsumers.put(
-			"middleName",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object middleName) {
-					creator.setMiddleName((String)middleName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"jobTitle",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getJobTitle();
-				}
-
-			});
+			"middleName", (BiConsumer<Creator, String>)Creator::setMiddleName);
+		attributeGetterFunctions.put("jobTitle", Creator::getJobTitle);
 		attributeSetterBiConsumers.put(
-			"jobTitle",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object jobTitle) {
-					creator.setJobTitle((String)jobTitle);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"gender",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getGender();
-				}
-
-			});
+			"jobTitle", (BiConsumer<Creator, String>)Creator::setJobTitle);
+		attributeGetterFunctions.put("gender", Creator::getGender);
 		attributeSetterBiConsumers.put(
-			"gender",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object gender) {
-					creator.setGender((String)gender);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"fullName",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getFullName();
-				}
-
-			});
+			"gender", (BiConsumer<Creator, String>)Creator::setGender);
+		attributeGetterFunctions.put("fullName", Creator::getFullName);
 		attributeSetterBiConsumers.put(
-			"fullName",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object fullName) {
-					creator.setFullName((String)fullName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getGroupId();
-				}
-
-			});
+			"fullName", (BiConsumer<Creator, String>)Creator::setFullName);
+		attributeGetterFunctions.put("groupId", Creator::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object groupId) {
-					creator.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Creator, Long>)Creator::setGroupId);
+		attributeGetterFunctions.put("companyId", Creator::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object companyId) {
-					creator.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Creator, Long>)Creator::setCompanyId);
+		attributeGetterFunctions.put("userId", Creator::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object userId) {
-					creator.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Creator, Long>)Creator::setUserId);
+		attributeGetterFunctions.put("userName", Creator::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object userName) {
-					creator.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Creator, String>)Creator::setUserName);
+		attributeGetterFunctions.put("createDate", Creator::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object createDate) {
-					creator.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Creator, Object>() {
-
-				@Override
-				public Object apply(Creator creator) {
-					return creator.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Creator, Date>)Creator::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Creator::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Creator, Object>() {
-
-				@Override
-				public void accept(Creator creator, Object modifiedDate) {
-					creator.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Creator, Date>)Creator::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

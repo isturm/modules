@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -25,7 +24,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Lectureseries_Institution;
 import de.uhh.l2g.plugins.model.Lectureseries_InstitutionModel;
@@ -43,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Lectureseries_Institution service. Represents a row in the &quot;LG_Lectureseries_Institution&quot; database table, with each column mapped to a property of this class.
@@ -262,109 +262,30 @@ public class Lectureseries_InstitutionModelImpl
 
 		attributeGetterFunctions.put(
 			"lectureseriesInstitutionId",
-			new Function<Lectureseries_Institution, Object>() {
-
-				@Override
-				public Object apply(
-					Lectureseries_Institution lectureseries_Institution) {
-
-					return lectureseries_Institution.
-						getLectureseriesInstitutionId();
-				}
-
-			});
+			Lectureseries_Institution::getLectureseriesInstitutionId);
 		attributeSetterBiConsumers.put(
 			"lectureseriesInstitutionId",
-			new BiConsumer<Lectureseries_Institution, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries_Institution lectureseries_Institution,
-					Object lectureseriesInstitutionId) {
-
-					lectureseries_Institution.setLectureseriesInstitutionId(
-						(Long)lectureseriesInstitutionId);
-				}
-
-			});
+			(BiConsumer<Lectureseries_Institution, Long>)
+				Lectureseries_Institution::setLectureseriesInstitutionId);
 		attributeGetterFunctions.put(
-			"lectureseriesId",
-			new Function<Lectureseries_Institution, Object>() {
-
-				@Override
-				public Object apply(
-					Lectureseries_Institution lectureseries_Institution) {
-
-					return lectureseries_Institution.getLectureseriesId();
-				}
-
-			});
+			"lectureseriesId", Lectureseries_Institution::getLectureseriesId);
 		attributeSetterBiConsumers.put(
 			"lectureseriesId",
-			new BiConsumer<Lectureseries_Institution, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries_Institution lectureseries_Institution,
-					Object lectureseriesId) {
-
-					lectureseries_Institution.setLectureseriesId(
-						(Long)lectureseriesId);
-				}
-
-			});
+			(BiConsumer<Lectureseries_Institution, Long>)
+				Lectureseries_Institution::setLectureseriesId);
 		attributeGetterFunctions.put(
-			"institutionId",
-			new Function<Lectureseries_Institution, Object>() {
-
-				@Override
-				public Object apply(
-					Lectureseries_Institution lectureseries_Institution) {
-
-					return lectureseries_Institution.getInstitutionId();
-				}
-
-			});
+			"institutionId", Lectureseries_Institution::getInstitutionId);
 		attributeSetterBiConsumers.put(
 			"institutionId",
-			new BiConsumer<Lectureseries_Institution, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries_Institution lectureseries_Institution,
-					Object institutionId) {
-
-					lectureseries_Institution.setInstitutionId(
-						(Long)institutionId);
-				}
-
-			});
+			(BiConsumer<Lectureseries_Institution, Long>)
+				Lectureseries_Institution::setInstitutionId);
 		attributeGetterFunctions.put(
 			"institutionParentId",
-			new Function<Lectureseries_Institution, Object>() {
-
-				@Override
-				public Object apply(
-					Lectureseries_Institution lectureseries_Institution) {
-
-					return lectureseries_Institution.getInstitutionParentId();
-				}
-
-			});
+			Lectureseries_Institution::getInstitutionParentId);
 		attributeSetterBiConsumers.put(
 			"institutionParentId",
-			new BiConsumer<Lectureseries_Institution, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries_Institution lectureseries_Institution,
-					Object institutionParentId) {
-
-					lectureseries_Institution.setInstitutionParentId(
-						(Long)institutionParentId);
-				}
-
-			});
+			(BiConsumer<Lectureseries_Institution, Long>)
+				Lectureseries_Institution::setInstitutionParentId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

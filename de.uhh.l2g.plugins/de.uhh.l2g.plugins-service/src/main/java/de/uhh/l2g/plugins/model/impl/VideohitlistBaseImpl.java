@@ -14,10 +14,10 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import de.uhh.l2g.plugins.model.Videohitlist;
 import de.uhh.l2g.plugins.service.VideohitlistLocalServiceUtil;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The extended model base implementation for the Videohitlist service. Represents a row in the &quot;LG_Videohitlist&quot; database table, with each column mapped to a property of this class.

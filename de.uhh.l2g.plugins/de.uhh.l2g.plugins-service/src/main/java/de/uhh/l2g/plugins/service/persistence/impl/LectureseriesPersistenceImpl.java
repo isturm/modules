@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -33,7 +32,6 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -45,7 +43,6 @@ import de.uhh.l2g.plugins.service.persistence.LectureseriesPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -53,12 +50,12 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the lectureseries service.
@@ -8701,24 +8698,16 @@ public class LectureseriesPersistenceImpl
 	public LectureseriesPersistenceImpl() {
 		setModelClass(Lectureseries.class);
 
+		setModelImplClass(LectureseriesImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(LectureseriesModelImpl.ENTITY_CACHE_ENABLED);
+
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("number", "number_");
 		dbColumnNames.put("password", "password_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 	}
 
 	/**
@@ -9476,161 +9465,12 @@ public class LectureseriesPersistenceImpl
 	/**
 	 * Returns the lectureseries with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the lectureseries
-	 * @return the lectureseries, or <code>null</code> if a lectureseries with the primary key could not be found
-	 */
-	@Override
-	public Lectureseries fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-			LectureseriesImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Lectureseries lectureseries = (Lectureseries)serializable;
-
-		if (lectureseries == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				lectureseries = (Lectureseries)session.get(
-					LectureseriesImpl.class, primaryKey);
-
-				if (lectureseries != null) {
-					cacheResult(lectureseries);
-				}
-				else {
-					entityCache.putResult(
-						LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-						LectureseriesImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-					LectureseriesImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return lectureseries;
-	}
-
-	/**
-	 * Returns the lectureseries with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param lectureseriesId the primary key of the lectureseries
 	 * @return the lectureseries, or <code>null</code> if a lectureseries with the primary key could not be found
 	 */
 	@Override
 	public Lectureseries fetchByPrimaryKey(long lectureseriesId) {
 		return fetchByPrimaryKey((Serializable)lectureseriesId);
-	}
-
-	@Override
-	public Map<Serializable, Lectureseries> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Lectureseries> map =
-			new HashMap<Serializable, Lectureseries>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Lectureseries lectureseries = fetchByPrimaryKey(primaryKey);
-
-			if (lectureseries != null) {
-				map.put(primaryKey, lectureseries);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-				LectureseriesImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Lectureseries)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_LECTURESERIES_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Lectureseries lectureseries : (List<Lectureseries>)q.list()) {
-				map.put(lectureseries.getPrimaryKeyObj(), lectureseries);
-
-				cacheResult(lectureseries);
-
-				uncachedPrimaryKeys.remove(lectureseries.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-					LectureseriesImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -9831,6 +9671,21 @@ public class LectureseriesPersistenceImpl
 	@Override
 	public Set<String> getBadColumnNames() {
 		return _badColumnNames;
+	}
+
+	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "lectureseriesId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_LECTURESERIES;
 	}
 
 	@Override
@@ -10287,9 +10142,6 @@ public class LectureseriesPersistenceImpl
 
 	private static final String _SQL_SELECT_LECTURESERIES =
 		"SELECT lectureseries FROM Lectureseries lectureseries";
-
-	private static final String _SQL_SELECT_LECTURESERIES_WHERE_PKS_IN =
-		"SELECT lectureseries FROM Lectureseries lectureseries WHERE lectureseriesId IN (";
 
 	private static final String _SQL_SELECT_LECTURESERIES_WHERE =
 		"SELECT lectureseries FROM Lectureseries lectureseries WHERE ";

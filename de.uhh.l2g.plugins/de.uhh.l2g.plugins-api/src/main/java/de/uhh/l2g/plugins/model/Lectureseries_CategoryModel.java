@@ -14,14 +14,9 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.service.ServiceContext;
 
-import java.io.Serializable;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the Lectureseries_Category service. Represents a row in the &quot;LG_Lectureseries_Category&quot; database table, with each column mapped to a property of this class.
@@ -99,64 +94,5 @@ public interface Lectureseries_CategoryModel
 	 * @param lectureseriesId the lectureseries ID of this lectureseries_ category
 	 */
 	public void setLectureseriesId(long lectureseriesId);
-
-	@Override
-	public boolean isNew();
-
-	@Override
-	public void setNew(boolean n);
-
-	@Override
-	public boolean isCachedModel();
-
-	@Override
-	public void setCachedModel(boolean cachedModel);
-
-	@Override
-	public boolean isEscapedModel();
-
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
-	public Object clone();
-
-	@Override
-	public int compareTo(
-		de.uhh.l2g.plugins.model.Lectureseries_Category lectureseries_Category);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<de.uhh.l2g.plugins.model.Lectureseries_Category>
-		toCacheModel();
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lectureseries_Category toEscapedModel();
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lectureseries_Category toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
 
 }

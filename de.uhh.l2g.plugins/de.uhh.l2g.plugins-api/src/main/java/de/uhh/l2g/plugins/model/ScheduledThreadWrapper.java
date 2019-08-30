@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -38,20 +34,11 @@ import java.util.Objects;
  */
 @ProviderType
 public class ScheduledThreadWrapper
+	extends BaseModelWrapper<ScheduledThread>
 	implements ScheduledThread, ModelWrapper<ScheduledThread> {
 
 	public ScheduledThreadWrapper(ScheduledThread scheduledThread) {
-		_scheduledThread = scheduledThread;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ScheduledThread.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ScheduledThread.class.getName();
+		super(scheduledThread);
 	}
 
 	@Override
@@ -129,19 +116,6 @@ public class ScheduledThreadWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new ScheduledThreadWrapper(
-			(ScheduledThread)_scheduledThread.clone());
-	}
-
-	@Override
-	public int compareTo(
-		de.uhh.l2g.plugins.model.ScheduledThread scheduledThread) {
-
-		return _scheduledThread.compareTo(scheduledThread);
-	}
-
 	/**
 	 * Returns the company ID of this scheduled thread.
 	 *
@@ -149,7 +123,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _scheduledThread.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -159,7 +133,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _scheduledThread.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -169,12 +143,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public String getCronText() {
-		return _scheduledThread.getCronText();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _scheduledThread.getExpandoBridge();
+		return model.getCronText();
 	}
 
 	/**
@@ -184,7 +153,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _scheduledThread.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -194,7 +163,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _scheduledThread.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -204,12 +173,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _scheduledThread.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _scheduledThread.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -219,7 +183,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public long getScheduledThreadId() {
-		return _scheduledThread.getScheduledThreadId();
+		return model.getScheduledThreadId();
 	}
 
 	/**
@@ -229,7 +193,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public String getSchedulerClassName() {
-		return _scheduledThread.getSchedulerClassName();
+		return model.getSchedulerClassName();
 	}
 
 	/**
@@ -239,7 +203,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _scheduledThread.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -249,7 +213,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _scheduledThread.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -259,37 +223,12 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _scheduledThread.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _scheduledThread.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _scheduledThread.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _scheduledThread.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _scheduledThread.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_scheduledThread.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_scheduledThread.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -299,7 +238,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_scheduledThread.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -309,7 +248,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_scheduledThread.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -319,24 +258,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setCronText(String cronText) {
-		_scheduledThread.setCronText(cronText);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_scheduledThread.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_scheduledThread.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_scheduledThread.setExpandoBridgeAttributes(serviceContext);
+		model.setCronText(cronText);
 	}
 
 	/**
@@ -346,7 +268,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_scheduledThread.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -356,12 +278,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_scheduledThread.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_scheduledThread.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -371,12 +288,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_scheduledThread.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_scheduledThread.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -386,7 +298,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setScheduledThreadId(long scheduledThreadId) {
-		_scheduledThread.setScheduledThreadId(scheduledThreadId);
+		model.setScheduledThreadId(scheduledThreadId);
 	}
 
 	/**
@@ -396,7 +308,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setSchedulerClassName(String schedulerClassName) {
-		_scheduledThread.setSchedulerClassName(schedulerClassName);
+		model.setSchedulerClassName(schedulerClassName);
 	}
 
 	/**
@@ -406,7 +318,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_scheduledThread.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -416,7 +328,7 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_scheduledThread.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -426,78 +338,12 @@ public class ScheduledThreadWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_scheduledThread.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.ScheduledThread> toCacheModel() {
-
-		return _scheduledThread.toCacheModel();
+	protected ScheduledThreadWrapper wrap(ScheduledThread scheduledThread) {
+		return new ScheduledThreadWrapper(scheduledThread);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.ScheduledThread toEscapedModel() {
-		return new ScheduledThreadWrapper(_scheduledThread.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _scheduledThread.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.ScheduledThread toUnescapedModel() {
-		return new ScheduledThreadWrapper(_scheduledThread.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _scheduledThread.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof ScheduledThreadWrapper)) {
-			return false;
-		}
-
-		ScheduledThreadWrapper scheduledThreadWrapper =
-			(ScheduledThreadWrapper)obj;
-
-		if (Objects.equals(
-				_scheduledThread, scheduledThreadWrapper._scheduledThread)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public ScheduledThread getWrappedModel() {
-		return _scheduledThread;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _scheduledThread.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _scheduledThread.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_scheduledThread.resetOriginalValues();
-	}
-
-	private final ScheduledThread _scheduledThread;
 
 }

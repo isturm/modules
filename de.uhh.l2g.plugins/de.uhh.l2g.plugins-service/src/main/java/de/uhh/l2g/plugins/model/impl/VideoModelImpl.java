@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -29,7 +28,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Video;
 import de.uhh.l2g.plugins.model.VideoModel;
@@ -48,6 +46,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Video service. Represents a row in the &quot;LG_Video&quot; database table, with each column mapped to a property of this class.
@@ -82,10 +82,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		{"uploadDate", Types.TIMESTAMP}, {"permittedToSegment", Types.INTEGER},
 		{"rootInstitutionId", Types.BIGINT}, {"citation2go", Types.INTEGER},
 		{"termId", Types.BIGINT}, {"tags", Types.VARCHAR},
-		{"password_", Types.VARCHAR}, {"groupId", Types.BIGINT},
-		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
-		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
-		{"modifiedDate", Types.TIMESTAMP}
+		{"password_", Types.VARCHAR}, {"licenseId", Types.BIGINT},
+		{"groupId", Types.BIGINT}, {"companyId", Types.BIGINT},
+		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
+		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -115,6 +115,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		TABLE_COLUMNS_MAP.put("termId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("tags", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("password_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("licenseId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
@@ -124,7 +125,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table LG_Video (videoId LONG not null primary key,title VARCHAR(75) null,lectureseriesId LONG,producerId LONG,containerFormat VARCHAR(75) null,filename VARCHAR(75) null,resolution VARCHAR(75) null,duration VARCHAR(75) null,hostId LONG,fileSize VARCHAR(75) null,generationDate VARCHAR(75) null,openAccess INTEGER,downloadLink INTEGER,metadataId LONG,secureFilename VARCHAR(75) null,hits LONG,uploadDate DATE null,permittedToSegment INTEGER,rootInstitutionId LONG,citation2go INTEGER,termId LONG,tags VARCHAR(75) null,password_ VARCHAR(75) null,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
+		"create table LG_Video (videoId LONG not null primary key,title VARCHAR(75) null,lectureseriesId LONG,producerId LONG,containerFormat VARCHAR(75) null,filename VARCHAR(75) null,resolution VARCHAR(75) null,duration VARCHAR(75) null,hostId LONG,fileSize VARCHAR(75) null,generationDate VARCHAR(75) null,openAccess INTEGER,downloadLink INTEGER,metadataId LONG,secureFilename VARCHAR(75) null,hits LONG,uploadDate DATE null,permittedToSegment INTEGER,rootInstitutionId LONG,citation2go INTEGER,termId LONG,tags VARCHAR(75) null,password_ VARCHAR(75) null,licenseId LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table LG_Video";
 
@@ -155,29 +156,27 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			"value.object.column.bitmask.enabled.de.uhh.l2g.plugins.model.Video"),
 		true);
 
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long DOWNLOADLINK_COLUMN_BITMASK = 1L;
 
-	public static final long DOWNLOADLINK_COLUMN_BITMASK = 2L;
+	public static final long FILENAME_COLUMN_BITMASK = 2L;
 
-	public static final long FILENAME_COLUMN_BITMASK = 4L;
+	public static final long LECTURESERIESID_COLUMN_BITMASK = 4L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long LICENSEID_COLUMN_BITMASK = 8L;
 
-	public static final long LECTURESERIESID_COLUMN_BITMASK = 16L;
+	public static final long OPENACCESS_COLUMN_BITMASK = 16L;
 
-	public static final long OPENACCESS_COLUMN_BITMASK = 32L;
+	public static final long PASSWORD_COLUMN_BITMASK = 32L;
 
-	public static final long PASSWORD_COLUMN_BITMASK = 64L;
+	public static final long PRODUCERID_COLUMN_BITMASK = 64L;
 
-	public static final long PRODUCERID_COLUMN_BITMASK = 128L;
+	public static final long ROOTINSTITUTIONID_COLUMN_BITMASK = 128L;
 
-	public static final long ROOTINSTITUTIONID_COLUMN_BITMASK = 256L;
+	public static final long TERMID_COLUMN_BITMASK = 256L;
 
-	public static final long TERMID_COLUMN_BITMASK = 512L;
+	public static final long UPLOADDATE_COLUMN_BITMASK = 512L;
 
-	public static final long UPLOADDATE_COLUMN_BITMASK = 1024L;
-
-	public static final long VIDEOID_COLUMN_BITMASK = 2048L;
+	public static final long VIDEOID_COLUMN_BITMASK = 1024L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		de.uhh.l2g.plugins.service.util.ServiceProps.get(
@@ -302,586 +301,108 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		Map<String, BiConsumer<Video, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Video, ?>>();
 
-		attributeGetterFunctions.put(
-			"videoId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getVideoId();
-				}
-
-			});
+		attributeGetterFunctions.put("videoId", Video::getVideoId);
 		attributeSetterBiConsumers.put(
-			"videoId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object videoId) {
-					video.setVideoId((Long)videoId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getTitle();
-				}
-
-			});
+			"videoId", (BiConsumer<Video, Long>)Video::setVideoId);
+		attributeGetterFunctions.put("title", Video::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object title) {
-					video.setTitle((String)title);
-				}
-
-			});
+			"title", (BiConsumer<Video, String>)Video::setTitle);
 		attributeGetterFunctions.put(
-			"lectureseriesId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getLectureseriesId();
-				}
-
-			});
+			"lectureseriesId", Video::getLectureseriesId);
 		attributeSetterBiConsumers.put(
 			"lectureseriesId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object lectureseriesId) {
-					video.setLectureseriesId((Long)lectureseriesId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"producerId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getProducerId();
-				}
-
-			});
+			(BiConsumer<Video, Long>)Video::setLectureseriesId);
+		attributeGetterFunctions.put("producerId", Video::getProducerId);
 		attributeSetterBiConsumers.put(
-			"producerId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object producerId) {
-					video.setProducerId((Long)producerId);
-				}
-
-			});
+			"producerId", (BiConsumer<Video, Long>)Video::setProducerId);
 		attributeGetterFunctions.put(
-			"containerFormat",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getContainerFormat();
-				}
-
-			});
+			"containerFormat", Video::getContainerFormat);
 		attributeSetterBiConsumers.put(
 			"containerFormat",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object containerFormat) {
-					video.setContainerFormat((String)containerFormat);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"filename",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getFilename();
-				}
-
-			});
+			(BiConsumer<Video, String>)Video::setContainerFormat);
+		attributeGetterFunctions.put("filename", Video::getFilename);
 		attributeSetterBiConsumers.put(
-			"filename",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object filename) {
-					video.setFilename((String)filename);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"resolution",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getResolution();
-				}
-
-			});
+			"filename", (BiConsumer<Video, String>)Video::setFilename);
+		attributeGetterFunctions.put("resolution", Video::getResolution);
 		attributeSetterBiConsumers.put(
-			"resolution",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object resolution) {
-					video.setResolution((String)resolution);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"duration",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getDuration();
-				}
-
-			});
+			"resolution", (BiConsumer<Video, String>)Video::setResolution);
+		attributeGetterFunctions.put("duration", Video::getDuration);
 		attributeSetterBiConsumers.put(
-			"duration",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object duration) {
-					video.setDuration((String)duration);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"hostId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getHostId();
-				}
-
-			});
+			"duration", (BiConsumer<Video, String>)Video::setDuration);
+		attributeGetterFunctions.put("hostId", Video::getHostId);
 		attributeSetterBiConsumers.put(
-			"hostId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object hostId) {
-					video.setHostId((Long)hostId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"fileSize",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getFileSize();
-				}
-
-			});
+			"hostId", (BiConsumer<Video, Long>)Video::setHostId);
+		attributeGetterFunctions.put("fileSize", Video::getFileSize);
 		attributeSetterBiConsumers.put(
-			"fileSize",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object fileSize) {
-					video.setFileSize((String)fileSize);
-				}
-
-			});
+			"fileSize", (BiConsumer<Video, String>)Video::setFileSize);
 		attributeGetterFunctions.put(
-			"generationDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getGenerationDate();
-				}
-
-			});
+			"generationDate", Video::getGenerationDate);
 		attributeSetterBiConsumers.put(
 			"generationDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object generationDate) {
-					video.setGenerationDate((String)generationDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"openAccess",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getOpenAccess();
-				}
-
-			});
+			(BiConsumer<Video, String>)Video::setGenerationDate);
+		attributeGetterFunctions.put("openAccess", Video::getOpenAccess);
 		attributeSetterBiConsumers.put(
-			"openAccess",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object openAccess) {
-					video.setOpenAccess((Integer)openAccess);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"downloadLink",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getDownloadLink();
-				}
-
-			});
+			"openAccess", (BiConsumer<Video, Integer>)Video::setOpenAccess);
+		attributeGetterFunctions.put("downloadLink", Video::getDownloadLink);
 		attributeSetterBiConsumers.put(
-			"downloadLink",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object downloadLink) {
-					video.setDownloadLink((Integer)downloadLink);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"metadataId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getMetadataId();
-				}
-
-			});
+			"downloadLink", (BiConsumer<Video, Integer>)Video::setDownloadLink);
+		attributeGetterFunctions.put("metadataId", Video::getMetadataId);
 		attributeSetterBiConsumers.put(
-			"metadataId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object metadataId) {
-					video.setMetadataId((Long)metadataId);
-				}
-
-			});
+			"metadataId", (BiConsumer<Video, Long>)Video::setMetadataId);
 		attributeGetterFunctions.put(
-			"secureFilename",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getSecureFilename();
-				}
-
-			});
+			"secureFilename", Video::getSecureFilename);
 		attributeSetterBiConsumers.put(
 			"secureFilename",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object secureFilename) {
-					video.setSecureFilename((String)secureFilename);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"hits",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getHits();
-				}
-
-			});
+			(BiConsumer<Video, String>)Video::setSecureFilename);
+		attributeGetterFunctions.put("hits", Video::getHits);
 		attributeSetterBiConsumers.put(
-			"hits",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object hits) {
-					video.setHits((Long)hits);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"uploadDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getUploadDate();
-				}
-
-			});
+			"hits", (BiConsumer<Video, Long>)Video::setHits);
+		attributeGetterFunctions.put("uploadDate", Video::getUploadDate);
 		attributeSetterBiConsumers.put(
-			"uploadDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object uploadDate) {
-					video.setUploadDate((Date)uploadDate);
-				}
-
-			});
+			"uploadDate", (BiConsumer<Video, Date>)Video::setUploadDate);
 		attributeGetterFunctions.put(
-			"permittedToSegment",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getPermittedToSegment();
-				}
-
-			});
+			"permittedToSegment", Video::getPermittedToSegment);
 		attributeSetterBiConsumers.put(
 			"permittedToSegment",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object permittedToSegment) {
-					video.setPermittedToSegment((Integer)permittedToSegment);
-				}
-
-			});
+			(BiConsumer<Video, Integer>)Video::setPermittedToSegment);
 		attributeGetterFunctions.put(
-			"rootInstitutionId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getRootInstitutionId();
-				}
-
-			});
+			"rootInstitutionId", Video::getRootInstitutionId);
 		attributeSetterBiConsumers.put(
 			"rootInstitutionId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object rootInstitutionId) {
-					video.setRootInstitutionId((Long)rootInstitutionId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citation2go",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getCitation2go();
-				}
-
-			});
+			(BiConsumer<Video, Long>)Video::setRootInstitutionId);
+		attributeGetterFunctions.put("citation2go", Video::getCitation2go);
 		attributeSetterBiConsumers.put(
-			"citation2go",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object citation2go) {
-					video.setCitation2go((Integer)citation2go);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"termId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getTermId();
-				}
-
-			});
+			"citation2go", (BiConsumer<Video, Integer>)Video::setCitation2go);
+		attributeGetterFunctions.put("termId", Video::getTermId);
 		attributeSetterBiConsumers.put(
-			"termId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object termId) {
-					video.setTermId((Long)termId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"tags",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getTags();
-				}
-
-			});
+			"termId", (BiConsumer<Video, Long>)Video::setTermId);
+		attributeGetterFunctions.put("tags", Video::getTags);
 		attributeSetterBiConsumers.put(
-			"tags",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object tags) {
-					video.setTags((String)tags);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"password",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getPassword();
-				}
-
-			});
+			"tags", (BiConsumer<Video, String>)Video::setTags);
+		attributeGetterFunctions.put("password", Video::getPassword);
 		attributeSetterBiConsumers.put(
-			"password",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object password) {
-					video.setPassword((String)password);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getGroupId();
-				}
-
-			});
+			"password", (BiConsumer<Video, String>)Video::setPassword);
+		attributeGetterFunctions.put("licenseId", Video::getLicenseId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object groupId) {
-					video.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getCompanyId();
-				}
-
-			});
+			"licenseId", (BiConsumer<Video, Long>)Video::setLicenseId);
+		attributeGetterFunctions.put("groupId", Video::getGroupId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object companyId) {
-					video.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getUserId();
-				}
-
-			});
+			"groupId", (BiConsumer<Video, Long>)Video::setGroupId);
+		attributeGetterFunctions.put("companyId", Video::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object userId) {
-					video.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getUserName();
-				}
-
-			});
+			"companyId", (BiConsumer<Video, Long>)Video::setCompanyId);
+		attributeGetterFunctions.put("userId", Video::getUserId);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object userName) {
-					video.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getCreateDate();
-				}
-
-			});
+			"userId", (BiConsumer<Video, Long>)Video::setUserId);
+		attributeGetterFunctions.put("userName", Video::getUserName);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object createDate) {
-					video.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getModifiedDate();
-				}
-
-			});
+			"userName", (BiConsumer<Video, String>)Video::setUserName);
+		attributeGetterFunctions.put("createDate", Video::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object modifiedDate) {
-					video.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			"createDate", (BiConsumer<Video, Date>)Video::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Video::getModifiedDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate", (BiConsumer<Video, Date>)Video::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -1274,25 +795,35 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	}
 
 	@Override
+	public long getLicenseId() {
+		return _licenseId;
+	}
+
+	@Override
+	public void setLicenseId(long licenseId) {
+		_columnBitmask |= LICENSEID_COLUMN_BITMASK;
+
+		if (!_setOriginalLicenseId) {
+			_setOriginalLicenseId = true;
+
+			_originalLicenseId = _licenseId;
+		}
+
+		_licenseId = licenseId;
+	}
+
+	public long getOriginalLicenseId() {
+		return _originalLicenseId;
+	}
+
+	@Override
 	public long getGroupId() {
 		return _groupId;
 	}
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
-
 		_groupId = groupId;
-	}
-
-	public long getOriginalGroupId() {
-		return _originalGroupId;
 	}
 
 	@Override
@@ -1302,19 +833,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
-
 		_companyId = companyId;
-	}
-
-	public long getOriginalCompanyId() {
-		return _originalCompanyId;
 	}
 
 	@Override
@@ -1438,6 +957,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		videoImpl.setTermId(getTermId());
 		videoImpl.setTags(getTags());
 		videoImpl.setPassword(getPassword());
+		videoImpl.setLicenseId(getLicenseId());
 		videoImpl.setGroupId(getGroupId());
 		videoImpl.setCompanyId(getCompanyId());
 		videoImpl.setUserId(getUserId());
@@ -1554,13 +1074,9 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 		videoModelImpl._originalPassword = videoModelImpl._password;
 
-		videoModelImpl._originalGroupId = videoModelImpl._groupId;
+		videoModelImpl._originalLicenseId = videoModelImpl._licenseId;
 
-		videoModelImpl._setOriginalGroupId = false;
-
-		videoModelImpl._originalCompanyId = videoModelImpl._companyId;
-
-		videoModelImpl._setOriginalCompanyId = false;
+		videoModelImpl._setOriginalLicenseId = false;
 
 		videoModelImpl._setModifiedDate = false;
 
@@ -1683,6 +1199,8 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		if ((password != null) && (password.length() == 0)) {
 			videoCacheModel.password = null;
 		}
+
+		videoCacheModel.licenseId = getLicenseId();
 
 		videoCacheModel.groupId = getGroupId();
 
@@ -1821,12 +1339,11 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	private String _tags;
 	private String _password;
 	private String _originalPassword;
+	private long _licenseId;
+	private long _originalLicenseId;
+	private boolean _setOriginalLicenseId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;

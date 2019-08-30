@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
+public class StatisticWrapper
+	extends BaseModelWrapper<Statistic>
+	implements Statistic, ModelWrapper<Statistic> {
 
 	public StatisticWrapper(Statistic statistic) {
-		_statistic = statistic;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Statistic.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Statistic.class.getName();
+		super(statistic);
 	}
 
 	@Override
@@ -134,16 +122,6 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new StatisticWrapper((Statistic)_statistic.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Statistic statistic) {
-		return _statistic.compareTo(statistic);
-	}
-
 	/**
 	 * Returns the autofill row of this statistic.
 	 *
@@ -151,7 +129,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public int getAutofillRow() {
-		return _statistic.getAutofillRow();
+		return model.getAutofillRow();
 	}
 
 	/**
@@ -161,7 +139,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _statistic.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -171,12 +149,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _statistic.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _statistic.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -186,7 +159,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _statistic.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -196,7 +169,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _statistic.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -206,12 +179,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _statistic.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _statistic.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -221,7 +189,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public int getPrivateVideos() {
-		return _statistic.getPrivateVideos();
+		return model.getPrivateVideos();
 	}
 
 	/**
@@ -231,7 +199,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public int getPublicVideos() {
-		return _statistic.getPublicVideos();
+		return model.getPublicVideos();
 	}
 
 	/**
@@ -241,7 +209,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public long getStatisticId() {
-		return _statistic.getStatisticId();
+		return model.getStatisticId();
 	}
 
 	/**
@@ -251,7 +219,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public long getUserId() {
-		return _statistic.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -261,7 +229,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public String getUserName() {
-		return _statistic.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -271,32 +239,12 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _statistic.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _statistic.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _statistic.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _statistic.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _statistic.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_statistic.persist();
+		model.persist();
 	}
 
 	/**
@@ -306,12 +254,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setAutofillRow(int autofillRow) {
-		_statistic.setAutofillRow(autofillRow);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_statistic.setCachedModel(cachedModel);
+		model.setAutofillRow(autofillRow);
 	}
 
 	/**
@@ -321,7 +264,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_statistic.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -331,24 +274,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_statistic.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_statistic.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_statistic.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_statistic.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -358,7 +284,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_statistic.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -368,12 +294,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_statistic.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_statistic.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -383,12 +304,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_statistic.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_statistic.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -398,7 +314,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setPrivateVideos(int privateVideos) {
-		_statistic.setPrivateVideos(privateVideos);
+		model.setPrivateVideos(privateVideos);
 	}
 
 	/**
@@ -408,7 +324,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setPublicVideos(int publicVideos) {
-		_statistic.setPublicVideos(publicVideos);
+		model.setPublicVideos(publicVideos);
 	}
 
 	/**
@@ -418,7 +334,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setStatisticId(long statisticId) {
-		_statistic.setStatisticId(statisticId);
+		model.setStatisticId(statisticId);
 	}
 
 	/**
@@ -428,7 +344,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_statistic.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -438,7 +354,7 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_statistic.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -448,75 +364,12 @@ public class StatisticWrapper implements Statistic, ModelWrapper<Statistic> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_statistic.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Statistic> toCacheModel() {
-
-		return _statistic.toCacheModel();
+	protected StatisticWrapper wrap(Statistic statistic) {
+		return new StatisticWrapper(statistic);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Statistic toEscapedModel() {
-		return new StatisticWrapper(_statistic.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _statistic.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Statistic toUnescapedModel() {
-		return new StatisticWrapper(_statistic.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _statistic.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof StatisticWrapper)) {
-			return false;
-		}
-
-		StatisticWrapper statisticWrapper = (StatisticWrapper)obj;
-
-		if (Objects.equals(_statistic, statisticWrapper._statistic)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Statistic getWrappedModel() {
-		return _statistic;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _statistic.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _statistic.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_statistic.resetOriginalValues();
-	}
-
-	private final Statistic _statistic;
 
 }

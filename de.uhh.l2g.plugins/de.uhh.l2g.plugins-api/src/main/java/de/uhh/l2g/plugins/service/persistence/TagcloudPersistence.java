@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchTagcloudException;
 import de.uhh.l2g.plugins.model.Tagcloud;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the tagcloud service.
@@ -45,9 +40,6 @@ public interface TagcloudPersistence extends BasePersistence<Tagcloud> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TagcloudUtil} to access the tagcloud persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Tagcloud> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the tagclouds where objectClassType = &#63;.

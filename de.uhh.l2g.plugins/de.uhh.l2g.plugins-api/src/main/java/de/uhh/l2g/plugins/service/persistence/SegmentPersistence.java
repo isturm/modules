@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchSegmentException;
 import de.uhh.l2g.plugins.model.Segment;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the segment service.
@@ -45,9 +40,6 @@ public interface SegmentPersistence extends BasePersistence<Segment> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link SegmentUtil} to access the segment persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Segment> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the segments where videoId = &#63;.
@@ -893,8 +885,5 @@ public interface SegmentPersistence extends BasePersistence<Segment> {
 	 * @return the number of segments
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

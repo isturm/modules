@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -38,20 +34,11 @@ import java.util.Objects;
  */
 @ProviderType
 public class LastvideolistWrapper
+	extends BaseModelWrapper<Lastvideolist>
 	implements Lastvideolist, ModelWrapper<Lastvideolist> {
 
 	public LastvideolistWrapper(Lastvideolist lastvideolist) {
-		_lastvideolist = lastvideolist;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Lastvideolist.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Lastvideolist.class.getName();
+		super(lastvideolist);
 	}
 
 	@Override
@@ -121,16 +108,6 @@ public class LastvideolistWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new LastvideolistWrapper((Lastvideolist)_lastvideolist.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Lastvideolist lastvideolist) {
-		return _lastvideolist.compareTo(lastvideolist);
-	}
-
 	/**
 	 * Returns the company ID of this lastvideolist.
 	 *
@@ -138,7 +115,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _lastvideolist.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -148,12 +125,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _lastvideolist.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _lastvideolist.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -163,7 +135,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _lastvideolist.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -173,7 +145,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public int getLastvideolistId() {
-		return _lastvideolist.getLastvideolistId();
+		return model.getLastvideolistId();
 	}
 
 	/**
@@ -183,7 +155,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _lastvideolist.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -193,12 +165,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public int getPrimaryKey() {
-		return _lastvideolist.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _lastvideolist.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -208,7 +175,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _lastvideolist.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -218,7 +185,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _lastvideolist.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -228,7 +195,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _lastvideolist.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -238,37 +205,12 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public long getVideoId() {
-		return _lastvideolist.getVideoId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _lastvideolist.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _lastvideolist.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _lastvideolist.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _lastvideolist.isNew();
+		return model.getVideoId();
 	}
 
 	@Override
 	public void persist() {
-		_lastvideolist.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_lastvideolist.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -278,7 +220,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_lastvideolist.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -288,24 +230,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_lastvideolist.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_lastvideolist.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_lastvideolist.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_lastvideolist.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -315,7 +240,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_lastvideolist.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -325,7 +250,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setLastvideolistId(int lastvideolistId) {
-		_lastvideolist.setLastvideolistId(lastvideolistId);
+		model.setLastvideolistId(lastvideolistId);
 	}
 
 	/**
@@ -335,12 +260,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_lastvideolist.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_lastvideolist.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -350,12 +270,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setPrimaryKey(int primaryKey) {
-		_lastvideolist.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_lastvideolist.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -365,7 +280,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_lastvideolist.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -375,7 +290,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_lastvideolist.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -385,7 +300,7 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_lastvideolist.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -395,77 +310,12 @@ public class LastvideolistWrapper
 	 */
 	@Override
 	public void setVideoId(long videoId) {
-		_lastvideolist.setVideoId(videoId);
+		model.setVideoId(videoId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Lastvideolist> toCacheModel() {
-
-		return _lastvideolist.toCacheModel();
+	protected LastvideolistWrapper wrap(Lastvideolist lastvideolist) {
+		return new LastvideolistWrapper(lastvideolist);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lastvideolist toEscapedModel() {
-		return new LastvideolistWrapper(_lastvideolist.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _lastvideolist.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lastvideolist toUnescapedModel() {
-		return new LastvideolistWrapper(_lastvideolist.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _lastvideolist.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof LastvideolistWrapper)) {
-			return false;
-		}
-
-		LastvideolistWrapper lastvideolistWrapper = (LastvideolistWrapper)obj;
-
-		if (Objects.equals(
-				_lastvideolist, lastvideolistWrapper._lastvideolist)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Lastvideolist getWrappedModel() {
-		return _lastvideolist;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _lastvideolist.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _lastvideolist.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_lastvideolist.resetOriginalValues();
-	}
-
-	private final Lastvideolist _lastvideolist;
 
 }

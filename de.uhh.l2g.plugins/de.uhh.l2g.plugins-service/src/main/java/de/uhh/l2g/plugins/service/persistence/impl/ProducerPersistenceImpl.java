@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -48,13 +46,11 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the producer service.
@@ -3619,6 +3615,10 @@ public class ProducerPersistenceImpl
 
 	public ProducerPersistenceImpl() {
 		setModelClass(Producer.class);
+
+		setModelImplClass(ProducerImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(ProducerModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -4159,160 +4159,12 @@ public class ProducerPersistenceImpl
 	/**
 	 * Returns the producer with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the producer
-	 * @return the producer, or <code>null</code> if a producer with the primary key could not be found
-	 */
-	@Override
-	public Producer fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ProducerModelImpl.ENTITY_CACHE_ENABLED, ProducerImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Producer producer = (Producer)serializable;
-
-		if (producer == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				producer = (Producer)session.get(
-					ProducerImpl.class, primaryKey);
-
-				if (producer != null) {
-					cacheResult(producer);
-				}
-				else {
-					entityCache.putResult(
-						ProducerModelImpl.ENTITY_CACHE_ENABLED,
-						ProducerImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					ProducerModelImpl.ENTITY_CACHE_ENABLED, ProducerImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return producer;
-	}
-
-	/**
-	 * Returns the producer with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param producerId the primary key of the producer
 	 * @return the producer, or <code>null</code> if a producer with the primary key could not be found
 	 */
 	@Override
 	public Producer fetchByPrimaryKey(long producerId) {
 		return fetchByPrimaryKey((Serializable)producerId);
-	}
-
-	@Override
-	public Map<Serializable, Producer> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Producer> map = new HashMap<Serializable, Producer>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Producer producer = fetchByPrimaryKey(primaryKey);
-
-			if (producer != null) {
-				map.put(primaryKey, producer);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ProducerModelImpl.ENTITY_CACHE_ENABLED, ProducerImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Producer)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_PRODUCER_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Producer producer : (List<Producer>)q.list()) {
-				map.put(producer.getPrimaryKeyObj(), producer);
-
-				cacheResult(producer);
-
-				uncachedPrimaryKeys.remove(producer.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ProducerModelImpl.ENTITY_CACHE_ENABLED, ProducerImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4507,6 +4359,21 @@ public class ProducerPersistenceImpl
 		}
 
 		return count.intValue();
+	}
+
+	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "producerId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PRODUCER;
 	}
 
 	@Override
@@ -4714,9 +4581,6 @@ public class ProducerPersistenceImpl
 
 	private static final String _SQL_SELECT_PRODUCER =
 		"SELECT producer FROM Producer producer";
-
-	private static final String _SQL_SELECT_PRODUCER_WHERE_PKS_IN =
-		"SELECT producer FROM Producer producer WHERE producerId IN (";
 
 	private static final String _SQL_SELECT_PRODUCER_WHERE =
 		"SELECT producer FROM Producer producer WHERE ";

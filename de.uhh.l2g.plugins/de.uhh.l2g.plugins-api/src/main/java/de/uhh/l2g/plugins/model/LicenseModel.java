@@ -14,19 +14,10 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.GroupedModel;
-import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.service.ServiceContext;
 
-import java.io.Serializable;
-
-import java.util.Date;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the License service. Represents a row in the &quot;LG_License&quot; database table, with each column mapped to a property of this class.
@@ -40,8 +31,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface LicenseModel
-	extends BaseModel<License>, GroupedModel, ShardedModel {
+public interface LicenseModel extends BaseModel<License> {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -78,285 +68,114 @@ public interface LicenseModel
 	public void setLicenseId(long licenseId);
 
 	/**
-	 * Returns the video ID of this license.
+	 * Returns the full name of this license.
 	 *
-	 * @return the video ID of this license
-	 */
-	public long getVideoId();
-
-	/**
-	 * Sets the video ID of this license.
-	 *
-	 * @param videoId the video ID of this license
-	 */
-	public void setVideoId(long videoId);
-
-	/**
-	 * Returns the ccby of this license.
-	 *
-	 * @return the ccby of this license
-	 */
-	public int getCcby();
-
-	/**
-	 * Sets the ccby of this license.
-	 *
-	 * @param ccby the ccby of this license
-	 */
-	public void setCcby(int ccby);
-
-	/**
-	 * Returns the ccbybc of this license.
-	 *
-	 * @return the ccbybc of this license
-	 */
-	public int getCcbybc();
-
-	/**
-	 * Sets the ccbybc of this license.
-	 *
-	 * @param ccbybc the ccbybc of this license
-	 */
-	public void setCcbybc(int ccbybc);
-
-	/**
-	 * Returns the ccbyncnd of this license.
-	 *
-	 * @return the ccbyncnd of this license
-	 */
-	public int getCcbyncnd();
-
-	/**
-	 * Sets the ccbyncnd of this license.
-	 *
-	 * @param ccbyncnd the ccbyncnd of this license
-	 */
-	public void setCcbyncnd(int ccbyncnd);
-
-	/**
-	 * Returns the ccbyncsa of this license.
-	 *
-	 * @return the ccbyncsa of this license
-	 */
-	public int getCcbyncsa();
-
-	/**
-	 * Sets the ccbyncsa of this license.
-	 *
-	 * @param ccbyncsa the ccbyncsa of this license
-	 */
-	public void setCcbyncsa(int ccbyncsa);
-
-	/**
-	 * Returns the ccbysa of this license.
-	 *
-	 * @return the ccbysa of this license
-	 */
-	public int getCcbysa();
-
-	/**
-	 * Sets the ccbysa of this license.
-	 *
-	 * @param ccbysa the ccbysa of this license
-	 */
-	public void setCcbysa(int ccbysa);
-
-	/**
-	 * Returns the ccbync of this license.
-	 *
-	 * @return the ccbync of this license
-	 */
-	public int getCcbync();
-
-	/**
-	 * Sets the ccbync of this license.
-	 *
-	 * @param ccbync the ccbync of this license
-	 */
-	public void setCcbync(int ccbync);
-
-	/**
-	 * Returns the l2go of this license.
-	 *
-	 * @return the l2go of this license
-	 */
-	public int getL2go();
-
-	/**
-	 * Sets the l2go of this license.
-	 *
-	 * @param l2go the l2go of this license
-	 */
-	public void setL2go(int l2go);
-
-	/**
-	 * Returns the group ID of this license.
-	 *
-	 * @return the group ID of this license
-	 */
-	@Override
-	public long getGroupId();
-
-	/**
-	 * Sets the group ID of this license.
-	 *
-	 * @param groupId the group ID of this license
-	 */
-	@Override
-	public void setGroupId(long groupId);
-
-	/**
-	 * Returns the company ID of this license.
-	 *
-	 * @return the company ID of this license
-	 */
-	@Override
-	public long getCompanyId();
-
-	/**
-	 * Sets the company ID of this license.
-	 *
-	 * @param companyId the company ID of this license
-	 */
-	@Override
-	public void setCompanyId(long companyId);
-
-	/**
-	 * Returns the user ID of this license.
-	 *
-	 * @return the user ID of this license
-	 */
-	@Override
-	public long getUserId();
-
-	/**
-	 * Sets the user ID of this license.
-	 *
-	 * @param userId the user ID of this license
-	 */
-	@Override
-	public void setUserId(long userId);
-
-	/**
-	 * Returns the user uuid of this license.
-	 *
-	 * @return the user uuid of this license
-	 */
-	@Override
-	public String getUserUuid();
-
-	/**
-	 * Sets the user uuid of this license.
-	 *
-	 * @param userUuid the user uuid of this license
-	 */
-	@Override
-	public void setUserUuid(String userUuid);
-
-	/**
-	 * Returns the user name of this license.
-	 *
-	 * @return the user name of this license
+	 * @return the full name of this license
 	 */
 	@AutoEscape
-	@Override
-	public String getUserName();
+	public String getFullName();
 
 	/**
-	 * Sets the user name of this license.
+	 * Sets the full name of this license.
 	 *
-	 * @param userName the user name of this license
+	 * @param fullName the full name of this license
 	 */
-	@Override
-	public void setUserName(String userName);
+	public void setFullName(String fullName);
 
 	/**
-	 * Returns the create date of this license.
+	 * Returns the short identifier of this license.
 	 *
-	 * @return the create date of this license
+	 * @return the short identifier of this license
 	 */
-	@Override
-	public Date getCreateDate();
+	@AutoEscape
+	public String getShortIdentifier();
 
 	/**
-	 * Sets the create date of this license.
+	 * Sets the short identifier of this license.
 	 *
-	 * @param createDate the create date of this license
+	 * @param shortIdentifier the short identifier of this license
 	 */
-	@Override
-	public void setCreateDate(Date createDate);
+	public void setShortIdentifier(String shortIdentifier);
 
 	/**
-	 * Returns the modified date of this license.
+	 * Returns the url of this license.
 	 *
-	 * @return the modified date of this license
+	 * @return the url of this license
 	 */
-	@Override
-	public Date getModifiedDate();
+	@AutoEscape
+	public String getUrl();
 
 	/**
-	 * Sets the modified date of this license.
+	 * Sets the url of this license.
 	 *
-	 * @param modifiedDate the modified date of this license
+	 * @param url the url of this license
 	 */
-	@Override
-	public void setModifiedDate(Date modifiedDate);
+	public void setUrl(String url);
 
-	@Override
-	public boolean isNew();
+	/**
+	 * Returns the scheme name of this license.
+	 *
+	 * @return the scheme name of this license
+	 */
+	@AutoEscape
+	public String getSchemeName();
 
-	@Override
-	public void setNew(boolean n);
+	/**
+	 * Sets the scheme name of this license.
+	 *
+	 * @param schemeName the scheme name of this license
+	 */
+	public void setSchemeName(String schemeName);
 
-	@Override
-	public boolean isCachedModel();
+	/**
+	 * Returns the scheme url of this license.
+	 *
+	 * @return the scheme url of this license
+	 */
+	@AutoEscape
+	public String getSchemeUrl();
 
-	@Override
-	public void setCachedModel(boolean cachedModel);
+	/**
+	 * Sets the scheme url of this license.
+	 *
+	 * @param schemeUrl the scheme url of this license
+	 */
+	public void setSchemeUrl(String schemeUrl);
 
-	@Override
-	public boolean isEscapedModel();
+	/**
+	 * Returns the selectable of this license.
+	 *
+	 * @return the selectable of this license
+	 */
+	public boolean getSelectable();
 
-	@Override
-	public Serializable getPrimaryKeyObj();
+	/**
+	 * Returns <code>true</code> if this license is selectable.
+	 *
+	 * @return <code>true</code> if this license is selectable; <code>false</code> otherwise
+	 */
+	public boolean isSelectable();
 
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
+	/**
+	 * Sets whether this license is selectable.
+	 *
+	 * @param selectable the selectable of this license
+	 */
+	public void setSelectable(boolean selectable);
 
-	@Override
-	public ExpandoBridge getExpandoBridge();
+	/**
+	 * Returns the description of this license.
+	 *
+	 * @return the description of this license
+	 */
+	@AutoEscape
+	public String getDescription();
 
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
-	public Object clone();
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.License license);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<de.uhh.l2g.plugins.model.License> toCacheModel();
-
-	@Override
-	public de.uhh.l2g.plugins.model.License toEscapedModel();
-
-	@Override
-	public de.uhh.l2g.plugins.model.License toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
+	/**
+	 * Sets the description of this license.
+	 *
+	 * @param description the description of this license
+	 */
+	public void setDescription(String description);
 
 }

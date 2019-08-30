@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Lectureseries;
 import de.uhh.l2g.plugins.model.LectureseriesModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Lectureseries service. Represents a row in the &quot;LG_Lectureseries&quot; database table, with each column mapped to a property of this class.
@@ -308,529 +308,114 @@ public class LectureseriesModelImpl
 		Map<String, BiConsumer<Lectureseries, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Lectureseries, ?>>();
 
-		attributeGetterFunctions.put(
-			"number",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getNumber();
-				}
-
-			});
+		attributeGetterFunctions.put("number", Lectureseries::getNumber);
 		attributeSetterBiConsumers.put(
 			"number",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(Lectureseries lectureseries, Object number) {
-					lectureseries.setNumber((String)number);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"eventType",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getEventType();
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)Lectureseries::setNumber);
+		attributeGetterFunctions.put("eventType", Lectureseries::getEventType);
 		attributeSetterBiConsumers.put(
 			"eventType",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object eventType) {
-
-					lectureseries.setEventType((String)eventType);
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)Lectureseries::setEventType);
 		attributeGetterFunctions.put(
-			"categoryId",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getCategoryId();
-				}
-
-			});
+			"categoryId", Lectureseries::getCategoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object categoryId) {
-
-					lectureseries.setCategoryId((Long)categoryId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getName();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Long>)Lectureseries::setCategoryId);
+		attributeGetterFunctions.put("name", Lectureseries::getName);
 		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(Lectureseries lectureseries, Object name) {
-					lectureseries.setName((String)name);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shortDesc",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getShortDesc();
-				}
-
-			});
+			"name", (BiConsumer<Lectureseries, String>)Lectureseries::setName);
+		attributeGetterFunctions.put("shortDesc", Lectureseries::getShortDesc);
 		attributeSetterBiConsumers.put(
 			"shortDesc",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object shortDesc) {
-
-					lectureseries.setShortDesc((String)shortDesc);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"termId",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getTermId();
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)Lectureseries::setShortDesc);
+		attributeGetterFunctions.put("termId", Lectureseries::getTermId);
 		attributeSetterBiConsumers.put(
 			"termId",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(Lectureseries lectureseries, Object termId) {
-					lectureseries.setTermId((Long)termId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"language",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getLanguage();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Long>)Lectureseries::setTermId);
+		attributeGetterFunctions.put("language", Lectureseries::getLanguage);
 		attributeSetterBiConsumers.put(
 			"language",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object language) {
-
-					lectureseries.setLanguage((String)language);
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)Lectureseries::setLanguage);
 		attributeGetterFunctions.put(
-			"facultyName",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getFacultyName();
-				}
-
-			});
+			"facultyName", Lectureseries::getFacultyName);
 		attributeSetterBiConsumers.put(
 			"facultyName",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object facultyName) {
-
-					lectureseries.setFacultyName((String)facultyName);
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)Lectureseries::setFacultyName);
 		attributeGetterFunctions.put(
-			"lectureseriesId",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getLectureseriesId();
-				}
-
-			});
+			"lectureseriesId", Lectureseries::getLectureseriesId);
 		attributeSetterBiConsumers.put(
 			"lectureseriesId",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object lectureseriesId) {
-
-					lectureseries.setLectureseriesId((Long)lectureseriesId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"password",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getPassword();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Long>)Lectureseries::setLectureseriesId);
+		attributeGetterFunctions.put("password", Lectureseries::getPassword);
 		attributeSetterBiConsumers.put(
 			"password",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object password) {
-
-					lectureseries.setPassword((String)password);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"approved",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getApproved();
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)Lectureseries::setPassword);
+		attributeGetterFunctions.put("approved", Lectureseries::getApproved);
 		attributeSetterBiConsumers.put(
 			"approved",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object approved) {
-
-					lectureseries.setApproved((Integer)approved);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"longDesc",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getLongDesc();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Integer>)Lectureseries::setApproved);
+		attributeGetterFunctions.put("longDesc", Lectureseries::getLongDesc);
 		attributeSetterBiConsumers.put(
 			"longDesc",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object longDesc) {
-
-					lectureseries.setLongDesc((String)longDesc);
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)Lectureseries::setLongDesc);
 		attributeGetterFunctions.put(
 			"latestOpenAccessVideoId",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getLatestOpenAccessVideoId();
-				}
-
-			});
+			Lectureseries::getLatestOpenAccessVideoId);
 		attributeSetterBiConsumers.put(
 			"latestOpenAccessVideoId",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries,
-					Object latestOpenAccessVideoId) {
-
-					lectureseries.setLatestOpenAccessVideoId(
-						(Long)latestOpenAccessVideoId);
-				}
-
-			});
+			(BiConsumer<Lectureseries, Long>)
+				Lectureseries::setLatestOpenAccessVideoId);
 		attributeGetterFunctions.put(
-			"latestVideoUploadDate",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getLatestVideoUploadDate();
-				}
-
-			});
+			"latestVideoUploadDate", Lectureseries::getLatestVideoUploadDate);
 		attributeSetterBiConsumers.put(
 			"latestVideoUploadDate",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object latestVideoUploadDate) {
-
-					lectureseries.setLatestVideoUploadDate(
-						(Date)latestVideoUploadDate);
-				}
-
-			});
+			(BiConsumer<Lectureseries, Date>)
+				Lectureseries::setLatestVideoUploadDate);
 		attributeGetterFunctions.put(
 			"latestVideoGenerationDate",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getLatestVideoGenerationDate();
-				}
-
-			});
+			Lectureseries::getLatestVideoGenerationDate);
 		attributeSetterBiConsumers.put(
 			"latestVideoGenerationDate",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries,
-					Object latestVideoGenerationDate) {
-
-					lectureseries.setLatestVideoGenerationDate(
-						(String)latestVideoGenerationDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoSort",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getVideoSort();
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)
+				Lectureseries::setLatestVideoGenerationDate);
+		attributeGetterFunctions.put("videoSort", Lectureseries::getVideoSort);
 		attributeSetterBiConsumers.put(
 			"videoSort",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object videoSort) {
-
-					lectureseries.setVideoSort((Integer)videoSort);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"USID",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getUSID();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Integer>)Lectureseries::setVideoSort);
+		attributeGetterFunctions.put("USID", Lectureseries::getUSID);
 		attributeSetterBiConsumers.put(
-			"USID",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(Lectureseries lectureseries, Object USID) {
-					lectureseries.setUSID((String)USID);
-				}
-
-			});
+			"USID", (BiConsumer<Lectureseries, String>)Lectureseries::setUSID);
 		attributeGetterFunctions.put(
-			"previewVideoId",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getPreviewVideoId();
-				}
-
-			});
+			"previewVideoId", Lectureseries::getPreviewVideoId);
 		attributeSetterBiConsumers.put(
 			"previewVideoId",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object previewVideoId) {
-
-					lectureseries.setPreviewVideoId((Long)previewVideoId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getGroupId();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Long>)Lectureseries::setPreviewVideoId);
+		attributeGetterFunctions.put("groupId", Lectureseries::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object groupId) {
-
-					lectureseries.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getCompanyId();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Long>)Lectureseries::setGroupId);
+		attributeGetterFunctions.put("companyId", Lectureseries::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object companyId) {
-
-					lectureseries.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getUserId();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Long>)Lectureseries::setCompanyId);
+		attributeGetterFunctions.put("userId", Lectureseries::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(Lectureseries lectureseries, Object userId) {
-					lectureseries.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getUserName();
-				}
-
-			});
+			(BiConsumer<Lectureseries, Long>)Lectureseries::setUserId);
+		attributeGetterFunctions.put("userName", Lectureseries::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object userName) {
-
-					lectureseries.setUserName((String)userName);
-				}
-
-			});
+			(BiConsumer<Lectureseries, String>)Lectureseries::setUserName);
 		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getCreateDate();
-				}
-
-			});
+			"createDate", Lectureseries::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object createDate) {
-
-					lectureseries.setCreateDate((Date)createDate);
-				}
-
-			});
+			(BiConsumer<Lectureseries, Date>)Lectureseries::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Lectureseries, Object>() {
-
-				@Override
-				public Object apply(Lectureseries lectureseries) {
-					return lectureseries.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", Lectureseries::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Lectureseries, Object>() {
-
-				@Override
-				public void accept(
-					Lectureseries lectureseries, Object modifiedDate) {
-
-					lectureseries.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Lectureseries, Date>)Lectureseries::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

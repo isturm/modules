@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Statistic;
 import de.uhh.l2g.plugins.model.StatisticModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Statistic service. Represents a row in the &quot;LG_Statistic&quot; database table, with each column mapped to a property of this class.
@@ -262,206 +262,45 @@ public class StatisticModelImpl
 		Map<String, BiConsumer<Statistic, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Statistic, ?>>();
 
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getCreateDate();
-				}
-
-			});
+		attributeGetterFunctions.put("createDate", Statistic::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object createDate) {
-					statistic.setCreateDate((Date)createDate);
-				}
-
-			});
+			(BiConsumer<Statistic, Date>)Statistic::setCreateDate);
 		attributeGetterFunctions.put(
-			"publicVideos",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getPublicVideos();
-				}
-
-			});
+			"publicVideos", Statistic::getPublicVideos);
 		attributeSetterBiConsumers.put(
 			"publicVideos",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object publicVideos) {
-					statistic.setPublicVideos((Integer)publicVideos);
-				}
-
-			});
+			(BiConsumer<Statistic, Integer>)Statistic::setPublicVideos);
 		attributeGetterFunctions.put(
-			"privateVideos",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getPrivateVideos();
-				}
-
-			});
+			"privateVideos", Statistic::getPrivateVideos);
 		attributeSetterBiConsumers.put(
 			"privateVideos",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object privateVideos) {
-					statistic.setPrivateVideos((Integer)privateVideos);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"autofillRow",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getAutofillRow();
-				}
-
-			});
+			(BiConsumer<Statistic, Integer>)Statistic::setPrivateVideos);
+		attributeGetterFunctions.put("autofillRow", Statistic::getAutofillRow);
 		attributeSetterBiConsumers.put(
 			"autofillRow",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object autofillRow) {
-					statistic.setAutofillRow((Integer)autofillRow);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statisticId",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getStatisticId();
-				}
-
-			});
+			(BiConsumer<Statistic, Integer>)Statistic::setAutofillRow);
+		attributeGetterFunctions.put("statisticId", Statistic::getStatisticId);
 		attributeSetterBiConsumers.put(
 			"statisticId",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object statisticId) {
-					statistic.setStatisticId((Long)statisticId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getGroupId();
-				}
-
-			});
+			(BiConsumer<Statistic, Long>)Statistic::setStatisticId);
+		attributeGetterFunctions.put("groupId", Statistic::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object groupId) {
-					statistic.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Statistic, Long>)Statistic::setGroupId);
+		attributeGetterFunctions.put("companyId", Statistic::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object companyId) {
-					statistic.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Statistic, Long>)Statistic::setCompanyId);
+		attributeGetterFunctions.put("userId", Statistic::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object userId) {
-					statistic.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Statistic, Long>)Statistic::setUserId);
+		attributeGetterFunctions.put("userName", Statistic::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object userName) {
-					statistic.setUserName((String)userName);
-				}
-
-			});
+			"userName", (BiConsumer<Statistic, String>)Statistic::setUserName);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Statistic, Object>() {
-
-				@Override
-				public Object apply(Statistic statistic) {
-					return statistic.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", Statistic::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Statistic, Object>() {
-
-				@Override
-				public void accept(Statistic statistic, Object modifiedDate) {
-					statistic.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Statistic, Date>)Statistic::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

@@ -367,8 +367,6 @@ public class ProzessManager {
 			e2.printStackTrace();
 		}
 		
-		LicenseLocalServiceUtil.deleteByVideoId(video.getVideoId());
-
 		// delete video from videohitlist
 		try {
 			VideohitlistLocalServiceUtil.deleteByVideoId(video.getVideoId());

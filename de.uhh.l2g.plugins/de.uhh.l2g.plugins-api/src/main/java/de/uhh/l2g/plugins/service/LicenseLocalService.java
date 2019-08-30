@@ -14,8 +14,6 @@
 
 package de.uhh.l2g.plugins.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -32,12 +30,13 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
 import de.uhh.l2g.plugins.model.License;
 
 import java.io.Serializable;
 
 import java.util.List;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for License. Methods of this
@@ -80,8 +79,6 @@ public interface LicenseLocalService
 	 */
 	@Transactional(enabled = false)
 	public License createLicense(long licenseId);
-
-	public boolean deleteByVideoId(Long videoId);
 
 	/**
 	 * Deletes the license from the database. Also notifies the appropriate model listeners.
@@ -182,8 +179,8 @@ public interface LicenseLocalService
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public License getByVideoId(Long videoId)
-		throws NoSuchLicenseException, SystemException;
+	public List<License> getBySelectable(boolean isSelectable)
+		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();

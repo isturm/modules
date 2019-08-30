@@ -14,10 +14,10 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import de.uhh.l2g.plugins.model.Video_Creator;
 import de.uhh.l2g.plugins.service.Video_CreatorLocalServiceUtil;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The extended model base implementation for the Video_Creator service. Represents a row in the &quot;LG_Video_Creator&quot; database table, with each column mapped to a property of this class.

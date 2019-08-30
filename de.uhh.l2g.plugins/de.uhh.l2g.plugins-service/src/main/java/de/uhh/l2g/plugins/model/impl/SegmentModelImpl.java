@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Segment;
 import de.uhh.l2g.plugins.model.SegmentModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Segment service. Represents a row in the &quot;LG_Segment&quot; database table, with each column mapped to a property of this class.
@@ -266,266 +266,47 @@ public class SegmentModelImpl
 		Map<String, BiConsumer<Segment, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Segment, ?>>();
 
-		attributeGetterFunctions.put(
-			"segmentId",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getSegmentId();
-				}
-
-			});
+		attributeGetterFunctions.put("segmentId", Segment::getSegmentId);
 		attributeSetterBiConsumers.put(
-			"segmentId",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object segmentId) {
-					segment.setSegmentId((Long)segmentId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoId",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getVideoId();
-				}
-
-			});
+			"segmentId", (BiConsumer<Segment, Long>)Segment::setSegmentId);
+		attributeGetterFunctions.put("videoId", Segment::getVideoId);
 		attributeSetterBiConsumers.put(
-			"videoId",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object videoId) {
-					segment.setVideoId((Long)videoId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"start",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getStart();
-				}
-
-			});
+			"videoId", (BiConsumer<Segment, Long>)Segment::setVideoId);
+		attributeGetterFunctions.put("start", Segment::getStart);
 		attributeSetterBiConsumers.put(
-			"start",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object start) {
-					segment.setStart((String)start);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getTitle();
-				}
-
-			});
+			"start", (BiConsumer<Segment, String>)Segment::setStart);
+		attributeGetterFunctions.put("title", Segment::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object title) {
-					segment.setTitle((String)title);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getDescription();
-				}
-
-			});
+			"title", (BiConsumer<Segment, String>)Segment::setTitle);
+		attributeGetterFunctions.put("description", Segment::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object description) {
-					segment.setDescription((String)description);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"end",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getEnd();
-				}
-
-			});
+			(BiConsumer<Segment, String>)Segment::setDescription);
+		attributeGetterFunctions.put("end", Segment::getEnd);
 		attributeSetterBiConsumers.put(
-			"end",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object end) {
-					segment.setEnd((String)end);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"chapter",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getChapter();
-				}
-
-			});
+			"end", (BiConsumer<Segment, String>)Segment::setEnd);
+		attributeGetterFunctions.put("chapter", Segment::getChapter);
 		attributeSetterBiConsumers.put(
-			"chapter",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object chapter) {
-					segment.setChapter((Integer)chapter);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getUserId();
-				}
-
-			});
+			"chapter", (BiConsumer<Segment, Integer>)Segment::setChapter);
+		attributeGetterFunctions.put("userId", Segment::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object userId) {
-					segment.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getGroupId();
-				}
-
-			});
+			"userId", (BiConsumer<Segment, Long>)Segment::setUserId);
+		attributeGetterFunctions.put("groupId", Segment::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object groupId) {
-					segment.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Segment, Long>)Segment::setGroupId);
+		attributeGetterFunctions.put("companyId", Segment::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object companyId) {
-					segment.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getUserName();
-				}
-
-			});
+			"companyId", (BiConsumer<Segment, Long>)Segment::setCompanyId);
+		attributeGetterFunctions.put("userName", Segment::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object userName) {
-					segment.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Segment, String>)Segment::setUserName);
+		attributeGetterFunctions.put("createDate", Segment::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object createDate) {
-					segment.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Segment, Object>() {
-
-				@Override
-				public Object apply(Segment segment) {
-					return segment.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Segment, Date>)Segment::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Segment::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Segment, Object>() {
-
-				@Override
-				public void accept(Segment segment, Object modifiedDate) {
-					segment.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Segment, Date>)Segment::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

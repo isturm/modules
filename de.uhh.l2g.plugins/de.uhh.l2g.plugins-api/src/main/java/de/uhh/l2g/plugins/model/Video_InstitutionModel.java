@@ -14,14 +14,9 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.service.ServiceContext;
 
-import java.io.Serializable;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the Video_Institution service. Represents a row in the &quot;LG_Video_Institution&quot; database table, with each column mapped to a property of this class.
@@ -112,64 +107,5 @@ public interface Video_InstitutionModel extends BaseModel<Video_Institution> {
 	 * @param institutionParentId the institution parent ID of this video_ institution
 	 */
 	public void setInstitutionParentId(long institutionParentId);
-
-	@Override
-	public boolean isNew();
-
-	@Override
-	public void setNew(boolean n);
-
-	@Override
-	public boolean isCachedModel();
-
-	@Override
-	public void setCachedModel(boolean cachedModel);
-
-	@Override
-	public boolean isEscapedModel();
-
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
-	public Object clone();
-
-	@Override
-	public int compareTo(
-		de.uhh.l2g.plugins.model.Video_Institution video_Institution);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<de.uhh.l2g.plugins.model.Video_Institution>
-		toCacheModel();
-
-	@Override
-	public de.uhh.l2g.plugins.model.Video_Institution toEscapedModel();
-
-	@Override
-	public de.uhh.l2g.plugins.model.Video_Institution toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
 
 }

@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Producer;
 import de.uhh.l2g.plugins.model.ProducerModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Producer service. Represents a row in the &quot;LG_Producer&quot; database table, with each column mapped to a property of this class.
@@ -275,268 +275,50 @@ public class ProducerModelImpl
 		Map<String, BiConsumer<Producer, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Producer, ?>>();
 
-		attributeGetterFunctions.put(
-			"producerId",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getProducerId();
-				}
-
-			});
+		attributeGetterFunctions.put("producerId", Producer::getProducerId);
 		attributeSetterBiConsumers.put(
-			"producerId",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object producerId) {
-					producer.setProducerId((Long)producerId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"idNum",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getIdNum();
-				}
-
-			});
+			"producerId", (BiConsumer<Producer, Long>)Producer::setProducerId);
+		attributeGetterFunctions.put("idNum", Producer::getIdNum);
 		attributeSetterBiConsumers.put(
-			"idNum",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object idNum) {
-					producer.setIdNum((String)idNum);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"homeDir",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getHomeDir();
-				}
-
-			});
+			"idNum", (BiConsumer<Producer, String>)Producer::setIdNum);
+		attributeGetterFunctions.put("homeDir", Producer::getHomeDir);
 		attributeSetterBiConsumers.put(
-			"homeDir",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object homeDir) {
-					producer.setHomeDir((String)homeDir);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"hostId",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getHostId();
-				}
-
-			});
+			"homeDir", (BiConsumer<Producer, String>)Producer::setHomeDir);
+		attributeGetterFunctions.put("hostId", Producer::getHostId);
 		attributeSetterBiConsumers.put(
-			"hostId",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object hostId) {
-					producer.setHostId((Long)hostId);
-				}
-
-			});
+			"hostId", (BiConsumer<Producer, Long>)Producer::setHostId);
 		attributeGetterFunctions.put(
-			"institutionId",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getInstitutionId();
-				}
-
-			});
+			"institutionId", Producer::getInstitutionId);
 		attributeSetterBiConsumers.put(
 			"institutionId",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object institutionId) {
-					producer.setInstitutionId((Long)institutionId);
-				}
-
-			});
+			(BiConsumer<Producer, Long>)Producer::setInstitutionId);
 		attributeGetterFunctions.put(
-			"numberOfProductions",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getNumberOfProductions();
-				}
-
-			});
+			"numberOfProductions", Producer::getNumberOfProductions);
 		attributeSetterBiConsumers.put(
 			"numberOfProductions",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(
-					Producer producer, Object numberOfProductions) {
-
-					producer.setNumberOfProductions((Long)numberOfProductions);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"approved",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getApproved();
-				}
-
-			});
+			(BiConsumer<Producer, Long>)Producer::setNumberOfProductions);
+		attributeGetterFunctions.put("approved", Producer::getApproved);
 		attributeSetterBiConsumers.put(
-			"approved",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object approved) {
-					producer.setApproved((Integer)approved);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getGroupId();
-				}
-
-			});
+			"approved", (BiConsumer<Producer, Integer>)Producer::setApproved);
+		attributeGetterFunctions.put("groupId", Producer::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object groupId) {
-					producer.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Producer, Long>)Producer::setGroupId);
+		attributeGetterFunctions.put("companyId", Producer::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object companyId) {
-					producer.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Producer, Long>)Producer::setCompanyId);
+		attributeGetterFunctions.put("userId", Producer::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object userId) {
-					producer.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Producer, Long>)Producer::setUserId);
+		attributeGetterFunctions.put("userName", Producer::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object userName) {
-					producer.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Producer, String>)Producer::setUserName);
+		attributeGetterFunctions.put("createDate", Producer::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object createDate) {
-					producer.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Producer, Object>() {
-
-				@Override
-				public Object apply(Producer producer) {
-					return producer.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Producer, Date>)Producer::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Producer::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Producer, Object>() {
-
-				@Override
-				public void accept(Producer producer, Object modifiedDate) {
-					producer.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Producer, Date>)Producer::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

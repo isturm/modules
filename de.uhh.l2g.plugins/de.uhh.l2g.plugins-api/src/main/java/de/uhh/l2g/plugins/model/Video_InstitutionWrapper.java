@@ -14,17 +14,13 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,11 @@ import java.util.Objects;
  */
 @ProviderType
 public class Video_InstitutionWrapper
+	extends BaseModelWrapper<Video_Institution>
 	implements Video_Institution, ModelWrapper<Video_Institution> {
 
 	public Video_InstitutionWrapper(Video_Institution video_Institution) {
-		_video_Institution = video_Institution;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Video_Institution.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Video_Institution.class.getName();
+		super(video_Institution);
 	}
 
 	@Override
@@ -92,24 +79,6 @@ public class Video_InstitutionWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new Video_InstitutionWrapper(
-			(Video_Institution)_video_Institution.clone());
-	}
-
-	@Override
-	public int compareTo(
-		de.uhh.l2g.plugins.model.Video_Institution video_Institution) {
-
-		return _video_Institution.compareTo(video_Institution);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _video_Institution.getExpandoBridge();
-	}
-
 	/**
 	 * Returns the institution ID of this video_ institution.
 	 *
@@ -117,7 +86,7 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public long getInstitutionId() {
-		return _video_Institution.getInstitutionId();
+		return model.getInstitutionId();
 	}
 
 	/**
@@ -127,7 +96,7 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public long getInstitutionParentId() {
-		return _video_Institution.getInstitutionParentId();
+		return model.getInstitutionParentId();
 	}
 
 	/**
@@ -137,12 +106,7 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _video_Institution.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _video_Institution.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -152,7 +116,7 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public long getVideoId() {
-		return _video_Institution.getVideoId();
+		return model.getVideoId();
 	}
 
 	/**
@@ -162,54 +126,12 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public long getVideoInstitutionId() {
-		return _video_Institution.getVideoInstitutionId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _video_Institution.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _video_Institution.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _video_Institution.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _video_Institution.isNew();
+		return model.getVideoInstitutionId();
 	}
 
 	@Override
 	public void persist() {
-		_video_Institution.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_video_Institution.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_video_Institution.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_video_Institution.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_video_Institution.setExpandoBridgeAttributes(serviceContext);
+		model.persist();
 	}
 
 	/**
@@ -219,7 +141,7 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public void setInstitutionId(long institutionId) {
-		_video_Institution.setInstitutionId(institutionId);
+		model.setInstitutionId(institutionId);
 	}
 
 	/**
@@ -229,12 +151,7 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public void setInstitutionParentId(long institutionParentId) {
-		_video_Institution.setInstitutionParentId(institutionParentId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_video_Institution.setNew(n);
+		model.setInstitutionParentId(institutionParentId);
 	}
 
 	/**
@@ -244,12 +161,7 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_video_Institution.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_video_Institution.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -259,7 +171,7 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public void setVideoId(long videoId) {
-		_video_Institution.setVideoId(videoId);
+		model.setVideoId(videoId);
 	}
 
 	/**
@@ -269,81 +181,14 @@ public class Video_InstitutionWrapper
 	 */
 	@Override
 	public void setVideoInstitutionId(long videoInstitutionId) {
-		_video_Institution.setVideoInstitutionId(videoInstitutionId);
+		model.setVideoInstitutionId(videoInstitutionId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Video_Institution> toCacheModel() {
+	protected Video_InstitutionWrapper wrap(
+		Video_Institution video_Institution) {
 
-		return _video_Institution.toCacheModel();
+		return new Video_InstitutionWrapper(video_Institution);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Video_Institution toEscapedModel() {
-		return new Video_InstitutionWrapper(
-			_video_Institution.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _video_Institution.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Video_Institution toUnescapedModel() {
-		return new Video_InstitutionWrapper(
-			_video_Institution.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _video_Institution.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof Video_InstitutionWrapper)) {
-			return false;
-		}
-
-		Video_InstitutionWrapper video_InstitutionWrapper =
-			(Video_InstitutionWrapper)obj;
-
-		if (Objects.equals(
-				_video_Institution,
-				video_InstitutionWrapper._video_Institution)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Video_Institution getWrappedModel() {
-		return _video_Institution;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _video_Institution.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _video_Institution.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_video_Institution.resetOriginalValues();
-	}
-
-	private final Video_Institution _video_Institution;
 
 }

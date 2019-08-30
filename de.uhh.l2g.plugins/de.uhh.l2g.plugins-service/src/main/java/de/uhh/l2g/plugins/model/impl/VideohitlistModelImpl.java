@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Videohitlist;
 import de.uhh.l2g.plugins.model.VideohitlistModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Videohitlist service. Represents a row in the &quot;LG_Videohitlist&quot; database table, with each column mapped to a property of this class.
@@ -267,261 +267,57 @@ public class VideohitlistModelImpl
 			new LinkedHashMap<String, BiConsumer<Videohitlist, ?>>();
 
 		attributeGetterFunctions.put(
-			"videohitlistId",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getVideohitlistId();
-				}
-
-			});
+			"videohitlistId", Videohitlist::getVideohitlistId);
 		attributeSetterBiConsumers.put(
 			"videohitlistId",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(
-					Videohitlist videohitlist, Object videohitlistId) {
-
-					videohitlist.setVideohitlistId((Long)videohitlistId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"hitsPerDay",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getHitsPerDay();
-				}
-
-			});
+			(BiConsumer<Videohitlist, Long>)Videohitlist::setVideohitlistId);
+		attributeGetterFunctions.put("hitsPerDay", Videohitlist::getHitsPerDay);
 		attributeSetterBiConsumers.put(
 			"hitsPerDay",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(
-					Videohitlist videohitlist, Object hitsPerDay) {
-
-					videohitlist.setHitsPerDay((Long)hitsPerDay);
-				}
-
-			});
+			(BiConsumer<Videohitlist, Long>)Videohitlist::setHitsPerDay);
 		attributeGetterFunctions.put(
-			"hitsPerWeek",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getHitsPerWeek();
-				}
-
-			});
+			"hitsPerWeek", Videohitlist::getHitsPerWeek);
 		attributeSetterBiConsumers.put(
 			"hitsPerWeek",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(
-					Videohitlist videohitlist, Object hitsPerWeek) {
-
-					videohitlist.setHitsPerWeek((Long)hitsPerWeek);
-				}
-
-			});
+			(BiConsumer<Videohitlist, Long>)Videohitlist::setHitsPerWeek);
 		attributeGetterFunctions.put(
-			"hitsPerMonth",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getHitsPerMonth();
-				}
-
-			});
+			"hitsPerMonth", Videohitlist::getHitsPerMonth);
 		attributeSetterBiConsumers.put(
 			"hitsPerMonth",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(
-					Videohitlist videohitlist, Object hitsPerMonth) {
-
-					videohitlist.setHitsPerMonth((Long)hitsPerMonth);
-				}
-
-			});
+			(BiConsumer<Videohitlist, Long>)Videohitlist::setHitsPerMonth);
 		attributeGetterFunctions.put(
-			"hitsPerYear",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getHitsPerYear();
-				}
-
-			});
+			"hitsPerYear", Videohitlist::getHitsPerYear);
 		attributeSetterBiConsumers.put(
 			"hitsPerYear",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(
-					Videohitlist videohitlist, Object hitsPerYear) {
-
-					videohitlist.setHitsPerYear((Long)hitsPerYear);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoId",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getVideoId();
-				}
-
-			});
+			(BiConsumer<Videohitlist, Long>)Videohitlist::setHitsPerYear);
+		attributeGetterFunctions.put("videoId", Videohitlist::getVideoId);
 		attributeSetterBiConsumers.put(
 			"videoId",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(Videohitlist videohitlist, Object videoId) {
-					videohitlist.setVideoId((Long)videoId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getGroupId();
-				}
-
-			});
+			(BiConsumer<Videohitlist, Long>)Videohitlist::setVideoId);
+		attributeGetterFunctions.put("groupId", Videohitlist::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(Videohitlist videohitlist, Object groupId) {
-					videohitlist.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getCompanyId();
-				}
-
-			});
+			(BiConsumer<Videohitlist, Long>)Videohitlist::setGroupId);
+		attributeGetterFunctions.put("companyId", Videohitlist::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(
-					Videohitlist videohitlist, Object companyId) {
-
-					videohitlist.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getUserId();
-				}
-
-			});
+			(BiConsumer<Videohitlist, Long>)Videohitlist::setCompanyId);
+		attributeGetterFunctions.put("userId", Videohitlist::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(Videohitlist videohitlist, Object userId) {
-					videohitlist.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Videohitlist, Long>)Videohitlist::setUserId);
+		attributeGetterFunctions.put("userName", Videohitlist::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(Videohitlist videohitlist, Object userName) {
-					videohitlist.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getCreateDate();
-				}
-
-			});
+			(BiConsumer<Videohitlist, String>)Videohitlist::setUserName);
+		attributeGetterFunctions.put("createDate", Videohitlist::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(
-					Videohitlist videohitlist, Object createDate) {
-
-					videohitlist.setCreateDate((Date)createDate);
-				}
-
-			});
+			(BiConsumer<Videohitlist, Date>)Videohitlist::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Videohitlist, Object>() {
-
-				@Override
-				public Object apply(Videohitlist videohitlist) {
-					return videohitlist.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", Videohitlist::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Videohitlist, Object>() {
-
-				@Override
-				public void accept(
-					Videohitlist videohitlist, Object modifiedDate) {
-
-					videohitlist.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Videohitlist, Date>)Videohitlist::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

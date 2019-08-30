@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
+public class SegmentWrapper
+	extends BaseModelWrapper<Segment>
+	implements Segment, ModelWrapper<Segment> {
 
 	public SegmentWrapper(Segment segment) {
-		_segment = segment;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Segment.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Segment.class.getName();
+		super(segment);
 	}
 
 	@Override
@@ -155,16 +143,6 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new SegmentWrapper((Segment)_segment.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Segment segment) {
-		return _segment.compareTo(segment);
-	}
-
 	/**
 	 * Returns the chapter of this segment.
 	 *
@@ -172,7 +150,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public int getChapter() {
-		return _segment.getChapter();
+		return model.getChapter();
 	}
 
 	/**
@@ -182,7 +160,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _segment.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -192,7 +170,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _segment.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -202,7 +180,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public String getDescription() {
-		return _segment.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -212,12 +190,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public String getEnd() {
-		return _segment.getEnd();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _segment.getExpandoBridge();
+		return model.getEnd();
 	}
 
 	/**
@@ -227,12 +200,12 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _segment.getGroupId();
+		return model.getGroupId();
 	}
 
 	@Override
 	public String getImage() {
-		return _segment.getImage();
+		return model.getImage();
 	}
 
 	/**
@@ -242,17 +215,17 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _segment.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	@Override
 	public int getNumber() {
-		return _segment.getNumber();
+		return model.getNumber();
 	}
 
 	@Override
 	public long getPreviusSegmentId() {
-		return _segment.getPreviusSegmentId();
+		return model.getPreviusSegmentId();
 	}
 
 	/**
@@ -262,17 +235,12 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _segment.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _segment.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	@Override
 	public int getSeconds() {
-		return _segment.getSeconds();
+		return model.getSeconds();
 	}
 
 	/**
@@ -282,7 +250,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public long getSegmentId() {
-		return _segment.getSegmentId();
+		return model.getSegmentId();
 	}
 
 	/**
@@ -292,7 +260,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public String getStart() {
-		return _segment.getStart();
+		return model.getStart();
 	}
 
 	/**
@@ -302,7 +270,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public String getTitle() {
-		return _segment.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -312,7 +280,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public long getUserId() {
-		return _segment.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -322,7 +290,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public String getUserName() {
-		return _segment.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -332,7 +300,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _segment.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -342,37 +310,12 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public long getVideoId() {
-		return _segment.getVideoId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _segment.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _segment.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _segment.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _segment.isNew();
+		return model.getVideoId();
 	}
 
 	@Override
 	public void persist() {
-		_segment.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_segment.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -382,7 +325,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setChapter(int chapter) {
-		_segment.setChapter(chapter);
+		model.setChapter(chapter);
 	}
 
 	/**
@@ -392,7 +335,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_segment.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -402,7 +345,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_segment.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -412,7 +355,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_segment.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -422,24 +365,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setEnd(String end) {
-		_segment.setEnd(end);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_segment.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_segment.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_segment.setExpandoBridgeAttributes(serviceContext);
+		model.setEnd(end);
 	}
 
 	/**
@@ -449,12 +375,12 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_segment.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	@Override
 	public void setImage(String image) {
-		_segment.setImage(image);
+		model.setImage(image);
 	}
 
 	/**
@@ -464,22 +390,17 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_segment.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_segment.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	@Override
 	public void setNumber(int number) {
-		_segment.setNumber(number);
+		model.setNumber(number);
 	}
 
 	@Override
 	public void setPreviusSegmentId(long previusSegmentId) {
-		_segment.setPreviusSegmentId(previusSegmentId);
+		model.setPreviusSegmentId(previusSegmentId);
 	}
 
 	/**
@@ -489,17 +410,12 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_segment.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_segment.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	@Override
 	public void setSeconds(int seconds) {
-		_segment.setSeconds(seconds);
+		model.setSeconds(seconds);
 	}
 
 	/**
@@ -509,7 +425,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setSegmentId(long segmentId) {
-		_segment.setSegmentId(segmentId);
+		model.setSegmentId(segmentId);
 	}
 
 	/**
@@ -519,7 +435,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setStart(String start) {
-		_segment.setStart(start);
+		model.setStart(start);
 	}
 
 	/**
@@ -529,7 +445,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_segment.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -539,7 +455,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_segment.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -549,7 +465,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_segment.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -559,7 +475,7 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_segment.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -569,75 +485,12 @@ public class SegmentWrapper implements Segment, ModelWrapper<Segment> {
 	 */
 	@Override
 	public void setVideoId(long videoId) {
-		_segment.setVideoId(videoId);
+		model.setVideoId(videoId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Segment> toCacheModel() {
-
-		return _segment.toCacheModel();
+	protected SegmentWrapper wrap(Segment segment) {
+		return new SegmentWrapper(segment);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Segment toEscapedModel() {
-		return new SegmentWrapper(_segment.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _segment.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Segment toUnescapedModel() {
-		return new SegmentWrapper(_segment.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _segment.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof SegmentWrapper)) {
-			return false;
-		}
-
-		SegmentWrapper segmentWrapper = (SegmentWrapper)obj;
-
-		if (Objects.equals(_segment, segmentWrapper._segment)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Segment getWrappedModel() {
-		return _segment;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _segment.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _segment.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_segment.resetOriginalValues();
-	}
-
-	private final Segment _segment;
 
 }

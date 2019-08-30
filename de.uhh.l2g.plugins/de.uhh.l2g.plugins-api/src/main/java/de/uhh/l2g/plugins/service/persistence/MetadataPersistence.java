@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchMetadataException;
 import de.uhh.l2g.plugins.model.Metadata;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the metadata service.
@@ -45,9 +40,6 @@ public interface MetadataPersistence extends BasePersistence<Metadata> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link MetadataUtil} to access the metadata persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Metadata> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the metadatas where groupId = &#63;.
@@ -608,8 +600,5 @@ public interface MetadataPersistence extends BasePersistence<Metadata> {
 	 * @return the number of metadatas
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

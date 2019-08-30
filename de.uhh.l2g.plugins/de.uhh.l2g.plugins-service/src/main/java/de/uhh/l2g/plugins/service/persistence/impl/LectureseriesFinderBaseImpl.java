@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import de.uhh.l2g.plugins.model.Lectureseries;
 import de.uhh.l2g.plugins.service.persistence.LectureseriesPersistence;
 
-import java.lang.reflect.Field;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -43,19 +41,7 @@ public class LectureseriesFinderBaseImpl
 		dbColumnNames.put("number", "number_");
 		dbColumnNames.put("password", "password_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 	}
 
 	@Override

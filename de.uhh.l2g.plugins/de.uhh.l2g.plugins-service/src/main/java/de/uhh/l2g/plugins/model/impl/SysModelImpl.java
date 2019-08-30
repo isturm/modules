@@ -14,15 +14,13 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Sys;
 import de.uhh.l2g.plugins.model.SysModel;
@@ -40,6 +38,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Sys service. Represents a row in the &quot;LG_Sys&quot; database table, with each column mapped to a property of this class.
@@ -226,66 +226,15 @@ public class SysModelImpl extends BaseModelImpl<Sys> implements SysModel {
 		Map<String, BiConsumer<Sys, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Sys, ?>>();
 
-		attributeGetterFunctions.put(
-			"sysId",
-			new Function<Sys, Object>() {
-
-				@Override
-				public Object apply(Sys sys) {
-					return sys.getSysId();
-				}
-
-			});
+		attributeGetterFunctions.put("sysId", Sys::getSysId);
 		attributeSetterBiConsumers.put(
-			"sysId",
-			new BiConsumer<Sys, Object>() {
-
-				@Override
-				public void accept(Sys sys, Object sysId) {
-					sys.setSysId((Integer)sysId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"version",
-			new Function<Sys, Object>() {
-
-				@Override
-				public Object apply(Sys sys) {
-					return sys.getVersion();
-				}
-
-			});
+			"sysId", (BiConsumer<Sys, Integer>)Sys::setSysId);
+		attributeGetterFunctions.put("version", Sys::getVersion);
 		attributeSetterBiConsumers.put(
-			"version",
-			new BiConsumer<Sys, Object>() {
-
-				@Override
-				public void accept(Sys sys, Object version) {
-					sys.setVersion((String)version);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"setupWizard",
-			new Function<Sys, Object>() {
-
-				@Override
-				public Object apply(Sys sys) {
-					return sys.getSetupWizard();
-				}
-
-			});
+			"version", (BiConsumer<Sys, String>)Sys::setVersion);
+		attributeGetterFunctions.put("setupWizard", Sys::getSetupWizard);
 		attributeSetterBiConsumers.put(
-			"setupWizard",
-			new BiConsumer<Sys, Object>() {
-
-				@Override
-				public void accept(Sys sys, Object setupWizard) {
-					sys.setSetupWizard((Integer)setupWizard);
-				}
-
-			});
+			"setupWizard", (BiConsumer<Sys, Integer>)Sys::setSetupWizard);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

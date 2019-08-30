@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -26,7 +25,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchSysException;
@@ -38,12 +36,10 @@ import de.uhh.l2g.plugins.service.persistence.SysPersistence;
 import java.io.Serializable;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the sys service.
@@ -79,6 +75,10 @@ public class SysPersistenceImpl
 
 	public SysPersistenceImpl() {
 		setModelClass(Sys.class);
+
+		setModelImplClass(SysImpl.class);
+		setModelPKClass(int.class);
+		setEntityCacheEnabled(SysModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -337,157 +337,12 @@ public class SysPersistenceImpl
 	/**
 	 * Returns the sys with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the sys
-	 * @return the sys, or <code>null</code> if a sys with the primary key could not be found
-	 */
-	@Override
-	public Sys fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			SysModelImpl.ENTITY_CACHE_ENABLED, SysImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Sys sys = (Sys)serializable;
-
-		if (sys == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				sys = (Sys)session.get(SysImpl.class, primaryKey);
-
-				if (sys != null) {
-					cacheResult(sys);
-				}
-				else {
-					entityCache.putResult(
-						SysModelImpl.ENTITY_CACHE_ENABLED, SysImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					SysModelImpl.ENTITY_CACHE_ENABLED, SysImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return sys;
-	}
-
-	/**
-	 * Returns the sys with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param sysId the primary key of the sys
 	 * @return the sys, or <code>null</code> if a sys with the primary key could not be found
 	 */
 	@Override
 	public Sys fetchByPrimaryKey(int sysId) {
 		return fetchByPrimaryKey((Serializable)sysId);
-	}
-
-	@Override
-	public Map<Serializable, Sys> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Sys> map = new HashMap<Serializable, Sys>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Sys sys = fetchByPrimaryKey(primaryKey);
-
-			if (sys != null) {
-				map.put(primaryKey, sys);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				SysModelImpl.ENTITY_CACHE_ENABLED, SysImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Sys)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_SYS_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((int)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Sys sys : (List<Sys>)q.list()) {
-				map.put(sys.getPrimaryKeyObj(), sys);
-
-				cacheResult(sys);
-
-				uncachedPrimaryKeys.remove(sys.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					SysModelImpl.ENTITY_CACHE_ENABLED, SysImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -685,6 +540,21 @@ public class SysPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "sysId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SYS;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return SysModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -725,9 +595,6 @@ public class SysPersistenceImpl
 	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_SYS = "SELECT sys FROM Sys sys";
-
-	private static final String _SQL_SELECT_SYS_WHERE_PKS_IN =
-		"SELECT sys FROM Sys sys WHERE sysId IN (";
 
 	private static final String _SQL_COUNT_SYS =
 		"SELECT COUNT(sys) FROM Sys sys";

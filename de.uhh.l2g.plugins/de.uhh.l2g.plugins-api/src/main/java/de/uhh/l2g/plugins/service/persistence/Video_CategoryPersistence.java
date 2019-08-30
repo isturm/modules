@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchVideo_CategoryException;
 import de.uhh.l2g.plugins.model.Video_Category;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the video_ category service.
@@ -46,9 +41,6 @@ public interface Video_CategoryPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link Video_CategoryUtil} to access the video_ category persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Video_Category> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the video_ categories where videoId = &#63;.

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+
 <service-builder package-path="de.uhh.l2g.plugins" auto-namespace-tables="true">
     <author>Iavor Sturm</author>
     <namespace>LG</namespace>
@@ -25,6 +26,12 @@
     	<column name="videoSort" type="int"></column>
     	<column name="USID" type="String"></column>
     	<column name="previewVideoId" type="long"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<order by="asc">
     		<order-column name="name" order-by="asc"></order-column>
     	</order>
@@ -69,21 +76,6 @@
     	<finder name="USID" return-type="Collection">
     		<finder-column name="USID"></finder-column>
     	</finder>
-
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
         <finder name="Group" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
@@ -219,6 +211,12 @@
     	<column name="institutionId" type="long"></column>
     	<column name="numberOfProductions" type="long"></column>
     	<column name="approved" type="int"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>    	
     	<finder name="Host" return-type="Collection">
     		<finder-column name="hostId"></finder-column>
     	</finder>
@@ -244,20 +242,6 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Producer_Lectureseries" local-service="true" remote-service="false">
         <column name="producerLectureseriesId" type="long" primary="true" id-type="increment"></column>
@@ -282,6 +266,12 @@
     	<column name="serverRoot" type="String"></column>
     	<column name="name" type="String"></column>
     	<column name="defaultHost" type="int"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<order by="asc">
     		<order-column name="serverRoot" />
     	</order>
@@ -308,21 +298,6 @@
     		<finder-column name="companyId"></finder-column>
     		<finder-column name="groupId"></finder-column>
     	</finder>
-
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
         <finder name="CompanyId" return-type="Collection">
             <finder-column name="companyId"></finder-column>
         </finder>
@@ -373,6 +348,12 @@
     	<column name="www" type="String"></column>
     	<column name="email" type="String"></column>
     	<column name="institutionId" type="long"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>    	
     	<finder name="Institution" return-type="Office">
     		<finder-column name="institutionId"></finder-column>
     	</finder>
@@ -386,24 +367,18 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Coordinator" local-service="true"
     	remote-service="false">
     	<column name="coordinatorId" type="long" primary="true"></column>
     	<column name="institutionId" type="long"></column>
     	<column name="officeId" type="long"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<finder name="Institution" return-type="Coordinator">
     		<finder-column name="institutionId"></finder-column>
     	</finder>
@@ -419,19 +394,7 @@
         <finder name="GroupAndCompany" return-type="Collection">
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
-        </finder>    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
+        </finder>    	
     </entity>
     <entity name="Sys" local-service="true" remote-service="false">
         <column name="sysId" type="int" primary="true" id-type="increment"></column>
@@ -444,6 +407,12 @@
     		id-type="increment">
     	</column>
     	<column name="videoId" type="long"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>    	
     	<finder name="Video" return-type="Collection">
     		<finder-column name="videoId"></finder-column>
     	</finder>
@@ -457,63 +426,20 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>
-        
-    	<!-- PK fields -->
 
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
     </entity>
-    <entity name="License" local-service="true"
-    	remote-service="false">
-    	<column name="licenseId" type="long" primary="true"
-    		id-type="increment">
-    	</column>
-    	<column name="videoId" type="long"></column>
-    	<column name="ccby" type="int"></column>
-    	<column name="ccbybc" type="int"></column>
-    	<column name="ccbyncnd" type="int"></column>
-    	<column name="ccbyncsa" type="int"></column>
-    	<column name="ccbysa" type="int"></column>
-    	<column name="ccbync" type="int"></column>
-    	<column name="l2go" type="int"></column>
-    	<finder name="Video"
-    		return-type="de.uhh.l2g.plugins.model.License">
-    		<finder-column name="videoId"></finder-column>
-    	</finder>
-    	<finder name="Group" return-type="Collection">
-    		<finder-column name="groupId"></finder-column>
-    	</finder>
-    	<finder name="Company" return-type="Collection">
-    		<finder-column name="companyId"></finder-column>
-    	</finder>
-    	<finder name="GroupAndCompany" return-type="Collection">
-    		<finder-column name="groupId"></finder-column>
-    		<finder-column name="companyId"></finder-column>
-    	</finder>
-
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
+    <entity name="License" local-service="true" remote-service="false">
+        <column name="licenseId" type="long" primary="true" id-type="increment"></column>
+        <column name="fullName" type="String"></column>
+        <column name="shortIdentifier" type="String"></column>
+        <column name="url" type="String"></column>
+        <column name="schemeName" type="String"></column>
+        <column name="schemeUrl" type="String"></column>
+        <column name="selectable" type="boolean" localized="false"></column>
+        <column name="description" type="String"></column>
+        <finder name="Selectable" return-type="Collection">
+            <finder-column name="selectable"></finder-column>
+        </finder>
     </entity>
     <entity name="Metadata" local-service="true"
     	remote-service="false">
@@ -526,16 +452,7 @@
     	<column name="subject" type="String"></column>
     	<column name="description" type="String"></column>
     	<column name="publisher" type="String"></column>
-
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
     	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
     	<column name="companyId" type="long"></column>
     	<column name="userId" type="long"></column>
     	<column name="userName" type="String"></column>
@@ -564,6 +481,11 @@
     	<column name="end" type="String"></column>
     	<column name="chapter" type="int"></column>
     	<column name="userId" type="long"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<order by="asc">
     		<order-column name="start" order-by="asc"
     			case-sensitive="false">
@@ -585,116 +507,85 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>
-     	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Video" local-service="true" remote-service="false">
-    	<column name="videoId" type="long" primary="true"
-    		id-type="increment">
-    	</column>
-    	<column name="title" type="String"></column>
-    	<column name="lectureseriesId" type="long"></column>
-    	<column name="producerId" type="long"></column>
-    	<column name="containerFormat" type="String"></column>
-    	<column name="filename" type="String"></column>
-    	<column name="resolution" type="String"></column>
-    	<column name="duration" type="String"></column>
-    	<column name="hostId" type="long"></column>
-    	<column name="fileSize" type="String"></column>
-    	<column name="generationDate" type="String"></column>
-    	<column name="openAccess" type="int"></column>
-    	<column name="downloadLink" type="int"></column>
-    	<column name="metadataId" type="long"></column>
-    	<column name="secureFilename" type="String"></column>
-    	<column name="hits" type="long"></column>
-    	<column name="uploadDate" type="Date"></column>
-    	<column name="permittedToSegment" type="int"></column>
-    	<column name="rootInstitutionId" type="long"></column>
-    	<column name="citation2go" type="int"></column>
-    	<column name="termId" type="long"></column>
-    	<column name="tags" type="String"></column>
-    	<column name="password" type="String"></column>
-    	<order by="desc">
-    		<order-column name="videoId" order-by="desc"></order-column>
-    		<order-column name="uploadDate" order-by="desc"></order-column>
-    	</order>
-    	<finder name="Producer" return-type="Collection">
-    		<finder-column name="producerId"></finder-column>
-    	</finder>
-    	<finder name="Lectureseries" return-type="Collection">
-    		<finder-column name="lectureseriesId"></finder-column>
-    	</finder>
-    	<finder name="ProducerAndLectureseries"
-    		return-type="Collection">
-    		<finder-column name="producerId"></finder-column>
-    		<finder-column name="lectureseriesId"></finder-column>
-    	</finder>
-    	<finder return-type="Collection"
-    		name="ProducerAndDownloadLink">
-    		<finder-column name="producerId"></finder-column>
-    		<finder-column name="downloadLink"></finder-column>
-    	</finder>
-    	<finder name="LectureseriesAndOpenaccess"
-    		return-type="Collection">
-    		<finder-column name="lectureseriesId"></finder-column>
-    		<finder-column name="openAccess"></finder-column>
-    	</finder>
-    	<finder name="Filename" return-type="Collection">
-    		<finder-column name="filename"></finder-column>
-    	</finder>
-    	<finder name="UploadDate" return-type="Collection">
-    		<finder-column name="uploadDate"></finder-column>
-    	</finder>
-    	<finder name="RootInstitution" return-type="Collection">
-    		<finder-column name="rootInstitutionId"></finder-column>
-    	</finder>
-    	<finder name="Password" return-type="Collection">
-    		<finder-column name="password"></finder-column>
-    	</finder>
-    	<finder name="OpenAccess" return-type="Collection">
-    		<finder-column name="openAccess"></finder-column>
-    	</finder>
-    	<finder name="Term" return-type="Collection">
-    		<finder-column name="termId"></finder-column>
-    	</finder>
- 		<finder name="Group" return-type="Collection">
-            <finder-column name="groupId"></finder-column>
-        </finder>
-        <finder name="Company" return-type="Collection">
-            <finder-column name="companyId"></finder-column>
-        </finder>
-        <finder name="GroupAndCompany" return-type="Collection">
-            <finder-column name="groupId"></finder-column>
-            <finder-column name="companyId"></finder-column>
-        </finder>
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
+		<column name="videoId" type="long" primary="true" id-type="increment"></column>
+		<column name="title" type="String"></column>
+		<column name="lectureseriesId" type="long"></column>
+		<column name="producerId" type="long"></column>
+		<column name="containerFormat" type="String"></column>
+		<column name="filename" type="String"></column>
+		<column name="resolution" type="String"></column>
+		<column name="duration" type="String"></column>
+		<column name="hostId" type="long"></column>
+		<column name="fileSize" type="String"></column>
+		<column name="generationDate" type="String"></column>
+		<column name="openAccess" type="int"></column>
+		<column name="downloadLink" type="int"></column>
+		<column name="metadataId" type="long"></column>
+		<column name="secureFilename" type="String"></column>
+		<column name="hits" type="long"></column>
+		<column name="uploadDate" type="Date"></column>
+		<column name="permittedToSegment" type="int"></column>
+		<column name="rootInstitutionId" type="long"></column>
+		<column name="citation2go" type="int"></column>
+		<column name="termId" type="long"></column>
+		<column name="tags" type="String"></column>
+		<column name="password" type="String"></column>
+        <column name="licenseId" type="long"></column>
+  		<column name="groupId" type="long"></column>
     	<column name="companyId" type="long"></column>
     	<column name="userId" type="long"></column>
     	<column name="userName" type="String"></column>
     	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
-        <finder name="OpenAccessAndUploadedFile" return-type="Collection" where="filename &gt; ''">
-            <finder-column name="openAccess"></finder-column>
+    	<column name="modifiedDate" type="Date"></column>        
+		<order by="desc">
+			<order-column name="videoId" order-by="desc"></order-column>
+			<order-column name="uploadDate" order-by="desc"></order-column>
+		</order>
+		<finder name="Producer" return-type="Collection">
+			<finder-column name="producerId"></finder-column>
+		</finder>
+		<finder name="Lectureseries" return-type="Collection">
+			<finder-column name="lectureseriesId"></finder-column>
+		</finder>
+		<finder name="ProducerAndLectureseries" return-type="Collection">
+			<finder-column name="producerId"></finder-column>
+			<finder-column name="lectureseriesId"></finder-column>
+		</finder>
+		<finder return-type="Collection" name="ProducerAndDownloadLink">
+			<finder-column name="producerId"></finder-column>
+			<finder-column name="downloadLink"></finder-column>
+		</finder>
+		<finder name="LectureseriesAndOpenaccess" return-type="Collection">
+			<finder-column name="lectureseriesId"></finder-column>
+			<finder-column name="openAccess"></finder-column>
+		</finder>
+		<finder name="Filename" return-type="Collection">
+			<finder-column name="filename"></finder-column>
+		</finder>
+		<finder name="UploadDate" return-type="Collection">
+			<finder-column name="uploadDate"></finder-column>
+		</finder>
+		<finder name="RootInstitution" return-type="Collection">
+			<finder-column name="rootInstitutionId"></finder-column>
+		</finder>
+		<finder name="Password" return-type="Collection">
+			<finder-column name="password"></finder-column>
+		</finder>
+		<finder name="OpenAccess" return-type="Collection">
+			<finder-column name="openAccess"></finder-column>
+		</finder>
+		<finder name="Term" return-type="Collection">
+			<finder-column name="termId"></finder-column>
+		</finder>
+		<finder name="OpenAccessAndUploadedFile" return-type="Collection" where="filename &gt; ''">
+			<finder-column name="openAccess"></finder-column>
+		</finder>
+        <finder name="License" return-type="Collection">
+            <finder-column name="licenseId"></finder-column>
         </finder>
-    </entity>
+	</entity>
     <entity name="Video_Institution" local-service="true" remote-service="false">
         <column name="videoInstitutionId" type="long" primary="true" id-type="increment"></column>
         <column name="videoId" type="long"></column>
@@ -724,6 +615,12 @@
     	<column name="hitsPerMonth" type="long"></column>
     	<column name="hitsPerYear" type="long"></column>
     	<column name="videoId" type="long"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<finder name="Video" return-type="Collection">
     		<finder-column name="videoId"></finder-column>
     	</finder>
@@ -737,37 +634,22 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Term" local-service="true" remote-service="false">
-
-    	<!-- PK fields -->
-
     	<column name="termId" type="long" primary="true"
     		id-type="increment">
     	</column>
-
-    	<!-- Group instance -->
-
-    	<!-- Audit fields -->
     	<column name="parentId" type="long"></column>
     	<column name="languageId" type="String"></column>
     	<column name="prefix" type="String"></column>
     	<column name="year" type="String"></column>
     	<column name="translation" type="String"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<order by="desc">
     		<order-column name="year" order-by="desc"></order-column>
     	</order>
@@ -777,21 +659,6 @@
     	<finder name="Year" return-type="Collection">
     		<finder-column name="year"></finder-column>
     	</finder>
-
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
         <finder name="Group" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
@@ -812,17 +679,16 @@
     	<column name="categoryId" type="long" primary="true"
     		id-type="increment">
     	</column>
-
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<!-- Audit fields -->
     	<column name="parentId" type="long"></column>
     	<column name="languageId" type="String"></column>
     	<column name="name" type="String"></column>
     	<column name="translation" type="String"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<order by="desc">
     		<order-column name="categoryId" order-by="desc"></order-column>
     	</order>
@@ -830,20 +696,6 @@
     		<finder-column name="name"></finder-column>
     	</finder>
 
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
         <finder name="Group" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
@@ -867,13 +719,6 @@
     	<finder name="Category" return-type="Collection">
     		<finder-column name="categoryId"></finder-column>
     	</finder>
-
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<!-- Audit fields -->
         <finder name="VideoCategory" return-type="Collection">
             <finder-column name="videoId"></finder-column>
             <finder-column name="categoryId"></finder-column>
@@ -905,6 +750,12 @@
     	<column name="jobTitle" type="String"></column>
     	<column name="gender" type="String"></column>
     	<column name="fullName" type="String"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<order by="asc">
     		<order-column name="lastName" order-by="asc"></order-column>
     	</order>
@@ -917,13 +768,6 @@
     	<finder name="MiddleName" return-type="Collection">
     		<finder-column name="middleName"></finder-column>
     	</finder>
-
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<!-- Audit fields -->
     	<finder name="FullName" return-type="Collection">
     		<finder-column name="fullName"></finder-column>
     	</finder>
@@ -937,20 +781,6 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>
-        
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Lectureseries_Creator" local-service="true" remote-service="false">
         <column name="lectureseriesCreatorId" type="long" primary="true" id-type="increment"></column>
@@ -990,6 +820,12 @@
     	<column name="objectClassType" type="String"></column>
     	<column name="objectId" type="long"></column>
     	<column name="tags" type="String"></column>
+    	<column name="groupId" type="long"></column>
+    	<column name="companyId" type="long"></column>
+    	<column name="userId" type="long"></column>
+    	<column name="userName" type="String"></column>
+    	<column name="createDate" type="Date"></column>
+    	<column name="modifiedDate" type="Date"></column>
     	<finder name="ObjectClassType" return-type="Collection">
     		<finder-column name="objectClassType"></finder-column>
     	</finder>
@@ -1011,20 +847,6 @@
             <finder-column name="groupId"></finder-column>
             <finder-column name="companyId"></finder-column>
         </finder>
-
-    	<!-- PK fields -->
-
-    	<!-- Group instance -->
-
-    	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
-    	<column name="companyId" type="long"></column>
-    	<column name="userId" type="long"></column>
-    	<column name="userName" type="String"></column>
-    	<column name="createDate" type="Date"></column>
-    	<column name="modifiedDate" type="Date"></column>
     </entity>
     <entity name="Statistic" local-service="true"
     	remote-service="false">
@@ -1065,22 +887,13 @@
     </entity>
     <entity name="ScheduledThread" local-service="true"
     	remote-service="false">
-
-  		<!-- PK fields -->
   		<column name="scheduledThreadId" type="long" primary="true"></column>
-
-    	<!-- Group instance -->
-
     	<column name="groupId" type="long"></column>
-
-    	<!-- Audit fields -->
-
     	<column name="companyId" type="long"></column>
     	<column name="userId" type="long"></column>
     	<column name="userName" type="String"></column>
     	<column name="createDate" type="Date"></column>
     	<column name="modifiedDate" type="Date"></column>
- 
     	<column name="schedulerClassName" type="String"></column>
     	<column name="cronText" type="String"></column>
     	<finder name="SchedulerClassName"

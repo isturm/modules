@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Tagcloud;
 import de.uhh.l2g.plugins.model.TagcloudModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Tagcloud service. Represents a row in the &quot;LG_Tagcloud&quot; database table, with each column mapped to a property of this class.
@@ -264,206 +264,39 @@ public class TagcloudModelImpl
 		Map<String, BiConsumer<Tagcloud, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Tagcloud, ?>>();
 
-		attributeGetterFunctions.put(
-			"tagcloudId",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getTagcloudId();
-				}
-
-			});
+		attributeGetterFunctions.put("tagcloudId", Tagcloud::getTagcloudId);
 		attributeSetterBiConsumers.put(
-			"tagcloudId",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object tagcloudId) {
-					tagcloud.setTagcloudId((Long)tagcloudId);
-				}
-
-			});
+			"tagcloudId", (BiConsumer<Tagcloud, Long>)Tagcloud::setTagcloudId);
 		attributeGetterFunctions.put(
-			"objectClassType",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getObjectClassType();
-				}
-
-			});
+			"objectClassType", Tagcloud::getObjectClassType);
 		attributeSetterBiConsumers.put(
 			"objectClassType",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object objectClassType) {
-					tagcloud.setObjectClassType((String)objectClassType);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"objectId",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getObjectId();
-				}
-
-			});
+			(BiConsumer<Tagcloud, String>)Tagcloud::setObjectClassType);
+		attributeGetterFunctions.put("objectId", Tagcloud::getObjectId);
 		attributeSetterBiConsumers.put(
-			"objectId",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object objectId) {
-					tagcloud.setObjectId((Long)objectId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"tags",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getTags();
-				}
-
-			});
+			"objectId", (BiConsumer<Tagcloud, Long>)Tagcloud::setObjectId);
+		attributeGetterFunctions.put("tags", Tagcloud::getTags);
 		attributeSetterBiConsumers.put(
-			"tags",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object tags) {
-					tagcloud.setTags((String)tags);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getGroupId();
-				}
-
-			});
+			"tags", (BiConsumer<Tagcloud, String>)Tagcloud::setTags);
+		attributeGetterFunctions.put("groupId", Tagcloud::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object groupId) {
-					tagcloud.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Tagcloud, Long>)Tagcloud::setGroupId);
+		attributeGetterFunctions.put("companyId", Tagcloud::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object companyId) {
-					tagcloud.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Tagcloud, Long>)Tagcloud::setCompanyId);
+		attributeGetterFunctions.put("userId", Tagcloud::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object userId) {
-					tagcloud.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Tagcloud, Long>)Tagcloud::setUserId);
+		attributeGetterFunctions.put("userName", Tagcloud::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object userName) {
-					tagcloud.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Tagcloud, String>)Tagcloud::setUserName);
+		attributeGetterFunctions.put("createDate", Tagcloud::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object createDate) {
-					tagcloud.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Tagcloud, Object>() {
-
-				@Override
-				public Object apply(Tagcloud tagcloud) {
-					return tagcloud.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Tagcloud, Date>)Tagcloud::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Tagcloud::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Tagcloud, Object>() {
-
-				@Override
-				public void accept(Tagcloud tagcloud, Object modifiedDate) {
-					tagcloud.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Tagcloud, Date>)Tagcloud::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

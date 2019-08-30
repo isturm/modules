@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -25,7 +24,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Institution_Host;
 import de.uhh.l2g.plugins.model.Institution_HostModel;
@@ -43,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Institution_Host service. Represents a row in the &quot;LG_Institution_Host&quot; database table, with each column mapped to a property of this class.
@@ -258,117 +258,30 @@ public class Institution_HostModelImpl
 				new LinkedHashMap<String, BiConsumer<Institution_Host, ?>>();
 
 		attributeGetterFunctions.put(
-			"institutionHostId",
-			new Function<Institution_Host, Object>() {
-
-				@Override
-				public Object apply(Institution_Host institution_Host) {
-					return institution_Host.getInstitutionHostId();
-				}
-
-			});
+			"institutionHostId", Institution_Host::getInstitutionHostId);
 		attributeSetterBiConsumers.put(
 			"institutionHostId",
-			new BiConsumer<Institution_Host, Object>() {
-
-				@Override
-				public void accept(
-					Institution_Host institution_Host,
-					Object institutionHostId) {
-
-					institution_Host.setInstitutionHostId(
-						(Long)institutionHostId);
-				}
-
-			});
+			(BiConsumer<Institution_Host, Long>)
+				Institution_Host::setInstitutionHostId);
 		attributeGetterFunctions.put(
-			"institutionId",
-			new Function<Institution_Host, Object>() {
-
-				@Override
-				public Object apply(Institution_Host institution_Host) {
-					return institution_Host.getInstitutionId();
-				}
-
-			});
+			"institutionId", Institution_Host::getInstitutionId);
 		attributeSetterBiConsumers.put(
 			"institutionId",
-			new BiConsumer<Institution_Host, Object>() {
-
-				@Override
-				public void accept(
-					Institution_Host institution_Host, Object institutionId) {
-
-					institution_Host.setInstitutionId((Long)institutionId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"hostId",
-			new Function<Institution_Host, Object>() {
-
-				@Override
-				public Object apply(Institution_Host institution_Host) {
-					return institution_Host.getHostId();
-				}
-
-			});
+			(BiConsumer<Institution_Host, Long>)
+				Institution_Host::setInstitutionId);
+		attributeGetterFunctions.put("hostId", Institution_Host::getHostId);
 		attributeSetterBiConsumers.put(
 			"hostId",
-			new BiConsumer<Institution_Host, Object>() {
-
-				@Override
-				public void accept(
-					Institution_Host institution_Host, Object hostId) {
-
-					institution_Host.setHostId((Long)hostId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Institution_Host, Object>() {
-
-				@Override
-				public Object apply(Institution_Host institution_Host) {
-					return institution_Host.getGroupId();
-				}
-
-			});
+			(BiConsumer<Institution_Host, Long>)Institution_Host::setHostId);
+		attributeGetterFunctions.put("groupId", Institution_Host::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<Institution_Host, Object>() {
-
-				@Override
-				public void accept(
-					Institution_Host institution_Host, Object groupId) {
-
-					institution_Host.setGroupId((Long)groupId);
-				}
-
-			});
+			(BiConsumer<Institution_Host, Long>)Institution_Host::setGroupId);
 		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Institution_Host, Object>() {
-
-				@Override
-				public Object apply(Institution_Host institution_Host) {
-					return institution_Host.getCompanyId();
-				}
-
-			});
+			"companyId", Institution_Host::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<Institution_Host, Object>() {
-
-				@Override
-				public void accept(
-					Institution_Host institution_Host, Object companyId) {
-
-					institution_Host.setCompanyId((Long)companyId);
-				}
-
-			});
+			(BiConsumer<Institution_Host, Long>)Institution_Host::setCompanyId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

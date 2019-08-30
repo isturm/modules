@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -25,7 +24,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.model.InstitutionModel;
@@ -43,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Institution service. Represents a row in the &quot;LG_Institution&quot; database table, with each column mapped to a property of this class.
@@ -267,187 +267,36 @@ public class InstitutionModelImpl
 			new LinkedHashMap<String, BiConsumer<Institution, ?>>();
 
 		attributeGetterFunctions.put(
-			"institutionId",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getInstitutionId();
-				}
-
-			});
+			"institutionId", Institution::getInstitutionId);
 		attributeSetterBiConsumers.put(
 			"institutionId",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(
-					Institution institution, Object institutionId) {
-
-					institution.setInstitutionId((Long)institutionId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"parentId",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getParentId();
-				}
-
-			});
+			(BiConsumer<Institution, Long>)Institution::setInstitutionId);
+		attributeGetterFunctions.put("parentId", Institution::getParentId);
 		attributeSetterBiConsumers.put(
 			"parentId",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(Institution institution, Object parentId) {
-					institution.setParentId((Long)parentId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getName();
-				}
-
-			});
+			(BiConsumer<Institution, Long>)Institution::setParentId);
+		attributeGetterFunctions.put("name", Institution::getName);
 		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(Institution institution, Object name) {
-					institution.setName((String)name);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"typ",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getTyp();
-				}
-
-			});
+			"name", (BiConsumer<Institution, String>)Institution::setName);
+		attributeGetterFunctions.put("typ", Institution::getTyp);
 		attributeSetterBiConsumers.put(
-			"typ",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(Institution institution, Object typ) {
-					institution.setTyp((String)typ);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"www",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getWww();
-				}
-
-			});
+			"typ", (BiConsumer<Institution, String>)Institution::setTyp);
+		attributeGetterFunctions.put("www", Institution::getWww);
 		attributeSetterBiConsumers.put(
-			"www",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(Institution institution, Object www) {
-					institution.setWww((String)www);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"level",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getLevel();
-				}
-
-			});
+			"www", (BiConsumer<Institution, String>)Institution::setWww);
+		attributeGetterFunctions.put("level", Institution::getLevel);
 		attributeSetterBiConsumers.put(
-			"level",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(Institution institution, Object level) {
-					institution.setLevel((Integer)level);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"sort",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getSort();
-				}
-
-			});
+			"level", (BiConsumer<Institution, Integer>)Institution::setLevel);
+		attributeGetterFunctions.put("sort", Institution::getSort);
 		attributeSetterBiConsumers.put(
-			"sort",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(Institution institution, Object sort) {
-					institution.setSort((Integer)sort);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getGroupId();
-				}
-
-			});
+			"sort", (BiConsumer<Institution, Integer>)Institution::setSort);
+		attributeGetterFunctions.put("groupId", Institution::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(Institution institution, Object groupId) {
-					institution.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Institution, Object>() {
-
-				@Override
-				public Object apply(Institution institution) {
-					return institution.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Institution, Long>)Institution::setGroupId);
+		attributeGetterFunctions.put("companyId", Institution::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<Institution, Object>() {
-
-				@Override
-				public void accept(Institution institution, Object companyId) {
-					institution.setCompanyId((Long)companyId);
-				}
-
-			});
+			(BiConsumer<Institution, Long>)Institution::setCompanyId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

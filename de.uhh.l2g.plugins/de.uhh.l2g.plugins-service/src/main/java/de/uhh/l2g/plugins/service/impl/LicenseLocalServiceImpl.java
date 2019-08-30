@@ -16,6 +16,8 @@ package de.uhh.l2g.plugins.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
 
+import java.util.List;
+
 import de.uhh.l2g.plugins.exception.NoSuchLicenseException;
 import de.uhh.l2g.plugins.model.License;
 import de.uhh.l2g.plugins.service.base.LicenseLocalServiceBaseImpl;
@@ -42,21 +44,7 @@ public class LicenseLocalServiceImpl extends LicenseLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link de.uhh.l2g.plugins.service.LicenseLocalServiceUtil} to access the license local service.
 	 */
 	
-	public de.uhh.l2g.plugins.model.License getByVideoId(Long videoId) throws NoSuchLicenseException, SystemException{
-		License l = licensePersistence.findByVideo(videoId);
-		return l;
-	}
-	
-	public boolean deleteByVideoId(Long videoId) {
-		boolean ret = false;
-		try {
-			LicenseUtil.removeByVideo(videoId);
-		} catch (SystemException e) {
-			ret = true;
-			//e.printStackTrace();
-		} catch (NoSuchLicenseException e) {
-			//e.printStackTrace();
-		}
-		return ret;
+	public List<License> getBySelectable(boolean isSelectable) throws SystemException {
+		return licensePersistence.findBySelectable(isSelectable);
 	}
 }

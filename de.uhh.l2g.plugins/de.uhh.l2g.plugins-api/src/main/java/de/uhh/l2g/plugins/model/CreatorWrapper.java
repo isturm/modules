@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
+public class CreatorWrapper
+	extends BaseModelWrapper<Creator>
+	implements Creator, ModelWrapper<Creator> {
 
 	public CreatorWrapper(Creator creator) {
-		_creator = creator;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Creator.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Creator.class.getName();
+		super(creator);
 	}
 
 	@Override
@@ -155,16 +143,6 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new CreatorWrapper((Creator)_creator.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Creator creator) {
-		return _creator.compareTo(creator);
-	}
-
 	/**
 	 * Returns the company ID of this creator.
 	 *
@@ -172,7 +150,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _creator.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -182,7 +160,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _creator.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -192,12 +170,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public long getCreatorId() {
-		return _creator.getCreatorId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _creator.getExpandoBridge();
+		return model.getCreatorId();
 	}
 
 	/**
@@ -207,7 +180,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public String getFirstName() {
-		return _creator.getFirstName();
+		return model.getFirstName();
 	}
 
 	/**
@@ -217,7 +190,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public String getFullName() {
-		return _creator.getFullName();
+		return model.getFullName();
 	}
 
 	/**
@@ -227,7 +200,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public String getGender() {
-		return _creator.getGender();
+		return model.getGender();
 	}
 
 	/**
@@ -237,7 +210,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _creator.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -247,7 +220,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public String getJobTitle() {
-		return _creator.getJobTitle();
+		return model.getJobTitle();
 	}
 
 	/**
@@ -257,7 +230,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public String getLastName() {
-		return _creator.getLastName();
+		return model.getLastName();
 	}
 
 	/**
@@ -267,7 +240,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public String getMiddleName() {
-		return _creator.getMiddleName();
+		return model.getMiddleName();
 	}
 
 	/**
@@ -277,7 +250,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _creator.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -287,12 +260,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _creator.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _creator.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -302,7 +270,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public long getUserId() {
-		return _creator.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -312,7 +280,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public String getUserName() {
-		return _creator.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -322,37 +290,12 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _creator.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _creator.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _creator.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _creator.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _creator.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_creator.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_creator.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -362,7 +305,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_creator.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -372,7 +315,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_creator.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -382,24 +325,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setCreatorId(long creatorId) {
-		_creator.setCreatorId(creatorId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_creator.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_creator.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_creator.setExpandoBridgeAttributes(serviceContext);
+		model.setCreatorId(creatorId);
 	}
 
 	/**
@@ -409,7 +335,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setFirstName(String firstName) {
-		_creator.setFirstName(firstName);
+		model.setFirstName(firstName);
 	}
 
 	/**
@@ -419,7 +345,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setFullName(String fullName) {
-		_creator.setFullName(fullName);
+		model.setFullName(fullName);
 	}
 
 	/**
@@ -429,7 +355,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setGender(String gender) {
-		_creator.setGender(gender);
+		model.setGender(gender);
 	}
 
 	/**
@@ -439,7 +365,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_creator.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -449,7 +375,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setJobTitle(String jobTitle) {
-		_creator.setJobTitle(jobTitle);
+		model.setJobTitle(jobTitle);
 	}
 
 	/**
@@ -459,7 +385,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setLastName(String lastName) {
-		_creator.setLastName(lastName);
+		model.setLastName(lastName);
 	}
 
 	/**
@@ -469,7 +395,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setMiddleName(String middleName) {
-		_creator.setMiddleName(middleName);
+		model.setMiddleName(middleName);
 	}
 
 	/**
@@ -479,12 +405,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_creator.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_creator.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -494,12 +415,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_creator.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_creator.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -509,7 +425,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_creator.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -519,7 +435,7 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_creator.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -529,75 +445,12 @@ public class CreatorWrapper implements Creator, ModelWrapper<Creator> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_creator.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Creator> toCacheModel() {
-
-		return _creator.toCacheModel();
+	protected CreatorWrapper wrap(Creator creator) {
+		return new CreatorWrapper(creator);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Creator toEscapedModel() {
-		return new CreatorWrapper(_creator.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _creator.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Creator toUnescapedModel() {
-		return new CreatorWrapper(_creator.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _creator.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof CreatorWrapper)) {
-			return false;
-		}
-
-		CreatorWrapper creatorWrapper = (CreatorWrapper)obj;
-
-		if (Objects.equals(_creator, creatorWrapper._creator)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Creator getWrappedModel() {
-		return _creator;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _creator.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _creator.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_creator.resetOriginalValues();
-	}
-
-	private final Creator _creator;
 
 }

@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchProducer_LectureseriesException;
 import de.uhh.l2g.plugins.model.Producer_Lectureseries;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the producer_ lectureseries service.
@@ -46,9 +41,6 @@ public interface Producer_LectureseriesPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link Producer_LectureseriesUtil} to access the producer_ lectureseries persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Producer_Lectureseries> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the producer_ lectureserieses where lectureseriesId = &#63;.

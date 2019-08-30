@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -25,7 +24,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Video_Category;
 import de.uhh.l2g.plugins.model.Video_CategoryModel;
@@ -43,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Video_Category service. Represents a row in the &quot;LG_Video_Category&quot; database table, with each column mapped to a property of this class.
@@ -248,71 +248,20 @@ public class Video_CategoryModelImpl
 			new LinkedHashMap<String, BiConsumer<Video_Category, ?>>();
 
 		attributeGetterFunctions.put(
-			"videoCategoryId",
-			new Function<Video_Category, Object>() {
-
-				@Override
-				public Object apply(Video_Category video_Category) {
-					return video_Category.getVideoCategoryId();
-				}
-
-			});
+			"videoCategoryId", Video_Category::getVideoCategoryId);
 		attributeSetterBiConsumers.put(
 			"videoCategoryId",
-			new BiConsumer<Video_Category, Object>() {
-
-				@Override
-				public void accept(
-					Video_Category video_Category, Object videoCategoryId) {
-
-					video_Category.setVideoCategoryId((Long)videoCategoryId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoId",
-			new Function<Video_Category, Object>() {
-
-				@Override
-				public Object apply(Video_Category video_Category) {
-					return video_Category.getVideoId();
-				}
-
-			});
+			(BiConsumer<Video_Category, Long>)
+				Video_Category::setVideoCategoryId);
+		attributeGetterFunctions.put("videoId", Video_Category::getVideoId);
 		attributeSetterBiConsumers.put(
 			"videoId",
-			new BiConsumer<Video_Category, Object>() {
-
-				@Override
-				public void accept(
-					Video_Category video_Category, Object videoId) {
-
-					video_Category.setVideoId((Long)videoId);
-				}
-
-			});
+			(BiConsumer<Video_Category, Long>)Video_Category::setVideoId);
 		attributeGetterFunctions.put(
-			"categoryId",
-			new Function<Video_Category, Object>() {
-
-				@Override
-				public Object apply(Video_Category video_Category) {
-					return video_Category.getCategoryId();
-				}
-
-			});
+			"categoryId", Video_Category::getCategoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
-			new BiConsumer<Video_Category, Object>() {
-
-				@Override
-				public void accept(
-					Video_Category video_Category, Object categoryId) {
-
-					video_Category.setCategoryId((Long)categoryId);
-				}
-
-			});
+			(BiConsumer<Video_Category, Long>)Video_Category::setCategoryId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

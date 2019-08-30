@@ -14,8 +14,6 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -28,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -128,581 +127,172 @@ public class LicenseUtil {
 	}
 
 	/**
-	 * Returns the license where videoId = &#63; or throws a <code>NoSuchLicenseException</code> if it could not be found.
+	 * Returns all the licenses where selectable = &#63;.
 	 *
-	 * @param videoId the video ID
-	 * @return the matching license
-	 * @throws NoSuchLicenseException if a matching license could not be found
-	 */
-	public static License findByVideo(long videoId)
-		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
-
-		return getPersistence().findByVideo(videoId);
-	}
-
-	/**
-	 * Returns the license where videoId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param videoId the video ID
-	 * @return the matching license, or <code>null</code> if a matching license could not be found
-	 */
-	public static License fetchByVideo(long videoId) {
-		return getPersistence().fetchByVideo(videoId);
-	}
-
-	/**
-	 * Returns the license where videoId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param videoId the video ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching license, or <code>null</code> if a matching license could not be found
-	 */
-	public static License fetchByVideo(
-		long videoId, boolean retrieveFromCache) {
-
-		return getPersistence().fetchByVideo(videoId, retrieveFromCache);
-	}
-
-	/**
-	 * Removes the license where videoId = &#63; from the database.
-	 *
-	 * @param videoId the video ID
-	 * @return the license that was removed
-	 */
-	public static License removeByVideo(long videoId)
-		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
-
-		return getPersistence().removeByVideo(videoId);
-	}
-
-	/**
-	 * Returns the number of licenses where videoId = &#63;.
-	 *
-	 * @param videoId the video ID
-	 * @return the number of matching licenses
-	 */
-	public static int countByVideo(long videoId) {
-		return getPersistence().countByVideo(videoId);
-	}
-
-	/**
-	 * Returns all the licenses where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @return the matching licenses
 	 */
-	public static List<License> findByGroup(long groupId) {
-		return getPersistence().findByGroup(groupId);
+	public static List<License> findBySelectable(boolean selectable) {
+		return getPersistence().findBySelectable(selectable);
 	}
 
 	/**
-	 * Returns a range of all the licenses where groupId = &#63;.
+	 * Returns a range of all the licenses where selectable = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @param start the lower bound of the range of licenses
 	 * @param end the upper bound of the range of licenses (not inclusive)
 	 * @return the range of matching licenses
 	 */
-	public static List<License> findByGroup(long groupId, int start, int end) {
-		return getPersistence().findByGroup(groupId, start, end);
+	public static List<License> findBySelectable(
+		boolean selectable, int start, int end) {
+
+		return getPersistence().findBySelectable(selectable, start, end);
 	}
 
 	/**
-	 * Returns an ordered range of all the licenses where groupId = &#63;.
+	 * Returns an ordered range of all the licenses where selectable = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @param start the lower bound of the range of licenses
 	 * @param end the upper bound of the range of licenses (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching licenses
 	 */
-	public static List<License> findByGroup(
-		long groupId, int start, int end,
+	public static List<License> findBySelectable(
+		boolean selectable, int start, int end,
 		OrderByComparator<License> orderByComparator) {
 
-		return getPersistence().findByGroup(
-			groupId, start, end, orderByComparator);
+		return getPersistence().findBySelectable(
+			selectable, start, end, orderByComparator);
 	}
 
 	/**
-	 * Returns an ordered range of all the licenses where groupId = &#63;.
+	 * Returns an ordered range of all the licenses where selectable = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @param start the lower bound of the range of licenses
 	 * @param end the upper bound of the range of licenses (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the ordered range of matching licenses
 	 */
-	public static List<License> findByGroup(
-		long groupId, int start, int end,
+	public static List<License> findBySelectable(
+		boolean selectable, int start, int end,
 		OrderByComparator<License> orderByComparator,
 		boolean retrieveFromCache) {
 
-		return getPersistence().findByGroup(
-			groupId, start, end, orderByComparator, retrieveFromCache);
+		return getPersistence().findBySelectable(
+			selectable, start, end, orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	 * Returns the first license in the ordered set where groupId = &#63;.
+	 * Returns the first license in the ordered set where selectable = &#63;.
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching license
 	 * @throws NoSuchLicenseException if a matching license could not be found
 	 */
-	public static License findByGroup_First(
-			long groupId, OrderByComparator<License> orderByComparator)
+	public static License findBySelectable_First(
+			boolean selectable, OrderByComparator<License> orderByComparator)
 		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
 
-		return getPersistence().findByGroup_First(groupId, orderByComparator);
+		return getPersistence().findBySelectable_First(
+			selectable, orderByComparator);
 	}
 
 	/**
-	 * Returns the first license in the ordered set where groupId = &#63;.
+	 * Returns the first license in the ordered set where selectable = &#63;.
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching license, or <code>null</code> if a matching license could not be found
 	 */
-	public static License fetchByGroup_First(
-		long groupId, OrderByComparator<License> orderByComparator) {
+	public static License fetchBySelectable_First(
+		boolean selectable, OrderByComparator<License> orderByComparator) {
 
-		return getPersistence().fetchByGroup_First(groupId, orderByComparator);
+		return getPersistence().fetchBySelectable_First(
+			selectable, orderByComparator);
 	}
 
 	/**
-	 * Returns the last license in the ordered set where groupId = &#63;.
+	 * Returns the last license in the ordered set where selectable = &#63;.
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching license
 	 * @throws NoSuchLicenseException if a matching license could not be found
 	 */
-	public static License findByGroup_Last(
-			long groupId, OrderByComparator<License> orderByComparator)
+	public static License findBySelectable_Last(
+			boolean selectable, OrderByComparator<License> orderByComparator)
 		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
 
-		return getPersistence().findByGroup_Last(groupId, orderByComparator);
+		return getPersistence().findBySelectable_Last(
+			selectable, orderByComparator);
 	}
 
 	/**
-	 * Returns the last license in the ordered set where groupId = &#63;.
+	 * Returns the last license in the ordered set where selectable = &#63;.
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching license, or <code>null</code> if a matching license could not be found
 	 */
-	public static License fetchByGroup_Last(
-		long groupId, OrderByComparator<License> orderByComparator) {
+	public static License fetchBySelectable_Last(
+		boolean selectable, OrderByComparator<License> orderByComparator) {
 
-		return getPersistence().fetchByGroup_Last(groupId, orderByComparator);
+		return getPersistence().fetchBySelectable_Last(
+			selectable, orderByComparator);
 	}
 
 	/**
-	 * Returns the licenses before and after the current license in the ordered set where groupId = &#63;.
+	 * Returns the licenses before and after the current license in the ordered set where selectable = &#63;.
 	 *
 	 * @param licenseId the primary key of the current license
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next license
 	 * @throws NoSuchLicenseException if a license with the primary key could not be found
 	 */
-	public static License[] findByGroup_PrevAndNext(
-			long licenseId, long groupId,
+	public static License[] findBySelectable_PrevAndNext(
+			long licenseId, boolean selectable,
 			OrderByComparator<License> orderByComparator)
 		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
 
-		return getPersistence().findByGroup_PrevAndNext(
-			licenseId, groupId, orderByComparator);
+		return getPersistence().findBySelectable_PrevAndNext(
+			licenseId, selectable, orderByComparator);
 	}
 
 	/**
-	 * Removes all the licenses where groupId = &#63; from the database.
+	 * Removes all the licenses where selectable = &#63; from the database.
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 */
-	public static void removeByGroup(long groupId) {
-		getPersistence().removeByGroup(groupId);
+	public static void removeBySelectable(boolean selectable) {
+		getPersistence().removeBySelectable(selectable);
 	}
 
 	/**
-	 * Returns the number of licenses where groupId = &#63;.
+	 * Returns the number of licenses where selectable = &#63;.
 	 *
-	 * @param groupId the group ID
+	 * @param selectable the selectable
 	 * @return the number of matching licenses
 	 */
-	public static int countByGroup(long groupId) {
-		return getPersistence().countByGroup(groupId);
-	}
-
-	/**
-	 * Returns all the licenses where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @return the matching licenses
-	 */
-	public static List<License> findByCompany(long companyId) {
-		return getPersistence().findByCompany(companyId);
-	}
-
-	/**
-	 * Returns a range of all the licenses where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of licenses
-	 * @param end the upper bound of the range of licenses (not inclusive)
-	 * @return the range of matching licenses
-	 */
-	public static List<License> findByCompany(
-		long companyId, int start, int end) {
-
-		return getPersistence().findByCompany(companyId, start, end);
-	}
-
-	/**
-	 * Returns an ordered range of all the licenses where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of licenses
-	 * @param end the upper bound of the range of licenses (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching licenses
-	 */
-	public static List<License> findByCompany(
-		long companyId, int start, int end,
-		OrderByComparator<License> orderByComparator) {
-
-		return getPersistence().findByCompany(
-			companyId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the licenses where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of licenses
-	 * @param end the upper bound of the range of licenses (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching licenses
-	 */
-	public static List<License> findByCompany(
-		long companyId, int start, int end,
-		OrderByComparator<License> orderByComparator,
-		boolean retrieveFromCache) {
-
-		return getPersistence().findByCompany(
-			companyId, start, end, orderByComparator, retrieveFromCache);
-	}
-
-	/**
-	 * Returns the first license in the ordered set where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching license
-	 * @throws NoSuchLicenseException if a matching license could not be found
-	 */
-	public static License findByCompany_First(
-			long companyId, OrderByComparator<License> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
-
-		return getPersistence().findByCompany_First(
-			companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the first license in the ordered set where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching license, or <code>null</code> if a matching license could not be found
-	 */
-	public static License fetchByCompany_First(
-		long companyId, OrderByComparator<License> orderByComparator) {
-
-		return getPersistence().fetchByCompany_First(
-			companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last license in the ordered set where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching license
-	 * @throws NoSuchLicenseException if a matching license could not be found
-	 */
-	public static License findByCompany_Last(
-			long companyId, OrderByComparator<License> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
-
-		return getPersistence().findByCompany_Last(
-			companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last license in the ordered set where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching license, or <code>null</code> if a matching license could not be found
-	 */
-	public static License fetchByCompany_Last(
-		long companyId, OrderByComparator<License> orderByComparator) {
-
-		return getPersistence().fetchByCompany_Last(
-			companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the licenses before and after the current license in the ordered set where companyId = &#63;.
-	 *
-	 * @param licenseId the primary key of the current license
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next license
-	 * @throws NoSuchLicenseException if a license with the primary key could not be found
-	 */
-	public static License[] findByCompany_PrevAndNext(
-			long licenseId, long companyId,
-			OrderByComparator<License> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
-
-		return getPersistence().findByCompany_PrevAndNext(
-			licenseId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the licenses where companyId = &#63; from the database.
-	 *
-	 * @param companyId the company ID
-	 */
-	public static void removeByCompany(long companyId) {
-		getPersistence().removeByCompany(companyId);
-	}
-
-	/**
-	 * Returns the number of licenses where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @return the number of matching licenses
-	 */
-	public static int countByCompany(long companyId) {
-		return getPersistence().countByCompany(companyId);
-	}
-
-	/**
-	 * Returns all the licenses where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @return the matching licenses
-	 */
-	public static List<License> findByGroupAndCompany(
-		long groupId, long companyId) {
-
-		return getPersistence().findByGroupAndCompany(groupId, companyId);
-	}
-
-	/**
-	 * Returns a range of all the licenses where groupId = &#63; and companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of licenses
-	 * @param end the upper bound of the range of licenses (not inclusive)
-	 * @return the range of matching licenses
-	 */
-	public static List<License> findByGroupAndCompany(
-		long groupId, long companyId, int start, int end) {
-
-		return getPersistence().findByGroupAndCompany(
-			groupId, companyId, start, end);
-	}
-
-	/**
-	 * Returns an ordered range of all the licenses where groupId = &#63; and companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of licenses
-	 * @param end the upper bound of the range of licenses (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching licenses
-	 */
-	public static List<License> findByGroupAndCompany(
-		long groupId, long companyId, int start, int end,
-		OrderByComparator<License> orderByComparator) {
-
-		return getPersistence().findByGroupAndCompany(
-			groupId, companyId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the licenses where groupId = &#63; and companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LicenseModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of licenses
-	 * @param end the upper bound of the range of licenses (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching licenses
-	 */
-	public static List<License> findByGroupAndCompany(
-		long groupId, long companyId, int start, int end,
-		OrderByComparator<License> orderByComparator,
-		boolean retrieveFromCache) {
-
-		return getPersistence().findByGroupAndCompany(
-			groupId, companyId, start, end, orderByComparator,
-			retrieveFromCache);
-	}
-
-	/**
-	 * Returns the first license in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching license
-	 * @throws NoSuchLicenseException if a matching license could not be found
-	 */
-	public static License findByGroupAndCompany_First(
-			long groupId, long companyId,
-			OrderByComparator<License> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
-
-		return getPersistence().findByGroupAndCompany_First(
-			groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the first license in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching license, or <code>null</code> if a matching license could not be found
-	 */
-	public static License fetchByGroupAndCompany_First(
-		long groupId, long companyId,
-		OrderByComparator<License> orderByComparator) {
-
-		return getPersistence().fetchByGroupAndCompany_First(
-			groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last license in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching license
-	 * @throws NoSuchLicenseException if a matching license could not be found
-	 */
-	public static License findByGroupAndCompany_Last(
-			long groupId, long companyId,
-			OrderByComparator<License> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
-
-		return getPersistence().findByGroupAndCompany_Last(
-			groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last license in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching license, or <code>null</code> if a matching license could not be found
-	 */
-	public static License fetchByGroupAndCompany_Last(
-		long groupId, long companyId,
-		OrderByComparator<License> orderByComparator) {
-
-		return getPersistence().fetchByGroupAndCompany_Last(
-			groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the licenses before and after the current license in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param licenseId the primary key of the current license
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next license
-	 * @throws NoSuchLicenseException if a license with the primary key could not be found
-	 */
-	public static License[] findByGroupAndCompany_PrevAndNext(
-			long licenseId, long groupId, long companyId,
-			OrderByComparator<License> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchLicenseException {
-
-		return getPersistence().findByGroupAndCompany_PrevAndNext(
-			licenseId, groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the licenses where groupId = &#63; and companyId = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 */
-	public static void removeByGroupAndCompany(long groupId, long companyId) {
-		getPersistence().removeByGroupAndCompany(groupId, companyId);
-	}
-
-	/**
-	 * Returns the number of licenses where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @return the number of matching licenses
-	 */
-	public static int countByGroupAndCompany(long groupId, long companyId) {
-		return getPersistence().countByGroupAndCompany(groupId, companyId);
+	public static int countBySelectable(boolean selectable) {
+		return getPersistence().countBySelectable(selectable);
 	}
 
 	/**

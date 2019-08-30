@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,11 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class OfficeWrapper implements Office, ModelWrapper<Office> {
+public class OfficeWrapper
+	extends BaseModelWrapper<Office> implements Office, ModelWrapper<Office> {
 
 	public OfficeWrapper(Office office) {
-		_office = office;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Office.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Office.class.getName();
+		super(office);
 	}
 
 	@Override
@@ -141,16 +128,6 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new OfficeWrapper((Office)_office.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Office office) {
-		return _office.compareTo(office);
-	}
-
 	/**
 	 * Returns the company ID of this office.
 	 *
@@ -158,7 +135,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _office.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -168,7 +145,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _office.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -178,12 +155,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public String getEmail() {
-		return _office.getEmail();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _office.getExpandoBridge();
+		return model.getEmail();
 	}
 
 	/**
@@ -193,7 +165,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _office.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -203,7 +175,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public long getInstitutionId() {
-		return _office.getInstitutionId();
+		return model.getInstitutionId();
 	}
 
 	/**
@@ -213,7 +185,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _office.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -223,7 +195,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public String getName() {
-		return _office.getName();
+		return model.getName();
 	}
 
 	/**
@@ -233,7 +205,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public long getOfficeId() {
-		return _office.getOfficeId();
+		return model.getOfficeId();
 	}
 
 	/**
@@ -243,12 +215,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _office.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _office.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -258,7 +225,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public long getUserId() {
-		return _office.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -268,7 +235,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public String getUserName() {
-		return _office.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -278,7 +245,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _office.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -288,37 +255,12 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public String getWww() {
-		return _office.getWww();
-	}
-
-	@Override
-	public int hashCode() {
-		return _office.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _office.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _office.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _office.isNew();
+		return model.getWww();
 	}
 
 	@Override
 	public void persist() {
-		_office.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_office.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -328,7 +270,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_office.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -338,7 +280,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_office.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -348,24 +290,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setEmail(String email) {
-		_office.setEmail(email);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_office.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_office.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_office.setExpandoBridgeAttributes(serviceContext);
+		model.setEmail(email);
 	}
 
 	/**
@@ -375,7 +300,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_office.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -385,7 +310,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setInstitutionId(long institutionId) {
-		_office.setInstitutionId(institutionId);
+		model.setInstitutionId(institutionId);
 	}
 
 	/**
@@ -395,7 +320,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_office.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -405,12 +330,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setName(String name) {
-		_office.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_office.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -420,7 +340,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setOfficeId(long officeId) {
-		_office.setOfficeId(officeId);
+		model.setOfficeId(officeId);
 	}
 
 	/**
@@ -430,12 +350,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_office.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_office.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -445,7 +360,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_office.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -455,7 +370,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_office.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -465,7 +380,7 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_office.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -475,75 +390,12 @@ public class OfficeWrapper implements Office, ModelWrapper<Office> {
 	 */
 	@Override
 	public void setWww(String www) {
-		_office.setWww(www);
+		model.setWww(www);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Office> toCacheModel() {
-
-		return _office.toCacheModel();
+	protected OfficeWrapper wrap(Office office) {
+		return new OfficeWrapper(office);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Office toEscapedModel() {
-		return new OfficeWrapper(_office.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _office.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Office toUnescapedModel() {
-		return new OfficeWrapper(_office.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _office.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof OfficeWrapper)) {
-			return false;
-		}
-
-		OfficeWrapper officeWrapper = (OfficeWrapper)obj;
-
-		if (Objects.equals(_office, officeWrapper._office)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Office getWrappedModel() {
-		return _office;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _office.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _office.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_office.resetOriginalValues();
-	}
-
-	private final Office _office;
 
 }

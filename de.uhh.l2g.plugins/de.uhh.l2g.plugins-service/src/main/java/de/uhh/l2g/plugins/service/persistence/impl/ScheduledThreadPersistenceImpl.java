@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -48,13 +46,11 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the scheduled thread service.
@@ -1911,6 +1907,10 @@ public class ScheduledThreadPersistenceImpl
 
 	public ScheduledThreadPersistenceImpl() {
 		setModelClass(ScheduledThread.class);
+
+		setModelImplClass(ScheduledThreadImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(ScheduledThreadModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2376,163 +2376,12 @@ public class ScheduledThreadPersistenceImpl
 	/**
 	 * Returns the scheduled thread with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the scheduled thread
-	 * @return the scheduled thread, or <code>null</code> if a scheduled thread with the primary key could not be found
-	 */
-	@Override
-	public ScheduledThread fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ScheduledThreadModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduledThreadImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ScheduledThread scheduledThread = (ScheduledThread)serializable;
-
-		if (scheduledThread == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				scheduledThread = (ScheduledThread)session.get(
-					ScheduledThreadImpl.class, primaryKey);
-
-				if (scheduledThread != null) {
-					cacheResult(scheduledThread);
-				}
-				else {
-					entityCache.putResult(
-						ScheduledThreadModelImpl.ENTITY_CACHE_ENABLED,
-						ScheduledThreadImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					ScheduledThreadModelImpl.ENTITY_CACHE_ENABLED,
-					ScheduledThreadImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return scheduledThread;
-	}
-
-	/**
-	 * Returns the scheduled thread with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param scheduledThreadId the primary key of the scheduled thread
 	 * @return the scheduled thread, or <code>null</code> if a scheduled thread with the primary key could not be found
 	 */
 	@Override
 	public ScheduledThread fetchByPrimaryKey(long scheduledThreadId) {
 		return fetchByPrimaryKey((Serializable)scheduledThreadId);
-	}
-
-	@Override
-	public Map<Serializable, ScheduledThread> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ScheduledThread> map =
-			new HashMap<Serializable, ScheduledThread>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ScheduledThread scheduledThread = fetchByPrimaryKey(primaryKey);
-
-			if (scheduledThread != null) {
-				map.put(primaryKey, scheduledThread);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ScheduledThreadModelImpl.ENTITY_CACHE_ENABLED,
-				ScheduledThreadImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ScheduledThread)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_SCHEDULEDTHREAD_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (ScheduledThread scheduledThread :
-					(List<ScheduledThread>)q.list()) {
-
-				map.put(scheduledThread.getPrimaryKeyObj(), scheduledThread);
-
-				cacheResult(scheduledThread);
-
-				uncachedPrimaryKeys.remove(scheduledThread.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ScheduledThreadModelImpl.ENTITY_CACHE_ENABLED,
-					ScheduledThreadImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2732,6 +2581,21 @@ public class ScheduledThreadPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "scheduledThreadId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SCHEDULEDTHREAD;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ScheduledThreadModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2865,9 +2729,6 @@ public class ScheduledThreadPersistenceImpl
 
 	private static final String _SQL_SELECT_SCHEDULEDTHREAD =
 		"SELECT scheduledThread FROM ScheduledThread scheduledThread";
-
-	private static final String _SQL_SELECT_SCHEDULEDTHREAD_WHERE_PKS_IN =
-		"SELECT scheduledThread FROM ScheduledThread scheduledThread WHERE scheduledThreadId IN (";
 
 	private static final String _SQL_SELECT_SCHEDULEDTHREAD_WHERE =
 		"SELECT scheduledThread FROM ScheduledThread scheduledThread WHERE ";

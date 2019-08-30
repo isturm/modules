@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchCategoryException;
@@ -47,13 +45,11 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the category service.
@@ -2181,6 +2177,10 @@ public class CategoryPersistenceImpl
 
 	public CategoryPersistenceImpl() {
 		setModelClass(Category.class);
+
+		setModelImplClass(CategoryImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(CategoryModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2600,160 +2600,12 @@ public class CategoryPersistenceImpl
 	/**
 	 * Returns the category with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the category
-	 * @return the category, or <code>null</code> if a category with the primary key could not be found
-	 */
-	@Override
-	public Category fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CategoryModelImpl.ENTITY_CACHE_ENABLED, CategoryImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Category category = (Category)serializable;
-
-		if (category == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				category = (Category)session.get(
-					CategoryImpl.class, primaryKey);
-
-				if (category != null) {
-					cacheResult(category);
-				}
-				else {
-					entityCache.putResult(
-						CategoryModelImpl.ENTITY_CACHE_ENABLED,
-						CategoryImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					CategoryModelImpl.ENTITY_CACHE_ENABLED, CategoryImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return category;
-	}
-
-	/**
-	 * Returns the category with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param categoryId the primary key of the category
 	 * @return the category, or <code>null</code> if a category with the primary key could not be found
 	 */
 	@Override
 	public Category fetchByPrimaryKey(long categoryId) {
 		return fetchByPrimaryKey((Serializable)categoryId);
-	}
-
-	@Override
-	public Map<Serializable, Category> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Category> map = new HashMap<Serializable, Category>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Category category = fetchByPrimaryKey(primaryKey);
-
-			if (category != null) {
-				map.put(primaryKey, category);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				CategoryModelImpl.ENTITY_CACHE_ENABLED, CategoryImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Category)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_CATEGORY_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Category category : (List<Category>)q.list()) {
-				map.put(category.getPrimaryKeyObj(), category);
-
-				cacheResult(category);
-
-				uncachedPrimaryKeys.remove(category.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					CategoryModelImpl.ENTITY_CACHE_ENABLED, CategoryImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2951,6 +2803,21 @@ public class CategoryPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "categoryId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_CATEGORY;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return CategoryModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3085,9 +2952,6 @@ public class CategoryPersistenceImpl
 
 	private static final String _SQL_SELECT_CATEGORY =
 		"SELECT category FROM Category category";
-
-	private static final String _SQL_SELECT_CATEGORY_WHERE_PKS_IN =
-		"SELECT category FROM Category category WHERE categoryId IN (";
 
 	private static final String _SQL_SELECT_CATEGORY_WHERE =
 		"SELECT category FROM Category category WHERE ";

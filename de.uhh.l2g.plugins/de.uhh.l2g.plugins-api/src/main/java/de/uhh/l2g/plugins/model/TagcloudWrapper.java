@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
+public class TagcloudWrapper
+	extends BaseModelWrapper<Tagcloud>
+	implements Tagcloud, ModelWrapper<Tagcloud> {
 
 	public TagcloudWrapper(Tagcloud tagcloud) {
-		_tagcloud = tagcloud;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Tagcloud.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Tagcloud.class.getName();
+		super(tagcloud);
 	}
 
 	@Override
@@ -134,16 +122,6 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new TagcloudWrapper((Tagcloud)_tagcloud.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Tagcloud tagcloud) {
-		return _tagcloud.compareTo(tagcloud);
-	}
-
 	/**
 	 * Returns the company ID of this tagcloud.
 	 *
@@ -151,7 +129,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _tagcloud.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -161,12 +139,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _tagcloud.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _tagcloud.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -176,7 +149,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _tagcloud.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -186,7 +159,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _tagcloud.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -196,7 +169,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public String getObjectClassType() {
-		return _tagcloud.getObjectClassType();
+		return model.getObjectClassType();
 	}
 
 	/**
@@ -206,7 +179,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public long getObjectId() {
-		return _tagcloud.getObjectId();
+		return model.getObjectId();
 	}
 
 	/**
@@ -216,12 +189,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _tagcloud.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _tagcloud.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -231,7 +199,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public long getTagcloudId() {
-		return _tagcloud.getTagcloudId();
+		return model.getTagcloudId();
 	}
 
 	/**
@@ -241,7 +209,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public String getTags() {
-		return _tagcloud.getTags();
+		return model.getTags();
 	}
 
 	/**
@@ -251,7 +219,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public long getUserId() {
-		return _tagcloud.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -261,7 +229,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public String getUserName() {
-		return _tagcloud.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -271,37 +239,12 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _tagcloud.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _tagcloud.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _tagcloud.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _tagcloud.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _tagcloud.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_tagcloud.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_tagcloud.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -311,7 +254,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_tagcloud.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -321,24 +264,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_tagcloud.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_tagcloud.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_tagcloud.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_tagcloud.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -348,7 +274,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_tagcloud.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -358,12 +284,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_tagcloud.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_tagcloud.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -373,7 +294,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setObjectClassType(String objectClassType) {
-		_tagcloud.setObjectClassType(objectClassType);
+		model.setObjectClassType(objectClassType);
 	}
 
 	/**
@@ -383,7 +304,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setObjectId(long objectId) {
-		_tagcloud.setObjectId(objectId);
+		model.setObjectId(objectId);
 	}
 
 	/**
@@ -393,12 +314,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_tagcloud.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_tagcloud.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -408,7 +324,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setTagcloudId(long tagcloudId) {
-		_tagcloud.setTagcloudId(tagcloudId);
+		model.setTagcloudId(tagcloudId);
 	}
 
 	/**
@@ -418,7 +334,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setTags(String tags) {
-		_tagcloud.setTags(tags);
+		model.setTags(tags);
 	}
 
 	/**
@@ -428,7 +344,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_tagcloud.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -438,7 +354,7 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_tagcloud.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -448,75 +364,12 @@ public class TagcloudWrapper implements Tagcloud, ModelWrapper<Tagcloud> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_tagcloud.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Tagcloud> toCacheModel() {
-
-		return _tagcloud.toCacheModel();
+	protected TagcloudWrapper wrap(Tagcloud tagcloud) {
+		return new TagcloudWrapper(tagcloud);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Tagcloud toEscapedModel() {
-		return new TagcloudWrapper(_tagcloud.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _tagcloud.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Tagcloud toUnescapedModel() {
-		return new TagcloudWrapper(_tagcloud.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _tagcloud.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof TagcloudWrapper)) {
-			return false;
-		}
-
-		TagcloudWrapper tagcloudWrapper = (TagcloudWrapper)obj;
-
-		if (Objects.equals(_tagcloud, tagcloudWrapper._tagcloud)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Tagcloud getWrappedModel() {
-		return _tagcloud;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _tagcloud.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _tagcloud.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_tagcloud.resetOriginalValues();
-	}
-
-	private final Tagcloud _tagcloud;
 
 }

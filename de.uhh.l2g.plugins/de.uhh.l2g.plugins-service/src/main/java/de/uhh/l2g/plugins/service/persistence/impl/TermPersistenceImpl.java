@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchTermException;
@@ -47,13 +45,11 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the term service.
@@ -3337,6 +3333,10 @@ public class TermPersistenceImpl
 
 	public TermPersistenceImpl() {
 		setModelClass(Term.class);
+
+		setModelImplClass(TermImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(TermModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -3803,157 +3803,12 @@ public class TermPersistenceImpl
 	/**
 	 * Returns the term with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the term
-	 * @return the term, or <code>null</code> if a term with the primary key could not be found
-	 */
-	@Override
-	public Term fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			TermModelImpl.ENTITY_CACHE_ENABLED, TermImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Term term = (Term)serializable;
-
-		if (term == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				term = (Term)session.get(TermImpl.class, primaryKey);
-
-				if (term != null) {
-					cacheResult(term);
-				}
-				else {
-					entityCache.putResult(
-						TermModelImpl.ENTITY_CACHE_ENABLED, TermImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					TermModelImpl.ENTITY_CACHE_ENABLED, TermImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return term;
-	}
-
-	/**
-	 * Returns the term with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param termId the primary key of the term
 	 * @return the term, or <code>null</code> if a term with the primary key could not be found
 	 */
 	@Override
 	public Term fetchByPrimaryKey(long termId) {
 		return fetchByPrimaryKey((Serializable)termId);
-	}
-
-	@Override
-	public Map<Serializable, Term> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Term> map = new HashMap<Serializable, Term>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Term term = fetchByPrimaryKey(primaryKey);
-
-			if (term != null) {
-				map.put(primaryKey, term);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				TermModelImpl.ENTITY_CACHE_ENABLED, TermImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Term)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_TERM_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Term term : (List<Term>)q.list()) {
-				map.put(term.getPrimaryKeyObj(), term);
-
-				cacheResult(term);
-
-				uncachedPrimaryKeys.remove(term.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					TermModelImpl.ENTITY_CACHE_ENABLED, TermImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4151,6 +4006,21 @@ public class TermPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "termId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_TERM;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return TermModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4334,9 +4204,6 @@ public class TermPersistenceImpl
 	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_TERM = "SELECT term FROM Term term";
-
-	private static final String _SQL_SELECT_TERM_WHERE_PKS_IN =
-		"SELECT term FROM Term term WHERE termId IN (";
 
 	private static final String _SQL_SELECT_TERM_WHERE =
 		"SELECT term FROM Term term WHERE ";

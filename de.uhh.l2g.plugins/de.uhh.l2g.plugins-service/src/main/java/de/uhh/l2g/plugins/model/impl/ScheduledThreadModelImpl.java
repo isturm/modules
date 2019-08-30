@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.ScheduledThread;
 import de.uhh.l2g.plugins.model.ScheduledThreadModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the ScheduledThread service. Represents a row in the &quot;LG_ScheduledThread&quot; database table, with each column mapped to a property of this class.
@@ -264,206 +264,49 @@ public class ScheduledThreadModelImpl
 			new LinkedHashMap<String, BiConsumer<ScheduledThread, ?>>();
 
 		attributeGetterFunctions.put(
-			"scheduledThreadId",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getScheduledThreadId();
-				}
-
-			});
+			"scheduledThreadId", ScheduledThread::getScheduledThreadId);
 		attributeSetterBiConsumers.put(
 			"scheduledThreadId",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread, Object scheduledThreadId) {
-
-					scheduledThread.setScheduledThreadId(
-						(Long)scheduledThreadId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getGroupId();
-				}
-
-			});
+			(BiConsumer<ScheduledThread, Long>)
+				ScheduledThread::setScheduledThreadId);
+		attributeGetterFunctions.put("groupId", ScheduledThread::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread, Object groupId) {
-
-					scheduledThread.setGroupId((Long)groupId);
-				}
-
-			});
+			(BiConsumer<ScheduledThread, Long>)ScheduledThread::setGroupId);
 		attributeGetterFunctions.put(
-			"companyId",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getCompanyId();
-				}
-
-			});
+			"companyId", ScheduledThread::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread, Object companyId) {
-
-					scheduledThread.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getUserId();
-				}
-
-			});
+			(BiConsumer<ScheduledThread, Long>)ScheduledThread::setCompanyId);
+		attributeGetterFunctions.put("userId", ScheduledThread::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread, Object userId) {
-
-					scheduledThread.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getUserName();
-				}
-
-			});
+			(BiConsumer<ScheduledThread, Long>)ScheduledThread::setUserId);
+		attributeGetterFunctions.put("userName", ScheduledThread::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread, Object userName) {
-
-					scheduledThread.setUserName((String)userName);
-				}
-
-			});
+			(BiConsumer<ScheduledThread, String>)ScheduledThread::setUserName);
 		attributeGetterFunctions.put(
-			"createDate",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getCreateDate();
-				}
-
-			});
+			"createDate", ScheduledThread::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread, Object createDate) {
-
-					scheduledThread.setCreateDate((Date)createDate);
-				}
-
-			});
+			(BiConsumer<ScheduledThread, Date>)ScheduledThread::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", ScheduledThread::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread, Object modifiedDate) {
-
-					scheduledThread.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<ScheduledThread, Date>)
+				ScheduledThread::setModifiedDate);
 		attributeGetterFunctions.put(
-			"schedulerClassName",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getSchedulerClassName();
-				}
-
-			});
+			"schedulerClassName", ScheduledThread::getSchedulerClassName);
 		attributeSetterBiConsumers.put(
 			"schedulerClassName",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread,
-					Object schedulerClassName) {
-
-					scheduledThread.setSchedulerClassName(
-						(String)schedulerClassName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"cronText",
-			new Function<ScheduledThread, Object>() {
-
-				@Override
-				public Object apply(ScheduledThread scheduledThread) {
-					return scheduledThread.getCronText();
-				}
-
-			});
+			(BiConsumer<ScheduledThread, String>)
+				ScheduledThread::setSchedulerClassName);
+		attributeGetterFunctions.put("cronText", ScheduledThread::getCronText);
 		attributeSetterBiConsumers.put(
 			"cronText",
-			new BiConsumer<ScheduledThread, Object>() {
-
-				@Override
-				public void accept(
-					ScheduledThread scheduledThread, Object cronText) {
-
-					scheduledThread.setCronText((String)cronText);
-				}
-
-			});
+			(BiConsumer<ScheduledThread, String>)ScheduledThread::setCronText);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

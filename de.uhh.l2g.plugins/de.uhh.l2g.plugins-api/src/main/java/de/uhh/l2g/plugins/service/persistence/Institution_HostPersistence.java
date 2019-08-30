@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchInstitution_HostException;
 import de.uhh.l2g.plugins.model.Institution_Host;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the institution_ host service.
@@ -46,9 +41,6 @@ public interface Institution_HostPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link Institution_HostUtil} to access the institution_ host persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Institution_Host> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the institution_ hosts where institutionId = &#63;.

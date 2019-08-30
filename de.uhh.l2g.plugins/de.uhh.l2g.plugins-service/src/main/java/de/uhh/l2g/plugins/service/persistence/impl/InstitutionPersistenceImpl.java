@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -30,7 +29,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -45,13 +43,11 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the institution service.
@@ -11194,6 +11190,10 @@ public class InstitutionPersistenceImpl
 
 	public InstitutionPersistenceImpl() {
 		setModelClass(Institution.class);
+
+		setModelImplClass(InstitutionImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(InstitutionModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -12176,161 +12176,12 @@ public class InstitutionPersistenceImpl
 	/**
 	 * Returns the institution with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the institution
-	 * @return the institution, or <code>null</code> if a institution with the primary key could not be found
-	 */
-	@Override
-	public Institution fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			InstitutionModelImpl.ENTITY_CACHE_ENABLED, InstitutionImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Institution institution = (Institution)serializable;
-
-		if (institution == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				institution = (Institution)session.get(
-					InstitutionImpl.class, primaryKey);
-
-				if (institution != null) {
-					cacheResult(institution);
-				}
-				else {
-					entityCache.putResult(
-						InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-						InstitutionImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-					InstitutionImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return institution;
-	}
-
-	/**
-	 * Returns the institution with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param institutionId the primary key of the institution
 	 * @return the institution, or <code>null</code> if a institution with the primary key could not be found
 	 */
 	@Override
 	public Institution fetchByPrimaryKey(long institutionId) {
 		return fetchByPrimaryKey((Serializable)institutionId);
-	}
-
-	@Override
-	public Map<Serializable, Institution> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Institution> map =
-			new HashMap<Serializable, Institution>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Institution institution = fetchByPrimaryKey(primaryKey);
-
-			if (institution != null) {
-				map.put(primaryKey, institution);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-				InstitutionImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Institution)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_INSTITUTION_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Institution institution : (List<Institution>)q.list()) {
-				map.put(institution.getPrimaryKeyObj(), institution);
-
-				cacheResult(institution);
-
-				uncachedPrimaryKeys.remove(institution.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					InstitutionModelImpl.ENTITY_CACHE_ENABLED,
-					InstitutionImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -12525,6 +12376,21 @@ public class InstitutionPersistenceImpl
 		}
 
 		return count.intValue();
+	}
+
+	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "institutionId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_INSTITUTION;
 	}
 
 	@Override
@@ -13088,9 +12954,6 @@ public class InstitutionPersistenceImpl
 
 	private static final String _SQL_SELECT_INSTITUTION =
 		"SELECT institution FROM Institution institution";
-
-	private static final String _SQL_SELECT_INSTITUTION_WHERE_PKS_IN =
-		"SELECT institution FROM Institution institution WHERE institutionId IN (";
 
 	private static final String _SQL_SELECT_INSTITUTION_WHERE =
 		"SELECT institution FROM Institution institution WHERE ";

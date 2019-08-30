@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
+public class ProducerWrapper
+	extends BaseModelWrapper<Producer>
+	implements Producer, ModelWrapper<Producer> {
 
 	public ProducerWrapper(Producer producer) {
-		_producer = producer;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Producer.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Producer.class.getName();
+		super(producer);
 	}
 
 	@Override
@@ -155,16 +143,6 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new ProducerWrapper((Producer)_producer.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Producer producer) {
-		return _producer.compareTo(producer);
-	}
-
 	/**
 	 * Returns the approved of this producer.
 	 *
@@ -172,7 +150,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public int getApproved() {
-		return _producer.getApproved();
+		return model.getApproved();
 	}
 
 	/**
@@ -182,7 +160,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _producer.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -192,22 +170,17 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _producer.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getEmailAddress() {
-		return _producer.getEmailAddress();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _producer.getExpandoBridge();
+		return model.getEmailAddress();
 	}
 
 	@Override
 	public String getFirstName() {
-		return _producer.getFirstName();
+		return model.getFirstName();
 	}
 
 	/**
@@ -217,7 +190,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _producer.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -227,7 +200,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public String getHomeDir() {
-		return _producer.getHomeDir();
+		return model.getHomeDir();
 	}
 
 	/**
@@ -237,7 +210,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public long getHostId() {
-		return _producer.getHostId();
+		return model.getHostId();
 	}
 
 	/**
@@ -247,7 +220,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public String getIdNum() {
-		return _producer.getIdNum();
+		return model.getIdNum();
 	}
 
 	/**
@@ -257,17 +230,17 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public long getInstitutionId() {
-		return _producer.getInstitutionId();
+		return model.getInstitutionId();
 	}
 
 	@Override
 	public Date getLastLoginDate() {
-		return _producer.getLastLoginDate();
+		return model.getLastLoginDate();
 	}
 
 	@Override
 	public String getLastName() {
-		return _producer.getLastName();
+		return model.getLastName();
 	}
 
 	/**
@@ -277,7 +250,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _producer.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -287,7 +260,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public long getNumberOfProductions() {
-		return _producer.getNumberOfProductions();
+		return model.getNumberOfProductions();
 	}
 
 	/**
@@ -297,12 +270,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _producer.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _producer.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -312,7 +280,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public long getProducerId() {
-		return _producer.getProducerId();
+		return model.getProducerId();
 	}
 
 	/**
@@ -322,7 +290,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public long getUserId() {
-		return _producer.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -332,7 +300,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public String getUserName() {
-		return _producer.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -342,32 +310,12 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _producer.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _producer.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _producer.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _producer.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _producer.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_producer.persist();
+		model.persist();
 	}
 
 	/**
@@ -377,12 +325,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setApproved(int approved) {
-		_producer.setApproved(approved);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_producer.setCachedModel(cachedModel);
+		model.setApproved(approved);
 	}
 
 	/**
@@ -392,7 +335,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_producer.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -402,34 +345,17 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_producer.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	@Override
 	public void setEmailAddress(String emailAddress) {
-		_producer.setEmailAddress(emailAddress);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_producer.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_producer.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_producer.setExpandoBridgeAttributes(serviceContext);
+		model.setEmailAddress(emailAddress);
 	}
 
 	@Override
 	public void setFirstName(String firstName) {
-		_producer.setFirstName(firstName);
+		model.setFirstName(firstName);
 	}
 
 	/**
@@ -439,7 +365,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_producer.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -449,7 +375,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setHomeDir(String homeDir) {
-		_producer.setHomeDir(homeDir);
+		model.setHomeDir(homeDir);
 	}
 
 	/**
@@ -459,7 +385,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setHostId(long hostId) {
-		_producer.setHostId(hostId);
+		model.setHostId(hostId);
 	}
 
 	/**
@@ -469,7 +395,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setIdNum(String idNum) {
-		_producer.setIdNum(idNum);
+		model.setIdNum(idNum);
 	}
 
 	/**
@@ -479,17 +405,17 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setInstitutionId(long institutionId) {
-		_producer.setInstitutionId(institutionId);
+		model.setInstitutionId(institutionId);
 	}
 
 	@Override
 	public void setLastLoginDate(Date lastLoginDate) {
-		_producer.setLastLoginDate(lastLoginDate);
+		model.setLastLoginDate(lastLoginDate);
 	}
 
 	@Override
 	public void setLastName(String lastName) {
-		_producer.setLastName(lastName);
+		model.setLastName(lastName);
 	}
 
 	/**
@@ -499,12 +425,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_producer.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_producer.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -514,7 +435,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setNumberOfProductions(long numberOfProductions) {
-		_producer.setNumberOfProductions(numberOfProductions);
+		model.setNumberOfProductions(numberOfProductions);
 	}
 
 	/**
@@ -524,12 +445,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_producer.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_producer.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -539,7 +455,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setProducerId(long producerId) {
-		_producer.setProducerId(producerId);
+		model.setProducerId(producerId);
 	}
 
 	/**
@@ -549,7 +465,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_producer.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -559,7 +475,7 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_producer.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -569,75 +485,12 @@ public class ProducerWrapper implements Producer, ModelWrapper<Producer> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_producer.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Producer> toCacheModel() {
-
-		return _producer.toCacheModel();
+	protected ProducerWrapper wrap(Producer producer) {
+		return new ProducerWrapper(producer);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Producer toEscapedModel() {
-		return new ProducerWrapper(_producer.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _producer.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Producer toUnescapedModel() {
-		return new ProducerWrapper(_producer.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _producer.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof ProducerWrapper)) {
-			return false;
-		}
-
-		ProducerWrapper producerWrapper = (ProducerWrapper)obj;
-
-		if (Objects.equals(_producer, producerWrapper._producer)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Producer getWrappedModel() {
-		return _producer;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _producer.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _producer.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_producer.resetOriginalValues();
-	}
-
-	private final Producer _producer;
 
 }

@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchLectureseries_CreatorException;
@@ -42,12 +40,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the lectureseries_ creator service.
@@ -1692,6 +1688,11 @@ public class Lectureseries_CreatorPersistenceImpl
 
 	public Lectureseries_CreatorPersistenceImpl() {
 		setModelClass(Lectureseries_Creator.class);
+
+		setModelImplClass(Lectureseries_CreatorImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(
+			Lectureseries_CreatorModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2098,58 +2099,6 @@ public class Lectureseries_CreatorPersistenceImpl
 	/**
 	 * Returns the lectureseries_ creator with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the lectureseries_ creator
-	 * @return the lectureseries_ creator, or <code>null</code> if a lectureseries_ creator with the primary key could not be found
-	 */
-	@Override
-	public Lectureseries_Creator fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			Lectureseries_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-			Lectureseries_CreatorImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Lectureseries_Creator lectureseries_Creator =
-			(Lectureseries_Creator)serializable;
-
-		if (lectureseries_Creator == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				lectureseries_Creator = (Lectureseries_Creator)session.get(
-					Lectureseries_CreatorImpl.class, primaryKey);
-
-				if (lectureseries_Creator != null) {
-					cacheResult(lectureseries_Creator);
-				}
-				else {
-					entityCache.putResult(
-						Lectureseries_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-						Lectureseries_CreatorImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					Lectureseries_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-					Lectureseries_CreatorImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return lectureseries_Creator;
-	}
-
-	/**
-	 * Returns the lectureseries_ creator with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param lectureseriesCreatorId the primary key of the lectureseries_ creator
 	 * @return the lectureseries_ creator, or <code>null</code> if a lectureseries_ creator with the primary key could not be found
 	 */
@@ -2158,110 +2107,6 @@ public class Lectureseries_CreatorPersistenceImpl
 		long lectureseriesCreatorId) {
 
 		return fetchByPrimaryKey((Serializable)lectureseriesCreatorId);
-	}
-
-	@Override
-	public Map<Serializable, Lectureseries_Creator> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Lectureseries_Creator> map =
-			new HashMap<Serializable, Lectureseries_Creator>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Lectureseries_Creator lectureseries_Creator = fetchByPrimaryKey(
-				primaryKey);
-
-			if (lectureseries_Creator != null) {
-				map.put(primaryKey, lectureseries_Creator);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				Lectureseries_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-				Lectureseries_CreatorImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Lectureseries_Creator)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_LECTURESERIES_CREATOR_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Lectureseries_Creator lectureseries_Creator :
-					(List<Lectureseries_Creator>)q.list()) {
-
-				map.put(
-					lectureseries_Creator.getPrimaryKeyObj(),
-					lectureseries_Creator);
-
-				cacheResult(lectureseries_Creator);
-
-				uncachedPrimaryKeys.remove(
-					lectureseries_Creator.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					Lectureseries_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-					Lectureseries_CreatorImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2462,6 +2307,21 @@ public class Lectureseries_CreatorPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "lectureseriesCreatorId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_LECTURESERIES_CREATOR;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return Lectureseries_CreatorModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2582,9 +2442,6 @@ public class Lectureseries_CreatorPersistenceImpl
 
 	private static final String _SQL_SELECT_LECTURESERIES_CREATOR =
 		"SELECT lectureseries_Creator FROM Lectureseries_Creator lectureseries_Creator";
-
-	private static final String _SQL_SELECT_LECTURESERIES_CREATOR_WHERE_PKS_IN =
-		"SELECT lectureseries_Creator FROM Lectureseries_Creator lectureseries_Creator WHERE lectureseriesCreatorId IN (";
 
 	private static final String _SQL_SELECT_LECTURESERIES_CREATOR_WHERE =
 		"SELECT lectureseries_Creator FROM Lectureseries_Creator lectureseries_Creator WHERE ";

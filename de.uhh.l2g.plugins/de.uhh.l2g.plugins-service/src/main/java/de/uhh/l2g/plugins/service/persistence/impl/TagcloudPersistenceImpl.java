@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -48,13 +46,11 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the tagcloud service.
@@ -2976,6 +2972,10 @@ public class TagcloudPersistenceImpl
 
 	public TagcloudPersistenceImpl() {
 		setModelClass(Tagcloud.class);
+
+		setModelImplClass(TagcloudImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(TagcloudModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -3485,160 +3485,12 @@ public class TagcloudPersistenceImpl
 	/**
 	 * Returns the tagcloud with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the tagcloud
-	 * @return the tagcloud, or <code>null</code> if a tagcloud with the primary key could not be found
-	 */
-	@Override
-	public Tagcloud fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			TagcloudModelImpl.ENTITY_CACHE_ENABLED, TagcloudImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Tagcloud tagcloud = (Tagcloud)serializable;
-
-		if (tagcloud == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				tagcloud = (Tagcloud)session.get(
-					TagcloudImpl.class, primaryKey);
-
-				if (tagcloud != null) {
-					cacheResult(tagcloud);
-				}
-				else {
-					entityCache.putResult(
-						TagcloudModelImpl.ENTITY_CACHE_ENABLED,
-						TagcloudImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					TagcloudModelImpl.ENTITY_CACHE_ENABLED, TagcloudImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return tagcloud;
-	}
-
-	/**
-	 * Returns the tagcloud with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param tagcloudId the primary key of the tagcloud
 	 * @return the tagcloud, or <code>null</code> if a tagcloud with the primary key could not be found
 	 */
 	@Override
 	public Tagcloud fetchByPrimaryKey(long tagcloudId) {
 		return fetchByPrimaryKey((Serializable)tagcloudId);
-	}
-
-	@Override
-	public Map<Serializable, Tagcloud> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Tagcloud> map = new HashMap<Serializable, Tagcloud>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Tagcloud tagcloud = fetchByPrimaryKey(primaryKey);
-
-			if (tagcloud != null) {
-				map.put(primaryKey, tagcloud);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				TagcloudModelImpl.ENTITY_CACHE_ENABLED, TagcloudImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Tagcloud)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_TAGCLOUD_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Tagcloud tagcloud : (List<Tagcloud>)q.list()) {
-				map.put(tagcloud.getPrimaryKeyObj(), tagcloud);
-
-				cacheResult(tagcloud);
-
-				uncachedPrimaryKeys.remove(tagcloud.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					TagcloudModelImpl.ENTITY_CACHE_ENABLED, TagcloudImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3836,6 +3688,21 @@ public class TagcloudPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "tagcloudId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_TAGCLOUD;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return TagcloudModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4007,9 +3874,6 @@ public class TagcloudPersistenceImpl
 
 	private static final String _SQL_SELECT_TAGCLOUD =
 		"SELECT tagcloud FROM Tagcloud tagcloud";
-
-	private static final String _SQL_SELECT_TAGCLOUD_WHERE_PKS_IN =
-		"SELECT tagcloud FROM Tagcloud tagcloud WHERE tagcloudId IN (";
 
 	private static final String _SQL_SELECT_TAGCLOUD_WHERE =
 		"SELECT tagcloud FROM Tagcloud tagcloud WHERE ";

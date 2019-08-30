@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,11 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class HostWrapper implements Host, ModelWrapper<Host> {
+public class HostWrapper
+	extends BaseModelWrapper<Host> implements Host, ModelWrapper<Host> {
 
 	public HostWrapper(Host host) {
-		_host = host;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Host.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Host.class.getName();
+		super(host);
 	}
 
 	@Override
@@ -155,16 +142,6 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new HostWrapper((Host)_host.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Host host) {
-		return _host.compareTo(host);
-	}
-
 	/**
 	 * Returns the company ID of this host.
 	 *
@@ -172,7 +149,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _host.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -182,7 +159,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _host.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -192,12 +169,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public int getDefaultHost() {
-		return _host.getDefaultHost();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _host.getExpandoBridge();
+		return model.getDefaultHost();
 	}
 
 	/**
@@ -207,7 +179,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _host.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -217,7 +189,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public long getHostId() {
-		return _host.getHostId();
+		return model.getHostId();
 	}
 
 	/**
@@ -227,7 +199,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _host.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -237,7 +209,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public String getName() {
-		return _host.getName();
+		return model.getName();
 	}
 
 	/**
@@ -247,7 +219,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public int getPort() {
-		return _host.getPort();
+		return model.getPort();
 	}
 
 	/**
@@ -257,12 +229,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _host.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _host.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -272,7 +239,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public String getProtocol() {
-		return _host.getProtocol();
+		return model.getProtocol();
 	}
 
 	/**
@@ -282,7 +249,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public String getServerRoot() {
-		return _host.getServerRoot();
+		return model.getServerRoot();
 	}
 
 	/**
@@ -292,7 +259,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public String getStreamer() {
-		return _host.getStreamer();
+		return model.getStreamer();
 	}
 
 	/**
@@ -302,7 +269,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public long getUserId() {
-		return _host.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -312,7 +279,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public String getUserName() {
-		return _host.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -322,37 +289,12 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _host.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _host.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _host.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _host.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _host.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_host.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_host.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -362,7 +304,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_host.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -372,7 +314,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_host.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -382,24 +324,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setDefaultHost(int defaultHost) {
-		_host.setDefaultHost(defaultHost);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_host.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_host.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_host.setExpandoBridgeAttributes(serviceContext);
+		model.setDefaultHost(defaultHost);
 	}
 
 	/**
@@ -409,7 +334,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_host.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -419,7 +344,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setHostId(long hostId) {
-		_host.setHostId(hostId);
+		model.setHostId(hostId);
 	}
 
 	/**
@@ -429,7 +354,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_host.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -439,12 +364,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setName(String name) {
-		_host.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_host.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -454,7 +374,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setPort(int port) {
-		_host.setPort(port);
+		model.setPort(port);
 	}
 
 	/**
@@ -464,12 +384,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_host.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_host.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -479,7 +394,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setProtocol(String protocol) {
-		_host.setProtocol(protocol);
+		model.setProtocol(protocol);
 	}
 
 	/**
@@ -489,7 +404,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setServerRoot(String serverRoot) {
-		_host.setServerRoot(serverRoot);
+		model.setServerRoot(serverRoot);
 	}
 
 	/**
@@ -499,7 +414,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setStreamer(String streamer) {
-		_host.setStreamer(streamer);
+		model.setStreamer(streamer);
 	}
 
 	/**
@@ -509,7 +424,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_host.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -519,7 +434,7 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_host.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -529,75 +444,12 @@ public class HostWrapper implements Host, ModelWrapper<Host> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_host.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Host> toCacheModel() {
-
-		return _host.toCacheModel();
+	protected HostWrapper wrap(Host host) {
+		return new HostWrapper(host);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Host toEscapedModel() {
-		return new HostWrapper(_host.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _host.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Host toUnescapedModel() {
-		return new HostWrapper(_host.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _host.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof HostWrapper)) {
-			return false;
-		}
-
-		HostWrapper hostWrapper = (HostWrapper)obj;
-
-		if (Objects.equals(_host, hostWrapper._host)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Host getWrappedModel() {
-		return _host;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _host.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _host.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_host.resetOriginalValues();
-	}
-
-	private final Host _host;
 
 }

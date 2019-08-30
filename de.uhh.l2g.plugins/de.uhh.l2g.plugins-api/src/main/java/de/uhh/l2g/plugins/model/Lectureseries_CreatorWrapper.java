@@ -14,17 +14,13 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,22 +33,13 @@ import java.util.Objects;
  */
 @ProviderType
 public class Lectureseries_CreatorWrapper
+	extends BaseModelWrapper<Lectureseries_Creator>
 	implements Lectureseries_Creator, ModelWrapper<Lectureseries_Creator> {
 
 	public Lectureseries_CreatorWrapper(
 		Lectureseries_Creator lectureseries_Creator) {
 
-		_lectureseries_Creator = lectureseries_Creator;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Lectureseries_Creator.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Lectureseries_Creator.class.getName();
+		super(lectureseries_Creator);
 	}
 
 	@Override
@@ -88,19 +75,6 @@ public class Lectureseries_CreatorWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new Lectureseries_CreatorWrapper(
-			(Lectureseries_Creator)_lectureseries_Creator.clone());
-	}
-
-	@Override
-	public int compareTo(
-		de.uhh.l2g.plugins.model.Lectureseries_Creator lectureseries_Creator) {
-
-		return _lectureseries_Creator.compareTo(lectureseries_Creator);
-	}
-
 	/**
 	 * Returns the creator ID of this lectureseries_ creator.
 	 *
@@ -108,12 +82,7 @@ public class Lectureseries_CreatorWrapper
 	 */
 	@Override
 	public long getCreatorId() {
-		return _lectureseries_Creator.getCreatorId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _lectureseries_Creator.getExpandoBridge();
+		return model.getCreatorId();
 	}
 
 	/**
@@ -123,7 +92,7 @@ public class Lectureseries_CreatorWrapper
 	 */
 	@Override
 	public long getLectureseriesCreatorId() {
-		return _lectureseries_Creator.getLectureseriesCreatorId();
+		return model.getLectureseriesCreatorId();
 	}
 
 	/**
@@ -133,7 +102,7 @@ public class Lectureseries_CreatorWrapper
 	 */
 	@Override
 	public long getLectureseriesId() {
-		return _lectureseries_Creator.getLectureseriesId();
+		return model.getLectureseriesId();
 	}
 
 	/**
@@ -143,42 +112,12 @@ public class Lectureseries_CreatorWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _lectureseries_Creator.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _lectureseries_Creator.getPrimaryKeyObj();
-	}
-
-	@Override
-	public int hashCode() {
-		return _lectureseries_Creator.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _lectureseries_Creator.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _lectureseries_Creator.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _lectureseries_Creator.isNew();
+		return model.getPrimaryKey();
 	}
 
 	@Override
 	public void persist() {
-		_lectureseries_Creator.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_lectureseries_Creator.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -188,24 +127,7 @@ public class Lectureseries_CreatorWrapper
 	 */
 	@Override
 	public void setCreatorId(long creatorId) {
-		_lectureseries_Creator.setCreatorId(creatorId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_lectureseries_Creator.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_lectureseries_Creator.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_lectureseries_Creator.setExpandoBridgeAttributes(serviceContext);
+		model.setCreatorId(creatorId);
 	}
 
 	/**
@@ -215,8 +137,7 @@ public class Lectureseries_CreatorWrapper
 	 */
 	@Override
 	public void setLectureseriesCreatorId(long lectureseriesCreatorId) {
-		_lectureseries_Creator.setLectureseriesCreatorId(
-			lectureseriesCreatorId);
+		model.setLectureseriesCreatorId(lectureseriesCreatorId);
 	}
 
 	/**
@@ -226,12 +147,7 @@ public class Lectureseries_CreatorWrapper
 	 */
 	@Override
 	public void setLectureseriesId(long lectureseriesId) {
-		_lectureseries_Creator.setLectureseriesId(lectureseriesId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_lectureseries_Creator.setNew(n);
+		model.setLectureseriesId(lectureseriesId);
 	}
 
 	/**
@@ -241,86 +157,14 @@ public class Lectureseries_CreatorWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_lectureseries_Creator.setPrimaryKey(primaryKey);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_lectureseries_Creator.setPrimaryKeyObj(primaryKeyObj);
+	protected Lectureseries_CreatorWrapper wrap(
+		Lectureseries_Creator lectureseries_Creator) {
+
+		return new Lectureseries_CreatorWrapper(lectureseries_Creator);
 	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Lectureseries_Creator> toCacheModel() {
-
-		return _lectureseries_Creator.toCacheModel();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lectureseries_Creator toEscapedModel() {
-		return new Lectureseries_CreatorWrapper(
-			_lectureseries_Creator.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _lectureseries_Creator.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Lectureseries_Creator toUnescapedModel() {
-		return new Lectureseries_CreatorWrapper(
-			_lectureseries_Creator.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _lectureseries_Creator.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof Lectureseries_CreatorWrapper)) {
-			return false;
-		}
-
-		Lectureseries_CreatorWrapper lectureseries_CreatorWrapper =
-			(Lectureseries_CreatorWrapper)obj;
-
-		if (Objects.equals(
-				_lectureseries_Creator,
-				lectureseries_CreatorWrapper._lectureseries_Creator)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Lectureseries_Creator getWrappedModel() {
-		return _lectureseries_Creator;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _lectureseries_Creator.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _lectureseries_Creator.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_lectureseries_Creator.resetOriginalValues();
-	}
-
-	private final Lectureseries_Creator _lectureseries_Creator;
 
 }

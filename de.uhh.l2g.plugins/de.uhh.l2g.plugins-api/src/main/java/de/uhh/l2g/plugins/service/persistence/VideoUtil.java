@@ -14,8 +14,6 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -29,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -2048,523 +2047,6 @@ public class VideoUtil {
 	}
 
 	/**
-	 * Returns all the videos where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @return the matching videos
-	 */
-	public static List<Video> findByGroup(long groupId) {
-		return getPersistence().findByGroup(groupId);
-	}
-
-	/**
-	 * Returns a range of all the videos where groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @return the range of matching videos
-	 */
-	public static List<Video> findByGroup(long groupId, int start, int end) {
-		return getPersistence().findByGroup(groupId, start, end);
-	}
-
-	/**
-	 * Returns an ordered range of all the videos where groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching videos
-	 */
-	public static List<Video> findByGroup(
-		long groupId, int start, int end,
-		OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().findByGroup(
-			groupId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the videos where groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching videos
-	 */
-	public static List<Video> findByGroup(
-		long groupId, int start, int end,
-		OrderByComparator<Video> orderByComparator, boolean retrieveFromCache) {
-
-		return getPersistence().findByGroup(
-			groupId, start, end, orderByComparator, retrieveFromCache);
-	}
-
-	/**
-	 * Returns the first video in the ordered set where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching video
-	 * @throws NoSuchVideoException if a matching video could not be found
-	 */
-	public static Video findByGroup_First(
-			long groupId, OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByGroup_First(groupId, orderByComparator);
-	}
-
-	/**
-	 * Returns the first video in the ordered set where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching video, or <code>null</code> if a matching video could not be found
-	 */
-	public static Video fetchByGroup_First(
-		long groupId, OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().fetchByGroup_First(groupId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last video in the ordered set where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching video
-	 * @throws NoSuchVideoException if a matching video could not be found
-	 */
-	public static Video findByGroup_Last(
-			long groupId, OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByGroup_Last(groupId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last video in the ordered set where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching video, or <code>null</code> if a matching video could not be found
-	 */
-	public static Video fetchByGroup_Last(
-		long groupId, OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().fetchByGroup_Last(groupId, orderByComparator);
-	}
-
-	/**
-	 * Returns the videos before and after the current video in the ordered set where groupId = &#63;.
-	 *
-	 * @param videoId the primary key of the current video
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next video
-	 * @throws NoSuchVideoException if a video with the primary key could not be found
-	 */
-	public static Video[] findByGroup_PrevAndNext(
-			long videoId, long groupId,
-			OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByGroup_PrevAndNext(
-			videoId, groupId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the videos where groupId = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 */
-	public static void removeByGroup(long groupId) {
-		getPersistence().removeByGroup(groupId);
-	}
-
-	/**
-	 * Returns the number of videos where groupId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @return the number of matching videos
-	 */
-	public static int countByGroup(long groupId) {
-		return getPersistence().countByGroup(groupId);
-	}
-
-	/**
-	 * Returns all the videos where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @return the matching videos
-	 */
-	public static List<Video> findByCompany(long companyId) {
-		return getPersistence().findByCompany(companyId);
-	}
-
-	/**
-	 * Returns a range of all the videos where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @return the range of matching videos
-	 */
-	public static List<Video> findByCompany(
-		long companyId, int start, int end) {
-
-		return getPersistence().findByCompany(companyId, start, end);
-	}
-
-	/**
-	 * Returns an ordered range of all the videos where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching videos
-	 */
-	public static List<Video> findByCompany(
-		long companyId, int start, int end,
-		OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().findByCompany(
-			companyId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the videos where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching videos
-	 */
-	public static List<Video> findByCompany(
-		long companyId, int start, int end,
-		OrderByComparator<Video> orderByComparator, boolean retrieveFromCache) {
-
-		return getPersistence().findByCompany(
-			companyId, start, end, orderByComparator, retrieveFromCache);
-	}
-
-	/**
-	 * Returns the first video in the ordered set where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching video
-	 * @throws NoSuchVideoException if a matching video could not be found
-	 */
-	public static Video findByCompany_First(
-			long companyId, OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByCompany_First(
-			companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the first video in the ordered set where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching video, or <code>null</code> if a matching video could not be found
-	 */
-	public static Video fetchByCompany_First(
-		long companyId, OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().fetchByCompany_First(
-			companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last video in the ordered set where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching video
-	 * @throws NoSuchVideoException if a matching video could not be found
-	 */
-	public static Video findByCompany_Last(
-			long companyId, OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByCompany_Last(
-			companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last video in the ordered set where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching video, or <code>null</code> if a matching video could not be found
-	 */
-	public static Video fetchByCompany_Last(
-		long companyId, OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().fetchByCompany_Last(
-			companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the videos before and after the current video in the ordered set where companyId = &#63;.
-	 *
-	 * @param videoId the primary key of the current video
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next video
-	 * @throws NoSuchVideoException if a video with the primary key could not be found
-	 */
-	public static Video[] findByCompany_PrevAndNext(
-			long videoId, long companyId,
-			OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByCompany_PrevAndNext(
-			videoId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the videos where companyId = &#63; from the database.
-	 *
-	 * @param companyId the company ID
-	 */
-	public static void removeByCompany(long companyId) {
-		getPersistence().removeByCompany(companyId);
-	}
-
-	/**
-	 * Returns the number of videos where companyId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @return the number of matching videos
-	 */
-	public static int countByCompany(long companyId) {
-		return getPersistence().countByCompany(companyId);
-	}
-
-	/**
-	 * Returns all the videos where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @return the matching videos
-	 */
-	public static List<Video> findByGroupAndCompany(
-		long groupId, long companyId) {
-
-		return getPersistence().findByGroupAndCompany(groupId, companyId);
-	}
-
-	/**
-	 * Returns a range of all the videos where groupId = &#63; and companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @return the range of matching videos
-	 */
-	public static List<Video> findByGroupAndCompany(
-		long groupId, long companyId, int start, int end) {
-
-		return getPersistence().findByGroupAndCompany(
-			groupId, companyId, start, end);
-	}
-
-	/**
-	 * Returns an ordered range of all the videos where groupId = &#63; and companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching videos
-	 */
-	public static List<Video> findByGroupAndCompany(
-		long groupId, long companyId, int start, int end,
-		OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().findByGroupAndCompany(
-			groupId, companyId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the videos where groupId = &#63; and companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param start the lower bound of the range of videos
-	 * @param end the upper bound of the range of videos (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching videos
-	 */
-	public static List<Video> findByGroupAndCompany(
-		long groupId, long companyId, int start, int end,
-		OrderByComparator<Video> orderByComparator, boolean retrieveFromCache) {
-
-		return getPersistence().findByGroupAndCompany(
-			groupId, companyId, start, end, orderByComparator,
-			retrieveFromCache);
-	}
-
-	/**
-	 * Returns the first video in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching video
-	 * @throws NoSuchVideoException if a matching video could not be found
-	 */
-	public static Video findByGroupAndCompany_First(
-			long groupId, long companyId,
-			OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByGroupAndCompany_First(
-			groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the first video in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching video, or <code>null</code> if a matching video could not be found
-	 */
-	public static Video fetchByGroupAndCompany_First(
-		long groupId, long companyId,
-		OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().fetchByGroupAndCompany_First(
-			groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last video in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching video
-	 * @throws NoSuchVideoException if a matching video could not be found
-	 */
-	public static Video findByGroupAndCompany_Last(
-			long groupId, long companyId,
-			OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByGroupAndCompany_Last(
-			groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last video in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching video, or <code>null</code> if a matching video could not be found
-	 */
-	public static Video fetchByGroupAndCompany_Last(
-		long groupId, long companyId,
-		OrderByComparator<Video> orderByComparator) {
-
-		return getPersistence().fetchByGroupAndCompany_Last(
-			groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Returns the videos before and after the current video in the ordered set where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param videoId the primary key of the current video
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next video
-	 * @throws NoSuchVideoException if a video with the primary key could not be found
-	 */
-	public static Video[] findByGroupAndCompany_PrevAndNext(
-			long videoId, long groupId, long companyId,
-			OrderByComparator<Video> orderByComparator)
-		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
-
-		return getPersistence().findByGroupAndCompany_PrevAndNext(
-			videoId, groupId, companyId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the videos where groupId = &#63; and companyId = &#63; from the database.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 */
-	public static void removeByGroupAndCompany(long groupId, long companyId) {
-		getPersistence().removeByGroupAndCompany(groupId, companyId);
-	}
-
-	/**
-	 * Returns the number of videos where groupId = &#63; and companyId = &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param companyId the company ID
-	 * @return the number of matching videos
-	 */
-	public static int countByGroupAndCompany(long groupId, long companyId) {
-		return getPersistence().countByGroupAndCompany(groupId, companyId);
-	}
-
-	/**
 	 * Returns all the videos where openAccess = &#63;.
 	 *
 	 * @param openAccess the open access
@@ -2734,6 +2216,174 @@ public class VideoUtil {
 	}
 
 	/**
+	 * Returns all the videos where licenseId = &#63;.
+	 *
+	 * @param licenseId the license ID
+	 * @return the matching videos
+	 */
+	public static List<Video> findByLicense(long licenseId) {
+		return getPersistence().findByLicense(licenseId);
+	}
+
+	/**
+	 * Returns a range of all the videos where licenseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param licenseId the license ID
+	 * @param start the lower bound of the range of videos
+	 * @param end the upper bound of the range of videos (not inclusive)
+	 * @return the range of matching videos
+	 */
+	public static List<Video> findByLicense(
+		long licenseId, int start, int end) {
+
+		return getPersistence().findByLicense(licenseId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the videos where licenseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param licenseId the license ID
+	 * @param start the lower bound of the range of videos
+	 * @param end the upper bound of the range of videos (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching videos
+	 */
+	public static List<Video> findByLicense(
+		long licenseId, int start, int end,
+		OrderByComparator<Video> orderByComparator) {
+
+		return getPersistence().findByLicense(
+			licenseId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the videos where licenseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>VideoModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param licenseId the license ID
+	 * @param start the lower bound of the range of videos
+	 * @param end the upper bound of the range of videos (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching videos
+	 */
+	public static List<Video> findByLicense(
+		long licenseId, int start, int end,
+		OrderByComparator<Video> orderByComparator, boolean retrieveFromCache) {
+
+		return getPersistence().findByLicense(
+			licenseId, start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first video in the ordered set where licenseId = &#63;.
+	 *
+	 * @param licenseId the license ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching video
+	 * @throws NoSuchVideoException if a matching video could not be found
+	 */
+	public static Video findByLicense_First(
+			long licenseId, OrderByComparator<Video> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
+
+		return getPersistence().findByLicense_First(
+			licenseId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first video in the ordered set where licenseId = &#63;.
+	 *
+	 * @param licenseId the license ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching video, or <code>null</code> if a matching video could not be found
+	 */
+	public static Video fetchByLicense_First(
+		long licenseId, OrderByComparator<Video> orderByComparator) {
+
+		return getPersistence().fetchByLicense_First(
+			licenseId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last video in the ordered set where licenseId = &#63;.
+	 *
+	 * @param licenseId the license ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching video
+	 * @throws NoSuchVideoException if a matching video could not be found
+	 */
+	public static Video findByLicense_Last(
+			long licenseId, OrderByComparator<Video> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
+
+		return getPersistence().findByLicense_Last(
+			licenseId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last video in the ordered set where licenseId = &#63;.
+	 *
+	 * @param licenseId the license ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching video, or <code>null</code> if a matching video could not be found
+	 */
+	public static Video fetchByLicense_Last(
+		long licenseId, OrderByComparator<Video> orderByComparator) {
+
+		return getPersistence().fetchByLicense_Last(
+			licenseId, orderByComparator);
+	}
+
+	/**
+	 * Returns the videos before and after the current video in the ordered set where licenseId = &#63;.
+	 *
+	 * @param videoId the primary key of the current video
+	 * @param licenseId the license ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next video
+	 * @throws NoSuchVideoException if a video with the primary key could not be found
+	 */
+	public static Video[] findByLicense_PrevAndNext(
+			long videoId, long licenseId,
+			OrderByComparator<Video> orderByComparator)
+		throws de.uhh.l2g.plugins.exception.NoSuchVideoException {
+
+		return getPersistence().findByLicense_PrevAndNext(
+			videoId, licenseId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the videos where licenseId = &#63; from the database.
+	 *
+	 * @param licenseId the license ID
+	 */
+	public static void removeByLicense(long licenseId) {
+		getPersistence().removeByLicense(licenseId);
+	}
+
+	/**
+	 * Returns the number of videos where licenseId = &#63;.
+	 *
+	 * @param licenseId the license ID
+	 * @return the number of matching videos
+	 */
+	public static int countByLicense(long licenseId) {
+		return getPersistence().countByLicense(licenseId);
+	}
+
+	/**
 	 * Caches the video in the entity cache if it is enabled.
 	 *
 	 * @param video the video
@@ -2878,10 +2528,6 @@ public class VideoUtil {
 	 */
 	public static int countAll() {
 		return getPersistence().countAll();
-	}
-
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
 	}
 
 	public static VideoPersistence getPersistence() {

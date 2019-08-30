@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -38,20 +34,11 @@ import java.util.Objects;
  */
 @ProviderType
 public class VideohitlistWrapper
+	extends BaseModelWrapper<Videohitlist>
 	implements Videohitlist, ModelWrapper<Videohitlist> {
 
 	public VideohitlistWrapper(Videohitlist videohitlist) {
-		_videohitlist = videohitlist;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Videohitlist.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Videohitlist.class.getName();
+		super(videohitlist);
 	}
 
 	@Override
@@ -149,16 +136,6 @@ public class VideohitlistWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new VideohitlistWrapper((Videohitlist)_videohitlist.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Videohitlist videohitlist) {
-		return _videohitlist.compareTo(videohitlist);
-	}
-
 	/**
 	 * Returns the company ID of this videohitlist.
 	 *
@@ -166,7 +143,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _videohitlist.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -176,12 +153,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _videohitlist.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _videohitlist.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -191,7 +163,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _videohitlist.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -201,7 +173,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getHitsPerDay() {
-		return _videohitlist.getHitsPerDay();
+		return model.getHitsPerDay();
 	}
 
 	/**
@@ -211,7 +183,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getHitsPerMonth() {
-		return _videohitlist.getHitsPerMonth();
+		return model.getHitsPerMonth();
 	}
 
 	/**
@@ -221,7 +193,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getHitsPerWeek() {
-		return _videohitlist.getHitsPerWeek();
+		return model.getHitsPerWeek();
 	}
 
 	/**
@@ -231,7 +203,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getHitsPerYear() {
-		return _videohitlist.getHitsPerYear();
+		return model.getHitsPerYear();
 	}
 
 	/**
@@ -241,7 +213,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _videohitlist.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -251,12 +223,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _videohitlist.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _videohitlist.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -266,7 +233,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _videohitlist.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -276,7 +243,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _videohitlist.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -286,7 +253,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _videohitlist.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -296,7 +263,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getVideohitlistId() {
-		return _videohitlist.getVideohitlistId();
+		return model.getVideohitlistId();
 	}
 
 	/**
@@ -306,37 +273,12 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public long getVideoId() {
-		return _videohitlist.getVideoId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _videohitlist.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _videohitlist.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _videohitlist.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _videohitlist.isNew();
+		return model.getVideoId();
 	}
 
 	@Override
 	public void persist() {
-		_videohitlist.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_videohitlist.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -346,7 +288,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_videohitlist.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -356,24 +298,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_videohitlist.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_videohitlist.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_videohitlist.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_videohitlist.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -383,7 +308,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_videohitlist.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -393,7 +318,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setHitsPerDay(long hitsPerDay) {
-		_videohitlist.setHitsPerDay(hitsPerDay);
+		model.setHitsPerDay(hitsPerDay);
 	}
 
 	/**
@@ -403,7 +328,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setHitsPerMonth(long hitsPerMonth) {
-		_videohitlist.setHitsPerMonth(hitsPerMonth);
+		model.setHitsPerMonth(hitsPerMonth);
 	}
 
 	/**
@@ -413,7 +338,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setHitsPerWeek(long hitsPerWeek) {
-		_videohitlist.setHitsPerWeek(hitsPerWeek);
+		model.setHitsPerWeek(hitsPerWeek);
 	}
 
 	/**
@@ -423,7 +348,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setHitsPerYear(long hitsPerYear) {
-		_videohitlist.setHitsPerYear(hitsPerYear);
+		model.setHitsPerYear(hitsPerYear);
 	}
 
 	/**
@@ -433,12 +358,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_videohitlist.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_videohitlist.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -448,12 +368,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_videohitlist.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_videohitlist.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -463,7 +378,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_videohitlist.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -473,7 +388,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_videohitlist.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -483,7 +398,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_videohitlist.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -493,7 +408,7 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setVideohitlistId(long videohitlistId) {
-		_videohitlist.setVideohitlistId(videohitlistId);
+		model.setVideohitlistId(videohitlistId);
 	}
 
 	/**
@@ -503,75 +418,12 @@ public class VideohitlistWrapper
 	 */
 	@Override
 	public void setVideoId(long videoId) {
-		_videohitlist.setVideoId(videoId);
+		model.setVideoId(videoId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Videohitlist> toCacheModel() {
-
-		return _videohitlist.toCacheModel();
+	protected VideohitlistWrapper wrap(Videohitlist videohitlist) {
+		return new VideohitlistWrapper(videohitlist);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Videohitlist toEscapedModel() {
-		return new VideohitlistWrapper(_videohitlist.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _videohitlist.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Videohitlist toUnescapedModel() {
-		return new VideohitlistWrapper(_videohitlist.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _videohitlist.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof VideohitlistWrapper)) {
-			return false;
-		}
-
-		VideohitlistWrapper videohitlistWrapper = (VideohitlistWrapper)obj;
-
-		if (Objects.equals(_videohitlist, videohitlistWrapper._videohitlist)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Videohitlist getWrappedModel() {
-		return _videohitlist;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _videohitlist.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _videohitlist.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_videohitlist.resetOriginalValues();
-	}
-
-	private final Videohitlist _videohitlist;
 
 }

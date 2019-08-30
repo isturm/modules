@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchStatisticException;
 import de.uhh.l2g.plugins.model.Statistic;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the statistic service.
@@ -46,9 +42,6 @@ public interface StatisticPersistence extends BasePersistence<Statistic> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link StatisticUtil} to access the statistic persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Statistic> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns the statistic where statisticId = &#63; or throws a <code>NoSuchStatisticException</code> if it could not be found.

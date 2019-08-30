@@ -14,11 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.lang.HashUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.util.HashUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Video;
 
@@ -28,6 +26,8 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import java.util.Date;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The cache model class for representing Video in entity cache.
@@ -64,7 +64,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{videoId=");
 		sb.append(videoId);
@@ -112,6 +112,8 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		sb.append(tags);
 		sb.append(", password=");
 		sb.append(password);
+		sb.append(", licenseId=");
+		sb.append(licenseId);
 		sb.append(", groupId=");
 		sb.append(groupId);
 		sb.append(", companyId=");
@@ -228,6 +230,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 			videoImpl.setPassword(password);
 		}
 
+		videoImpl.setLicenseId(licenseId);
 		videoImpl.setGroupId(groupId);
 		videoImpl.setCompanyId(companyId);
 		videoImpl.setUserId(userId);
@@ -294,6 +297,8 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		termId = objectInput.readLong();
 		tags = objectInput.readUTF();
 		password = objectInput.readUTF();
+
+		licenseId = objectInput.readLong();
 
 		groupId = objectInput.readLong();
 
@@ -402,6 +407,8 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 			objectOutput.writeUTF(password);
 		}
 
+		objectOutput.writeLong(licenseId);
+
 		objectOutput.writeLong(groupId);
 
 		objectOutput.writeLong(companyId);
@@ -442,6 +449,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 	public long termId;
 	public String tags;
 	public String password;
+	public long licenseId;
 	public long groupId;
 	public long companyId;
 	public long userId;

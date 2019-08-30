@@ -14,9 +14,9 @@
 
 package de.uhh.l2g.plugins.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides a wrapper for {@link LicenseLocalService}.
@@ -55,11 +55,6 @@ public class LicenseLocalServiceWrapper
 	@Override
 	public de.uhh.l2g.plugins.model.License createLicense(long licenseId) {
 		return _licenseLocalService.createLicense(licenseId);
-	}
-
-	@Override
-	public boolean deleteByVideoId(Long videoId) {
-		return _licenseLocalService.deleteByVideoId(videoId);
 	}
 
 	/**
@@ -202,11 +197,11 @@ public class LicenseLocalServiceWrapper
 	}
 
 	@Override
-	public de.uhh.l2g.plugins.model.License getByVideoId(Long videoId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			   de.uhh.l2g.plugins.exception.NoSuchLicenseException {
+	public java.util.List<de.uhh.l2g.plugins.model.License> getBySelectable(
+			boolean isSelectable)
+		throws com.liferay.portal.kernel.exception.SystemException {
 
-		return _licenseLocalService.getByVideoId(videoId);
+		return _licenseLocalService.getBySelectable(isSelectable);
 	}
 
 	@Override

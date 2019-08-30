@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -48,12 +46,10 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the coordinator service.
@@ -2359,6 +2355,10 @@ public class CoordinatorPersistenceImpl
 
 	public CoordinatorPersistenceImpl() {
 		setModelClass(Coordinator.class);
+
+		setModelImplClass(CoordinatorImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(CoordinatorModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2830,161 +2830,12 @@ public class CoordinatorPersistenceImpl
 	/**
 	 * Returns the coordinator with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the coordinator
-	 * @return the coordinator, or <code>null</code> if a coordinator with the primary key could not be found
-	 */
-	@Override
-	public Coordinator fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CoordinatorModelImpl.ENTITY_CACHE_ENABLED, CoordinatorImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Coordinator coordinator = (Coordinator)serializable;
-
-		if (coordinator == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				coordinator = (Coordinator)session.get(
-					CoordinatorImpl.class, primaryKey);
-
-				if (coordinator != null) {
-					cacheResult(coordinator);
-				}
-				else {
-					entityCache.putResult(
-						CoordinatorModelImpl.ENTITY_CACHE_ENABLED,
-						CoordinatorImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					CoordinatorModelImpl.ENTITY_CACHE_ENABLED,
-					CoordinatorImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return coordinator;
-	}
-
-	/**
-	 * Returns the coordinator with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param coordinatorId the primary key of the coordinator
 	 * @return the coordinator, or <code>null</code> if a coordinator with the primary key could not be found
 	 */
 	@Override
 	public Coordinator fetchByPrimaryKey(long coordinatorId) {
 		return fetchByPrimaryKey((Serializable)coordinatorId);
-	}
-
-	@Override
-	public Map<Serializable, Coordinator> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Coordinator> map =
-			new HashMap<Serializable, Coordinator>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Coordinator coordinator = fetchByPrimaryKey(primaryKey);
-
-			if (coordinator != null) {
-				map.put(primaryKey, coordinator);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				CoordinatorModelImpl.ENTITY_CACHE_ENABLED,
-				CoordinatorImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Coordinator)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_COORDINATOR_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Coordinator coordinator : (List<Coordinator>)q.list()) {
-				map.put(coordinator.getPrimaryKeyObj(), coordinator);
-
-				cacheResult(coordinator);
-
-				uncachedPrimaryKeys.remove(coordinator.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					CoordinatorModelImpl.ENTITY_CACHE_ENABLED,
-					CoordinatorImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3182,6 +3033,21 @@ public class CoordinatorPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "coordinatorId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_COORDINATOR;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return CoordinatorModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3329,9 +3195,6 @@ public class CoordinatorPersistenceImpl
 
 	private static final String _SQL_SELECT_COORDINATOR =
 		"SELECT coordinator FROM Coordinator coordinator";
-
-	private static final String _SQL_SELECT_COORDINATOR_WHERE_PKS_IN =
-		"SELECT coordinator FROM Coordinator coordinator WHERE coordinatorId IN (";
 
 	private static final String _SQL_SELECT_COORDINATOR_WHERE =
 		"SELECT coordinator FROM Coordinator coordinator WHERE ";

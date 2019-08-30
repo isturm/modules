@@ -296,9 +296,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				
 				//requested sub institutions
 				reqSubInstitutions = Video_InstitutionLocalServiceUtil.getByVideo(reqVideo.getVideoId());
-				
-				//requested license
-				try{reqLicense = LicenseLocalServiceUtil.getByVideoId(reqVideo.getVideoId());}catch(Exception e){}
 			}	
 
 			//all creator to json
@@ -433,13 +430,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		List<Video_Institution> reqSubInstitutions = new ArrayList<Video_Institution>();
 		reqSubInstitutions = Video_InstitutionLocalServiceUtil.getByVideo(video.getVideoId());
 
-		//licence
-		License license = LicenseLocalServiceUtil.createLicense(0);
-		license.setVideoId(newVideo.getVideoId());
-		license.setCcbyncsa(0);
-		license.setL2go(1);
-		LicenseLocalServiceUtil.addLicense(license);
-
 		//update lg_video_institution table and update previewVideoId in lg_lecturseries table
 		if(lectureseriesId>0){
 			LectureseriesLocalServiceUtil.updatePreviewVideoOpenAccess(LectureseriesLocalServiceUtil.getLectureseries(lectureseriesId));
@@ -501,14 +491,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			//e.printStackTrace();
 		} catch (SystemException e) {
 			//e.printStackTrace();
-		}
-		License license = LicenseLocalServiceUtil.createLicense(0);
-		try {
-			license = LicenseLocalServiceUtil.getByVideoId(video.getVideoId());
-		} catch (NoSuchLicenseException e1) {
-			//e1.printStackTrace();
-		} catch (SystemException e1) {
-			//e1.printStackTrace();
 		}
 		
 		if(resourceID.equals("updateVideoFileName")){
@@ -605,25 +587,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 				errors.add("DESCRIPTION_UPDATE_FAILED");
 			}			
 			//description end
-			
-			//licence start
-			String licens = ParamUtil.getString(resourceRequest, "license");
-			license.setCcbyncsa(0);
-			license.setL2go(0);
-			//save next
-			if(licens.equals("uhhl2go")){
-				license.setL2go(1);
-				license.setCcbyncsa(0);
-			}else{
-				license.setL2go(0);
-				license.setCcbyncsa(1);				
-			}
-			try {
-				LicenseLocalServiceUtil.updateLicense(license);
-			} catch (SystemException e) {
-				errors.add("LICENSE_UPDATE_FAILED");
-			}			
-			//licence end
 			
 			//creators start
 			String creatorsJsonArray = ParamUtil.getString(resourceRequest, "creatorsJsonArray");
@@ -1203,33 +1166,6 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 			//
 			PrintWriter writer = resourceResponse.getWriter();
 	        writer.print(jo.toString());
-	        writer.flush();
-	        writer.close();
-		}
-		
-		if(resourceID.equals("updateLicense")){
-			String licens = ParamUtil.getString(resourceRequest, "license");
-			//reset first
-			license.setCcbyncsa(0);
-			license.setL2go(0);
-			//save next
-			if(licens.equals("uhhl2go")){
-				license.setL2go(1);
-				license.setCcbyncsa(0);
-			}else{
-				license.setL2go(0);
-				license.setCcbyncsa(1);				
-			}
-			try {
-				LicenseLocalServiceUtil.updateLicense(license);
-				_log.info("LICENSE_UPDATE_SUCCESS");
-			} catch (SystemException e) {
-				_log.info("LICENSE_UPDATE_FAILED");
-			}
-			JSONObject json = JSONFactoryUtil.createJSONObject();
-			//
-			PrintWriter writer = resourceResponse.getWriter();
-	        writer.print(json.toString());
 	        writer.flush();
 	        writer.close();
 		}

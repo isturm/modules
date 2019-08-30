@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchLectureseriesException;
 import de.uhh.l2g.plugins.model.Lectureseries;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the lectureseries service.
@@ -47,9 +43,6 @@ public interface LectureseriesPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link LectureseriesUtil} to access the lectureseries persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Lectureseries> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the lectureserieses where termId = &#63;.
@@ -2475,8 +2468,5 @@ public interface LectureseriesPersistence
 	 * @return the number of lectureserieses
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

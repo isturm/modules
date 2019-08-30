@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,11 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class VideoWrapper implements Video, ModelWrapper<Video> {
+public class VideoWrapper
+	extends BaseModelWrapper<Video> implements Video, ModelWrapper<Video> {
 
 	public VideoWrapper(Video video) {
-		_video = video;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Video.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Video.class.getName();
+		super(video);
 	}
 
 	@Override
@@ -80,6 +67,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 		attributes.put("termId", getTermId());
 		attributes.put("tags", getTags());
 		attributes.put("password", getPassword());
+		attributes.put("licenseId", getLicenseId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
@@ -231,6 +219,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 			setPassword(password);
 		}
 
+		Long licenseId = (Long)attributes.get("licenseId");
+
+		if (licenseId != null) {
+			setLicenseId(licenseId);
+		}
+
 		Long groupId = (Long)attributes.get("groupId");
 
 		if (groupId != null) {
@@ -269,23 +263,13 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	}
 
 	@Override
-	public Object clone() {
-		return new VideoWrapper((Video)_video.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Video video) {
-		return _video.compareTo(video);
-	}
-
-	@Override
 	public Integer getAccessPermitted() {
-		return _video.getAccessPermitted();
+		return model.getAccessPermitted();
 	}
 
 	@Override
 	public String getBitrate() {
-		return _video.getBitrate();
+		return model.getBitrate();
 	}
 
 	/**
@@ -295,7 +279,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public int getCitation2go() {
-		return _video.getCitation2go();
+		return model.getCitation2go();
 	}
 
 	/**
@@ -305,7 +289,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _video.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -315,7 +299,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getContainerFormat() {
-		return _video.getContainerFormat();
+		return model.getContainerFormat();
 	}
 
 	/**
@@ -325,17 +309,17 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _video.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getCreatorFullName() {
-		return _video.getCreatorFullName();
+		return model.getCreatorFullName();
 	}
 
 	@Override
 	public String getCreators() {
-		return _video.getCreators();
+		return model.getCreators();
 	}
 
 	/**
@@ -343,7 +327,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getCurrentFilename() {
-		return _video.getCurrentFilename();
+		return model.getCurrentFilename();
 	}
 
 	/**
@@ -353,7 +337,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getCurrentMp4FilenameWithReasonableBitrate() {
-		return _video.getCurrentMp4FilenameWithReasonableBitrate();
+		return model.getCurrentMp4FilenameWithReasonableBitrate();
 	}
 
 	/**
@@ -361,7 +345,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getCurrentPrefix() {
-		return _video.getCurrentPrefix();
+		return model.getCurrentPrefix();
 	}
 
 	/**
@@ -369,7 +353,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getCurrentURL() {
-		return _video.getCurrentURL();
+		return model.getCurrentURL();
 	}
 
 	/**
@@ -377,7 +361,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getDate() {
-		return _video.getDate();
+		return model.getDate();
 	}
 
 	/**
@@ -387,7 +371,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public int getDownloadLink() {
-		return _video.getDownloadLink();
+		return model.getDownloadLink();
 	}
 
 	/**
@@ -397,7 +381,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getDuration() {
-		return _video.getDuration();
+		return model.getDuration();
 	}
 
 	/**
@@ -405,7 +389,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getEmbedCommsy() {
-		return _video.getEmbedCommsy();
+		return model.getEmbedCommsy();
 	}
 
 	/**
@@ -413,7 +397,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getEmbedHtml5() {
-		return _video.getEmbedHtml5();
+		return model.getEmbedHtml5();
 	}
 
 	/**
@@ -421,12 +405,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getEmbedIframe() {
-		return _video.getEmbedIframe();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _video.getExpandoBridge();
+		return model.getEmbedIframe();
 	}
 
 	/**
@@ -436,7 +415,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getFilename() {
-		return _video.getFilename();
+		return model.getFilename();
 	}
 
 	/**
@@ -446,7 +425,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getFileSize() {
-		return _video.getFileSize();
+		return model.getFileSize();
 	}
 
 	/**
@@ -454,7 +433,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getFlvDownloadLink() {
-		return _video.getFlvDownloadLink();
+		return model.getFlvDownloadLink();
 	}
 
 	/**
@@ -462,12 +441,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getFlvFile() {
-		return _video.getFlvFile();
+		return model.getFlvFile();
 	}
 
 	@Override
 	public String getFlvRssLink() {
-		return _video.getFlvRssLink();
+		return model.getFlvRssLink();
 	}
 
 	/**
@@ -477,7 +456,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getGenerationDate() {
-		return _video.getGenerationDate();
+		return model.getGenerationDate();
 	}
 
 	/**
@@ -487,7 +466,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _video.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -497,12 +476,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getHits() {
-		return _video.getHits();
+		return model.getHits();
 	}
 
 	@Override
 	public de.uhh.l2g.plugins.model.Host getHost() {
-		return _video.getHost();
+		return model.getHost();
 	}
 
 	/**
@@ -512,7 +491,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getHostId() {
-		return _video.getHostId();
+		return model.getHostId();
 	}
 
 	/**
@@ -520,7 +499,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getImage() {
-		return _video.getImage();
+		return model.getImage();
 	}
 
 	/**
@@ -528,7 +507,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getImageMedium() {
-		return _video.getImageMedium();
+		return model.getImageMedium();
 	}
 
 	/**
@@ -536,7 +515,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getImageSmall() {
-		return _video.getImageSmall();
+		return model.getImageSmall();
 	}
 
 	/**
@@ -544,7 +523,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getJsonPlayerTracks() {
-		return _video.getJsonPlayerTracks();
+		return model.getJsonPlayerTracks();
 	}
 
 	/**
@@ -552,7 +531,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getJsonPlayerUris() {
-		return _video.getJsonPlayerUris();
+		return model.getJsonPlayerUris();
 	}
 
 	/**
@@ -562,17 +541,17 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getLectureseriesId() {
-		return _video.getLectureseriesId();
+		return model.getLectureseriesId();
 	}
 
 	@Override
 	public String getLectureseriesName() {
-		return _video.getLectureseriesName();
+		return model.getLectureseriesName();
 	}
 
 	@Override
 	public String getLectureseriesNumber() {
-		return _video.getLectureseriesNumber();
+		return model.getLectureseriesNumber();
 	}
 
 	/**
@@ -580,12 +559,22 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getLectureseriesUrl() {
-		return _video.getLectureseriesUrl();
+		return model.getLectureseriesUrl();
+	}
+
+	/**
+	 * Returns the license ID of this video.
+	 *
+	 * @return the license ID of this video
+	 */
+	@Override
+	public long getLicenseId() {
+		return model.getLicenseId();
 	}
 
 	@Override
 	public String getLinkedCreators() {
-		return _video.getLinkedCreators();
+		return model.getLinkedCreators();
 	}
 
 	/**
@@ -593,7 +582,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getM4aDownloadLink() {
-		return _video.getM4aDownloadLink();
+		return model.getM4aDownloadLink();
 	}
 
 	/**
@@ -601,12 +590,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getM4aFile() {
-		return _video.getM4aFile();
+		return model.getM4aFile();
 	}
 
 	@Override
 	public String getM4aRssLink() {
-		return _video.getM4aRssLink();
+		return model.getM4aRssLink();
 	}
 
 	/**
@@ -614,7 +603,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getM4vDownloadLink() {
-		return _video.getM4vDownloadLink();
+		return model.getM4vDownloadLink();
 	}
 
 	/**
@@ -622,12 +611,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getM4vFile() {
-		return _video.getM4vFile();
+		return model.getM4vFile();
 	}
 
 	@Override
 	public String getM4vRssLink() {
-		return _video.getM4vRssLink();
+		return model.getM4vRssLink();
 	}
 
 	/**
@@ -637,7 +626,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getMetadataId() {
-		return _video.getMetadataId();
+		return model.getMetadataId();
 	}
 
 	/**
@@ -647,7 +636,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _video.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -655,7 +644,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getMp3DownloadLink() {
-		return _video.getMp3DownloadLink();
+		return model.getMp3DownloadLink();
 	}
 
 	/**
@@ -663,12 +652,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getMp3File() {
-		return _video.getMp3File();
+		return model.getMp3File();
 	}
 
 	@Override
 	public String getMp3RssLink() {
-		return _video.getMp3RssLink();
+		return model.getMp3RssLink();
 	}
 
 	/**
@@ -676,7 +665,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getMp4DownloadLink() {
-		return _video.getMp4DownloadLink();
+		return model.getMp4DownloadLink();
 	}
 
 	/**
@@ -684,7 +673,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getMp4File() {
-		return _video.getMp4File();
+		return model.getMp4File();
 	}
 
 	/**
@@ -693,12 +682,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getMp4FilenameWithReasonableBitrate() {
-		return _video.getMp4FilenameWithReasonableBitrate();
+		return model.getMp4FilenameWithReasonableBitrate();
 	}
 
 	@Override
 	public String getMp4RssLink() {
-		return _video.getMp4RssLink();
+		return model.getMp4RssLink();
 	}
 
 	/**
@@ -706,7 +695,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getOggDownloadLink() {
-		return _video.getOggDownloadLink();
+		return model.getOggDownloadLink();
 	}
 
 	/**
@@ -714,12 +703,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getOggFile() {
-		return _video.getOggFile();
+		return model.getOggFile();
 	}
 
 	@Override
 	public String getOggRssLink() {
-		return _video.getOggRssLink();
+		return model.getOggRssLink();
 	}
 
 	/**
@@ -729,7 +718,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public int getOpenAccess() {
-		return _video.getOpenAccess();
+		return model.getOpenAccess();
 	}
 
 	/**
@@ -739,7 +728,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getPassword() {
-		return _video.getPassword();
+		return model.getPassword();
 	}
 
 	/**
@@ -747,7 +736,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getPdfDownloadLink() {
-		return _video.getPdfDownloadLink();
+		return model.getPdfDownloadLink();
 	}
 
 	/**
@@ -755,7 +744,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getPdfFile() {
-		return _video.getPdfFile();
+		return model.getPdfFile();
 	}
 
 	/**
@@ -765,12 +754,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public int getPermittedToSegment() {
-		return _video.getPermittedToSegment();
+		return model.getPermittedToSegment();
 	}
 
 	@Override
 	public java.util.ArrayList<String> getPlayerUris() {
-		return _video.getPlayerUris();
+		return model.getPlayerUris();
 	}
 
 	/**
@@ -778,7 +767,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getPreffix() {
-		return _video.getPreffix();
+		return model.getPreffix();
 	}
 
 	/**
@@ -788,17 +777,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _video.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _video.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	@Override
 	public de.uhh.l2g.plugins.model.Producer getProducer() {
-		return _video.getProducer();
+		return model.getProducer();
 	}
 
 	/**
@@ -808,7 +792,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getProducerId() {
-		return _video.getProducerId();
+		return model.getProducerId();
 	}
 
 	/**
@@ -818,7 +802,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getResolution() {
-		return _video.getResolution();
+		return model.getResolution();
 	}
 
 	/**
@@ -828,7 +812,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getRootInstitutionId() {
-		return _video.getRootInstitutionId();
+		return model.getRootInstitutionId();
 	}
 
 	/**
@@ -838,7 +822,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getSecureFilename() {
-		return _video.getSecureFilename();
+		return model.getSecureFilename();
 	}
 
 	/**
@@ -847,7 +831,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getSecureMp4FilenameWithReasonableBitrate() {
-		return _video.getSecureMp4FilenameWithReasonableBitrate();
+		return model.getSecureMp4FilenameWithReasonableBitrate();
 	}
 
 	/**
@@ -855,7 +839,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getSecureUrl() {
-		return _video.getSecureUrl();
+		return model.getSecureUrl();
 	}
 
 	/**
@@ -863,7 +847,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getShortTitle() {
-		return _video.getShortTitle();
+		return model.getShortTitle();
 	}
 
 	/**
@@ -871,7 +855,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getSimpleDate() {
-		return _video.getSimpleDate();
+		return model.getSimpleDate();
 	}
 
 	/**
@@ -879,7 +863,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getSPreffix() {
-		return _video.getSPreffix();
+		return model.getSPreffix();
 	}
 
 	/**
@@ -889,7 +873,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getTags() {
-		return _video.getTags();
+		return model.getTags();
 	}
 
 	/**
@@ -899,7 +883,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getTermId() {
-		return _video.getTermId();
+		return model.getTermId();
 	}
 
 	/**
@@ -909,7 +893,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getTitle() {
-		return _video.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -919,7 +903,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public Date getUploadDate() {
-		return _video.getUploadDate();
+		return model.getUploadDate();
 	}
 
 	/**
@@ -927,7 +911,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getUrl() {
-		return _video.getUrl();
+		return model.getUrl();
 	}
 
 	/**
@@ -937,7 +921,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getUserId() {
-		return _video.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -947,7 +931,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getUserName() {
-		return _video.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -957,7 +941,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _video.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -967,7 +951,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public long getVideoId() {
-		return _video.getVideoId();
+		return model.getVideoId();
 	}
 
 	/**
@@ -975,7 +959,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getVttCaptionUrl() {
-		return _video.getVttCaptionUrl();
+		return model.getVttCaptionUrl();
 	}
 
 	/**
@@ -983,7 +967,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getVttChapterFile() {
-		return _video.getVttChapterFile();
+		return model.getVttChapterFile();
 	}
 
 	/**
@@ -991,12 +975,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getVttFile() {
-		return _video.getVttFile();
+		return model.getVttFile();
 	}
 
 	@Override
 	public String getVttThumbsFilde() {
-		return _video.getVttThumbsFilde();
+		return model.getVttThumbsFilde();
 	}
 
 	/**
@@ -1004,7 +988,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public String getWebmDownloadLink() {
-		return _video.getWebmDownloadLink();
+		return model.getWebmDownloadLink();
 	}
 
 	/**
@@ -1012,32 +996,17 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public java.io.File getWebmFile() {
-		return _video.getWebmFile();
+		return model.getWebmFile();
 	}
 
 	@Override
 	public String getWebmRssLink() {
-		return _video.getWebmRssLink();
-	}
-
-	@Override
-	public int hashCode() {
-		return _video.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _video.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _video.isEscapedModel();
+		return model.getWebmRssLink();
 	}
 
 	@Override
 	public boolean isHasCaption() {
-		return _video.isHasCaption();
+		return model.isHasCaption();
 	}
 
 	/**
@@ -1045,37 +1014,27 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public boolean isHasChapters() {
-		return _video.isHasChapters();
+		return model.isHasChapters();
 	}
 
 	@Override
 	public boolean isHasComments() {
-		return _video.isHasComments();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _video.isNew();
+		return model.isHasComments();
 	}
 
 	@Override
 	public void persist() {
-		_video.persist();
+		model.persist();
 	}
 
 	@Override
 	public void setAccessPermitted(Integer accessPermitted) {
-		_video.setAccessPermitted(accessPermitted);
+		model.setAccessPermitted(accessPermitted);
 	}
 
 	@Override
 	public void setBitrate(String bitrate) {
-		_video.setBitrate(bitrate);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_video.setCachedModel(cachedModel);
+		model.setBitrate(bitrate);
 	}
 
 	/**
@@ -1085,7 +1044,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setCitation2go(int citation2go) {
-		_video.setCitation2go(citation2go);
+		model.setCitation2go(citation2go);
 	}
 
 	/**
@@ -1095,7 +1054,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_video.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1105,7 +1064,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setContainerFormat(String containerFormat) {
-		_video.setContainerFormat(containerFormat);
+		model.setContainerFormat(containerFormat);
 	}
 
 	/**
@@ -1115,22 +1074,22 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_video.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	@Override
 	public void setCreatorFullName(String creatorFullName) {
-		_video.setCreatorFullName(creatorFullName);
+		model.setCreatorFullName(creatorFullName);
 	}
 
 	@Override
 	public void setCreators(String creators) {
-		_video.setCreators(creators);
+		model.setCreators(creators);
 	}
 
 	@Override
 	public void setDate(String date) {
-		_video.setDate(date);
+		model.setDate(date);
 	}
 
 	/**
@@ -1140,7 +1099,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setDownloadLink(int downloadLink) {
-		_video.setDownloadLink(downloadLink);
+		model.setDownloadLink(downloadLink);
 	}
 
 	/**
@@ -1150,39 +1109,22 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setDuration(String duration) {
-		_video.setDuration(duration);
+		model.setDuration(duration);
 	}
 
 	@Override
 	public void setEmbedCommsy(String embedCommsy) {
-		_video.setEmbedCommsy(embedCommsy);
+		model.setEmbedCommsy(embedCommsy);
 	}
 
 	@Override
 	public void setEmbedHtml5(String embedHtml5) {
-		_video.setEmbedHtml5(embedHtml5);
+		model.setEmbedHtml5(embedHtml5);
 	}
 
 	@Override
 	public void setEmbedIframe(String embedIframe) {
-		_video.setEmbedIframe(embedIframe);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_video.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_video.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_video.setExpandoBridgeAttributes(serviceContext);
+		model.setEmbedIframe(embedIframe);
 	}
 
 	/**
@@ -1192,7 +1134,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setFilename(String filename) {
-		_video.setFilename(filename);
+		model.setFilename(filename);
 	}
 
 	/**
@@ -1202,22 +1144,22 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setFileSize(String fileSize) {
-		_video.setFileSize(fileSize);
+		model.setFileSize(fileSize);
 	}
 
 	@Override
 	public void setFlvDownloadLink(String flvDownloadLink) {
-		_video.setFlvDownloadLink(flvDownloadLink);
+		model.setFlvDownloadLink(flvDownloadLink);
 	}
 
 	@Override
 	public void setFlvFile(java.io.File flvFile) {
-		_video.setFlvFile(flvFile);
+		model.setFlvFile(flvFile);
 	}
 
 	@Override
 	public void setFlvRssLink(String flvRssLink) {
-		_video.setFlvRssLink(flvRssLink);
+		model.setFlvRssLink(flvRssLink);
 	}
 
 	/**
@@ -1227,7 +1169,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setGenerationDate(String generationDate) {
-		_video.setGenerationDate(generationDate);
+		model.setGenerationDate(generationDate);
 	}
 
 	/**
@@ -1237,12 +1179,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_video.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	@Override
 	public void setHasComments(boolean hasComments) {
-		_video.setHasComments(hasComments);
+		model.setHasComments(hasComments);
 	}
 
 	/**
@@ -1252,7 +1194,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setHits(long hits) {
-		_video.setHits(hits);
+		model.setHits(hits);
 	}
 
 	/**
@@ -1262,36 +1204,36 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setHostId(long hostId) {
-		_video.setHostId(hostId);
+		model.setHostId(hostId);
 	}
 
 	@Override
 	public void setImage(String image) {
-		_video.setImage(image);
+		model.setImage(image);
 	}
 
 	@Override
 	public void setImageMedium(String imageMedium) {
-		_video.setImageMedium(imageMedium);
+		model.setImageMedium(imageMedium);
 	}
 
 	@Override
 	public void setImageSmall(String imageSmall) {
-		_video.setImageSmall(imageSmall);
+		model.setImageSmall(imageSmall);
 	}
 
 	@Override
 	public void setJsonPlayerTracks(
 		com.liferay.portal.kernel.json.JSONArray jsonPlayerTracks) {
 
-		_video.setJsonPlayerTracks(jsonPlayerTracks);
+		model.setJsonPlayerTracks(jsonPlayerTracks);
 	}
 
 	@Override
 	public void setJsonPlayerUris(
 		com.liferay.portal.kernel.json.JSONArray jsonPlayerUris) {
 
-		_video.setJsonPlayerUris(jsonPlayerUris);
+		model.setJsonPlayerUris(jsonPlayerUris);
 	}
 
 	/**
@@ -1301,57 +1243,67 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setLectureseriesId(long lectureseriesId) {
-		_video.setLectureseriesId(lectureseriesId);
+		model.setLectureseriesId(lectureseriesId);
 	}
 
 	@Override
 	public void setLectureseriesName(String lectureseriesName) {
-		_video.setLectureseriesName(lectureseriesName);
+		model.setLectureseriesName(lectureseriesName);
 	}
 
 	@Override
 	public void setLectureseriesNumber(String lectureseriesNumber) {
-		_video.setLectureseriesNumber(lectureseriesNumber);
+		model.setLectureseriesNumber(lectureseriesNumber);
 	}
 
 	@Override
 	public void setLectureseriesUrl(String lectureseriesUrl) {
-		_video.setLectureseriesUrl(lectureseriesUrl);
+		model.setLectureseriesUrl(lectureseriesUrl);
+	}
+
+	/**
+	 * Sets the license ID of this video.
+	 *
+	 * @param licenseId the license ID of this video
+	 */
+	@Override
+	public void setLicenseId(long licenseId) {
+		model.setLicenseId(licenseId);
 	}
 
 	@Override
 	public void setLinkedCreators(String linkedCreators) {
-		_video.setLinkedCreators(linkedCreators);
+		model.setLinkedCreators(linkedCreators);
 	}
 
 	@Override
 	public void setM4aDownloadLink(String m4aDownloadLink) {
-		_video.setM4aDownloadLink(m4aDownloadLink);
+		model.setM4aDownloadLink(m4aDownloadLink);
 	}
 
 	@Override
 	public void setM4aFile(java.io.File m4aFile) {
-		_video.setM4aFile(m4aFile);
+		model.setM4aFile(m4aFile);
 	}
 
 	@Override
 	public void setM4aRssLink(String m4aRssLink) {
-		_video.setM4aRssLink(m4aRssLink);
+		model.setM4aRssLink(m4aRssLink);
 	}
 
 	@Override
 	public void setM4vDownloadLink(String m4vDownloadLink) {
-		_video.setM4vDownloadLink(m4vDownloadLink);
+		model.setM4vDownloadLink(m4vDownloadLink);
 	}
 
 	@Override
 	public void setM4vFile(java.io.File m4vFile) {
-		_video.setM4vFile(m4vFile);
+		model.setM4vFile(m4vFile);
 	}
 
 	@Override
 	public void setM4vRssLink(String m4vRssLink) {
-		_video.setM4vRssLink(m4vRssLink);
+		model.setM4vRssLink(m4vRssLink);
 	}
 
 	/**
@@ -1361,7 +1313,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setMetadataId(long metadataId) {
-		_video.setMetadataId(metadataId);
+		model.setMetadataId(metadataId);
 	}
 
 	/**
@@ -1371,57 +1323,52 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_video.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	@Override
 	public void setMp3DownloadLink(String mp3DownloadLink) {
-		_video.setMp3DownloadLink(mp3DownloadLink);
+		model.setMp3DownloadLink(mp3DownloadLink);
 	}
 
 	@Override
 	public void setMp3File(java.io.File mp3File) {
-		_video.setMp3File(mp3File);
+		model.setMp3File(mp3File);
 	}
 
 	@Override
 	public void setMp3RssLink(String mp3RssLink) {
-		_video.setMp3RssLink(mp3RssLink);
+		model.setMp3RssLink(mp3RssLink);
 	}
 
 	@Override
 	public void setMp4DownloadLink(String mp4DownloadLink) {
-		_video.setMp4DownloadLink(mp4DownloadLink);
+		model.setMp4DownloadLink(mp4DownloadLink);
 	}
 
 	@Override
 	public void setMp4File(java.io.File mp4File) {
-		_video.setMp4File(mp4File);
+		model.setMp4File(mp4File);
 	}
 
 	@Override
 	public void setMp4RssLink(String mp4RssLink) {
-		_video.setMp4RssLink(mp4RssLink);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_video.setNew(n);
+		model.setMp4RssLink(mp4RssLink);
 	}
 
 	@Override
 	public void setOggDownloadLink(String oggDownloadLink) {
-		_video.setOggDownloadLink(oggDownloadLink);
+		model.setOggDownloadLink(oggDownloadLink);
 	}
 
 	@Override
 	public void setOggFile(java.io.File oggFile) {
-		_video.setOggFile(oggFile);
+		model.setOggFile(oggFile);
 	}
 
 	@Override
 	public void setOggRssLink(String oggRssLink) {
-		_video.setOggRssLink(oggRssLink);
+		model.setOggRssLink(oggRssLink);
 	}
 
 	/**
@@ -1431,7 +1378,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setOpenAccess(int openAccess) {
-		_video.setOpenAccess(openAccess);
+		model.setOpenAccess(openAccess);
 	}
 
 	/**
@@ -1441,17 +1388,17 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setPassword(String password) {
-		_video.setPassword(password);
+		model.setPassword(password);
 	}
 
 	@Override
 	public void setPdfDownloadLink(String pdfDownloadLink) {
-		_video.setPdfDownloadLink(pdfDownloadLink);
+		model.setPdfDownloadLink(pdfDownloadLink);
 	}
 
 	@Override
 	public void setPdfFile(java.io.File pdfFile) {
-		_video.setPdfFile(pdfFile);
+		model.setPdfFile(pdfFile);
 	}
 
 	/**
@@ -1461,12 +1408,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setPermittedToSegment(int permittedToSegment) {
-		_video.setPermittedToSegment(permittedToSegment);
+		model.setPermittedToSegment(permittedToSegment);
 	}
 
 	@Override
 	public void setPlayerUris(java.util.ArrayList<String> playerUris) {
-		_video.setPlayerUris(playerUris);
+		model.setPlayerUris(playerUris);
 	}
 
 	/**
@@ -1476,12 +1423,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_video.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_video.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1491,7 +1433,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setProducerId(long producerId) {
-		_video.setProducerId(producerId);
+		model.setProducerId(producerId);
 	}
 
 	/**
@@ -1501,7 +1443,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setResolution(String resolution) {
-		_video.setResolution(resolution);
+		model.setResolution(resolution);
 	}
 
 	/**
@@ -1511,7 +1453,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setRootInstitutionId(long rootInstitutionId) {
-		_video.setRootInstitutionId(rootInstitutionId);
+		model.setRootInstitutionId(rootInstitutionId);
 	}
 
 	/**
@@ -1521,22 +1463,22 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setSecureFilename(String secureFilename) {
-		_video.setSecureFilename(secureFilename);
+		model.setSecureFilename(secureFilename);
 	}
 
 	@Override
 	public void setSecureUrl(String secureUrl) {
-		_video.setSecureUrl(secureUrl);
+		model.setSecureUrl(secureUrl);
 	}
 
 	@Override
 	public void setShortTitle(String shortTitle) {
-		_video.setShortTitle(shortTitle);
+		model.setShortTitle(shortTitle);
 	}
 
 	@Override
 	public void setSimpleDate(String simpleDate) {
-		_video.setSimpleDate(simpleDate);
+		model.setSimpleDate(simpleDate);
 	}
 
 	/**
@@ -1546,7 +1488,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setTags(String tags) {
-		_video.setTags(tags);
+		model.setTags(tags);
 	}
 
 	/**
@@ -1556,7 +1498,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setTermId(long termId) {
-		_video.setTermId(termId);
+		model.setTermId(termId);
 	}
 
 	/**
@@ -1566,7 +1508,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_video.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1576,12 +1518,12 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setUploadDate(Date uploadDate) {
-		_video.setUploadDate(uploadDate);
+		model.setUploadDate(uploadDate);
 	}
 
 	@Override
 	public void setUrl(String url) {
-		_video.setUrl(url);
+		model.setUrl(url);
 	}
 
 	/**
@@ -1591,7 +1533,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_video.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1601,7 +1543,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_video.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1611,7 +1553,7 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_video.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1621,110 +1563,47 @@ public class VideoWrapper implements Video, ModelWrapper<Video> {
 	 */
 	@Override
 	public void setVideoId(long videoId) {
-		_video.setVideoId(videoId);
+		model.setVideoId(videoId);
 	}
 
 	@Override
 	public void setVttCaptionUrl(String vttCaptionUrl) {
-		_video.setVttCaptionUrl(vttCaptionUrl);
+		model.setVttCaptionUrl(vttCaptionUrl);
 	}
 
 	@Override
 	public void setVttChapterFile(String vttChapterFile) {
-		_video.setVttChapterFile(vttChapterFile);
+		model.setVttChapterFile(vttChapterFile);
 	}
 
 	@Override
 	public void setVttFile(java.io.File vttFile) {
-		_video.setVttFile(vttFile);
+		model.setVttFile(vttFile);
 	}
 
 	@Override
 	public void setVttThumbsFilde(String vttThumbsFilde) {
-		_video.setVttThumbsFilde(vttThumbsFilde);
+		model.setVttThumbsFilde(vttThumbsFilde);
 	}
 
 	@Override
 	public void setWebmDownloadLink(String webmDownloadLink) {
-		_video.setWebmDownloadLink(webmDownloadLink);
+		model.setWebmDownloadLink(webmDownloadLink);
 	}
 
 	@Override
 	public void setWebmFile(java.io.File webmFile) {
-		_video.setWebmFile(webmFile);
+		model.setWebmFile(webmFile);
 	}
 
 	@Override
 	public void setWebmRssLink(String webmRssLink) {
-		_video.setWebmRssLink(webmRssLink);
+		model.setWebmRssLink(webmRssLink);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Video> toCacheModel() {
-
-		return _video.toCacheModel();
+	protected VideoWrapper wrap(Video video) {
+		return new VideoWrapper(video);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Video toEscapedModel() {
-		return new VideoWrapper(_video.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _video.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Video toUnescapedModel() {
-		return new VideoWrapper(_video.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _video.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof VideoWrapper)) {
-			return false;
-		}
-
-		VideoWrapper videoWrapper = (VideoWrapper)obj;
-
-		if (Objects.equals(_video, videoWrapper._video)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Video getWrappedModel() {
-		return _video;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _video.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _video.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_video.resetOriginalValues();
-	}
-
-	private final Video _video;
 
 }

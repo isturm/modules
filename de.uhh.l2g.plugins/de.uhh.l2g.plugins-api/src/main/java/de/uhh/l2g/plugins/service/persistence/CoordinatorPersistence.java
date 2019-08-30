@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchCoordinatorException;
 import de.uhh.l2g.plugins.model.Coordinator;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the coordinator service.
@@ -45,9 +40,6 @@ public interface CoordinatorPersistence extends BasePersistence<Coordinator> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CoordinatorUtil} to access the coordinator persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Coordinator> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns the coordinator where institutionId = &#63; or throws a <code>NoSuchCoordinatorException</code> if it could not be found.

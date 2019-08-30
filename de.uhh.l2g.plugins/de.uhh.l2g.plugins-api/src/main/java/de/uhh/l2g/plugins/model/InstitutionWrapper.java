@@ -14,17 +14,13 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,11 @@ import java.util.Objects;
  */
 @ProviderType
 public class InstitutionWrapper
+	extends BaseModelWrapper<Institution>
 	implements Institution, ModelWrapper<Institution> {
 
 	public InstitutionWrapper(Institution institution) {
-		_institution = institution;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Institution.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Institution.class.getName();
+		super(institution);
 	}
 
 	@Override
@@ -127,16 +114,6 @@ public class InstitutionWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new InstitutionWrapper((Institution)_institution.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Institution institution) {
-		return _institution.compareTo(institution);
-	}
-
 	/**
 	 * Returns the company ID of this institution.
 	 *
@@ -144,12 +121,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _institution.getCompanyId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _institution.getExpandoBridge();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -159,7 +131,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _institution.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -169,7 +141,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public long getInstitutionId() {
-		return _institution.getInstitutionId();
+		return model.getInstitutionId();
 	}
 
 	/**
@@ -179,7 +151,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public int getLevel() {
-		return _institution.getLevel();
+		return model.getLevel();
 	}
 
 	/**
@@ -189,7 +161,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public String getName() {
-		return _institution.getName();
+		return model.getName();
 	}
 
 	/**
@@ -199,12 +171,12 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public long getParentId() {
-		return _institution.getParentId();
+		return model.getParentId();
 	}
 
 	@Override
 	public String getPath() {
-		return _institution.getPath();
+		return model.getPath();
 	}
 
 	/**
@@ -214,12 +186,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _institution.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _institution.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -229,7 +196,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public int getSort() {
-		return _institution.getSort();
+		return model.getSort();
 	}
 
 	/**
@@ -239,7 +206,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public String getTyp() {
-		return _institution.getTyp();
+		return model.getTyp();
 	}
 
 	/**
@@ -249,37 +216,12 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public String getWww() {
-		return _institution.getWww();
-	}
-
-	@Override
-	public int hashCode() {
-		return _institution.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _institution.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _institution.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _institution.isNew();
+		return model.getWww();
 	}
 
 	@Override
 	public void persist() {
-		_institution.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_institution.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -289,24 +231,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_institution.setCompanyId(companyId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_institution.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_institution.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_institution.setExpandoBridgeAttributes(serviceContext);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -316,7 +241,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_institution.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -326,7 +251,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setInstitutionId(long institutionId) {
-		_institution.setInstitutionId(institutionId);
+		model.setInstitutionId(institutionId);
 	}
 
 	/**
@@ -336,7 +261,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setLevel(int level) {
-		_institution.setLevel(level);
+		model.setLevel(level);
 	}
 
 	/**
@@ -346,12 +271,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setName(String name) {
-		_institution.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_institution.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -361,12 +281,12 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setParentId(long parentId) {
-		_institution.setParentId(parentId);
+		model.setParentId(parentId);
 	}
 
 	@Override
 	public void setPath(String path) {
-		_institution.setPath(path);
+		model.setPath(path);
 	}
 
 	/**
@@ -376,12 +296,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_institution.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_institution.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -391,7 +306,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setSort(int sort) {
-		_institution.setSort(sort);
+		model.setSort(sort);
 	}
 
 	/**
@@ -401,7 +316,7 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setTyp(String typ) {
-		_institution.setTyp(typ);
+		model.setTyp(typ);
 	}
 
 	/**
@@ -411,75 +326,12 @@ public class InstitutionWrapper
 	 */
 	@Override
 	public void setWww(String www) {
-		_institution.setWww(www);
+		model.setWww(www);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Institution> toCacheModel() {
-
-		return _institution.toCacheModel();
+	protected InstitutionWrapper wrap(Institution institution) {
+		return new InstitutionWrapper(institution);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Institution toEscapedModel() {
-		return new InstitutionWrapper(_institution.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _institution.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Institution toUnescapedModel() {
-		return new InstitutionWrapper(_institution.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _institution.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof InstitutionWrapper)) {
-			return false;
-		}
-
-		InstitutionWrapper institutionWrapper = (InstitutionWrapper)obj;
-
-		if (Objects.equals(_institution, institutionWrapper._institution)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Institution getWrappedModel() {
-		return _institution;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _institution.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _institution.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_institution.resetOriginalValues();
-	}
-
-	private final Institution _institution;
 
 }

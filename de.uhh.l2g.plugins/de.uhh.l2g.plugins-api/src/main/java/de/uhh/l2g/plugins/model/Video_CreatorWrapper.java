@@ -14,17 +14,13 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,11 @@ import java.util.Objects;
  */
 @ProviderType
 public class Video_CreatorWrapper
+	extends BaseModelWrapper<Video_Creator>
 	implements Video_Creator, ModelWrapper<Video_Creator> {
 
 	public Video_CreatorWrapper(Video_Creator video_Creator) {
-		_video_Creator = video_Creator;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Video_Creator.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Video_Creator.class.getName();
+		super(video_Creator);
 	}
 
 	@Override
@@ -85,16 +72,6 @@ public class Video_CreatorWrapper
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new Video_CreatorWrapper((Video_Creator)_video_Creator.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Video_Creator video_Creator) {
-		return _video_Creator.compareTo(video_Creator);
-	}
-
 	/**
 	 * Returns the creator ID of this video_ creator.
 	 *
@@ -102,12 +79,7 @@ public class Video_CreatorWrapper
 	 */
 	@Override
 	public long getCreatorId() {
-		return _video_Creator.getCreatorId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _video_Creator.getExpandoBridge();
+		return model.getCreatorId();
 	}
 
 	/**
@@ -117,12 +89,7 @@ public class Video_CreatorWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _video_Creator.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _video_Creator.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -132,7 +99,7 @@ public class Video_CreatorWrapper
 	 */
 	@Override
 	public long getVideoCreatorId() {
-		return _video_Creator.getVideoCreatorId();
+		return model.getVideoCreatorId();
 	}
 
 	/**
@@ -142,37 +109,12 @@ public class Video_CreatorWrapper
 	 */
 	@Override
 	public long getVideoId() {
-		return _video_Creator.getVideoId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _video_Creator.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _video_Creator.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _video_Creator.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _video_Creator.isNew();
+		return model.getVideoId();
 	}
 
 	@Override
 	public void persist() {
-		_video_Creator.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_video_Creator.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -182,29 +124,7 @@ public class Video_CreatorWrapper
 	 */
 	@Override
 	public void setCreatorId(long creatorId) {
-		_video_Creator.setCreatorId(creatorId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_video_Creator.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_video_Creator.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_video_Creator.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_video_Creator.setNew(n);
+		model.setCreatorId(creatorId);
 	}
 
 	/**
@@ -214,12 +134,7 @@ public class Video_CreatorWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_video_Creator.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_video_Creator.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -229,7 +144,7 @@ public class Video_CreatorWrapper
 	 */
 	@Override
 	public void setVideoCreatorId(long videoCreatorId) {
-		_video_Creator.setVideoCreatorId(videoCreatorId);
+		model.setVideoCreatorId(videoCreatorId);
 	}
 
 	/**
@@ -239,77 +154,12 @@ public class Video_CreatorWrapper
 	 */
 	@Override
 	public void setVideoId(long videoId) {
-		_video_Creator.setVideoId(videoId);
+		model.setVideoId(videoId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Video_Creator> toCacheModel() {
-
-		return _video_Creator.toCacheModel();
+	protected Video_CreatorWrapper wrap(Video_Creator video_Creator) {
+		return new Video_CreatorWrapper(video_Creator);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Video_Creator toEscapedModel() {
-		return new Video_CreatorWrapper(_video_Creator.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _video_Creator.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Video_Creator toUnescapedModel() {
-		return new Video_CreatorWrapper(_video_Creator.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _video_Creator.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof Video_CreatorWrapper)) {
-			return false;
-		}
-
-		Video_CreatorWrapper video_CreatorWrapper = (Video_CreatorWrapper)obj;
-
-		if (Objects.equals(
-				_video_Creator, video_CreatorWrapper._video_Creator)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Video_Creator getWrappedModel() {
-		return _video_Creator;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _video_Creator.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _video_Creator.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_video_Creator.resetOriginalValues();
-	}
-
-	private final Video_Creator _video_Creator;
 
 }

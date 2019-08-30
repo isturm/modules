@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -25,7 +24,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Lastvideolist;
 import de.uhh.l2g.plugins.model.LastvideolistModel;
@@ -44,6 +42,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Lastvideolist service. Represents a row in the &quot;LG_Lastvideolist&quot; database table, with each column mapped to a property of this class.
@@ -258,179 +258,41 @@ public class LastvideolistModelImpl
 			new LinkedHashMap<String, BiConsumer<Lastvideolist, ?>>();
 
 		attributeGetterFunctions.put(
-			"lastvideolistId",
-			new Function<Lastvideolist, Object>() {
-
-				@Override
-				public Object apply(Lastvideolist lastvideolist) {
-					return lastvideolist.getLastvideolistId();
-				}
-
-			});
+			"lastvideolistId", Lastvideolist::getLastvideolistId);
 		attributeSetterBiConsumers.put(
 			"lastvideolistId",
-			new BiConsumer<Lastvideolist, Object>() {
-
-				@Override
-				public void accept(
-					Lastvideolist lastvideolist, Object lastvideolistId) {
-
-					lastvideolist.setLastvideolistId((Integer)lastvideolistId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoId",
-			new Function<Lastvideolist, Object>() {
-
-				@Override
-				public Object apply(Lastvideolist lastvideolist) {
-					return lastvideolist.getVideoId();
-				}
-
-			});
+			(BiConsumer<Lastvideolist, Integer>)
+				Lastvideolist::setLastvideolistId);
+		attributeGetterFunctions.put("videoId", Lastvideolist::getVideoId);
 		attributeSetterBiConsumers.put(
 			"videoId",
-			new BiConsumer<Lastvideolist, Object>() {
-
-				@Override
-				public void accept(
-					Lastvideolist lastvideolist, Object videoId) {
-
-					lastvideolist.setVideoId((Long)videoId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Lastvideolist, Object>() {
-
-				@Override
-				public Object apply(Lastvideolist lastvideolist) {
-					return lastvideolist.getGroupId();
-				}
-
-			});
+			(BiConsumer<Lastvideolist, Long>)Lastvideolist::setVideoId);
+		attributeGetterFunctions.put("groupId", Lastvideolist::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
-			new BiConsumer<Lastvideolist, Object>() {
-
-				@Override
-				public void accept(
-					Lastvideolist lastvideolist, Object groupId) {
-
-					lastvideolist.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Lastvideolist, Object>() {
-
-				@Override
-				public Object apply(Lastvideolist lastvideolist) {
-					return lastvideolist.getCompanyId();
-				}
-
-			});
+			(BiConsumer<Lastvideolist, Long>)Lastvideolist::setGroupId);
+		attributeGetterFunctions.put("companyId", Lastvideolist::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
-			new BiConsumer<Lastvideolist, Object>() {
-
-				@Override
-				public void accept(
-					Lastvideolist lastvideolist, Object companyId) {
-
-					lastvideolist.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Lastvideolist, Object>() {
-
-				@Override
-				public Object apply(Lastvideolist lastvideolist) {
-					return lastvideolist.getUserId();
-				}
-
-			});
+			(BiConsumer<Lastvideolist, Long>)Lastvideolist::setCompanyId);
+		attributeGetterFunctions.put("userId", Lastvideolist::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
-			new BiConsumer<Lastvideolist, Object>() {
-
-				@Override
-				public void accept(Lastvideolist lastvideolist, Object userId) {
-					lastvideolist.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Lastvideolist, Object>() {
-
-				@Override
-				public Object apply(Lastvideolist lastvideolist) {
-					return lastvideolist.getUserName();
-				}
-
-			});
+			(BiConsumer<Lastvideolist, Long>)Lastvideolist::setUserId);
+		attributeGetterFunctions.put("userName", Lastvideolist::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
-			new BiConsumer<Lastvideolist, Object>() {
-
-				@Override
-				public void accept(
-					Lastvideolist lastvideolist, Object userName) {
-
-					lastvideolist.setUserName((String)userName);
-				}
-
-			});
+			(BiConsumer<Lastvideolist, String>)Lastvideolist::setUserName);
 		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Lastvideolist, Object>() {
-
-				@Override
-				public Object apply(Lastvideolist lastvideolist) {
-					return lastvideolist.getCreateDate();
-				}
-
-			});
+			"createDate", Lastvideolist::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
-			new BiConsumer<Lastvideolist, Object>() {
-
-				@Override
-				public void accept(
-					Lastvideolist lastvideolist, Object createDate) {
-
-					lastvideolist.setCreateDate((Date)createDate);
-				}
-
-			});
+			(BiConsumer<Lastvideolist, Date>)Lastvideolist::setCreateDate);
 		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Lastvideolist, Object>() {
-
-				@Override
-				public Object apply(Lastvideolist lastvideolist) {
-					return lastvideolist.getModifiedDate();
-				}
-
-			});
+			"modifiedDate", Lastvideolist::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Lastvideolist, Object>() {
-
-				@Override
-				public void accept(
-					Lastvideolist lastvideolist, Object modifiedDate) {
-
-					lastvideolist.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Lastvideolist, Date>)Lastvideolist::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

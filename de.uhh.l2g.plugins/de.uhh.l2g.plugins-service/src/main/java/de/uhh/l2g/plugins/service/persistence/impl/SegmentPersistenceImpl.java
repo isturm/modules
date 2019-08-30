@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -33,7 +32,6 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchSegmentException;
@@ -44,17 +42,16 @@ import de.uhh.l2g.plugins.service.persistence.SegmentPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the segment service.
@@ -2641,24 +2638,16 @@ public class SegmentPersistenceImpl
 	public SegmentPersistenceImpl() {
 		setModelClass(Segment.class);
 
+		setModelImplClass(SegmentImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(SegmentModelImpl.ENTITY_CACHE_ENABLED);
+
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("start", "start_");
 		dbColumnNames.put("end", "end_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 	}
 
 	/**
@@ -3103,159 +3092,12 @@ public class SegmentPersistenceImpl
 	/**
 	 * Returns the segment with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the segment
-	 * @return the segment, or <code>null</code> if a segment with the primary key could not be found
-	 */
-	@Override
-	public Segment fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			SegmentModelImpl.ENTITY_CACHE_ENABLED, SegmentImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Segment segment = (Segment)serializable;
-
-		if (segment == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				segment = (Segment)session.get(SegmentImpl.class, primaryKey);
-
-				if (segment != null) {
-					cacheResult(segment);
-				}
-				else {
-					entityCache.putResult(
-						SegmentModelImpl.ENTITY_CACHE_ENABLED,
-						SegmentImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					SegmentModelImpl.ENTITY_CACHE_ENABLED, SegmentImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return segment;
-	}
-
-	/**
-	 * Returns the segment with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param segmentId the primary key of the segment
 	 * @return the segment, or <code>null</code> if a segment with the primary key could not be found
 	 */
 	@Override
 	public Segment fetchByPrimaryKey(long segmentId) {
 		return fetchByPrimaryKey((Serializable)segmentId);
-	}
-
-	@Override
-	public Map<Serializable, Segment> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Segment> map = new HashMap<Serializable, Segment>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Segment segment = fetchByPrimaryKey(primaryKey);
-
-			if (segment != null) {
-				map.put(primaryKey, segment);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				SegmentModelImpl.ENTITY_CACHE_ENABLED, SegmentImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Segment)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_SEGMENT_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Segment segment : (List<Segment>)q.list()) {
-				map.put(segment.getPrimaryKeyObj(), segment);
-
-				cacheResult(segment);
-
-				uncachedPrimaryKeys.remove(segment.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					SegmentModelImpl.ENTITY_CACHE_ENABLED, SegmentImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3458,6 +3300,21 @@ public class SegmentPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "segmentId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SEGMENT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return SegmentModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3619,9 +3476,6 @@ public class SegmentPersistenceImpl
 
 	private static final String _SQL_SELECT_SEGMENT =
 		"SELECT segment FROM Segment segment";
-
-	private static final String _SQL_SELECT_SEGMENT_WHERE_PKS_IN =
-		"SELECT segment FROM Segment segment WHERE segmentId IN (";
 
 	private static final String _SQL_SELECT_SEGMENT_WHERE =
 		"SELECT segment FROM Segment segment WHERE ";

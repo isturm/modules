@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchProducer_LectureseriesException;
@@ -42,12 +40,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the producer_ lectureseries service.
@@ -1710,6 +1706,11 @@ public class Producer_LectureseriesPersistenceImpl
 
 	public Producer_LectureseriesPersistenceImpl() {
 		setModelClass(Producer_Lectureseries.class);
+
+		setModelImplClass(Producer_LectureseriesImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(
+			Producer_LectureseriesModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2124,59 +2125,6 @@ public class Producer_LectureseriesPersistenceImpl
 	/**
 	 * Returns the producer_ lectureseries with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the producer_ lectureseries
-	 * @return the producer_ lectureseries, or <code>null</code> if a producer_ lectureseries with the primary key could not be found
-	 */
-	@Override
-	public Producer_Lectureseries fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			Producer_LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-			Producer_LectureseriesImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Producer_Lectureseries producer_Lectureseries =
-			(Producer_Lectureseries)serializable;
-
-		if (producer_Lectureseries == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				producer_Lectureseries = (Producer_Lectureseries)session.get(
-					Producer_LectureseriesImpl.class, primaryKey);
-
-				if (producer_Lectureseries != null) {
-					cacheResult(producer_Lectureseries);
-				}
-				else {
-					entityCache.putResult(
-						Producer_LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-						Producer_LectureseriesImpl.class, primaryKey,
-						nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					Producer_LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-					Producer_LectureseriesImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return producer_Lectureseries;
-	}
-
-	/**
-	 * Returns the producer_ lectureseries with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param producerLectureseriesId the primary key of the producer_ lectureseries
 	 * @return the producer_ lectureseries, or <code>null</code> if a producer_ lectureseries with the primary key could not be found
 	 */
@@ -2185,110 +2133,6 @@ public class Producer_LectureseriesPersistenceImpl
 		long producerLectureseriesId) {
 
 		return fetchByPrimaryKey((Serializable)producerLectureseriesId);
-	}
-
-	@Override
-	public Map<Serializable, Producer_Lectureseries> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Producer_Lectureseries> map =
-			new HashMap<Serializable, Producer_Lectureseries>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Producer_Lectureseries producer_Lectureseries = fetchByPrimaryKey(
-				primaryKey);
-
-			if (producer_Lectureseries != null) {
-				map.put(primaryKey, producer_Lectureseries);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				Producer_LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-				Producer_LectureseriesImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Producer_Lectureseries)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_PRODUCER_LECTURESERIES_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Producer_Lectureseries producer_Lectureseries :
-					(List<Producer_Lectureseries>)q.list()) {
-
-				map.put(
-					producer_Lectureseries.getPrimaryKeyObj(),
-					producer_Lectureseries);
-
-				cacheResult(producer_Lectureseries);
-
-				uncachedPrimaryKeys.remove(
-					producer_Lectureseries.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					Producer_LectureseriesModelImpl.ENTITY_CACHE_ENABLED,
-					Producer_LectureseriesImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2490,6 +2334,21 @@ public class Producer_LectureseriesPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "producerLectureseriesId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PRODUCER_LECTURESERIES;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return Producer_LectureseriesModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2612,10 +2471,6 @@ public class Producer_LectureseriesPersistenceImpl
 
 	private static final String _SQL_SELECT_PRODUCER_LECTURESERIES =
 		"SELECT producer_Lectureseries FROM Producer_Lectureseries producer_Lectureseries";
-
-	private static final String
-		_SQL_SELECT_PRODUCER_LECTURESERIES_WHERE_PKS_IN =
-			"SELECT producer_Lectureseries FROM Producer_Lectureseries producer_Lectureseries WHERE producerLectureseriesId IN (";
 
 	private static final String _SQL_SELECT_PRODUCER_LECTURESERIES_WHERE =
 		"SELECT producer_Lectureseries FROM Producer_Lectureseries producer_Lectureseries WHERE ";

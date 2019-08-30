@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -33,7 +32,6 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchMetadataException;
@@ -44,17 +42,16 @@ import de.uhh.l2g.plugins.service.persistence.MetadataPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the metadata service.
@@ -1642,23 +1639,15 @@ public class MetadataPersistenceImpl
 	public MetadataPersistenceImpl() {
 		setModelClass(Metadata.class);
 
+		setModelImplClass(MetadataImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(MetadataModelImpl.ENTITY_CACHE_ENABLED);
+
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("type", "type_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 	}
 
 	/**
@@ -2053,160 +2042,12 @@ public class MetadataPersistenceImpl
 	/**
 	 * Returns the metadata with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the metadata
-	 * @return the metadata, or <code>null</code> if a metadata with the primary key could not be found
-	 */
-	@Override
-	public Metadata fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			MetadataModelImpl.ENTITY_CACHE_ENABLED, MetadataImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Metadata metadata = (Metadata)serializable;
-
-		if (metadata == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				metadata = (Metadata)session.get(
-					MetadataImpl.class, primaryKey);
-
-				if (metadata != null) {
-					cacheResult(metadata);
-				}
-				else {
-					entityCache.putResult(
-						MetadataModelImpl.ENTITY_CACHE_ENABLED,
-						MetadataImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					MetadataModelImpl.ENTITY_CACHE_ENABLED, MetadataImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return metadata;
-	}
-
-	/**
-	 * Returns the metadata with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param metadataId the primary key of the metadata
 	 * @return the metadata, or <code>null</code> if a metadata with the primary key could not be found
 	 */
 	@Override
 	public Metadata fetchByPrimaryKey(long metadataId) {
 		return fetchByPrimaryKey((Serializable)metadataId);
-	}
-
-	@Override
-	public Map<Serializable, Metadata> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Metadata> map = new HashMap<Serializable, Metadata>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Metadata metadata = fetchByPrimaryKey(primaryKey);
-
-			if (metadata != null) {
-				map.put(primaryKey, metadata);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				MetadataModelImpl.ENTITY_CACHE_ENABLED, MetadataImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Metadata)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_METADATA_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Metadata metadata : (List<Metadata>)q.list()) {
-				map.put(metadata.getPrimaryKeyObj(), metadata);
-
-				cacheResult(metadata);
-
-				uncachedPrimaryKeys.remove(metadata.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					MetadataModelImpl.ENTITY_CACHE_ENABLED, MetadataImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2409,6 +2250,21 @@ public class MetadataPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "metadataId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_METADATA;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return MetadataModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2521,9 +2377,6 @@ public class MetadataPersistenceImpl
 
 	private static final String _SQL_SELECT_METADATA =
 		"SELECT metadata FROM Metadata metadata";
-
-	private static final String _SQL_SELECT_METADATA_WHERE_PKS_IN =
-		"SELECT metadata FROM Metadata metadata WHERE metadataId IN (";
 
 	private static final String _SQL_SELECT_METADATA_WHERE =
 		"SELECT metadata FROM Metadata metadata WHERE ";

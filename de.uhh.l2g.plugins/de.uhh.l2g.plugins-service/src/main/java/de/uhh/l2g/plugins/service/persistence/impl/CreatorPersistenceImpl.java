@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -32,7 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchCreatorException;
@@ -47,13 +45,11 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the creator service.
@@ -3821,6 +3817,10 @@ public class CreatorPersistenceImpl
 
 	public CreatorPersistenceImpl() {
 		setModelClass(Creator.class);
+
+		setModelImplClass(CreatorImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(CreatorModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -4315,159 +4315,12 @@ public class CreatorPersistenceImpl
 	/**
 	 * Returns the creator with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the creator
-	 * @return the creator, or <code>null</code> if a creator with the primary key could not be found
-	 */
-	@Override
-	public Creator fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CreatorModelImpl.ENTITY_CACHE_ENABLED, CreatorImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Creator creator = (Creator)serializable;
-
-		if (creator == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				creator = (Creator)session.get(CreatorImpl.class, primaryKey);
-
-				if (creator != null) {
-					cacheResult(creator);
-				}
-				else {
-					entityCache.putResult(
-						CreatorModelImpl.ENTITY_CACHE_ENABLED,
-						CreatorImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					CreatorModelImpl.ENTITY_CACHE_ENABLED, CreatorImpl.class,
-					primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return creator;
-	}
-
-	/**
-	 * Returns the creator with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param creatorId the primary key of the creator
 	 * @return the creator, or <code>null</code> if a creator with the primary key could not be found
 	 */
 	@Override
 	public Creator fetchByPrimaryKey(long creatorId) {
 		return fetchByPrimaryKey((Serializable)creatorId);
-	}
-
-	@Override
-	public Map<Serializable, Creator> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Creator> map = new HashMap<Serializable, Creator>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Creator creator = fetchByPrimaryKey(primaryKey);
-
-			if (creator != null) {
-				map.put(primaryKey, creator);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				CreatorModelImpl.ENTITY_CACHE_ENABLED, CreatorImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Creator)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_CREATOR_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Creator creator : (List<Creator>)q.list()) {
-				map.put(creator.getPrimaryKeyObj(), creator);
-
-				cacheResult(creator);
-
-				uncachedPrimaryKeys.remove(creator.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					CreatorModelImpl.ENTITY_CACHE_ENABLED, CreatorImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4662,6 +4515,21 @@ public class CreatorPersistenceImpl
 		}
 
 		return count.intValue();
+	}
+
+	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "creatorId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_CREATOR;
 	}
 
 	@Override
@@ -4871,9 +4739,6 @@ public class CreatorPersistenceImpl
 
 	private static final String _SQL_SELECT_CREATOR =
 		"SELECT creator FROM Creator creator";
-
-	private static final String _SQL_SELECT_CREATOR_WHERE_PKS_IN =
-		"SELECT creator FROM Creator creator WHERE creatorId IN (";
 
 	private static final String _SQL_SELECT_CREATOR_WHERE =
 		"SELECT creator FROM Creator creator WHERE ";

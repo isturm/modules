@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Metadata;
 import de.uhh.l2g.plugins.model.MetadataModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Metadata service. Represents a row in the &quot;LG_Metadata&quot; database table, with each column mapped to a property of this class.
@@ -265,266 +265,47 @@ public class MetadataModelImpl
 		Map<String, BiConsumer<Metadata, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Metadata, ?>>();
 
-		attributeGetterFunctions.put(
-			"metadataId",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getMetadataId();
-				}
-
-			});
+		attributeGetterFunctions.put("metadataId", Metadata::getMetadataId);
 		attributeSetterBiConsumers.put(
-			"metadataId",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object metadataId) {
-					metadata.setMetadataId((Long)metadataId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getType();
-				}
-
-			});
+			"metadataId", (BiConsumer<Metadata, Long>)Metadata::setMetadataId);
+		attributeGetterFunctions.put("type", Metadata::getType);
 		attributeSetterBiConsumers.put(
-			"type",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object type) {
-					metadata.setType((String)type);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"language",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getLanguage();
-				}
-
-			});
+			"type", (BiConsumer<Metadata, String>)Metadata::setType);
+		attributeGetterFunctions.put("language", Metadata::getLanguage);
 		attributeSetterBiConsumers.put(
-			"language",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object language) {
-					metadata.setLanguage((String)language);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getTitle();
-				}
-
-			});
+			"language", (BiConsumer<Metadata, String>)Metadata::setLanguage);
+		attributeGetterFunctions.put("title", Metadata::getTitle);
 		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object title) {
-					metadata.setTitle((String)title);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subject",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getSubject();
-				}
-
-			});
+			"title", (BiConsumer<Metadata, String>)Metadata::setTitle);
+		attributeGetterFunctions.put("subject", Metadata::getSubject);
 		attributeSetterBiConsumers.put(
-			"subject",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object subject) {
-					metadata.setSubject((String)subject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getDescription();
-				}
-
-			});
+			"subject", (BiConsumer<Metadata, String>)Metadata::setSubject);
+		attributeGetterFunctions.put("description", Metadata::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object description) {
-					metadata.setDescription((String)description);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publisher",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getPublisher();
-				}
-
-			});
+			(BiConsumer<Metadata, String>)Metadata::setDescription);
+		attributeGetterFunctions.put("publisher", Metadata::getPublisher);
 		attributeSetterBiConsumers.put(
-			"publisher",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object publisher) {
-					metadata.setPublisher((String)publisher);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getGroupId();
-				}
-
-			});
+			"publisher", (BiConsumer<Metadata, String>)Metadata::setPublisher);
+		attributeGetterFunctions.put("groupId", Metadata::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object groupId) {
-					metadata.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Metadata, Long>)Metadata::setGroupId);
+		attributeGetterFunctions.put("companyId", Metadata::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object companyId) {
-					metadata.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Metadata, Long>)Metadata::setCompanyId);
+		attributeGetterFunctions.put("userId", Metadata::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object userId) {
-					metadata.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Metadata, Long>)Metadata::setUserId);
+		attributeGetterFunctions.put("userName", Metadata::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object userName) {
-					metadata.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Metadata, String>)Metadata::setUserName);
+		attributeGetterFunctions.put("createDate", Metadata::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object createDate) {
-					metadata.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Metadata, Object>() {
-
-				@Override
-				public Object apply(Metadata metadata) {
-					return metadata.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Metadata, Date>)Metadata::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Metadata::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Metadata, Object>() {
-
-				@Override
-				public void accept(Metadata metadata, Object modifiedDate) {
-					metadata.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Metadata, Date>)Metadata::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

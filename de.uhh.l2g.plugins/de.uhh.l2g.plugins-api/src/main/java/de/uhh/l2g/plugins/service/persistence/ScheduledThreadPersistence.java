@@ -14,17 +14,12 @@
 
 package de.uhh.l2g.plugins.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import de.uhh.l2g.plugins.exception.NoSuchScheduledThreadException;
 import de.uhh.l2g.plugins.model.ScheduledThread;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the scheduled thread service.
@@ -46,9 +41,6 @@ public interface ScheduledThreadPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ScheduledThreadUtil} to access the scheduled thread persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, ScheduledThread> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns the scheduled thread where schedulerClassName = &#63; or throws a <code>NoSuchScheduledThreadException</code> if it could not be found.

@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class CategoryWrapper implements Category, ModelWrapper<Category> {
+public class CategoryWrapper
+	extends BaseModelWrapper<Category>
+	implements Category, ModelWrapper<Category> {
 
 	public CategoryWrapper(Category category) {
-		_category = category;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Category.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Category.class.getName();
+		super(category);
 	}
 
 	@Override
@@ -141,16 +129,6 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new CategoryWrapper((Category)_category.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Category category) {
-		return _category.compareTo(category);
-	}
-
 	/**
 	 * Returns the category ID of this category.
 	 *
@@ -158,7 +136,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public long getCategoryId() {
-		return _category.getCategoryId();
+		return model.getCategoryId();
 	}
 
 	/**
@@ -168,7 +146,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _category.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -178,12 +156,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _category.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _category.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -193,7 +166,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _category.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -203,7 +176,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public String getLanguageId() {
-		return _category.getLanguageId();
+		return model.getLanguageId();
 	}
 
 	/**
@@ -213,7 +186,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _category.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -223,7 +196,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public String getName() {
-		return _category.getName();
+		return model.getName();
 	}
 
 	/**
@@ -233,7 +206,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public long getParentId() {
-		return _category.getParentId();
+		return model.getParentId();
 	}
 
 	/**
@@ -243,12 +216,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _category.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _category.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -258,7 +226,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public String getTranslation() {
-		return _category.getTranslation();
+		return model.getTranslation();
 	}
 
 	/**
@@ -268,7 +236,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public long getUserId() {
-		return _category.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -278,7 +246,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public String getUserName() {
-		return _category.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -288,37 +256,12 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _category.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _category.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _category.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _category.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _category.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_category.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_category.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -328,7 +271,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setCategoryId(long categoryId) {
-		_category.setCategoryId(categoryId);
+		model.setCategoryId(categoryId);
 	}
 
 	/**
@@ -338,7 +281,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_category.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -348,24 +291,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_category.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_category.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_category.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_category.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -375,7 +301,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_category.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -385,7 +311,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setLanguageId(String languageId) {
-		_category.setLanguageId(languageId);
+		model.setLanguageId(languageId);
 	}
 
 	/**
@@ -395,7 +321,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_category.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -405,12 +331,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setName(String name) {
-		_category.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_category.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -420,7 +341,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setParentId(long parentId) {
-		_category.setParentId(parentId);
+		model.setParentId(parentId);
 	}
 
 	/**
@@ -430,12 +351,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_category.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_category.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -445,7 +361,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setTranslation(String translation) {
-		_category.setTranslation(translation);
+		model.setTranslation(translation);
 	}
 
 	/**
@@ -455,7 +371,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_category.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -465,7 +381,7 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_category.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -475,75 +391,12 @@ public class CategoryWrapper implements Category, ModelWrapper<Category> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_category.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Category> toCacheModel() {
-
-		return _category.toCacheModel();
+	protected CategoryWrapper wrap(Category category) {
+		return new CategoryWrapper(category);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Category toEscapedModel() {
-		return new CategoryWrapper(_category.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _category.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Category toUnescapedModel() {
-		return new CategoryWrapper(_category.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _category.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof CategoryWrapper)) {
-			return false;
-		}
-
-		CategoryWrapper categoryWrapper = (CategoryWrapper)obj;
-
-		if (Objects.equals(_category, categoryWrapper._category)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Category getWrappedModel() {
-		return _category;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _category.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _category.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_category.resetOriginalValues();
-	}
-
-	private final Category _category;
 
 }

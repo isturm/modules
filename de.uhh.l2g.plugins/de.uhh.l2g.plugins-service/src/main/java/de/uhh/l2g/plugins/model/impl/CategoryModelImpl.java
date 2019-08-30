@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Category;
 import de.uhh.l2g.plugins.model.CategoryModel;
@@ -47,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Category service. Represents a row in the &quot;LG_Category&quot; database table, with each column mapped to a property of this class.
@@ -264,226 +264,42 @@ public class CategoryModelImpl
 		Map<String, BiConsumer<Category, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Category, ?>>();
 
-		attributeGetterFunctions.put(
-			"categoryId",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getCategoryId();
-				}
-
-			});
+		attributeGetterFunctions.put("categoryId", Category::getCategoryId);
 		attributeSetterBiConsumers.put(
-			"categoryId",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object categoryId) {
-					category.setCategoryId((Long)categoryId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"parentId",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getParentId();
-				}
-
-			});
+			"categoryId", (BiConsumer<Category, Long>)Category::setCategoryId);
+		attributeGetterFunctions.put("parentId", Category::getParentId);
 		attributeSetterBiConsumers.put(
-			"parentId",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object parentId) {
-					category.setParentId((Long)parentId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"languageId",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getLanguageId();
-				}
-
-			});
+			"parentId", (BiConsumer<Category, Long>)Category::setParentId);
+		attributeGetterFunctions.put("languageId", Category::getLanguageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object languageId) {
-					category.setLanguageId((String)languageId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getName();
-				}
-
-			});
+			(BiConsumer<Category, String>)Category::setLanguageId);
+		attributeGetterFunctions.put("name", Category::getName);
 		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object name) {
-					category.setName((String)name);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"translation",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getTranslation();
-				}
-
-			});
+			"name", (BiConsumer<Category, String>)Category::setName);
+		attributeGetterFunctions.put("translation", Category::getTranslation);
 		attributeSetterBiConsumers.put(
 			"translation",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object translation) {
-					category.setTranslation((String)translation);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getGroupId();
-				}
-
-			});
+			(BiConsumer<Category, String>)Category::setTranslation);
+		attributeGetterFunctions.put("groupId", Category::getGroupId);
 		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object groupId) {
-					category.setGroupId((Long)groupId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getCompanyId();
-				}
-
-			});
+			"groupId", (BiConsumer<Category, Long>)Category::setGroupId);
+		attributeGetterFunctions.put("companyId", Category::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object companyId) {
-					category.setCompanyId((Long)companyId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getUserId();
-				}
-
-			});
+			"companyId", (BiConsumer<Category, Long>)Category::setCompanyId);
+		attributeGetterFunctions.put("userId", Category::getUserId);
 		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object userId) {
-					category.setUserId((Long)userId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getUserName();
-				}
-
-			});
+			"userId", (BiConsumer<Category, Long>)Category::setUserId);
+		attributeGetterFunctions.put("userName", Category::getUserName);
 		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object userName) {
-					category.setUserName((String)userName);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getCreateDate();
-				}
-
-			});
+			"userName", (BiConsumer<Category, String>)Category::setUserName);
+		attributeGetterFunctions.put("createDate", Category::getCreateDate);
 		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object createDate) {
-					category.setCreateDate((Date)createDate);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Category, Object>() {
-
-				@Override
-				public Object apply(Category category) {
-					return category.getModifiedDate();
-				}
-
-			});
+			"createDate", (BiConsumer<Category, Date>)Category::setCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Category::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
-			new BiConsumer<Category, Object>() {
-
-				@Override
-				public void accept(Category category, Object modifiedDate) {
-					category.setModifiedDate((Date)modifiedDate);
-				}
-
-			});
+			(BiConsumer<Category, Date>)Category::setModifiedDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

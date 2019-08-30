@@ -14,8 +14,7 @@
 
 package de.uhh.l2g.plugins.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.exception.NoSuchVideo_CreatorException;
@@ -42,12 +40,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence implementation for the video_ creator service.
@@ -1650,6 +1646,10 @@ public class Video_CreatorPersistenceImpl
 
 	public Video_CreatorPersistenceImpl() {
 		setModelClass(Video_Creator.class);
+
+		setModelImplClass(Video_CreatorImpl.class);
+		setModelPKClass(long.class);
+		setEntityCacheEnabled(Video_CreatorModelImpl.ENTITY_CACHE_ENABLED);
 	}
 
 	/**
@@ -2025,161 +2025,12 @@ public class Video_CreatorPersistenceImpl
 	/**
 	 * Returns the video_ creator with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the video_ creator
-	 * @return the video_ creator, or <code>null</code> if a video_ creator with the primary key could not be found
-	 */
-	@Override
-	public Video_Creator fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			Video_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-			Video_CreatorImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Video_Creator video_Creator = (Video_Creator)serializable;
-
-		if (video_Creator == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				video_Creator = (Video_Creator)session.get(
-					Video_CreatorImpl.class, primaryKey);
-
-				if (video_Creator != null) {
-					cacheResult(video_Creator);
-				}
-				else {
-					entityCache.putResult(
-						Video_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-						Video_CreatorImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception e) {
-				entityCache.removeResult(
-					Video_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-					Video_CreatorImpl.class, primaryKey);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return video_Creator;
-	}
-
-	/**
-	 * Returns the video_ creator with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param videoCreatorId the primary key of the video_ creator
 	 * @return the video_ creator, or <code>null</code> if a video_ creator with the primary key could not be found
 	 */
 	@Override
 	public Video_Creator fetchByPrimaryKey(long videoCreatorId) {
 		return fetchByPrimaryKey((Serializable)videoCreatorId);
-	}
-
-	@Override
-	public Map<Serializable, Video_Creator> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Video_Creator> map =
-			new HashMap<Serializable, Video_Creator>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Video_Creator video_Creator = fetchByPrimaryKey(primaryKey);
-
-			if (video_Creator != null) {
-				map.put(primaryKey, video_Creator);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				Video_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-				Video_CreatorImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Video_Creator)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		query.append(_SQL_SELECT_VIDEO_CREATOR_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(",");
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(")");
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Video_Creator video_Creator : (List<Video_Creator>)q.list()) {
-				map.put(video_Creator.getPrimaryKeyObj(), video_Creator);
-
-				cacheResult(video_Creator);
-
-				uncachedPrimaryKeys.remove(video_Creator.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					Video_CreatorModelImpl.ENTITY_CACHE_ENABLED,
-					Video_CreatorImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2378,6 +2229,21 @@ public class Video_CreatorPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "videoCreatorId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_VIDEO_CREATOR;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return Video_CreatorModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2492,9 +2358,6 @@ public class Video_CreatorPersistenceImpl
 
 	private static final String _SQL_SELECT_VIDEO_CREATOR =
 		"SELECT video_Creator FROM Video_Creator video_Creator";
-
-	private static final String _SQL_SELECT_VIDEO_CREATOR_WHERE_PKS_IN =
-		"SELECT video_Creator FROM Video_Creator video_Creator WHERE videoCreatorId IN (";
 
 	private static final String _SQL_SELECT_VIDEO_CREATOR_WHERE =
 		"SELECT video_Creator FROM Video_Creator video_Creator WHERE ";

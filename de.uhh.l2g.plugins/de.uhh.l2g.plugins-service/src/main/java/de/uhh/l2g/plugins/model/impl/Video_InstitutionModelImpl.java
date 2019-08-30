@@ -14,10 +14,9 @@
 
 package de.uhh.l2g.plugins.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -25,7 +24,6 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import de.uhh.l2g.plugins.model.Video_Institution;
 import de.uhh.l2g.plugins.model.Video_InstitutionModel;
@@ -43,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model implementation for the Video_Institution service. Represents a row in the &quot;LG_Video_Institution&quot; database table, with each column mapped to a property of this class.
@@ -255,97 +255,27 @@ public class Video_InstitutionModelImpl
 				new LinkedHashMap<String, BiConsumer<Video_Institution, ?>>();
 
 		attributeGetterFunctions.put(
-			"videoInstitutionId",
-			new Function<Video_Institution, Object>() {
-
-				@Override
-				public Object apply(Video_Institution video_Institution) {
-					return video_Institution.getVideoInstitutionId();
-				}
-
-			});
+			"videoInstitutionId", Video_Institution::getVideoInstitutionId);
 		attributeSetterBiConsumers.put(
 			"videoInstitutionId",
-			new BiConsumer<Video_Institution, Object>() {
-
-				@Override
-				public void accept(
-					Video_Institution video_Institution,
-					Object videoInstitutionId) {
-
-					video_Institution.setVideoInstitutionId(
-						(Long)videoInstitutionId);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoId",
-			new Function<Video_Institution, Object>() {
-
-				@Override
-				public Object apply(Video_Institution video_Institution) {
-					return video_Institution.getVideoId();
-				}
-
-			});
+			(BiConsumer<Video_Institution, Long>)
+				Video_Institution::setVideoInstitutionId);
+		attributeGetterFunctions.put("videoId", Video_Institution::getVideoId);
 		attributeSetterBiConsumers.put(
 			"videoId",
-			new BiConsumer<Video_Institution, Object>() {
-
-				@Override
-				public void accept(
-					Video_Institution video_Institution, Object videoId) {
-
-					video_Institution.setVideoId((Long)videoId);
-				}
-
-			});
+			(BiConsumer<Video_Institution, Long>)Video_Institution::setVideoId);
 		attributeGetterFunctions.put(
-			"institutionId",
-			new Function<Video_Institution, Object>() {
-
-				@Override
-				public Object apply(Video_Institution video_Institution) {
-					return video_Institution.getInstitutionId();
-				}
-
-			});
+			"institutionId", Video_Institution::getInstitutionId);
 		attributeSetterBiConsumers.put(
 			"institutionId",
-			new BiConsumer<Video_Institution, Object>() {
-
-				@Override
-				public void accept(
-					Video_Institution video_Institution, Object institutionId) {
-
-					video_Institution.setInstitutionId((Long)institutionId);
-				}
-
-			});
+			(BiConsumer<Video_Institution, Long>)
+				Video_Institution::setInstitutionId);
 		attributeGetterFunctions.put(
-			"institutionParentId",
-			new Function<Video_Institution, Object>() {
-
-				@Override
-				public Object apply(Video_Institution video_Institution) {
-					return video_Institution.getInstitutionParentId();
-				}
-
-			});
+			"institutionParentId", Video_Institution::getInstitutionParentId);
 		attributeSetterBiConsumers.put(
 			"institutionParentId",
-			new BiConsumer<Video_Institution, Object>() {
-
-				@Override
-				public void accept(
-					Video_Institution video_Institution,
-					Object institutionParentId) {
-
-					video_Institution.setInstitutionParentId(
-						(Long)institutionParentId);
-				}
-
-			});
+			(BiConsumer<Video_Institution, Long>)
+				Video_Institution::setInstitutionParentId);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);

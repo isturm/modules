@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,11 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class TermWrapper implements Term, ModelWrapper<Term> {
+public class TermWrapper
+	extends BaseModelWrapper<Term> implements Term, ModelWrapper<Term> {
 
 	public TermWrapper(Term term) {
-		_term = term;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Term.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Term.class.getName();
+		super(term);
 	}
 
 	@Override
@@ -148,16 +135,6 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new TermWrapper((Term)_term.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Term term) {
-		return _term.compareTo(term);
-	}
-
 	/**
 	 * Returns the company ID of this term.
 	 *
@@ -165,7 +142,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _term.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -175,17 +152,12 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _term.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _term.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getFullName() {
-		return _term.getFullName();
+		return model.getFullName();
 	}
 
 	/**
@@ -195,7 +167,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _term.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -205,7 +177,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public String getLanguageId() {
-		return _term.getLanguageId();
+		return model.getLanguageId();
 	}
 
 	/**
@@ -215,7 +187,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _term.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -225,7 +197,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public long getParentId() {
-		return _term.getParentId();
+		return model.getParentId();
 	}
 
 	/**
@@ -235,7 +207,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public String getPrefix() {
-		return _term.getPrefix();
+		return model.getPrefix();
 	}
 
 	/**
@@ -245,12 +217,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _term.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _term.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -260,7 +227,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public long getTermId() {
-		return _term.getTermId();
+		return model.getTermId();
 	}
 
 	/**
@@ -268,7 +235,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public String getTermName() {
-		return _term.getTermName();
+		return model.getTermName();
 	}
 
 	/**
@@ -278,7 +245,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public String getTranslation() {
-		return _term.getTranslation();
+		return model.getTranslation();
 	}
 
 	/**
@@ -288,7 +255,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public long getUserId() {
-		return _term.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -298,7 +265,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public String getUserName() {
-		return _term.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -308,7 +275,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _term.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -318,37 +285,12 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public String getYear() {
-		return _term.getYear();
-	}
-
-	@Override
-	public int hashCode() {
-		return _term.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _term.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _term.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _term.isNew();
+		return model.getYear();
 	}
 
 	@Override
 	public void persist() {
-		_term.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_term.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -358,7 +300,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_term.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -368,29 +310,12 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_term.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_term.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_term.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_term.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	@Override
 	public void setFullName(String fullName) {
-		_term.setFullName(fullName);
+		model.setFullName(fullName);
 	}
 
 	/**
@@ -400,7 +325,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_term.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -410,7 +335,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setLanguageId(String languageId) {
-		_term.setLanguageId(languageId);
+		model.setLanguageId(languageId);
 	}
 
 	/**
@@ -420,12 +345,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_term.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_term.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -435,7 +355,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setParentId(long parentId) {
-		_term.setParentId(parentId);
+		model.setParentId(parentId);
 	}
 
 	/**
@@ -445,7 +365,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setPrefix(String prefix) {
-		_term.setPrefix(prefix);
+		model.setPrefix(prefix);
 	}
 
 	/**
@@ -455,12 +375,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_term.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_term.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -470,7 +385,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setTermId(long termId) {
-		_term.setTermId(termId);
+		model.setTermId(termId);
 	}
 
 	/**
@@ -480,7 +395,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setTranslation(String translation) {
-		_term.setTranslation(translation);
+		model.setTranslation(translation);
 	}
 
 	/**
@@ -490,7 +405,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_term.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -500,7 +415,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_term.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -510,7 +425,7 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_term.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -520,75 +435,12 @@ public class TermWrapper implements Term, ModelWrapper<Term> {
 	 */
 	@Override
 	public void setYear(String year) {
-		_term.setYear(year);
+		model.setYear(year);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Term> toCacheModel() {
-
-		return _term.toCacheModel();
+	protected TermWrapper wrap(Term term) {
+		return new TermWrapper(term);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Term toEscapedModel() {
-		return new TermWrapper(_term.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _term.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Term toUnescapedModel() {
-		return new TermWrapper(_term.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _term.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof TermWrapper)) {
-			return false;
-		}
-
-		TermWrapper termWrapper = (TermWrapper)obj;
-
-		if (Objects.equals(_term, termWrapper._term)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Term getWrappedModel() {
-		return _term;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _term.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _term.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_term.resetOriginalValues();
-	}
-
-	private final Term _term;
 
 }

@@ -14,18 +14,14 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -37,20 +33,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
+public class MetadataWrapper
+	extends BaseModelWrapper<Metadata>
+	implements Metadata, ModelWrapper<Metadata> {
 
 	public MetadataWrapper(Metadata metadata) {
-		_metadata = metadata;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Metadata.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Metadata.class.getName();
+		super(metadata);
 	}
 
 	@Override
@@ -155,16 +143,6 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new MetadataWrapper((Metadata)_metadata.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Metadata metadata) {
-		return _metadata.compareTo(metadata);
-	}
-
 	/**
 	 * Returns the company ID of this metadata.
 	 *
@@ -172,7 +150,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _metadata.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -182,7 +160,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _metadata.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -192,12 +170,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public String getDescription() {
-		return _metadata.getDescription();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _metadata.getExpandoBridge();
+		return model.getDescription();
 	}
 
 	/**
@@ -207,7 +180,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _metadata.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -217,7 +190,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public String getLanguage() {
-		return _metadata.getLanguage();
+		return model.getLanguage();
 	}
 
 	/**
@@ -227,7 +200,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public long getMetadataId() {
-		return _metadata.getMetadataId();
+		return model.getMetadataId();
 	}
 
 	/**
@@ -237,7 +210,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _metadata.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -247,12 +220,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _metadata.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _metadata.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -262,7 +230,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public String getPublisher() {
-		return _metadata.getPublisher();
+		return model.getPublisher();
 	}
 
 	/**
@@ -272,7 +240,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public String getSubject() {
-		return _metadata.getSubject();
+		return model.getSubject();
 	}
 
 	/**
@@ -282,7 +250,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public String getTitle() {
-		return _metadata.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -292,7 +260,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public String getType() {
-		return _metadata.getType();
+		return model.getType();
 	}
 
 	/**
@@ -302,7 +270,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public long getUserId() {
-		return _metadata.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -312,7 +280,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public String getUserName() {
-		return _metadata.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -322,37 +290,12 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _metadata.getUserUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _metadata.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _metadata.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _metadata.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _metadata.isNew();
+		return model.getUserUuid();
 	}
 
 	@Override
 	public void persist() {
-		_metadata.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_metadata.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -362,7 +305,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_metadata.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -372,7 +315,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_metadata.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -382,24 +325,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_metadata.setDescription(description);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_metadata.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_metadata.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_metadata.setExpandoBridgeAttributes(serviceContext);
+		model.setDescription(description);
 	}
 
 	/**
@@ -409,7 +335,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_metadata.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -419,7 +345,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setLanguage(String language) {
-		_metadata.setLanguage(language);
+		model.setLanguage(language);
 	}
 
 	/**
@@ -429,7 +355,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setMetadataId(long metadataId) {
-		_metadata.setMetadataId(metadataId);
+		model.setMetadataId(metadataId);
 	}
 
 	/**
@@ -439,12 +365,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_metadata.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_metadata.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -454,12 +375,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_metadata.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_metadata.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -469,7 +385,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setPublisher(String publisher) {
-		_metadata.setPublisher(publisher);
+		model.setPublisher(publisher);
 	}
 
 	/**
@@ -479,7 +395,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setSubject(String subject) {
-		_metadata.setSubject(subject);
+		model.setSubject(subject);
 	}
 
 	/**
@@ -489,7 +405,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_metadata.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -499,7 +415,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setType(String type) {
-		_metadata.setType(type);
+		model.setType(type);
 	}
 
 	/**
@@ -509,7 +425,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_metadata.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -519,7 +435,7 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_metadata.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -529,75 +445,12 @@ public class MetadataWrapper implements Metadata, ModelWrapper<Metadata> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_metadata.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Metadata> toCacheModel() {
-
-		return _metadata.toCacheModel();
+	protected MetadataWrapper wrap(Metadata metadata) {
+		return new MetadataWrapper(metadata);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Metadata toEscapedModel() {
-		return new MetadataWrapper(_metadata.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _metadata.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Metadata toUnescapedModel() {
-		return new MetadataWrapper(_metadata.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _metadata.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof MetadataWrapper)) {
-			return false;
-		}
-
-		MetadataWrapper metadataWrapper = (MetadataWrapper)obj;
-
-		if (Objects.equals(_metadata, metadataWrapper._metadata)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Metadata getWrappedModel() {
-		return _metadata;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _metadata.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _metadata.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_metadata.resetOriginalValues();
-	}
-
-	private final Metadata _metadata;
 
 }

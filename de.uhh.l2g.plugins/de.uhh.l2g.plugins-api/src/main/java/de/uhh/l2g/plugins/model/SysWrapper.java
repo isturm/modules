@@ -14,17 +14,13 @@
 
 package de.uhh.l2g.plugins.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * <p>
@@ -36,20 +32,11 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class SysWrapper implements Sys, ModelWrapper<Sys> {
+public class SysWrapper
+	extends BaseModelWrapper<Sys> implements Sys, ModelWrapper<Sys> {
 
 	public SysWrapper(Sys sys) {
-		_sys = sys;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Sys.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Sys.class.getName();
+		super(sys);
 	}
 
 	@Override
@@ -84,21 +71,6 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 		}
 	}
 
-	@Override
-	public Object clone() {
-		return new SysWrapper((Sys)_sys.clone());
-	}
-
-	@Override
-	public int compareTo(de.uhh.l2g.plugins.model.Sys sys) {
-		return _sys.compareTo(sys);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _sys.getExpandoBridge();
-	}
-
 	/**
 	 * Returns the primary key of this sys.
 	 *
@@ -106,12 +78,7 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 	 */
 	@Override
 	public int getPrimaryKey() {
-		return _sys.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _sys.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -121,7 +88,7 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 	 */
 	@Override
 	public int getSetupWizard() {
-		return _sys.getSetupWizard();
+		return model.getSetupWizard();
 	}
 
 	/**
@@ -131,7 +98,7 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 	 */
 	@Override
 	public int getSysId() {
-		return _sys.getSysId();
+		return model.getSysId();
 	}
 
 	/**
@@ -141,59 +108,12 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 	 */
 	@Override
 	public String getVersion() {
-		return _sys.getVersion();
-	}
-
-	@Override
-	public int hashCode() {
-		return _sys.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _sys.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _sys.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _sys.isNew();
+		return model.getVersion();
 	}
 
 	@Override
 	public void persist() {
-		_sys.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_sys.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_sys.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_sys.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_sys.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_sys.setNew(n);
+		model.persist();
 	}
 
 	/**
@@ -203,12 +123,7 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 	 */
 	@Override
 	public void setPrimaryKey(int primaryKey) {
-		_sys.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_sys.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -218,7 +133,7 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 	 */
 	@Override
 	public void setSetupWizard(int setupWizard) {
-		_sys.setSetupWizard(setupWizard);
+		model.setSetupWizard(setupWizard);
 	}
 
 	/**
@@ -228,7 +143,7 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 	 */
 	@Override
 	public void setSysId(int sysId) {
-		_sys.setSysId(sysId);
+		model.setSysId(sysId);
 	}
 
 	/**
@@ -238,75 +153,12 @@ public class SysWrapper implements Sys, ModelWrapper<Sys> {
 	 */
 	@Override
 	public void setVersion(String version) {
-		_sys.setVersion(version);
+		model.setVersion(version);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<de.uhh.l2g.plugins.model.Sys> toCacheModel() {
-
-		return _sys.toCacheModel();
+	protected SysWrapper wrap(Sys sys) {
+		return new SysWrapper(sys);
 	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Sys toEscapedModel() {
-		return new SysWrapper(_sys.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _sys.toString();
-	}
-
-	@Override
-	public de.uhh.l2g.plugins.model.Sys toUnescapedModel() {
-		return new SysWrapper(_sys.toUnescapedModel());
-	}
-
-	@Override
-	public String toXmlString() {
-		return _sys.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof SysWrapper)) {
-			return false;
-		}
-
-		SysWrapper sysWrapper = (SysWrapper)obj;
-
-		if (Objects.equals(_sys, sysWrapper._sys)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public Sys getWrappedModel() {
-		return _sys;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _sys.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _sys.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_sys.resetOriginalValues();
-	}
-
-	private final Sys _sys;
 
 }
