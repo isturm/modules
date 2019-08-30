@@ -7,7 +7,6 @@
 <jsp:useBean id="videoInstitutions" type="java.util.List<de.uhh.l2g.plugins.model.Video_Institution>" scope="request" />
 <jsp:useBean id="videoMetadata" type="de.uhh.l2g.plugins.model.Metadata" scope="request" />
 <jsp:useBean id="lectureseries" type="de.uhh.l2g.plugins.model.Lectureseries" scope="request" />
-<jsp:useBean id="videoLicense" type="de.uhh.l2g.plugins.model.License" scope="request" />
 <jsp:useBean id="objectType" type="java.lang.String" scope="request" />
 <jsp:useBean id="objectId" type="java.lang.String" scope="request" />
 
