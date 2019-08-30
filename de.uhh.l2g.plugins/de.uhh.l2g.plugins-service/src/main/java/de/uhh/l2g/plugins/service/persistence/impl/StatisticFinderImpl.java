@@ -2,7 +2,9 @@ package de.uhh.l2g.plugins.service.persistence.impl;
 
 import java.util.List;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
@@ -21,11 +23,13 @@ public class StatisticFinderImpl extends StatisticFinderBaseImpl implements Stat
 	public static final String ADD_NEW_STATISTIC_ENTRY = StatisticFinder.class.getName() + ".addNewStatisticEntry";
 	public static final String GET_ALL_STATISTICS = StatisticFinder.class.getName() + ".getAllStatistics";
 
+	@Reference
+	private CustomSQL _customSQL;
 	public JSONObject findAllStatistics ()  {
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), GET_ALL_STATISTICS);
+			String sql = _customSQL.get(getClass(), GET_ALL_STATISTICS);
 			SQLQuery q = session.createSQLQuery(sql);
 			@SuppressWarnings("unchecked")
 			List <Object[]> sl =  (List<Object[]>) QueryUtil.list(q, getDialect(),com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS , com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
@@ -69,7 +73,7 @@ public class StatisticFinderImpl extends StatisticFinderBaseImpl implements Stat
 		Session session = null;
 		int out = 0;
 		session = openSession();
-		String sql = CustomSQLUtil.get(getClass(), CREATE_VIDEO_STATISTIC_VIEW);
+		String sql = _customSQL.get(getClass(), CREATE_VIDEO_STATISTIC_VIEW);
 		SQLQuery q = session.createSQLQuery(sql);
 		out = q.executeUpdate();
 		return out;
@@ -84,7 +88,7 @@ public class StatisticFinderImpl extends StatisticFinderBaseImpl implements Stat
 		int out = 0;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), REMOVE_VIDEO_STATISTIC_TABLE);
+			String sql = _customSQL.get(getClass(), REMOVE_VIDEO_STATISTIC_TABLE);
 			SQLQuery q = session.createSQLQuery(sql);
 			out = q.executeUpdate();
 	      } catch (Exception e) {

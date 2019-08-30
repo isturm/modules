@@ -187,6 +187,10 @@ public interface TermLocalService
 	public List<Term> getAllSemesters() throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Term> getByCompanyId(Long companyId)
+		throws NoSuchModelException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Term getById(Long termId)
 		throws NoSuchModelException, SystemException;
 

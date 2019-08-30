@@ -2,7 +2,9 @@ package de.uhh.l2g.plugins.service.persistence.impl;
 
 import java.util.List;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -16,11 +18,13 @@ public class ProducerFinderImpl extends ProducerFinderBaseImpl implements Produc
 	
 	public static final String FIND_PRODUCER_IDS = ProducerFinder.class.getName() + ".findProducerIds";
 
+	@Reference
+	private CustomSQL _customSQL;
 	public List<Long> findProducerIds(Long lectureseriesId, int begin, int end) {
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_PRODUCER_IDS);
+			String sql = _customSQL.get(getClass(), FIND_PRODUCER_IDS);
 			SQLQuery q = session.createSQLQuery(sql);
 			QueryPos qPos = QueryPos.getInstance(q);
 			qPos.add(lectureseriesId);

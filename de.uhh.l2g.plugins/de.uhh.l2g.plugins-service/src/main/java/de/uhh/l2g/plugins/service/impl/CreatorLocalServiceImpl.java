@@ -105,7 +105,7 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 					if(!cl.contains(obj))cl.add(obj);
 				}
 			}
-		} catch (SystemException e) {}
+		} catch (Exception e) {}
 		return cl;
 	}
 	
@@ -177,38 +177,46 @@ public class CreatorLocalServiceImpl extends CreatorLocalServiceBaseImpl {
 	}
 	
 	private String createCommaSeparatedStringFromCreatorList(List<Creator> creatorList, int maxCreators) {
-		List<String> creatorFullnameList = new ArrayList<String>();
-		int i=0;
-		for (Creator creator: creatorList) { 
-			creatorFullnameList.add(creator.getFullName());
-			i++;
-			if(i==maxCreators)break;
-		}
-
-		String creators = com.liferay.portal.kernel.util.StringUtil.merge(creatorFullnameList,", ");
-		if (creatorList.size() > maxCreators) {
-			creators += " et al.";
-		}
-		return creators;
+		String ret ="";
+		try {
+			List<String> creatorFullnameList = new ArrayList<String>();
+			int i=0;
+			for (Creator creator: creatorList) { 
+				creatorFullnameList.add(creator.getFullName());
+				i++;
+				if(i==maxCreators)break;
+			}
+			
+			String creators = com.liferay.portal.kernel.util.StringUtil.merge(creatorFullnameList,", ");
+			if (creatorList.size() > maxCreators) {
+				creators += " et al.";
+			}
+			ret = creators;
+		}catch(Exception e) {}
+		return ret;
 	}
 	
 	private String createCommaSeparatedLinkedStringFromCreatorList(List<Creator> creatorList, int maxCreators) {
-		List<String> creatorFullnameList = new ArrayList<String>();
-		int i=0;
-		for (Creator creator: creatorList) { 
-			String fn = creator.getFullName();
-			//?_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery=Prof. Dr. Marc Frey
-			String fnLink = "<a href='/l2go/-/get/0/0/0/0/0/?_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery="+fn+"'>"+fn+"</a>";;
-			creatorFullnameList.add(fnLink);
-			i++;
-			if(i==maxCreators)break;
-		}
-		
-		String creators = com.liferay.portal.kernel.util.StringUtil.merge(creatorFullnameList,", ");
-		if (creatorList.size() > maxCreators) {
-			creators += " et al.";
-		}
-		return creators;
+		String ret ="";
+		try {
+			List<String> creatorFullnameList = new ArrayList<String>();
+			int i=0;
+			for (Creator creator: creatorList) { 
+				String fn = creator.getFullName();
+				//?_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery=Prof. Dr. Marc Frey
+				String fnLink = "<a href='/l2go/-/get/0/0/0/0/0/?_lgopenaccessvideos_WAR_lecture2goportlet_searchQuery="+fn+"'>"+fn+"</a>";;
+				creatorFullnameList.add(fnLink);
+				i++;
+				if(i==maxCreators)break;
+			}
+			
+			String creators = com.liferay.portal.kernel.util.StringUtil.merge(creatorFullnameList,", ");
+			if (creatorList.size() > maxCreators) {
+				creators += " et al.";
+			}
+			ret= creators;
+		}catch (Exception e) {}
+		return ret;
 	}
 	
 	public  com.liferay.portal.kernel.json.JSONArray getJSONCreatorsByVideoId(Long videoId){

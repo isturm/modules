@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 
 import de.uhh.l2g.plugins.model.Creator;
 import de.uhh.l2g.plugins.model.impl.CreatorImpl;
@@ -22,12 +24,14 @@ public class CreatorFinderImpl extends CreatorFinderBaseImpl implements CreatorF
 	public static final String FIND_CREATORS_FOR_VIDEO = CreatorFinder.class.getName() + ".findCreatorsForVideo";
 	public static final String FIND_CREATORS_FOR_LECTURESERIES_OVER_THE_ASSIGNED_VIDEOS = CreatorFinder.class.getName() + ".findCreatorsForLectureseriesOverTheAssigenedVideos";
 
+	@Reference
+	private CustomSQL _customSQL;
 	
 	public List<Creator> findCreatorsByLectureseries(long lectureseriesId) {
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_CREATORS_FOR_LECTURESERIES);
+			String sql = _customSQL.get(getClass(), FIND_CREATORS_FOR_LECTURESERIES);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("creatorId", Type.LONG);
 			q.addScalar("firstName", Type.STRING);
@@ -58,7 +62,7 @@ public class CreatorFinderImpl extends CreatorFinderBaseImpl implements CreatorF
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_CREATORS_FOR_VIDEO);
+			String sql = _customSQL.get(getClass(), FIND_CREATORS_FOR_VIDEO);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("creatorId", Type.LONG);
 			q.addScalar("firstName", Type.STRING);
@@ -89,7 +93,7 @@ public class CreatorFinderImpl extends CreatorFinderBaseImpl implements CreatorF
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_CREATORS_FOR_LECTURESERIES_OVER_THE_ASSIGNED_VIDEOS);
+			String sql = _customSQL.get(getClass(), FIND_CREATORS_FOR_LECTURESERIES_OVER_THE_ASSIGNED_VIDEOS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("creatorId", Type.LONG);
 			q.addScalar("firstName", Type.STRING);

@@ -10,7 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -43,6 +45,9 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 	public static final String FIND_VIDEOS_BY_HITS_AND_OPEN_ACCESS = VideoFinder.class.getName() + ".findVideosByHitsAndOpenAccess";
 	public static final String FIND_POPULAR_VIDEOS = VideoFinder.class.getName() + ".findPopularVideos";
 
+	@Reference
+	private CustomSQL _customSQL;
+	
 	public List<Video> findPopular(int limit) {
 		int start= com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS;
 		int stop=com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS;
@@ -53,7 +58,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_POPULAR_VIDEOS);
+			String sql = _customSQL.get(getClass(), FIND_POPULAR_VIDEOS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("videoId", Type.LONG);
 			q.addScalar("title", Type.STRING);
@@ -105,7 +110,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_VIDEOS_BY_HITS);
+			String sql = _customSQL.get(getClass(), FIND_VIDEOS_BY_HITS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("videoId", Type.LONG);
 			q.addScalar("title", Type.STRING);
@@ -160,7 +165,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_VIDEOS_BY_HITS_AND_OPEN_ACCESS);
+			String sql = _customSQL.get(getClass(), FIND_VIDEOS_BY_HITS_AND_OPEN_ACCESS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("videoId", Type.LONG);
 			q.addScalar("title", Type.STRING);
@@ -215,7 +220,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_VIDEOS_BY_ALL_SEARCH_WORDS);
+			String sql = _customSQL.get(getClass(), FIND_VIDEOS_BY_ALL_SEARCH_WORDS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("title", Type.STRING);
 			//custom fields
@@ -250,7 +255,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_VIDEOS_BY_SEARCH_WORD);
+			String sql = _customSQL.get(getClass(), FIND_VIDEOS_BY_SEARCH_WORD);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("title", Type.STRING);
 			//custom fields
@@ -293,7 +298,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_VIDEOS_BY_SEARCH_WORD_AND_LECTURESERIESID);
+			String sql = _customSQL.get(getClass(), FIND_VIDEOS_BY_SEARCH_WORD_AND_LECTURESERIESID);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("videoId", Type.LONG);
 			q.addScalar("title", Type.STRING);
@@ -352,7 +357,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), RESET_LECTURESERIES_FOR_VIDEOS);
+			String sql = _customSQL.get(getClass(), RESET_LECTURESERIES_FOR_VIDEOS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.setCacheable(false);
 			q.addScalar("videoId", Type.LONG);
@@ -376,7 +381,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Video video = new VideoImpl();
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_VIDEO_FOR_SECURE_URL);
+			String sql = _customSQL.get(getClass(), FIND_VIDEO_FOR_SECURE_URL);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.setCacheable(false);
 			q.addScalar("videoId", Type.LONG);
@@ -403,7 +408,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 		Video video = new VideoImpl();
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_LATES_OPEN_ACCESS_VIDEO_FOR_LECTURESERIES);
+			String sql = _customSQL.get(getClass(), FIND_LATES_OPEN_ACCESS_VIDEO_FOR_LECTURESERIES);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.setCacheable(false);
 			q.addScalar("videoId", Type.LONG);

@@ -136,7 +136,7 @@ public class ViewRenderDetails implements MVCRenderCommand{
 		    List<Video_Lectureseries> vl = new ArrayList<Video_Lectureseries>();
 		    try {
 				vl = Video_LectureseriesLocalServiceUtil.getByVideo(video.getVideoId());
-			} catch (SystemException e) {}
+			} catch (Exception e) {}
 		    
 		    //institutions for video
 		    List<Video_Institution> vi = new ArrayList<Video_Institution>();

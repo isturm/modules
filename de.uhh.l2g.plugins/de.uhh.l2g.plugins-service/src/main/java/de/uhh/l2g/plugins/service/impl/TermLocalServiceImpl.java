@@ -52,6 +52,10 @@ public class TermLocalServiceImpl extends TermLocalServiceBaseImpl {
 		return termPersistence.findByPrimaryKey(termId);
 	}
 	
+	public List<Term> getByCompanyId(Long companyId) throws NoSuchModelException, SystemException{
+		return termPersistence.findByCompany(companyId);
+	}
+	
 	
 	public List<Term> getTermsFromLectureseriesIdsAndVideoIds(ArrayList<Long> lectureseriesIds, ArrayList<Long> videoIds) {
 		return termFinder.findTermsByLectureseriesIdsAndVideoIds(lectureseriesIds, videoIds);

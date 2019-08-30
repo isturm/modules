@@ -212,6 +212,15 @@ public class TermLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<de.uhh.l2g.plugins.model.Term> getByCompanyId(
+			Long companyId)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			   com.liferay.portal.kernel.exception.SystemException {
+
+		return _termLocalService.getByCompanyId(companyId);
+	}
+
+	@Override
 	public de.uhh.l2g.plugins.model.Term getById(Long termId)
 		throws com.liferay.portal.kernel.exception.NoSuchModelException,
 			   com.liferay.portal.kernel.exception.SystemException {

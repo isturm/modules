@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -27,11 +29,13 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 	public static final String FIND_ALL_LECTURESERIES_WITH_PASSWORD = LectureseriesFinder.class.getName() + ".findAllLectureseriesWithPassword";
 	public static final String FIND_ALL_LECTURESERIES_FOR_VIDEO = LectureseriesFinder.class.getName() + ".findAllLectureseriesForVideo";
 	
+	@Reference
+	private CustomSQL _customSQL;
 	public List<Lectureseries> findAllLectureseriesWhithPassword(){
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_ALL_LECTURESERIES_WITH_PASSWORD);
+			String sql = _customSQL.get(getClass(), FIND_ALL_LECTURESERIES_WITH_PASSWORD);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("number_", Type.STRING);
 			q.addScalar("eventType", Type.STRING);
@@ -75,7 +79,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_ALL_LECTURESERIES_FOR_VIDEO);
+			String sql = _customSQL.get(getClass(), FIND_ALL_LECTURESERIES_FOR_VIDEO);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("number_", Type.STRING);
 			q.addScalar("eventType", Type.STRING);
@@ -121,7 +125,7 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_ALL_LECTURESERIES_WITH_OPENACCESS_VIDEOS);
+			String sql = _customSQL.get(getClass(), FIND_ALL_LECTURESERIES_WITH_OPENACCESS_VIDEOS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("number_", Type.STRING);
 			q.addScalar("eventType", Type.STRING);

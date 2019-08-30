@@ -3,7 +3,9 @@ package de.uhh.l2g.plugins.service.persistence.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
@@ -19,11 +21,14 @@ public class VideoStatisticFinderImpl extends VideoStatisticFinderBaseImpl imple
 
 	public static final String FIND_BY_DATE_DIFF = VideoFinder.class.getName() + ".findVideoStatistics";
 	
+	@Reference
+	private CustomSQL _customSQL;
+	
 	public List<VideoStatistic> findAllStats() {
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_BY_DATE_DIFF);
+			String sql = _customSQL.get(getClass(), FIND_BY_DATE_DIFF);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.setCacheable(false);
 			q.addScalar("dateDiff", Type.INTEGER);

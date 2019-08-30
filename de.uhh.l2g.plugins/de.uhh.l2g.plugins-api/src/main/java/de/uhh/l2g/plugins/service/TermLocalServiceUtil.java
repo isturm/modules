@@ -208,6 +208,14 @@ public class TermLocalServiceUtil {
 		return getService().getAllSemesters();
 	}
 
+	public static java.util.List<de.uhh.l2g.plugins.model.Term> getByCompanyId(
+			Long companyId)
+		throws com.liferay.portal.kernel.exception.NoSuchModelException,
+			   com.liferay.portal.kernel.exception.SystemException {
+
+		return getService().getByCompanyId(companyId);
+	}
+
 	public static de.uhh.l2g.plugins.model.Term getById(Long termId)
 		throws com.liferay.portal.kernel.exception.NoSuchModelException,
 			   com.liferay.portal.kernel.exception.SystemException {

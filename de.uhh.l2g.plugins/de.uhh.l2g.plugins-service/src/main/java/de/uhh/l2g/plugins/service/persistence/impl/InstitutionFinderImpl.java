@@ -5,8 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
@@ -25,12 +26,14 @@ public class InstitutionFinderImpl extends InstitutionFinderBaseImpl implements 
 	public static final String FIND_MAX_SORT_BY_PARENT = InstitutionFinder.class.getName() + ".findMaxSortByParent";
 	public static final String FIND_LOCKING_ELEMENTS = InstitutionFinder.class.getName() + ".findLockingElements";
 	public static final String FIND_ROOT_INSTITUTIONS_BY_OPEN_ACCESS_VIDEOS = InstitutionFinder.class.getName() + ".findRootInstitutionsByOpenAccessVideos";
-	
+
+	@Reference
+	private CustomSQL _customSQL;
 	public List<Institution> findRootInstitutionsByOpenAccessVideos() {
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_ROOT_INSTITUTIONS_BY_OPEN_ACCESS_VIDEOS);
+			String sql = _customSQL.get(getClass(), FIND_ROOT_INSTITUTIONS_BY_OPEN_ACCESS_VIDEOS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("institutionId", Type.LONG);
 			q.addScalar("parentId", Type.INTEGER);
@@ -59,7 +62,7 @@ public class InstitutionFinderImpl extends InstitutionFinderBaseImpl implements 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_FROM_LECTURESERIES);
+			String sql = _customSQL.get(getClass(), FIND_FROM_LECTURESERIES);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("institutionId", Type.LONG);
 			q.addScalar("parentId", Type.INTEGER);
@@ -90,7 +93,7 @@ public class InstitutionFinderImpl extends InstitutionFinderBaseImpl implements 
 		Session session = null;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_ALL_SORTED_AS_TREE);
+			String sql = _customSQL.get(getClass(), FIND_ALL_SORTED_AS_TREE);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("institutionId", Type.LONG);
 			q.addScalar("parentId", Type.INTEGER);
@@ -121,7 +124,7 @@ public class InstitutionFinderImpl extends InstitutionFinderBaseImpl implements 
 		int out = 0;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_MAX_SORT_BY_PARENT);
+			String sql = _customSQL.get(getClass(), FIND_MAX_SORT_BY_PARENT);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("maxsort", Type.INTEGER);
 			q.setCacheable(false);
@@ -155,7 +158,7 @@ public class InstitutionFinderImpl extends InstitutionFinderBaseImpl implements 
 		int out = 0;
 		try {
 			session = openSession();
-			String sql = CustomSQLUtil.get(getClass(), FIND_LOCKING_ELEMENTS);
+			String sql = _customSQL.get(getClass(), FIND_LOCKING_ELEMENTS);
 			SQLQuery q = session.createSQLQuery(sql);
 			q.addScalar("countElements", Type.INTEGER);
 			q.setCacheable(false);
