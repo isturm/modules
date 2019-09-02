@@ -21,7 +21,7 @@
 	<portlet:param name="categoryId" value="0"/>
 	<portlet:param name="creatorId" value="0"/>
 </portlet:renderURL>
-
+  
 <c:set var="tags" value="<%=video.getTags().length()>0 ? " - "+video.getTags()+" - " : ""%>"/>
 <c:set var="pageTitle" value="<%=video.getTitle() +" - "+lectureseries.getName()+" - "+CreatorLocalServiceUtil.getCommaSeparatedCreatorsByVideoIdAndMaxCreators(video.getVideoId(), 200) + " - Universität Hamburg" + (String)pageContext.getAttribute("tags")%>"/>
 <c:set var="portalURL" value="<%=PrefsPropsUtil.getString(company.getCompanyId(),PropsKeys.DEFAULT_LANDING_PAGE_PATH)%>"/>

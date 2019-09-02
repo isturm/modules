@@ -26,6 +26,7 @@ import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -185,6 +186,9 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		List<Lectureseries> reqLectureseriesList = new ArrayList<Lectureseries>();
 		Lectureseries reqLectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
 		License reqLicense = LicenseLocalServiceUtil.createLicense(0);
+		// requested license list - all licenses to choose from
+		List<License> reqLicenseList = new ArrayList<License>();
+		try{reqLicenseList = LicenseLocalServiceUtil.getLicenses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);}catch(Exception e){}
 		Producer reqProducer = ProducerLocalServiceUtil.createProducer(0);
 		Long reqPproducerId = ParamUtil.getLong(renderRequest, "pproducerId", 0);
 		Long reqLectureseriesId = ParamUtil.getLong(renderRequest, "lectureseriesId", 0);
@@ -344,6 +348,7 @@ public class AdminVideoManagementPortlet extends MVCPortlet {
 		renderRequest.setAttribute("reqLectureseriesList", reqLectureseriesList);
 		renderRequest.setAttribute("reqSubInstitutions", reqSubInstitutions);
 		renderRequest.setAttribute("reqLicense", reqLicense);
+		renderRequest.setAttribute("reqLicenseList", reqLicenseList);
 		renderRequest.setAttribute("permissionAdmin", permissionAdmin);				
 		renderRequest.setAttribute("permissionProducer", permissionProducer);				
 		renderRequest.setAttribute("permissionCoordinator", permissionCoordinator);	

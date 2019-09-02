@@ -1,6 +1,7 @@
 <%@include file="init.jsp"%>
 
 <jsp:useBean id="reqLectureseries" type="de.uhh.l2g.plugins.model.Lectureseries" scope="request" />
+<jsp:useBean id="reqLicenseList" type="java.util.List<de.uhh.l2g.plugins.model.License>" scope="request" />
 <jsp:useBean id="reqLicense" type="de.uhh.l2g.plugins.model.License" scope="request" />
 <jsp:useBean id="reqProducer" type="de.uhh.l2g.plugins.model.Producer" scope="request" />
 <jsp:useBean id="reqVideo" type="de.uhh.l2g.plugins.model.Video" scope="request" />
@@ -224,19 +225,30 @@
 													<i id="l3" class="aui icon-chevron-down thumb"></i>
 													<liferay-ui:message key="license"/>
 												</label>
+												
 												<div id="license-content">
-													<div>
-														<c:if test="${reqLicense.l2go==1}"><aui:input name="license"  id="uhhl2go" label="" value="uhhl2go" checked="true" type="radio"/></c:if>
-														<c:if test="${reqLicense.l2go==0}"><aui:input name="license" id="uhhl2go" label="" value="uhhl2go" type="radio"/></c:if>
-														<a href="/web/vod/licence-l2go" target="_blank"><liferay-ui:message key="lecture2go-licence"/> </a>	 	      	      
-													</div>	
-													<div>
-														<c:if test="${reqLicense.ccbyncsa==1}"><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" checked="true" type="radio" /></c:if>
-														<c:if test="${reqLicense.ccbyncsa==0}"><aui:input name="license" label="" id="ccbyncsa" value="ccbyncsa" type="radio"/></c:if>
-														<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank"> <liferay-ui:message key="cc-license-click-for-info"/> </a>
-													</div>
+													<c:forEach items="${reqLicenseList}" var="license">
+														<c:choose>
+															<c:when test="${license.selectable}" >
+															<div>
+																<aui:input name="license" label="" value="${license.licenseId}" checked="${license.licenseId == reqLicense.licenseId ? 'true' : 'false'}" type="radio"/>
+																<a href="${license.url}" title="${license.fullName}" target="_blank">${license.shortIdentifier} </a>	 	      
+															</div>
+															</c:when>
+														    <c:otherwise>
+														    	<!-- previously chosen but not selectable any more -->
+														    	<c:if test="${license.licenseId == reqLicense.licenseId}">
+														    		<div>
+														    			<aui:input name="license" label="" value="${license.licenseId}" checked="true" type="radio" disabled="true"/>
+																		<a href="${license.url}" class="disabled" title="${license.fullName}" target="_blank">${license.shortIdentifier} </a>	
+														    		</div>
+														    	</c:if>
+															</c:otherwise>
+														</c:choose>	
+													</c:forEach>
 												</div>
 											</div>
+											
 											<script>
 												$( "#edit-video-lable-3" ).click( function() {
 												  	$( "#license-content" ).slideToggle( "slow" );

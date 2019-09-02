@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.model.Creator;
 import de.uhh.l2g.plugins.model.impl.CreatorImpl;
@@ -24,7 +25,7 @@ public class CreatorFinderImpl extends CreatorFinderBaseImpl implements CreatorF
 	public static final String FIND_CREATORS_FOR_VIDEO = CreatorFinder.class.getName() + ".findCreatorsForVideo";
 	public static final String FIND_CREATORS_FOR_LECTURESERIES_OVER_THE_ASSIGNED_VIDEOS = CreatorFinder.class.getName() + ".findCreatorsForLectureseriesOverTheAssigenedVideos";
 
-	@Reference
+	@ServiceReference(type = CustomSQL.class)
 	private CustomSQL _customSQL;
 	
 	public List<Creator> findCreatorsByLectureseries(long lectureseriesId) {

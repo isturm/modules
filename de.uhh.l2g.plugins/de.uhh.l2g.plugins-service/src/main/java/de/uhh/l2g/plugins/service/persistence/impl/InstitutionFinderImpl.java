@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.model.Institution;
 import de.uhh.l2g.plugins.model.impl.InstitutionImpl;
@@ -27,7 +28,7 @@ public class InstitutionFinderImpl extends InstitutionFinderBaseImpl implements 
 	public static final String FIND_LOCKING_ELEMENTS = InstitutionFinder.class.getName() + ".findLockingElements";
 	public static final String FIND_ROOT_INSTITUTIONS_BY_OPEN_ACCESS_VIDEOS = InstitutionFinder.class.getName() + ".findRootInstitutionsByOpenAccessVideos";
 
-	@Reference
+	@ServiceReference(type = CustomSQL.class)
 	private CustomSQL _customSQL;
 	public List<Institution> findRootInstitutionsByOpenAccessVideos() {
 		Session session = null;

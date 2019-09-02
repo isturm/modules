@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.model.Creator;
 import de.uhh.l2g.plugins.model.Lectureseries;
@@ -45,7 +46,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 	public static final String FIND_VIDEOS_BY_HITS_AND_OPEN_ACCESS = VideoFinder.class.getName() + ".findVideosByHitsAndOpenAccess";
 	public static final String FIND_POPULAR_VIDEOS = VideoFinder.class.getName() + ".findPopularVideos";
 
-	@Reference
+	@ServiceReference(type = CustomSQL.class)
 	private CustomSQL _customSQL;
 	
 	public List<Video> findPopular(int limit) {

@@ -6,6 +6,18 @@
         // Die Adresse des Web- und Videoservers ermitteln
         var server = "#";
 
+        // Diese Funktion wird genutzt um die Url Parameter auszulesen
+        var getUrlParameter = function(sParam){
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++){
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam){
+                    return sParameterName[1];
+                }
+            }
+        };
+        
         // Start- und Endzeit der Zitatfunktion ermitteln (Durch die URL Parameter)
         var frameStart = getUrlParameter('start');
         var frameEnd = getUrlParameter('end');
@@ -18,33 +30,23 @@
 	        frameEnd = ${timeEnd};		
 		}
 		
-        //hack for HLS in firefox and mp3
-        var containerFormat = "${video.containerFormat}";
-        var isFirefox = typeof InstallTrigger !== 'undefined';
-        var downloadAllowed = "${video.downloadLink}";
-        if(containerFormat.indexOf("mp3") !== -1 && isFirefox && downloadAllowed.indexOf("1")!==-1){
-        	var playerUri = playerUri1;
-        	playerUri1 = playerUri3;
-        	playerUri3 = playerUri;
-        }
-        //
-        
-		var vttFile ="${video.vttChapterFile}";
-		
-        // Hier wird der JW-Player initialisiert
+		// Hier wird der JW-Player initialisiert
         // Interessant ist hierbei, dass es mehrere Quellen geben kann
-        jwplayer('player1').setup({
+        var pla = jwplayer('player1').setup({
             width: "100%",
             aspectratio: "16:9",
+            playbackRateControls: [0.75, 1, 1.25, 1.5],
             image: "${video.image}",
+            cast: {},
             sources: ${video.jsonPlayerUris},
-            tracks: [{
-                file: vttFile,
-                kind:'chapters'
-            }],
+            <c:if test="${video.hasCaption || video.hasChapters}">
+	            tracks: ${video.jsonPlayerTracks},
+            </c:if>
             hlshtml: true,
             androidhls: true
-        }).onReady(function() {
+        });
+        
+        pla.on('ready', function(){
 
          	// Inputfelder für Start und Ende der Zitate / Kapitel speichern 
             var $inputTimeStart = $("#<portlet:namespace></portlet:namespace>timeStart").val("");

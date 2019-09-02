@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.service.persistence.StatisticFinder;
 
@@ -23,7 +24,7 @@ public class StatisticFinderImpl extends StatisticFinderBaseImpl implements Stat
 	public static final String ADD_NEW_STATISTIC_ENTRY = StatisticFinder.class.getName() + ".addNewStatisticEntry";
 	public static final String GET_ALL_STATISTICS = StatisticFinder.class.getName() + ".getAllStatistics";
 
-	@Reference
+	@ServiceReference(type = CustomSQL.class)
 	private CustomSQL _customSQL;
 	public JSONObject findAllStatistics ()  {
 		Session session = null;

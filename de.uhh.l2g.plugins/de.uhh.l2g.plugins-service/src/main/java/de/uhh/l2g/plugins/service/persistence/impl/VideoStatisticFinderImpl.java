@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import de.uhh.l2g.plugins.model.VideoStatistic;
 import de.uhh.l2g.plugins.model.impl.VideoStatisticImpl;
@@ -21,7 +22,7 @@ public class VideoStatisticFinderImpl extends VideoStatisticFinderBaseImpl imple
 
 	public static final String FIND_BY_DATE_DIFF = VideoFinder.class.getName() + ".findVideoStatistics";
 	
-	@Reference
+	@ServiceReference(type = CustomSQL.class)
 	private CustomSQL _customSQL;
 	
 	public List<VideoStatistic> findAllStats() {
