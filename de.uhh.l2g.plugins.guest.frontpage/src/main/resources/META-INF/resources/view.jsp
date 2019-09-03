@@ -49,13 +49,11 @@
 <div id="front-page-content">
 
 	<!-- latest videos -->
-	<div class="news">
 		<h4><liferay-ui:message key="last-added"/></h4>
-		<div class="video-box-list-container">
-			<div id="news-carousel" class="carousel slide" data-interval="false" data-wrap="false">
+			<div id="news-carousel" class="carousel slide" data-ride="carousel">
             <!-- Carousel items -->
 	            <div class="carousel-inner">
-	                <div class="item active">
+	                <div class="carousel-item active">
 						<div class="row-fluid video-box-list">
 							<c:set var="count" value="0" scope="page" />
 							<c:forEach items="${latest}" var="item">
@@ -81,7 +79,7 @@
 							</div>
 					<!-- item -->
 					</div>
-						<div class="item">
+						<div class="carousel-item">
 		                    <div class="row-fluid video-box-list">
 		        	</c:if>
 								<div class="span3 video-box" onClick="window.location='${vid.url}'">											
@@ -128,20 +126,16 @@
 						</div>
 					</div>
 				</div>
-				<a class="left carousel-control" href="#news-carousel" data-slide="prev"><i class="icon-chevron-left"></i></a>
-				<a class="right carousel-control" href="#news-carousel" data-slide="next"><i class="icon-chevron-right"></i></a>
+				<a class="carousel-control-prev" href="#news-carousel" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> 
+				<a class="carousel-control-next" href="#news-carousel" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
 			</div>
-		</div>
-	</div>
 	
 	<!-- popular videos -->
-	<div class="popular">
 		<h4><liferay-ui:message key="popular-videos"/></h4>
-		<div class="video-box-list-container">
-			<div id="popular-carousel" class="carousel slide" data-interval="false" data-wrap="false">
+			<div id="popular-carousel" class="carousel slide" data-ride="carousel">
             <!-- Carousel items -->
 	            <div class="carousel-inner">
-	                <div class="item active">
+	                <div class="carousel-item active">
 						<div class="row-fluid video-box-list">
 							<c:set var="count" value="0" scope="page" />
 							<c:forEach items="${popular}" var="item">
@@ -163,7 +157,7 @@
 										</div>
 										<!-- item -->
 									</div>
-									<div class="item">
+									<div class="carousel-item active">
 	                    				<div class="row-fluid video-box-list">
 	                    		</c:if>
 									<div class="span3 video-box" onClick="window.location='${vid.url}'">	
@@ -209,9 +203,7 @@
 						</div>
 					</div>
 				</div>
-				<a class="left carousel-control" href="#popular-carousel" data-slide="prev"><i class="icon-chevron-left"></i></a>
-				<a class="right carousel-control" href="#popular-carousel" data-slide="next"><i class="icon-chevron-right"></i></a>
+				<a class="carousel-control-prev" href="#popular-carousel" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> 
+				<a class="carousel-control-next" href="#popular-carousel" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
 			</div>
-		</div>
-	</div>
 </div>
