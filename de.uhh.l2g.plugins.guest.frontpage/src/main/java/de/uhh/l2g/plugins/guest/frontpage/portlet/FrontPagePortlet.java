@@ -35,7 +35,7 @@ import de.uhh.l2g.plugins.util.HTMLFilter;
 	property = {
 		"com.liferay.portlet.display-category=lecture2go.plugins",
 		"com.liferay.portlet.instanceable=false",
-		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
+		//"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/mediaCheck-min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.frontpage.js",
 		"javax.portlet.display-name=Guest Frontpage",
@@ -74,7 +74,7 @@ public class FrontPagePortlet extends MVCPortlet {
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws IOException, PortletException {
 		log.info("Executing serveResource method");
 	    //getting task name to do
-	    String task = resourceRequest.getParameter("task");
+	    String task = ParamUtil.getString(resourceRequest, "task");
 	    if (Validator.isNull(task)) {
 	        return;
 	    }

@@ -3,11 +3,11 @@
 <c:set var="latest" value="<%=LectureseriesLocalServiceUtil.getLatest(12, groupId, companyId)%>"/>
 <c:set var="popular" value="<%=VideoLocalServiceUtil.getPopular(12)%>"/>
 
-<portlet:resourceURL var="findVideos">
+<portlet:resourceURL var="findVideosURL">
 	<portlet:param name="task" value="findVideos"/> 
 </portlet:resourceURL>
 
-<div style="display: none;" id="findVideosURL">${findVideos}</div> 
+<div style="display: none;" id="findVideosURL">${findVideosURL}</div> 
 <div style="display: none;" id="portletNamespace"><portlet:namespace/></div> 
 
 <div class="front-page-teaser">

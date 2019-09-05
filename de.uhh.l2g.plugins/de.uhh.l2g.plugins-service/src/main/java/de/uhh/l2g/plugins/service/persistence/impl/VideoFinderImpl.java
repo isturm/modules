@@ -491,12 +491,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			v.setLectureseriesNumber((String)video[2]);
 			v.setCreatorFullName((String)video[3]);
 			v.setVideoId((Long)video[4]);
-			v.setGroupId((Long) video[5]);
-			v.setCompanyId((Long) video[6]);
-			v.setUserId((Long) video[7]);
-			v.setUserName(video[8]+"");
-			v.setCreateDate((Date) video[9]);
-			v.setModifiedDate((Date) video[10]);			
+			//v.setGroupId((Long) video[5]);
+			try{v.setCompanyId((Long) video[6]);}catch(NullPointerException e) {};
+			try{v.setUserId((Long) video[7]);}catch(NullPointerException e) {};
+			try{v.setUserName(video[8]+"");}catch(NullPointerException e) {};
+			try{v.setCreateDate((Date) video[9]);}catch(NullPointerException e) {};
+			try{v.setModifiedDate((Date) video[10]);}catch(NullPointerException e) {};
 			//creators
 			List<Video_Creator> vc;
 			try {

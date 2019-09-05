@@ -205,11 +205,12 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			 */
 			String searchString = searchQuery.replace("&amp;", "&");//get from entity &amp; only the character & for this specific search
 			QueryPos qPos = QueryPos.getInstance(q);
-			qPos.add(groupId);
-			qPos.add(companyId);
 			boolean hasSearch = (searchQuery.trim().length()>0);
 			int y=1;
 			if (hasSearch)y=2;
+			//
+			if (groupId > 0) qPos.add(groupId);
+			if (companyId > 0) qPos.add(companyId);
 			//
 			for (int i=0 ;i<=y;i++){ //for all queries "lQueryForSearch" "lQuery" and "vQuery"
 				if (termId > 0) qPos.add(termId);
