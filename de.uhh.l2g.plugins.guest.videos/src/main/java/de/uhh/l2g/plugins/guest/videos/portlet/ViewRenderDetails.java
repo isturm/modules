@@ -47,12 +47,12 @@ public class ViewRenderDetails implements MVCRenderCommand{
 	@Override
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
 		String objectType = ParamUtil.getString(renderRequest, "objectType");
-		String password = renderRequest.getParameter("password");
+		String password = ParamUtil.getString(renderRequest, "password");
 		boolean objectExists = true;
 		
 		Long objectId = new Long(0);
 		boolean secLink = false;
-	   	String oid = renderRequest.getParameter("objectId");
+	   	String oid = ParamUtil.getString(renderRequest, "objectId");
 		
 	    try{
 	    	objectId = new Long(oid);

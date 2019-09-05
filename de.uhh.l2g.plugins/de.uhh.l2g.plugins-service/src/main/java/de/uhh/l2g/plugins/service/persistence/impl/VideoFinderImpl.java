@@ -273,11 +273,11 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			q.setCacheable(false);
 			
 			QueryPos qPos = QueryPos.getInstance(q);
-			qPos.add(word);
-			qPos.add(word);
-			qPos.add(word);
-			qPos.add(word);
-			qPos.add(word);
+			qPos.add("%"+word+"%");
+			qPos.add("%"+word+"%");
+			qPos.add("%"+word+"%");
+			qPos.add("%"+word+"%");
+			qPos.add("%"+word+"%");
 			
 			@SuppressWarnings("unchecked")
 			List <Object[]> l =  (List<Object[]>) QueryUtil.list(q, getDialect(), 0 , limit);
@@ -334,7 +334,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			
 			QueryPos qPos = QueryPos.getInstance(q);
 			//1st query
-			qPos.add(word);
+			qPos.add("%"+word+"%");
 			qPos.add(lectureseriesId);
 			//2nd query
 //			qPos.add(word);
@@ -470,12 +470,12 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			v.setTermId((Long)video[20]);
 			v.setTags((String)video[21]);
 			v.setPassword((String)video[22]);
-			v.setGroupId((Long) video[23]);
-			v.setCompanyId((Long) video[24]);
-			v.setUserId((Long) video[25]);
-			v.setUserName(video[26]+"");
-			v.setCreateDate((Date) video[27]);
-			v.setModifiedDate((Date) video[28]);
+			try{v.setGroupId((Long) video[23]);}catch(NullPointerException e) {};
+			try{v.setCompanyId((Long) video[24]);}catch(NullPointerException e) {};
+			try{v.setUserId((Long) video[25]);}catch(NullPointerException e) {};
+			try{v.setUserName(video[26]+"");}catch(NullPointerException e) {};
+			try{v.setCreateDate((Date) video[27]);}catch(NullPointerException e) {};
+			try{v.setModifiedDate((Date) video[28]);}catch(NullPointerException e) {};
 			//
 			vl.add(v);
 		}
@@ -491,7 +491,7 @@ public class VideoFinderImpl extends VideoFinderBaseImpl implements VideoFinder 
 			v.setLectureseriesNumber((String)video[2]);
 			v.setCreatorFullName((String)video[3]);
 			v.setVideoId((Long)video[4]);
-			//v.setGroupId((Long) video[5]);
+			try{v.setGroupId((Long) video[5]);}catch(NullPointerException e) {};
 			try{v.setCompanyId((Long) video[6]);}catch(NullPointerException e) {};
 			try{v.setUserId((Long) video[7]);}catch(NullPointerException e) {};
 			try{v.setUserName(video[8]+"");}catch(NullPointerException e) {};
