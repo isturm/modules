@@ -56,12 +56,8 @@ public class ViewRenderList implements MVCRenderCommand{
 		boolean isSearched = (findVideos.trim().length()>0);
 		//
 		long companyId = PortalUtil.getCompanyId(renderRequest);
-		long groupId = new Long(0);
-		try {
-			groupId = PortalUtil.getCompany(renderRequest).getGroupId();
-		} catch (PortalException e) {
-			_log.error("can't feth any group id");
-		}
+		long groupId = new Long(0); 
+
 		// the institution is dependent on the parentinstitution, do not allow institution-filters without parentinstitution-filter
 		if (hasInstitutionFiltered && !hasParentInstitutionFiltered) {
 			institutionId = new Long(0);

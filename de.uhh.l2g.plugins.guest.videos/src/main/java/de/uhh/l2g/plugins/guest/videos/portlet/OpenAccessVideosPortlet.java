@@ -37,7 +37,7 @@ import de.uhh.l2g.plugins.util.AutocompleteManager;
 		"com.liferay.portlet.header-portlet-javascript=/player/jwplayer-8.4.1/jwplayer.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/mediaCheck-min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/readmore.min.js",
-		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
+//		"com.liferay.portlet.header-portlet-javascript=/js/jquery.dotdotdot.min.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jquery.mark.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/de.uhh.l2g.plugins.guest.videos.js",
 		"com.liferay.portlet.header-portlet-javascript=/js/jwplayer.custom.util.js",
@@ -62,7 +62,7 @@ public class OpenAccessVideosPortlet extends MVCPortlet {
 		
 		//--- Autocomplete start
 		//getting task name to do
-	    String task = resourceRequest.getParameter("task");
+	    String task = ParamUtil.getString(resourceRequest, "task");
 	    if (Validator.isNull(task)) {
 	        return;
 	    }

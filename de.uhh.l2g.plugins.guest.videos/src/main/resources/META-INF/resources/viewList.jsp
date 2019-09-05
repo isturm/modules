@@ -32,7 +32,7 @@
 <c:set var="portalURL" value="<%=PrefsPropsUtil.getString(company.getCompanyId(),PropsKeys.DEFAULT_LANDING_PAGE_PATH)%>"/>
 <c:set var="pageName" value="<%=themeDisplay.getLayout().getName(themeDisplay.getLocale())%>"/>
 <c:set var="displayTerms" value="<%=new DisplayTerms(renderRequest)%>"/>
-  
+
 <%
 	// set page context for better use in taglibs
 	pageContext.setAttribute("hasParentInstitutionFiltered", hasParentInstitutionFiltered);
@@ -52,7 +52,7 @@
 	</portlet:renderURL>
 
 	<portlet:resourceURL var="findVideosURL">
-			<portlet:param name="mvcRenderCommandName" value="/view/render/list" />
+			<portlet:param name="task" value="findVideos" />
 	</portlet:resourceURL>
 
 <div style="display: none;" id="findVideosURL">${findVideosURL}</div> 
@@ -276,8 +276,8 @@
 																	        </div>
 																        </div>	
 															     </div>
-												    	</c:when>
-														<c:otherwise>
+											</c:when>
+											<c:otherwise>
 														<!-- multiple videos in lecture series -->
 														<div class="video-image-wrapper">
 														       <img class="video-image-big layered-paper darker" src="${vidDummy.imageMedium}"/>
