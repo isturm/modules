@@ -417,12 +417,12 @@ public class LectureseriesFinderImpl extends LectureseriesFinderBaseImpl impleme
 			l.setVideoSort((Integer) lectser[13]);
 			l.setUSID((String) lectser[14]);
 			l.setPreviewVideoId((Long) lectser[15]);
-			l.setGroupId((Long) lectser[16]);
-			l.setCompanyId((Long) lectser[17]);
-			l.setUserId((Long) lectser[18]);
-			l.setUserName(lectser[19]+"");
-			l.setCreateDate((Date) lectser[20]);
-			l.setModifiedDate((Date) lectser[21]);
+			try{l.setGroupId((Long) lectser[16]);}catch(NullPointerException e) {};
+			try{l.setCompanyId((Long) lectser[17]);}catch(NullPointerException e) {};
+			try{l.setUserId((Long) lectser[18]);}catch(NullPointerException e) {};
+			try{l.setUserName(lectser[19]+"");}catch(NullPointerException e) {};
+			try{l.setCreateDate((Date) lectser[20]);}catch(NullPointerException e) {};
+			try{l.setModifiedDate((Date) lectser[21]);}catch(NullPointerException e) {};
 			//additional parameter
 			try{
 				String string = (String)lectser[16];

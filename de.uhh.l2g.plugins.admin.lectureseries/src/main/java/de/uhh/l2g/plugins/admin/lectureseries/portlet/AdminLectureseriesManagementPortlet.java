@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -65,6 +66,7 @@ import de.uhh.l2g.plugins.service.TermLocalServiceUtil;
 import de.uhh.l2g.plugins.service.VideoLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_InstitutionLocalServiceUtil;
 import de.uhh.l2g.plugins.service.Video_LectureseriesLocalServiceUtil;
+import de.uhh.l2g.plugins.service.persistence.CreatorUtil;
 import de.uhh.l2g.plugins.util.EmailManager;
 import de.uhh.l2g.plugins.util.FileManager;
 import de.uhh.l2g.plugins.util.Htaccess;
@@ -98,8 +100,8 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		//get view
-		String mvcPath = renderRequest.getParameter("mvcPath");
-		String backURL = renderRequest.getParameter("backURL");
+		String mvcPath = ParamUtil.getString(renderRequest,"mvcPath");
+		String backURL = ParamUtil.getString(renderRequest,"backURL");
 		//
 		//Remote user
 		User remoteUser = UserLocalServiceUtil.createUser(0);
@@ -139,8 +141,11 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		}
 		//
 		// creators list as json array
-		creators = CreatorLocalServiceUtil.getCreators(com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS, com.liferay.portal.kernel.dao.orm.QueryUtil.ALL_POS);
-		for (Creator creator : creators) {
+		creators = CreatorLocalServiceUtil.getAll(); 
+		ListIterator<Creator> it = creators.listIterator();
+		while(it.hasNext()){
+			Creator creator = CreatorUtil.create(0);
+			creator = it.next();
 			JSONObject c = JSONFactoryUtil.createJSONObject();
 			//
 			c.put("id", creator.getCreatorId());
@@ -204,8 +209,8 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 	}
 	
 	public void delete(ActionRequest request, ActionResponse response) throws SystemException, PortalException{
-		Long lId = new Long(request.getParameter("lectureseriesId"));
-		String backURL = request.getParameter("backURL");
+		Long lId = new Long(ParamUtil.getString(request,"lectureseriesId"));
+		String backURL = ParamUtil.getString(request,"backURL");
 		//remove lecture series
 		try {
 			LectureseriesLocalServiceUtil.deleteLectureseries(lId);
@@ -241,15 +246,15 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		//search tags
 //		ArrayList<String> tagCloudArrayString = new ArrayList<String>();
 
-		Long lId = new Long(request.getParameter("lectureseriesId"));
-		String[] producers = request.getParameterValues("producers");
+		Long lId = new Long(ParamUtil.getString(request,"lectureseriesId"));
+		String[] producers = ParamUtil.getParameterValues(request, "producers");
 		
-		String[] institutions = request.getParameterValues("institutions");
-		String s = request.getParameter("longDesc");
-		String backURL = request.getParameter("backURL");
+		String[] institutions = ParamUtil.getParameterValues(request, "institutions");
+		String s = ParamUtil.getString(request,"longDesc");
+		String backURL = ParamUtil.getString(request,"backURL");
 		Long termId = new Long(0);
 		try{
-			termId = new Long(request.getParameter("termId"));
+			termId = ParamUtil.getLong(request, "termId");
 			Term t = TermLocalServiceUtil.getTerm(termId);
 //			tagCloudArrayString.add(t.getPrefix());
 //			tagCloudArrayString.add(t.getYear());
@@ -258,11 +263,11 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		}catch(Exception e){}
 		Long categoryId = new Long(0);
 		try{
-			categoryId = new Long(request.getParameter("categoryId"));
+			categoryId = ParamUtil.getLong(request,"categoryId");
 		}catch(Exception e){}
 		Integer videoSort = new Integer(0);
 		try{
-			videoSort = "1".equals(request.getParameter("videoSort")) ? new Integer(1) : videoSort;
+			videoSort = "1".equals(ParamUtil.getString(request, "videoSort")) ? new Integer(1) : videoSort;
 		}catch(Exception e){}
 
 		Locale locale = request.getLocale(); 
@@ -274,17 +279,17 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 			lectureseries.setApproved(1);
 		}
 		// If no lectureseries number is set, the default-number 00.000 will be set
-		lectureseries.setNumber("".equals(request.getParameter("number")) ? LanguageUtil.get(locale, "lecture-series-default-number"):request.getParameter("number"));
+		lectureseries.setNumber("".equals(ParamUtil.getString(request, "number")) ? LanguageUtil.get(locale, "lecture-series-default-number"):ParamUtil.getString(request, "number"));
 		//update categoryId
 		lectureseries.setCategoryId(categoryId);
 		//and all linked objects to this category over the lecture series object
 		LectureseriesLocalServiceUtil.updateCategoryForLectureseries(lectureseries.getLectureseriesId(), categoryId);
-		lectureseries.setName(request.getParameter("name"));
-		lectureseries.setShortDesc(request.getParameter("shortDesc"));
+		lectureseries.setName(ParamUtil.getString(request, "name"));
+		lectureseries.setShortDesc(ParamUtil.getString(request, "shortDesc"));
 		lectureseries.setTermId(termId);
-		lectureseries.setLanguage(request.getParameter("language"));
-		lectureseries.setFacultyName(request.getParameter("facultyName"));
-		lectureseries.setPassword(request.getParameter("password"));
+		lectureseries.setLanguage(ParamUtil.getString(request, "language"));
+		lectureseries.setFacultyName(ParamUtil.getString(request, "facultyName"));
+		lectureseries.setPassword(ParamUtil.getString(request, "password"));
 		lectureseries.setLongDesc(s);	
 		lectureseries.setVideoSort(videoSort);
 		//
@@ -397,21 +402,21 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		EmailManager em = new EmailManager();
 		//search tags
 		
-		String s = request.getParameter("longDesc");
-		String[] producers = request.getParameterValues("producers");
-		String[] institutions = request.getParameterValues("institutions");
-		String backURL = request.getParameter("backURL");
+		String s = ParamUtil.getString(request, "longDesc");
+		String[] producers = ParamUtil.getParameterValues(request, "producers");
+		String[] institutions = ParamUtil.getParameterValues(request, "institutions");
+		String backURL = ParamUtil.getString(request, "backURL");
 		Long termId = new Long(0);
 		try{
-			termId = new Long(request.getParameter("termId"));
+			termId = ParamUtil.getLong(request, "termId");
 		}catch(Exception e){}
 		Long categoryId = new Long(0);
 		try{
-			categoryId = new Long(request.getParameter("categoryId"));
+			categoryId = ParamUtil.getLong(request, "categoryId");
 		}catch(Exception e){}
 		Integer videoSort = new Integer(0);
 		try{
-			videoSort = "1".equals(request.getParameter("videoSort")) ? new Integer(1) : videoSort;
+			videoSort = "1".equals(ParamUtil.getString(request, "videoSort")) ? new Integer(1) : videoSort;
 		}catch(Exception e){}
 		
 		Locale locale = request.getLocale(); 
@@ -420,14 +425,14 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		Lectureseries lectureseries = LectureseriesLocalServiceUtil.createLectureseries(0);
 		lectureseries.setApproved(0);
 		// If no lectureseries number is set, the default-number 00.000 will be set
-		lectureseries.setNumber("".equals(request.getParameter("number")) ? LanguageUtil.get(locale, "lecture-series-default-number"):request.getParameter("number"));
+		lectureseries.setNumber("".equals(ParamUtil.getString(request, "number")) ? LanguageUtil.get(locale, "lecture-series-default-number"):ParamUtil.getString(request, "number"));
 		lectureseries.setCategoryId(categoryId);
-		lectureseries.setName(request.getParameter("name"));
-		lectureseries.setShortDesc(request.getParameter("shortDesc"));
+		lectureseries.setName(ParamUtil.getString(request, "name"));
+		lectureseries.setShortDesc(ParamUtil.getString(request, "shortDesc"));
 		lectureseries.setTermId(termId);
-		lectureseries.setLanguage(request.getParameter("language"));
-		lectureseries.setFacultyName(request.getParameter("facultyName"));
-		lectureseries.setPassword(request.getParameter("password"));
+		lectureseries.setLanguage(ParamUtil.getString(request, "language"));
+		lectureseries.setFacultyName(ParamUtil.getString(request, "facultyName"));
+		lectureseries.setPassword(ParamUtil.getString(request, "password"));
 		lectureseries.setLongDesc(s);
 		lectureseries.setVideoSort(videoSort);
 		
@@ -467,11 +472,11 @@ public class AdminLectureseriesManagementPortlet extends MVCPortlet {
 		}
 
 		//new creators
-		String[] firstNames = request.getParameterValues("firstName");
-		String[] lastNames = request.getParameterValues("lastName");
-		String[] jobTitles = request.getParameterValues("jobTitle");
-		String[] genders = request.getParameterValues("gender");
-		String[] creatorIds = request.getParameterValues("creatorId");
+		String[] firstNames = ParamUtil.getParameterValues(request, "firstName");
+		String[] lastNames = ParamUtil.getParameterValues(request, "lastName");
+		String[] jobTitles = ParamUtil.getParameterValues(request, "jobTitle");
+		String[] genders = ParamUtil.getParameterValues(request, "gender");
+		String[] creatorIds = ParamUtil.getParameterValues(request, "creatorId");
 		Long cId = new Long(0);
 		//remove all creators for this lecture series first
 		Lectureseries_CreatorLocalServiceUtil.removeByLectureseriesId(lId);
